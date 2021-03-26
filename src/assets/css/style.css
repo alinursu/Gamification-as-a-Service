@@ -1,0 +1,110 @@
+body
+{
+    background-color: #026670;
+    font-family:'Times New Roman', Times, serif;
+}
+
+
+
+/* Header */
+body > header
+{
+    vertical-align: top;
+    padding: 0px;
+    font-size: 22px;
+    display: grid;
+    grid-column-gap: 20px;
+    margin-top: 15px;
+}
+
+
+/* divLogo */
+.divLogo
+{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.divLogo > *
+{
+    margin-left: 20px;
+}
+
+
+/* divSearch */
+.divSearch
+{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display : grid;
+}
+
+div.divSearch > *
+{
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+div.divSearch > img
+{
+    display : block;
+    margin-left: auto;
+    padding: 3px;
+    margin-right:5px;
+}
+
+div.divSearch > input
+{
+    max-width: 300px;
+    max-height: 30px;
+    border-radius: 10px;
+    background-color : #026670;
+    color:#FCE181;
+    border-color: #FCE181;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    text-indent: 5px;
+}
+
+
+/* divAuth */
+.divAuth
+{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display : grid;
+    grid-row-gap:10px;
+}
+
+.divAuth > *
+{
+    max-width: 130px;
+    min-width: 130px;
+    border-radius: 15px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    border-color:#FCE181;
+    color:#FCE181;
+    background-color:#026670;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+
+/* Footer */
+body > footer
+{
+    vertical-align: bottom;
+    padding: 0px;
+    font-size: 14px;
+}
+
+
+/* Continutul din pagina */
+.divBody
+{
+    background-color: #EDEAE5;
+    padding: 0px;
+    color: black;
+    font-size: 16px;
+}
