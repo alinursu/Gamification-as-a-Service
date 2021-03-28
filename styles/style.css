@@ -35,7 +35,7 @@ body > header
 .divSearch
 {
     grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-end: 4;
     display : grid;
 }
 
@@ -49,13 +49,14 @@ div.divSearch > img
 {
     display : block;
     margin-left: auto;
-    padding: 3px;
-    margin-right:5px;
+    padding: 0;
+    padding-top: 3px;
+    margin-right: 5px;
 }
 
 div.divSearch > input
 {
-    max-width: 300px;
+    max-width: 700px;
     max-height: 30px;
     border-radius: 10px;
     background-color : #026670;
@@ -64,14 +65,16 @@ div.divSearch > input
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
     text-indent: 5px;
+    box-shadow: 2px 2px 4px #000000;
+    text-shadow: 2px 2px 4px #000000;
 }
 
 
 /* divAuth */
 .divAuth
 {
-    grid-column-start: 3;
-    grid-column-end: 4;
+    grid-column-start: 5;
+    grid-column-end: 6;
     display : grid;
     grid-row-gap:10px;
 }
@@ -88,6 +91,10 @@ div.divSearch > input
     background-color:#026670;
     margin-left: auto;
     margin-right: 20px;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 16px;
+    text-shadow: 2px 2px 4px #000000;
+    box-shadow: 2px 2px 4px #000000;
 }
 
 
@@ -97,6 +104,61 @@ body > footer
     vertical-align: bottom;
     padding: 0px;
     font-size: 14px;
+    display: grid;
+    grid-column-gap: 10px;
+}
+
+/* divInfos */
+.divInfos
+{
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.divInfos > *
+{
+    margin-left: 20px;
+    color: #FCE181;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+/* divSocial */
+.divSocial
+{
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.divSocial > *
+{
+    text-shadow: 2px 2px 4px #000000;
+}
+
+/* divContact */
+.divContact
+{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    text-align: right;
+}
+
+.divContact > *
+{
+    margin-right: 31px;
+    color: #FCE181;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.divContact > #contactBtn
+{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    min-width: 110px;
+    min-height: 25px;
+    border-radius: 15px;
+    background-color: #026670;
+    border-color: #FCE181;
+    box-shadow: 2px 2px 4px #000000;
 }
 
 
