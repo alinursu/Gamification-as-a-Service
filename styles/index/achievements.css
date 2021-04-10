@@ -1,0 +1,67 @@
+
+.divAchievements > *
+{
+    margin: 30px;
+    display: grid; 
+    grid-column-gap: 50px;
+    text-align: center;
+}
+
+.divAchievement
+{
+    border: 2px dotted #00458B;
+    box-shadow: 4px 4px 8px #000000;
+    text-align: center;
+    display: grid;
+    border-radius: 10px;
+    margin: 10px;
+    min-height: 140px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.achievements-buttons-container
+{
+    display:flex; 
+    flex-wrap: wrap; 
+    align-items: center;
+}
+
+.achievements-menu-button
+{
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00458B;
+    border-color: #00458B;
+    min-width: 160px;
+    max-width: 210px;
+    min-height: 50px;
+    max-height: 70px;
+    border-radius: 15px;
+    box-shadow: -3px -3px 3px #000000, 3px 3px 3px #000000, -3px 3px 3px #000000, 3px -3px 3px #000000;
+}
+
+#sellersAchievementsBtn
+{
+    margin-left: auto;
+}
+
+#buyersAchievementsBtn
+{
+    margin-right: auto;
+}
+
+.achievements-menu-button:hover
+{
+    background-color: #ffffff;
+    color: #00458B;
+}
+
+.selected-achievements-menu-button
+{
+    background-color: #99ddff;
+    color: #000000;
+    border-color: #000000;
+    cursor: not-allowed;
+    pointer-events: none;
+}

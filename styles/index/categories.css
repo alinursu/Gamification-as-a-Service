@@ -1,0 +1,71 @@
+.div-categories
+{
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.div-categories > *
+{
+    box-shadow: 2px 2px 4px #000000;
+    border-radius: 10px;
+    width: 170px;
+    height: 100px;
+    margin: 30px auto;
+}
+
+
+
+/* Flipping Card */
+.flipping-card
+{
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.flipping-card-content
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flipping-card:hover .flipping-card-content
+{
+    transform: rotateY(180deg);
+}
+
+.flipping-card-front, .flipping-card-back
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+}
+
+.flipping-card-front
+{
+    background-color: #00458B;
+    color: #ffffff;
+}
+
+.flipping-card-back
+{
+    background-color: #99DDFF;
+    color: #000000;
+    transform: rotateY(180deg);
+}
+
+
+
+/* Imagine + Paragraf card */
+.flipping-card-back > p
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 12%;
+}
