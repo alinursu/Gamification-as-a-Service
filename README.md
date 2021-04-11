@@ -50,9 +50,10 @@
             <li><a href="#5-future-objectives">Future objectives</a>
             <ol>
                 <li><a href="#51-overview">Overview</a></li> 
-                <li><a href="#52-database">The Database</a></li> 
-                <li><a href="#53-achievements">The Gamification System</a></li>
-            </ol> </li>
+                <li><a href="#52-the-database">The Database</a></li> 
+                <li><a href="#53-the-gamification-system">The Gamification System</a></li>
+            </ol> 
+            </li>
         </ol>
     </div>
     <section id="project-details" role="doc-abstract">
