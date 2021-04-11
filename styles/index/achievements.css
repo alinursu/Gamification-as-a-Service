@@ -1,10 +1,22 @@
-
 .divAchievements > *
 {
     margin: 30px;
-    display: grid; 
-    grid-column-gap: 50px;
+    display: flex;
     text-align: center;
+}
+
+#seller-achievements-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#buyer-achievements-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .divAchievement
@@ -12,11 +24,24 @@
     border: 2px dotted #00458B;
     box-shadow: 4px 4px 8px #000000;
     text-align: center;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     margin: 10px;
     min-height: 140px;
+    max-width: 240px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.achievementList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 33.333333%;
 }
 
 .achievements-buttons-container
@@ -28,17 +53,20 @@
 
 .achievements-menu-button
 {
-    font-size: 26px;
+    font-size: 16px;
+    margin: 1px;
+    outline: none;
+    cursor: pointer;
     font-weight: bold;
     color: #ffffff;
     background-color: #00458B;
     border-color: #00458B;
-    min-width: 160px;
-    max-width: 210px;
+    width: 120px;
     min-height: 50px;
     max-height: 70px;
-    border-radius: 15px;
-    box-shadow: -3px -3px 3px #000000, 3px 3px 3px #000000, -3px 3px 3px #000000, 3px -3px 3px #000000;
+    border-radius: 50px;
+    /* box-shadow: -2px -2px 4px #000000, 2px 2px 4px #000000, -2px 2px 4px #000000, 2px -2px 4px #000000; */
+    box-shadow: 2px 2px 4px #000000;
 }
 
 #sellersAchievementsBtn
