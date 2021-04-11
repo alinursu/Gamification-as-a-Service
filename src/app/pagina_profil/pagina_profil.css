@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+  height: 140px;
+  background-color: #00458b;
+}
+
+.imagine_profil {
+  width: 100px;
+  min-height: 100px;
+  background-image: url("blank.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-right: 40px;
+  margin-left: 30px;
+}
+
+.informatii_profil {
+  width: 50%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  letter-spacing: 1px;
+  font-family: Bradley Hand, cursive;
+  float: left;
+  color: #fff;
+}
+
+.username {
+  font-size: 25px;
+  margin-top: 30px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.location {
+  font-size: 15px;
+  font-weight: 200;
+}
