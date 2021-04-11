@@ -28,6 +28,7 @@
           </div>
           <img
             src="../../../src/assets/images/header_bg.png"
+            alt=""
             style="width: 100%; height: auto; z-index: -1"
           />
         </div>
@@ -54,7 +55,13 @@
               &#128269;
             </button>
           </div>
-          <button id="myaccount" class="button button1" onclick="location.href = '../pagina_profil/pagina_profil.html'">Contul meu</button>
+          <button
+            id="myaccount"
+            class="button button1"
+            onclick="location.href = '../pagina_profil/pagina_profil.html'"
+          >
+            Contul meu
+          </button>
         </div>
       </div>
       <div id="menu" class="mobileMenu">
@@ -71,12 +78,13 @@
           </div>
           <img
             src="../../../src/assets/images/header_bg.png"
+            alt=""
             style="width: 100%; height: auto; z-index: -1"
           />
         </div>
         <button
           id="burgermenu"
-          type="menu"
+          type="button"
           class="button"
           onclick="openSideNav()"
         >
@@ -85,7 +93,6 @@
         <div id="sidenav" class="sidenav">
           <button class="button" onclick="closeSideNav()">&times;</button>
           <button
-            id="home"
             class="button"
             onclick="location.href = '../../../index.html'"
           >
@@ -100,11 +107,16 @@
             />
             <button type="button" class="button">&#128269;</button>
           </div>
-          <button id="myaccount" class="button" onclick="location.href = '../pagina_profil/pagina_profil.html'">Contul meu</button>
+          <button
+            class="button"
+            onclick="location.href = '../pagina_profil/pagina_profil.html'"
+          >
+            Contul meu
+          </button>
         </div>
       </div>
     </header>
-    <div class="container" style="flex-grow: 1;">
+    <div class="container" style="flex-grow: 1">
       <div class="my_menu_box">
         <div class="menu_buttons">
           <a href="settings_profile.html" id="edit_button" class="menu_btn">
