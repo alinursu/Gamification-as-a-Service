@@ -15,12 +15,22 @@
   }
 
   .imagine_profil {
-    width: 25% auto;
-    min-height: 60px auto;
+    width: 60px;
+    min-height: 60px;
+    height: 60px;
   }
 
   .header .informatii_contact a {
     font-size: 9px;
     margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .imagine_profil {
+    width: 40px;
+    min-height: 40px;
+    height: 40px;
+    margin-right: 20px;
   }
 }
