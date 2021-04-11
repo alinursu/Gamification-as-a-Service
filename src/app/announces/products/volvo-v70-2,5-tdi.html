@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../styles/header_footer.css">
+    <link rel="stylesheet" href="../../../../styles/products/product.css">
+    <script src="../../../../js/products/product.js"></script>
+    <title>IaȘi Vinde!</title>
+</head>
+<body>
+    <div class="head">
+        <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="../../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <header>
+            <button id="home" class="button button1" onclick="location.href = '../../../../index.html'">Home</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Search..." class="search">
+                <button type="button" class="button button1" onclick="location.href = '../searchresult.html'">
+                    &#128269;
+                </button> 
+            </div>
+            <button id="myaccount" class="button button1">My Account</button>
+        </header>
+    </div>
+    <div id="menu" class="mobileMenu">
+        <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="../../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <button id="burgermenu" type="menu" class="button" onclick="openSideNav()">&#9776;</button>
+        <div id="sidenav" class="sidenav">
+            <button class="button" onclick="closeSideNav()">&times;</button>
+            <button id="home" class="button">Home</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Search..." class="search">
+                <button type="button" class="button">
+                    &#128269;
+                </button> 
+            </div>
+            <button id="myaccount" class="button">My Account</button>
+        </div>
+
+    </div>
+    <div style="flex-grow: 1;">
+        <div class="announce">
+            <div class="announce-header">
+                <div style="display: flex; flex-wrap: wrap; margin: 0 5px;">
+                    <div style="display: flex; flex-direction: column; margin-top: 15px;">
+                        <div class="slideshow-container">
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/1.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/2.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/3.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/4.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/5.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/6.jpg">
+                            </div>
+                            <div class="slide">
+                                <img class="slide-img" src="../../../assets/images_announces/volvo-v70-2,5-tdi/7.jpg">
+                            </div>
+                        </div>
+    
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <button class="slideshow-prev-btn" onclick="showPreviousSlide()">&lt;</button>
+
+                            <div style="text-align: center; margin: 5px 0 10px 0;">
+                                <span class="slideshow-dot" onclick="showSelectedSlide(1)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(2)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(3)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(4)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(5)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(6)"></span> 
+                                <span class="slideshow-dot" onclick="showSelectedSlide(7)"></span> 
+                            </div>
+
+                            <button class="slideshow-next-btn" onclick="showNextSlide()">&gt;</button>
+                        </div>
+
+                        <script type="text/javascript">showSlide(actualSlide);</script>
+                    </div>      
+                </div>
+
+                <div class="announce-seller-details">
+                    <div class="announce-seller">
+                        <div style="display:flex; flex-wrap: wrap; align-items: center; margin: 5px 0 0 5%;">
+                            <img src="../../../assets/images/profile_icon.png" alt="" style="max-width: 50px; min-width: 50px;">
+                            <p style="font-size: 24px; font-weight: bold; margin-left: 7px;">Ion Ionescu</p>
+                        </div>
+                        <button type="button" id="sendMessageToSellerBtn" onclick="document.getElementsByClassName('announce-message')[0].scrollIntoView({behavior: 'smooth', block: 'nearest'});">Trimite mesaj</button>
+                    </div>
+
+                    <div class="announce-details">
+                        <p style="font-size: 14px; color: #bdbbbb; margin-left: 10px; margin-top: 5px;">Postat la data 27.03.2021</p>
+                        <p style="font-size: 24px; font-weight: bold; margin-left: 10px; margin-top: 10px;">Volvo v70 2,5 tdi</p>
+                        <div style="display:inline-flex; flex-wrap: wrap; align-items: center;">
+                            <p style="font-size: 18px; font-weight: bold; margin-left: 10px;">5000 €</p>
+                            <p style="font-size: 16px; color: #bdbbbb; margin-left: auto; margin-right: 10px;">Prețul este negociabil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="announce-body">
+                <p>Buna ziua,</p>
+                <p>Vand un Volvo v70 turbo-diesel, 2.5 tdi, motor in 5 cilindrii, functionare foarte buna. Schimbator automat cu 3 tipuri de functionare (economic, sport, iarna).</p>
+                <p>Interior piele, scaune fata si bancheta spate incalzite electric. Scaun sofer full electric. Inchidere centralizata cu telecomanda originala. Trapa, tempomat, bord computer, oglinzi incalzite, aer conditionat, sistem audio original de top, toate functionale. Set jante tabla pe 15 + aliaj pe 16. Incalzire auxiliara programabila (nu porneste) necesita interventie. Ulei, filtre si placute frana schimbate in decembrie 2020.</p>
+                <p>Negociabil la fata locului.</p>
+                <p>Va astept la vizionare.</p>
+            </div>
+
+            <div class="announce-message">
+                <div style="display:flex; flex-wrap: wrap;">
+                    <p style="font-size: 18px; font-weight: bold; margin-left: 15px;">Contactează-l pe Ion Ionescu</p>
+                    <div style="margin-left: auto; display: flex; flex-wrap: wrap; align-items: center;">
+                        <img src="../../../assets/images/phone_icon.png" alt="" style="max-width: 30px; min-width: 30px; width: 100%; margin-right: 10px;">
+                        <p class="phone-number-p"> 0XXX XXX XXX</p>
+                        <button type="button" id="showPhoneNumberBtn" onclick="showPhoneNumber('0123 456 789')">Arată</button>
+                    </div>
+                </div>
+                <textarea class="message-content" placeholder="Scrie mesajul tau..."></textarea>
+                <button type="button" id="sendMessageBtn">Trimite mesajul</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div style="justify-self: flex-start; align-self: flex-start;">
+            <button class="button button1" onclick="scrollToTop()" style="justify-self: flex-start; align-self: center;">
+                &#x25B2;
+            </button>
+        </div>
+        <span style="margin: 10px; color: white; align-self: flex-end; justify-self: flex-end;">&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span>
+    </footer>
+    <script src="../../../../js/header_footer.js"></script>
+</body>
+</html>
