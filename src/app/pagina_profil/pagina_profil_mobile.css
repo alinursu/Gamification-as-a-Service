@@ -1,5 +1,26 @@
 @media screen and (max-width: 500px) {
   .profile_achievements .profile_achievement {
     width: 100%;
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+  .username {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .location {
+    font-size: 11px;
+  }
+
+  .imagine_profil {
+    width: 25% auto;
+    min-height: 60px auto;
+  }
+
+  .header .informatii_contact a {
+    font-size: 9px;
+    margin-left: 1px;
   }
 }
