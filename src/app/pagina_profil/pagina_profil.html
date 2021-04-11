@@ -5,14 +5,95 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pagina profil</title>
+    <link rel="stylesheet" href="../../../styles/header_footer.css" />
     <link rel="stylesheet" href="../../../styles/products/searchresult.css" />
-    <link rel="stylesheet" href="pagina_profil.css" />
-    <link rel="stylesheet" href="pagina_profil_mobile.css" />
+    <link rel="stylesheet" href="../../../styles/profile/view-profile.css" />
+    <link
+      rel="stylesheet"
+      href="../../../styles/profile/view-profile-mobile.css"
+    />
   </head>
   <body>
+    <div class="head">
+      <div
+        style="display: flex; flex-direction: column; justify-content: flex-end"
+      >
+        <div class="bubble">
+          <span style="font-size: 5vw; color: white">IaȘi vinde!</span>
+        </div>
+        <img
+          src="../../../src/assets/images/header_bg.png"
+          style="width: 100%; height: auto; z-index: -1"
+        />
+      </div>
+      <header>
+        <button
+          id="home"
+          class="button button1"
+          onclick="location.href = './index.html'"
+        >
+          Home
+        </button>
+        <div class="searchBox">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            class="search"
+          />
+          <button
+            type="button"
+            class="button button1"
+            onclick="location.href = './src/app/announces/searchresult.html'"
+          >
+            &#128269;
+          </button>
+        </div>
+        <button id="myaccount" class="button button1">My Account</button>
+      </header>
+    </div>
+    <div id="menu" class="mobileMenu">
+      <div
+        id="imghead"
+        style="display: flex; flex-direction: column; justify-content: flex-end"
+      >
+        <div class="bubble">
+          <span style="font-size: 5vw; color: white">IaȘi vinde!</span>
+        </div>
+        <img
+          src="../../../src/assets/images/header_bg.png"
+          style="width: 100%; height: auto; z-index: -1"
+        />
+      </div>
+      <button
+        id="burgermenu"
+        type="menu"
+        class="button"
+        onclick="openSideNav()"
+      >
+        &#9776;
+      </button>
+      <div id="sidenav" class="sidenav">
+        <button class="button" onclick="closeSideNav()">&times;</button>
+        <button id="home" class="button">Home</button>
+        <div class="searchBox">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            class="search"
+          />
+          <button type="button" class="button">&#128269;</button>
+        </div>
+        <button id="myaccount" class="button">My Account</button>
+      </div>
+    </div>
     <div class="container">
       <div class="header">
-        <div class="imagine_profil"></div>
+        <div
+          class="imagine_profil"
+          style="background-image: url('../../assets/images/blank.png')"
+        ></div>
         <div class="informatii_profil">
           <div class="username">Popescu Ion</div>
           <div class="location">Brașov</div>
@@ -97,5 +178,26 @@
         </a>
       </div>
     </div>
+    <footer>
+      <div style="justify-self: flex-start; align-self: flex-start">
+        <button
+          class="button button1"
+          onclick="scrollToTop()"
+          style="justify-self: flex-start; align-self: center"
+        >
+          &#x25B2;
+        </button>
+      </div>
+      <span
+        style="
+          margin: 10px;
+          color: white;
+          align-self: flex-end;
+          justify-self: flex-end;
+        "
+        >&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span
+      >
+    </footer>
+    <script src="../../../js/header_footer.js"></script>
   </body>
 </html>

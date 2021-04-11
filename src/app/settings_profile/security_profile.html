@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../../styles/header_footer.css" />
     <link rel="stylesheet" href="../../../styles/profile/profile.css" />
     <link rel="stylesheet" href="../../../styles/profile/profile-mobile.css" />
-    <title>Editează Profilul</title>
+    <title>Setări Securitate</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -91,14 +91,14 @@
     <div class="container">
       <div class="my_menu_box">
         <div class="menu_buttons">
-          <a href="settings_profile.html" class="menu_btn">
+          <a href="settings_profile.html" id="edit_button" class="menu_btn">
             <i class="fas fa-user-edit"></i>
-            <span>Editează Profilul</span>
-            <i class="fas fa-chevron-right"></i>
+            <span>Editează Profilul </span>
           </a>
-          <a href="security_profile.html" class="menu_btn">
+          <a href="security_profile.html" id="pass_button" class="menu_btn">
             <i class="fas fa-lock"></i>
             <span>Securitate</span>
+            <i class="fas fa-chevron-right"></i>
           </a>
           <a href="../user/new-announce.html" class="menu_btn">
             <i class="fas fa-plus-circle"></i>
@@ -108,40 +108,16 @@
       </div>
       <div class="my_profile_box">
         <div class="profile_title>">
-          <h1>Editează profilul</h1>
+          <h1>Schimbă parola</h1>
         </div>
-        <div class="setari_imagine">
-          <div
-            class="imagine_profil"
-            style="background-image: url('../../assets/images/blank.png')"
-          ></div>
-          <div class="img_buttons">
-            <button type="button" id="change_photo" class="change_photo_btn">
-              Schimbă imaginea
-            </button>
-            <button type="button" id="delete_photo" class="delete_photo_btn">
-              Șterge imaginea
-            </button>
-          </div>
-        </div>
-        <label>Nume și prenume</label>
-        <input type="text" placeholder=" " />
-        <label for="tip">Tip persoana</label>
-        <select name="type" id="type">
-          <option value="Persoana_fizica">Persoana fizică</option>
-          <option value="Companie">Companie</option>
-        </select>
-        <label>Email</label>
-        <input type="text" placeholder=" " />
-        <label>Judet</label>
-        <input type="text" placeholder=" " />
-        <label>Localitate</label>
-        <input type="text" placeholder=" " />
-        <label>Telefon</label>
-        <input type="text" placeholder=" " />
-
+        <label></label>
+        <input type="text" placeholder="Parolă curentă" />
+        <label></label>
+        <input type="text" placeholder="Parolă nouă" />
+        <label></label>
+        <input type="text" placeholder="Confirmă parola " />
         <button type="button" id="savebtn" class="savebtn">
-          SALVEAZĂ MODIFICĂRILE
+          SALVEAZĂ MODIFICARILE
         </button>
       </div>
     </div>
