@@ -101,7 +101,7 @@
     border-radius: 10px;
 }
 
-#sendMessageToSellerBtn
+#sendMessageToSellerBtn, #buyItemBtn
 {
     cursor: pointer;
     max-width: 50%;
@@ -118,7 +118,7 @@
     min-height: 40px;
 }
 
-#sendMessageToSellerBtn:hover
+#sendMessageToSellerBtn:hover, #buyItemBtn:hover
 {
     color: #00458B;
     background-color: #ffffff;
