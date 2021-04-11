@@ -1,0 +1,225 @@
+.announce
+{
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f2f2;
+}
+
+.announce > *
+{
+    margin: 20px 100px;
+    background-color: #ffffff;
+}
+
+.announce-header
+{
+    display : flex;
+    flex-wrap: wrap;
+}
+
+.slideshow-container
+{
+    max-width: 750px;
+    min-width: 200px;
+    display: inline-flex;
+    margin: 0 10px;
+}
+
+.slide-img
+{
+    box-shadow: 2px 2px 4px #000000;
+    margin: 0;
+    width: 100%;
+    max-width: 750px;
+    min-width: 200px;
+}
+
+.slideshow-next-btn, .slideshow-prev-btn
+{
+    font-size: 2vw;
+    font-weight: bold;
+    background-color: #00458B;
+    color: #ffffff;
+    border: 2px solid #00458B;
+    border-radius: 20px;
+    box-shadow: 1px 1px 2px #000000;
+    margin-bottom: 7px;
+}
+.slideshow-prev-btn
+{
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.slideshow-next-btn
+{
+    margin-right: auto;
+    margin-left: 20px;
+}
+
+.slideshow-prev-btn:hover, .slideshow-next-btn:hover
+{
+    background-color: #ffffff;
+    color: #00458B;
+}
+
+.slideshow-dot
+{
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #00458B;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active
+{
+    background-color: #99ddff;
+}
+
+.announce-seller-details
+{
+    display: flex; 
+    flex-direction: column;
+    flex-wrap: wrap; 
+    align-items: center; 
+    flex-grow: 1;
+}
+
+.announce-seller
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 2px dotted #00458B;
+    flex-grow: 0;
+    width: 90%;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+#sendMessageToSellerBtn
+{
+    cursor: pointer;
+    max-width: 50%;
+    margin: 10px auto;
+    font-size: 16px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00458B;
+    border-color:#00458B;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px #000000;
+    min-width: 150px;
+    min-height: 40px;
+}
+
+#sendMessageToSellerBtn:hover
+{
+    color: #00458B;
+    background-color: #ffffff;
+}
+
+.announce-details
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 2px dotted #00458B;
+    flex-grow: 0;
+    width: 90%;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+.announce-details > *
+{
+    margin: 0;
+}
+
+.announce-body > *
+{
+    margin : 5px 10px;
+    font-size: 18px;
+    text-indent: 50px;
+}
+
+.announce-message
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.announce-message > *
+{
+    margin-left: 10px;
+}
+
+.phone-number-p
+{
+    margin-right: 10px; 
+    font-size: 18px; 
+    font-weight: bold;
+}
+
+#showPhoneNumberBtn
+{
+    cursor: pointer;
+    margin-right: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 80px;
+    max-width: 120px;
+    background-color: #00458B;
+    color: #ffffff;
+    border-color: #00458B;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px #000000;
+}
+
+#showPhoneNumberBtn:hover
+{
+    color: #00458B;
+    background-color: #ffffff;
+}
+
+.message-content
+{
+    margin: 5px 80px;
+    font-size: 16px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-color: #00458B;
+    border-width: 2px;
+    min-height: 150px;
+    max-height: 250px;
+}
+
+#sendMessageBtn
+{
+    cursor: pointer;
+    margin: 5px 30px 10px auto;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    background-color: #00458B;
+    border-color: #00458B;
+    border-radius: 10px;
+    min-width: 150px;
+    max-width: 190px;
+    min-height: 35px;
+    max-height: 45px;
+    box-shadow: 1px 1px 2px #000000;
+}
+
+#sendMessageBtn:hover
+{
+    color: #00458B;
+    background-color: #ffffff;
+}

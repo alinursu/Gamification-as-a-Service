@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../styles/header_footer.css">
+    <link rel="stylesheet" href="../../../styles/user/new-announce.css">
+    <title>IaȘi Vinde!</title>
+</head>
+<body>
+    <div class="head">
+        <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <header>
+            <button id="home" class="button button1" onclick="location.href = '../../../index.html'">Home</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Search..." class="search">
+                <button type="button" class="button button1" onclick="location.href = '../announces/searchresult.html'">
+                    &#128269;
+                </button> 
+            </div>
+            <button id="myaccount" class="button button1">My Account</button>
+        </header>
+    </div>
+    <div id="menu" class="mobileMenu">
+        <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <button id="burgermenu" type="menu" class="button" onclick="openSideNav()">&#9776;</button>
+        <div id="sidenav" class="sidenav">
+            <button class="button" onclick="closeSideNav()">&times;</button>
+            <button id="home" class="button">Home</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Search..." class="search">
+                <button type="button" class="button">
+                    &#128269;
+                </button> 
+            </div>
+            <button id="myaccount" class="button">My Account</button>
+        </div>
+
+    </div>
+    <div style="flex-grow: 1;">
+        <div class="form-box">
+            <p style="font-size: 26px; font-weight: bold; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Adaugă un anunț nou!</p>
+            <form id="new-announce-form" action="" class="new-announce-form">
+                <div class="form-row">
+                    <label for="announceTitle" style="width: 25%; font-size: 18px;">Titlul anunțului:</label>
+                    <input type="text" id="announceTitle" name="announceTitle" style="width: 72%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                </div>
+
+                <div class="form-row">
+                    <label for="announceCategory" style="width: 25%; font-size: 18px;">Categoria:</label>
+                    <select id="announceCategory" name="announceCategory" style="width: 75%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                        <option value="car">Automobile și ambarcațiuni</option>
+                        <option value="computer">Laptopuri și calculatoare</option>
+                        <option value="phone">Telefoane și tablete</option>
+                        <option value="house">Inchirieri și vânzări apartamente</option>
+                        <option value="furniture">Mobilier și electrocasnice</option>
+                        <option value="other">Alte tipuri de produse</option>
+                     </select>
+                </div>
+
+                <div class="form-row" style="flex-direction: column; align-items:flex-start;">
+                    <label for="announceDescription" style="width: calc(100% - 16px); font-size: 18px;">Descrierea produsului:</label>
+                    <textarea id="announceDescription" form="new-announce-form" placeholder="..." style="width: calc(100% - 16px);; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; height: 120px; padding-left: 0;"></textarea>   
+                </div>
+
+                <div class="form-row">
+                    <label for="announceImages" style="width: 25%; font-size: 18px;">Imagini:</label>
+                    <input type="file" id="announceImages" name="announceImages" multiple style="width: 72%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                </div>
+
+                <label style="width: 100%; font-size: 18px; margin-bottom: 14px; margin-top: 51px;">Informații de contact:</label>
+
+                <div class="form-row">
+                    <label for="sellerName" style="width: 25%; font-size: 18px;">Nume:</label>
+                    <input type="text" id="sellerName" name="sellerName" disabled placeholder="Ion Ionescu" style="width: 72%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                </div>
+
+                <div class="form-row">
+                    <label for="sellerEmail" style="width: 25%; font-size: 18px;">Adresa de email:</label>
+                    <input type="text" id="sellerEmail" name="sellerEmail" disabled placeholder="ion.ionescu@gmail.com" style="width: 72%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                </div>
+
+                <div class="form-row">
+                    <label for="sellerPhoneNumber" style="width: 25%; font-size: 18px;">Numărul de telefon:</label>
+                    <input type="text" id="sellerPhoneNumber" name="sellerPhoneNumber" disabled placeholder="0123 456 789" style="width: 72%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px;">
+                </div>
+    
+              <button type="submit" value="submit" class="submit-btn" form="new-announce-form">Publică anunțul</button>
+            </form>
+          </div>
+    </div>
+    <footer>
+        <div style="justify-self: flex-start; align-self: flex-start;">
+            <button class="button button1" onclick="scrollToTop()" style="justify-self: flex-start; align-self: center;">
+                &#x25B2;
+            </button>
+        </div>
+        <span style="margin: 10px; color: white; align-self: flex-end; justify-self: flex-end;">&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span>
+    </footer>
+    <script src="../../../js/header_footer.js"></script>
+</body>
+</html>

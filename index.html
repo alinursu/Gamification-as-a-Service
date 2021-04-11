@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="./styles/header_footer.css">
     <link rel="stylesheet" href="./styles/index/categories.css">
     <link rel="stylesheet" href="./styles/index/achievements.css">
-    <script src="achievements.js"></script>
-    <title>Document</title>
+    <script src="./js/index/achievements.js"></script>
+    <title>IaȘi Vinde!</title>
 </head>
 <body>
     <div class="head">
@@ -19,10 +19,10 @@
             <img src="./src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
         </div>
         <header>
-            <button id="home" class="button button1">Home</button>
+            <button id="home" class="button button1" onclick="location.href = './index.html'">Home</button>
             <div class="searchBox">
                 <input type="text" name="search" placeholder="Search..." class="search">
-                <button type="button" class="button button1">
+                <button type="button" class="button button1" onclick="location.href = './src/app/announces/searchresult.html'">
                     &#128269;
                 </button> 
             </div>
@@ -193,6 +193,6 @@
         </div>
         <span style="margin: 10px; color: white; align-self: flex-end; justify-self: flex-end;">&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span>
     </footer>
-    <script src="header_footer.js"></script>
+    <script src="./js/header_footer.js"></script>
 </body>
 </html>
