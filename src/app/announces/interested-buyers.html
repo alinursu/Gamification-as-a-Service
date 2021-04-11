@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../styles/header_footer.css">
+    <link rel="stylesheet" href="../../../styles/products/interested-buyers.css">
+    <link rel="stylesheet" href="../../../styles/products/searchresult.css">
+    <title>IaȘi Vinde!</title>
+</head>
+<body>
+    <header>
+        <div class="head">
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="bubble">
+                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+                </div>
+                <img src="../../assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+            </div>
+            <div class="navbar">
+                <button id="home" class="button button1" onclick="location.href = '../../../index.html'">Acasă</button>
+                <div class="searchBox">
+                    <input type="text" name="search" placeholder="Caută..." class="search">
+                    <button type="button" class="button button1" onclick="location.href = './src/app/announces/searchresult.html'">
+                        &#128269;
+                    </button> 
+                </div>
+                <button id="myaccount" class="button button1">Contul meu </button>
+            </div>
+        </div>
+        <div id="menu" class="mobileMenu">
+            <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="bubble">
+                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+                </div>
+                <img src="../../assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+            </div>
+            <button id="burgermenu" type="menu" class="button" onclick="openSideNav()">&#9776;</button>
+            <div id="sidenav" class="sidenav">
+                <button class="button" onclick="closeSideNav()">&times;</button>
+                <button id="home" class="button" onclick="location.href = '../../../index.html'">Acasă</button>
+                <div class="searchBox">
+                    <input type="text" name="search" placeholder="Caută..." class="search">
+                    <button type="button" class="button">
+                        &#128269;
+                    </button> 
+                </div>
+                <button id="myaccount" class="button">Contul meu</button>
+            </div>
+        </div>
+    </header>
+    <div style="flex-grow: 1;  margin-left: 5px; margin-right: 5px; padding: 20px; background-color: #f3f2f2;">
+
+        <div style="display:flex; flex-wrap: wrap; flex-direction: column; ">
+            <div class="announces" style="margin: 0 10%;">
+                <a class="announce" href="./products/iphone-12-pro.html">
+                    <img src="../../assets/images_announces/iphone-12-pro/1.png" alt="" style="max-width:200px;">
+                    <div>
+                        <div class="product-informations">
+                            <p class="announce-title">Iphone 12 Pro</p>
+                            <p class="announce-price">3000 lei</p>
+                        </div>
+                        <div class="announce-informations">
+                            <p>Ion Ionescu</p>
+                            <p>Iasi - 27.03.2021</p>
+                        </div>
+                    </div>
+                </a>  
+            </div>    
+
+            <div style="text-align: center; margin-top: 10px;">
+                <p id="buyers-message">5 cumpărători sunt interesați de anunțul tău!</p>
+            </div>
+            
+            <div class="buyers-profiles">
+                <a class="buyer-profile" href="">
+                    <img src="../../assets/images/profile_icon.png" alt="" style="max-width: 60px; margin: 5px;">
+                    <p class="buyer-name">Ion Ionescu</p>
+                    <p class="buyer-date">Interesat de la data 08.04.2021</p>
+                </a>
+                <a class="buyer-profile" href="">
+                    <img src="../../assets/images/profile_icon.png" alt="" style="max-width: 60px; margin: 5px;">
+                    <p class="buyer-name">Ion Ionescu</p>
+                    <p class="buyer-date">Interesat de la data 08.04.2021</p>
+                </a>
+                <a class="buyer-profile" href="">
+                    <img src="../../assets/images/profile_icon.png" alt="" style="max-width: 60px; margin: 5px;">
+                    <p class="buyer-name">Ion Ionescu</p>
+                    <p class="buyer-date">Interesat de la data 08.04.2021</p>
+                </a>
+                <a class="buyer-profile" href="">
+                    <img src="../../assets/images/profile_icon.png" alt="" style="max-width: 60px; margin: 5px;">
+                    <p class="buyer-name">Ion Ionescu</p>
+                    <p class="buyer-date">Interesat de la data 08.04.2021</p>
+                </a>
+                <a class="buyer-profile" href="">
+                    <img src="../../assets/images/profile_icon.png" alt="" style="max-width: 60px; margin: 5px;">
+                    <p class="buyer-name">Ion Ionescu</p>
+                    <p class="buyer-date">Interesat de la data 08.04.2021</p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        <div style="justify-self: flex-start; align-self: flex-start;">
+            <button class="button button1" onclick="scrollToTop()" style="justify-self: flex-start; align-self: center;">
+                &#x25B2;
+            </button>
+        </div>
+        <span style="margin: 10px; color: white; align-self: flex-end; justify-self: flex-end;">&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span>
+    </footer>
+    <script src="../../../js/header_footer.js"></script>
+</body>
+</html>

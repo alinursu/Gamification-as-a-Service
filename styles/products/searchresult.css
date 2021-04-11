@@ -1,8 +1,3 @@
-.divBody > div
-{
-    margin: 100px;
-    margin-top: 20px;
-}
 
 /* Announces */
 .announces
@@ -24,6 +19,7 @@
     text-decoration: none;
     box-shadow: 4px 4px 4px #000000;
     transition: transform .2s;
+    background-color: #ffffff;
 }
 
 .announce:hover
