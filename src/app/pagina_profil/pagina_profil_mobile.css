@@ -1,0 +1,5 @@
+@media screen and (max-width: 500px) {
+  .profile_achievements .profile_achievement {
+    width: 100%;
+  }
+}
