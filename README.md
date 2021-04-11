@@ -50,8 +50,7 @@
             <li><a href="#5-future-objectives">Future objectives</a>
             <ol>
                 <li><a href="#51-overview">Overview</a></li> 
-                <li><a href="#52-database">Create a database</a></li> 
-                <li><a href="#53-microservice">Microservice for each lesson</a></li>
+                <li><a href="#52-database">Database</a></li> 
             </ol> </li>
             <li><a href="#6-conclusion">Conclusion</a> </li>
         </ol>
@@ -128,19 +127,15 @@
     </section>
     <section id="objectives" role="doc-structure">
         <h2>5. Future objectives</h2>
-        <p>Knowing that the front-end is done, we can now focus on the back-end of our web-application. </p>
+        <p> //TO DO </p>
     </section>
     <section id="objectives__overview" role="doc-structure">
         <h3>5.1. Overview</h3>
-        <p>We will implement the back-end using PHP programming language, also we'll use the MVC as the arhitecture of the project. </p>
+        <p>//TO DO </p>
     </section>
     <section id="objectives__db" role="doc-structure">
         <h3>5.2. Database</h3>
-        <p>Knowing that our application will have users, with lesson-progress and credentials, we'll use a database based on MySQL language.</p>
-    </section>
-    <section id="objectives__microservice" role="doc-structure">
-        <h3>5.3. Microservice</h3>
-        <p>Knowing that each two lessons don't have anything in common, for each one we'll implement a microservice which will can be updated or modified on its own.</p>
+        <p>//TO DO</p>
     </section>
     <section id="conclusion" role="doc-structure">
         <h2>6. Conclusion</h2>
