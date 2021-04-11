@@ -8,9 +8,6 @@ body {
     flex-direction: column;
     word-wrap: break-word;
   }
-  :root{
-    scrollbar-width: none !important;
-  }
   
   ::-webkit-scrollbar {
     display: none;
@@ -21,7 +18,6 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  z-index: 1;
   }
   
   header {
