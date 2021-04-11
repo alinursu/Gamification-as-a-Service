@@ -50,9 +50,10 @@
             <li><a href="#5-future-objectives">Future objectives</a>
             <ol>
                 <li><a href="#51-overview">Overview</a></li> 
-                <li><a href="#52-database">Database</a></li> 
-            </ol> </li>
-            <li><a href="#6-conclusion">Conclusion</a> </li>
+                <li><a href="#52-the-database">The Database</a></li> 
+                <li><a href="#53-the-gamification-system">The Gamification System</a></li>
+            </ol> 
+            </li>
         </ol>
     </div>
     <section id="project-details" role="doc-abstract">
@@ -127,19 +128,18 @@
     </section>
     <section id="objectives" role="doc-structure">
         <h2>5. Future objectives</h2>
-        <p> //TO DO </p>
     </section>
     <section id="objectives__overview" role="doc-structure">
         <h3>5.1. Overview</h3>
-        <p>//TO DO </p>
+        <p>The server side of the application will be implemented using Node.js and the project will have a MVC architecture.</p>
     </section>
     <section id="objectives__db" role="doc-structure">
-        <h3>5.2. Database</h3>
-        <p>//TO DO</p>
+        <h3>5.2. The Database</h3>
+        <p>Because we will have to store a large amount of data (users, announces, etc.), we will use a database based on MySQl.</p>
     </section>
-    <section id="conclusion" role="doc-structure">
-        <h2>6. Conclusion</h2>
-        <p>//TODO</p>
+    <section id="objectives__achievements" role="doc-structure">
+        <h3>5.3. The Gamification System</h3>
+        <p>The application will contain an API that, based on statistics, it will reward the clients certain achievements, to improve the exchange experience between the users. </p>
     </section>
     </header>
 </body>
