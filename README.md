@@ -50,7 +50,8 @@
             <li><a href="#5-future-objectives">Future objectives</a>
             <ol>
                 <li><a href="#51-overview">Overview</a></li> 
-                <li><a href="#52-database">Database</a></li> 
+                <li><a href="#52-database">The Database</a></li> 
+                <li><a href="#53-achievements">The Gamification System</a></li>
             </ol> </li>
         </ol>
     </div>
@@ -132,7 +133,7 @@
         <p>The server side of the application will be implemented using Node.js and the project will have a MVC architecture.</p>
     </section>
     <section id="objectives__db" role="doc-structure">
-        <h3>5.2. Database</h3>
+        <h3>5.2. The Database</h3>
         <p>Because we will have to store a large amount of data (users, announces, etc.), we will use a database based on MySQl.</p>
     </section>
     <section id="objectives__achievements" role="doc-structure">
