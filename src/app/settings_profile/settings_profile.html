@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="settings_profile.css" />
+    <link rel="stylesheet" href="profile_mobile.css" />
+    <title>Settings_profile</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="my_menu_box">
+        <div class="menu_buttons">
+          <a href="settings_profile.html" id="edit_button" class="menu_btn">
+            <i class="fas fa-user-edit"></i>
+            <span>Editează Profilul</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a href="pass.html" type="button" id="pass_button" class="menu_btn">
+            <i class="fas fa-lock"></i>
+            <span>Securitate</span>
+          </a>
+        </div>
+      </div>
+      <div class="my_profile_box">
+        <div class="profile_title>">
+          <h1>Editează profilul</h1>
+        </div>
+        <div class="setari_imagine">
+          <div class="imagine_profil"></div>
+          <div class="img_buttons">
+            <button type="button" id="change_photo" class="change_photo_btn">
+              Șchimbă imaginea
+            </button>
+            <button type="button" id="delete_photo" class="delete_photo_btn">
+              Șterge imaginea
+            </button>
+          </div>
+        </div>
+        <label>Nume și prenume</label>
+        <input type="text" placeholder=" " />
+        <label for="tip">Tip persoana</label>
+        <select name="type" id="type">
+          <option value="Persoana_fizica">Persoana fizică</option>
+          <option value="Companie">Companie</option>
+        </select>
+        <label>Email</label>
+        <input type="text" placeholder=" " />
+        <label>Judet</label>
+        <input type="text" placeholder=" " />
+        <label>Localitate</label>
+        <input type="text" placeholder=" " />
+        <label>Telefon</label>
+        <input type="text" placeholder=" " />
+
+        <button type="button" id="savebtn" class="savebtn">
+          SALVEAZĂ MODIFICĂRILE
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
