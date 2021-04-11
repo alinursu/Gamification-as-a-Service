@@ -6,7 +6,6 @@ openSideNav = () => {
     document.getElementById("imghead").style.filter = "brightness(50%)"
     document.getElementsByTagName('footer')[0].style.filter = "brightness(50%)"
 }
-
 closeSideNav = () => {
     document.getElementById("sidenav").style.width = "0px"
     document.getElementById("burgermenu").style.display = "flex"

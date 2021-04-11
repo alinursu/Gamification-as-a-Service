@@ -10,45 +10,46 @@
     <title>IaȘi Vinde!</title>
 </head>
 <body>
-    <div class="head">
-        <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-            <div class="bubble">
-                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+    <header>
+        <div class="head">
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="bubble">
+                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+                </div>
+                <img src="../../../assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
             </div>
-            <img src="../../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
+            <div class="navbar">
+                <button id="home" class="button button1" onclick="location.href = './index.html'">Acasă</button>
+                <div class="searchBox">
+                    <input type="text" name="search" placeholder="Caută..." class="search">
+                    <button type="button" class="button button1" onclick="location.href = './src/app/announces/searchresult.html'">
+                        &#128269;
+                    </button> 
+                </div>
+                <button id="myaccount" class="button button1">Contul meu </button>
+            </div>
         </div>
-        <header>
-            <button id="home" class="button button1" onclick="location.href = '../../../../index.html'">Acasă</button>
-            <div class="searchBox">
-                <input type="text" name="search" placeholder="Caută..." class="search">
-                <button type="button" class="button button1" onclick="location.href = '../searchresult.html'">
-                    &#128269;
-                </button> 
+        <div id="menu" class="mobileMenu">
+            <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="bubble">
+                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+                </div>
+                <img src="../../../assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
             </div>
-            <button id="myaccount" class="button button1">Contul meu</button>
-        </header>
-    </div>
-    <div id="menu" class="mobileMenu">
-        <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
-            <div class="bubble">
-                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            <button id="burgermenu" type="menu" class="button" onclick="openSideNav()">&#9776;</button>
+            <div id="sidenav" class="sidenav">
+                <button class="button" onclick="closeSideNav()">&times;</button>
+                <button id="home" class="button" onclick="location.href = './index.html'">Acasă</button>
+                <div class="searchBox">
+                    <input type="text" name="search" placeholder="Caută..." class="search">
+                    <button type="button" class="button">
+                        &#128269;
+                    </button> 
+                </div>
+                <button id="myaccount" class="button">Contul meu</button>
             </div>
-            <img src="../../../../src/assets/images/header_bg.png" style="width: 100%; height: auto; z-index: -1;">
         </div>
-        <button id="burgermenu" type="menu" class="button" onclick="openSideNav()">&#9776;</button>
-        <div id="sidenav" class="sidenav">
-            <button class="button" onclick="closeSideNav()">&times;</button>
-            <button id="home" class="button">Acasă</button>
-            <div class="searchBox">
-                <input type="text" name="search" placeholder="Caută..." class="search">
-                <button type="button" class="button">
-                    &#128269;
-                </button> 
-            </div>
-            <button id="myaccount" class="button">Contul meu</button>
-        </div>
-
-    </div>
+    </header>
     <div style="flex-grow: 1;">
         <div class="announce">
             <div class="announce-header">
