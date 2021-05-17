@@ -1,0 +1,200 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.my_profile_box {
+  background-color: rgb(255, 255, 255);
+  width: 80%;
+  display: flex;
+  padding: 20px 20px;
+  flex-direction: column;
+  position: relative;
+  font-size: 15px;
+  font-family: sans-serif;
+  color: darkslategrey;
+}
+
+.my_menu_box {
+  width: 20%;
+  border-right: turquoise 1px solid;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 15px;
+  font-family: sans-serif;
+  color: darkslategrey;
+  padding: 2%;
+}
+
+.setari_imagine {
+  width: 60%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagine_profil {
+  width: 100px;
+  min-height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-right: 40px;
+}
+
+.menu_buttons_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.fa-chevron-right {
+  margin-left: 20px;
+}
+
+.fa-user-edit {
+  margin-right: 5px;
+}
+
+.fa-bell {
+  margin-right: 5px;
+}
+
+.fa-lock {
+  margin-right: 5px;
+}
+
+.menu_btn {
+  display: block;
+  text-decoration: none;
+  text-align: left;
+  width: 100%;
+  height: 25px;
+  font-size: 15px;
+  border: none;
+  background-color: white;
+  border-bottom: 1px solid rgb(201, 201, 201);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 0px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: rgb(119, 119, 119);
+}
+
+.img_buttons {
+  width: 50%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+.change_photo_btn {
+  height: 35px;
+  width: 100%;
+  border: none;
+  background-color: #00458b;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.delete_photo_btn {
+  height: 35px;
+  width: 100%;
+  border: none;
+  background-color: #00458b;
+  color: white;
+  font-family: sans-serif;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 25px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  color: rgb(119, 119, 119);
+}
+
+.my_profile_box input {
+  width: 50%;
+  height: 30px;
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-family: sans-serif;
+  border: none;
+  border-bottom: 1px solid rgb(139, 201, 236);
+  color: rgb(119, 119, 119);
+}
+
+.my_profile_box select {
+  width: 50%;
+  height: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+  border: none;
+  border-bottom: 1px solid rgb(139, 201, 236);
+  color: darkslategrey;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.my_profile_box label {
+  margin-top: 15px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.savebtn {
+  display: block;
+  margin-top: 20px;
+  width: 30%;
+  background: #00458b;
+  border-radius: 20px;
+  transition: 0.5s;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-weight: 500;
+}
+
+.save-btn:hover {
+  box-shadow: 0 0 20px 10px rgba(20, 74, 145, 0.14);
+  background: linear-gradient(to left, #deddec, #5664e2);
+}

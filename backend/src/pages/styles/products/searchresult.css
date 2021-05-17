@@ -1,0 +1,125 @@
+
+/* Announces */
+.announces
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.announce
+{
+    margin: 0;
+    margin-bottom: 10px;
+    border: 2px dotted #00458B;
+    border-radius: 15px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    color: #000000;
+    text-decoration: none;
+    box-shadow: 4px 4px 4px #000000;
+    transition: transform .2s;
+    background-color: #ffffff;
+}
+
+.announce:hover
+{
+    transform: scale(1.02);
+}
+
+.announce > img
+{
+    margin: 10px;
+}
+
+.announce > div
+{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+.product-informations
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: auto;
+}
+
+.announce-title
+{
+    font-size: 22px;
+    font-weight: bold;
+    color: #00458B;
+}
+
+.announce-price
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 25px 0;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.announce-informations
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.announce-informations > *
+{
+    margin: 0;
+}
+
+
+
+/* Page-bar */
+
+.page-bar
+{
+    margin: auto;
+    display: inline-flex;
+    align-items: center;
+    background-color: #eeeeee;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.page-bar-item
+{
+    text-decoration: none;
+    color: #00458B;
+    margin: 10px;
+    border: 2px solid #00458B;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.page-bar-item:hover
+{
+    background-color: #00458B;
+    border-color: #00458B;
+    color: #eeeeee;
+}
+
+.page-bar-item-selected
+{
+    background-color: #00458B;
+    border-color: #00458B;
+    color: #eeeeee;
+}
+
+.page-bar-item-disabled
+{
+    color: #58799b;
+    border: 2px solid #58799b;
+    cursor: not-allowed;
+    pointer-events: none;
+}

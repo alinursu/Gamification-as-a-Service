@@ -1,0 +1,104 @@
+.divBody
+{
+    background-color: #f3f2f2;
+}
+
+.form-box 
+{
+    width: 700px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 10px 10px 40px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px;
+    box-shadow: 1px 0.5px 0.5px#ff33241f;
+    border-color: darkblue;
+}
+  
+.new-announce-form 
+{
+    margin-top: 35px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+  
+.new-announce-form input, .new-announce-form select, .new-announce-form textarea
+{
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid grey;
+    width: calc(100% - 16px);
+    margin-top: 15px;
+}
+  
+.new-announce-form input:focus 
+{
+    outline: none;
+    border-bottom: 2px solid grey;
+}
+  
+.submit-btn
+{
+    width: 100%;
+    padding: 7px;
+    margin-top: 15px;
+    border: 2px solid #00458B;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px #000000;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    background-color: #00458B;
+    color: #ffffff;
+
+
+}
+  
+.submit-btn:hover
+{
+    background-color: #ffffff;
+    color: #00458B;
+}
+  
+
+@media screen and (max-width: 720px)
+{
+    .form-box 
+    {
+        width: 75%;
+    }
+  
+    .new-announce-form 
+    {
+      margin-top: 10px;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-row
+    {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-row > label
+    {
+        text-align: center;
+    }
+}
+
+.form-row
+{
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center;
+    margin-bottom: 14px;
+}

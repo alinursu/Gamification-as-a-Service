@@ -1,0 +1,31 @@
+const path = require('path');
+const staticServe = require('node-static');
+const home = require("../routes/home");
+
+const file = new(staticServe.Server)(path.join(__dirname, '../pages/'));
+
+const routing = (req, res) => {
+    const url = req.url;
+
+    // fixed routes
+    switch (url) {
+        case '/':
+            return home(req, res);
+    }
+
+    // dynamic routes
+    if (url.toString().substr(0, 8) === '/styles/') {
+        return file.serve(req, res);
+    }
+    if (url.toString().substr(0, 4) === '/js/') {
+        return file.serve(req, res);
+    }
+    if (url.toString().substr(0, 11) === '/src/assets') {
+        return file.serve(req, res);
+    }
+
+    res.write('<h1>404<h1>'); //write a response
+    res.end(); //end the response
+}
+
+module.exports = routing;

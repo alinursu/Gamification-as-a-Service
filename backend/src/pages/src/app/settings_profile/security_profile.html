@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../styles/header_footer.css" />
+    <link rel="stylesheet" href="../../../styles/profile/profile.css" />
+    <link rel="stylesheet" href="../../../styles/profile/profile-mobile.css" />
+    <title>Setări Securitate</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+          "
+        >
+          <div class="bubble">
+            <span style="font-size: 5vw; color: white">IaȘi vinde!</span>
+          </div>
+          <img
+            src="../../../src/assets/images/header_bg.png"
+            alt=""
+            style="width: 100%; height: auto; z-index: -1"
+          />
+        </div>
+        <div class="navbar">
+          <button
+            id="home"
+            class="button button1"
+            onclick="location.href = '../../../index.html'"
+          >
+            Acasă
+          </button>
+          <div class="searchBox">
+            <input
+              type="text"
+              name="search"
+              placeholder="Caută..."
+              class="search"
+            />
+            <button
+              type="button"
+              class="button button1"
+              onclick="location.href = './src/app/announces/searchresult.html'"
+            >
+              &#128269;
+            </button>
+          </div>
+          <button
+            id="myaccount"
+            class="button button1"
+            onclick="location.href = '../pagina_profil/pagina_profil.html'"
+          >
+            Contul meu
+          </button>
+        </div>
+      </div>
+      <div id="menu" class="mobileMenu">
+        <div
+          id="imghead"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+          "
+        >
+          <div class="bubble">
+            <span style="font-size: 5vw; color: white">IaȘi vinde!</span>
+          </div>
+          <img
+            src="../../../src/assets/images/header_bg.png"
+            alt=""
+            style="width: 100%; height: auto; z-index: -1"
+          />
+        </div>
+        <button
+          id="burgermenu"
+          type="button"
+          class="button"
+          onclick="openSideNav()"
+        >
+          &#9776;
+        </button>
+        <div id="sidenav" class="sidenav">
+          <button class="button" onclick="closeSideNav()">&times;</button>
+          <button
+            class="button"
+            onclick="location.href = '../../../index.html'"
+          >
+            Acasă
+          </button>
+          <div class="searchBox">
+            <input
+              type="text"
+              name="search"
+              placeholder="Caută..."
+              class="search"
+            />
+            <button type="button" class="button">&#128269;</button>
+          </div>
+          <button
+            class="button"
+            onclick="location.href = '../pagina_profil/pagina_profil.html'"
+          >
+            Contul meu
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="container" style="flex-grow: 1">
+      <div class="my_menu_box">
+        <div class="menu_buttons">
+          <a href="settings_profile.html" id="edit_button" class="menu_btn">
+            <i class="fas fa-user-edit"></i>
+            <span>Editează Profilul </span>
+          </a>
+          <a href="security_profile.html" id="pass_button" class="menu_btn">
+            <i class="fas fa-lock"></i>
+            <span>Securitate</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a href="../user/new-announce.html" class="menu_btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Adaugă anunț</span>
+          </a>
+        </div>
+      </div>
+      <div class="my_profile_box">
+        <div class="profile_title>">
+          <h1>Schimbă parola</h1>
+        </div>
+        <label></label>
+        <input type="text" placeholder="Parolă curentă" />
+        <label></label>
+        <input type="text" placeholder="Parolă nouă" />
+        <label></label>
+        <input type="text" placeholder="Confirmă parola " />
+        <button type="button" id="savebtn" class="savebtn">
+          SALVEAZĂ MODIFICARILE
+        </button>
+      </div>
+    </div>
+    <footer>
+      <div style="justify-self: flex-start; align-self: flex-start">
+        <button
+          class="button button1"
+          onclick="scrollToTop()"
+          style="justify-self: flex-start; align-self: center"
+        >
+          &#x25B2;
+        </button>
+      </div>
+      <span
+        style="
+          margin: 10px;
+          color: white;
+          align-self: flex-end;
+          justify-self: flex-end;
+        "
+        >&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span
+      >
+    </footer>
+    <script src="../../../js/header_footer.js"></script>
+  </body>
+</html>
