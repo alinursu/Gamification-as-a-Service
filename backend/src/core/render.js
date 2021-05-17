@@ -10,7 +10,6 @@ const render = (path, vars = null, cb) => {
             const template = hbs.compile(data.toString());
             cb(template(vars));
         }
-
     })
 };
 
