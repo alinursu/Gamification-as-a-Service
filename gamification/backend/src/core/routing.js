@@ -1,4 +1,6 @@
 const indexRoute = require("../routes/index");
+const loginRoute = require('../routes/login');
+const registerRoute = require('../routes/register');
 
 /**
  * Handles the routing.
@@ -13,6 +15,12 @@ const routing = (request, response) => {
     switch (url) {
         case '/':
             return indexRoute(request, response);
+        
+        case '/login':
+            return loginRoute(request, response);
+
+        case '/register':
+            return registerRoute(request, response);
     }
 
     // 404 Not found 

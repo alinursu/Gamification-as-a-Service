@@ -2,16 +2,16 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 /**
- * Generates the index HTML page, based on index.hbs, head.hbs, header.hbs and footer.hbs.
+ * Generates the login HTML page, based on login.hbs, head.hbs, header.hbs and footer.hbs.
  * @param {*} request The given request.
  * @param {*} response The response based on the given request.
  * @returns The rendered page.
  */
-const indexRoute = (request, response) => {
+const loginRoute = (request, response) => {
     const paths = {
         head: path.join(__dirname, '../../pages/head.hbs'),
         header: path.join(__dirname, '../../pages/header.hbs'),
-        index: path.join(__dirname, '../../pages/index.hbs'),
+        index: path.join(__dirname, '../../pages/login.hbs'),
         footer: path.join(__dirname, '../../pages/footer.hbs')
     }
 
@@ -27,7 +27,7 @@ const indexRoute = (request, response) => {
 
                 return renderPage(paths.footer, null, (data) => {
                     response.write(data);
-
+                    
                     response.end();
                 })
             })
@@ -35,4 +35,4 @@ const indexRoute = (request, response) => {
     })
 }
 
-module.exports = indexRoute;
+module.exports = loginRoute;
