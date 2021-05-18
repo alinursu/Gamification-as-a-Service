@@ -1,12 +1,12 @@
 const render = require("../core/render");
 const path = require("path");
 
-const home = (req, res) => {
-    const styles = ['index/categories', 'index/achievements']
+const profile = (req, res) => {
+    const styles = ['products/searchresult', 'profile/view-profile', 'profile/view-profile-mobile']
 
     const paths = {
         head: path.join(__dirname, '../components/General/head.hbs'),
-        index: path.join(__dirname, '../pages/index.hbs'),
+        profile: path.join(__dirname,'../pages/profile.hbs'),
         footer: path.join(__dirname, '../components/General/footer.hbs')
     }
 
@@ -17,7 +17,7 @@ const home = (req, res) => {
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header
         res.write(data);
 
-        return render(paths.index, null, (data) => {
+        return render(paths.profile, null, (data) => {
             res.write(data);
             return render(paths.footer, null, (data) => {
                 res.write(data);
@@ -27,4 +27,4 @@ const home = (req, res) => {
     })
 }
 
-module.exports = home;
+module.exports = profile;
