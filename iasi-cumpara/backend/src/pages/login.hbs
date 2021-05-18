@@ -1,0 +1,115 @@
+</div>
+<div id="menu" class="mobileMenu">
+    <div
+            id="imghead"
+            style="display: flex; flex-direction: column; justify-content: flex-end"
+    >
+        <div class="bubble">
+            <span style="font-size: 5vw; color: white">IaȘi vinde!</span>
+        </div>
+        <img
+                src="../../../../src/assets/images/header_bg.png"
+                alt=""
+                style="width: 100%; height: auto; z-index: -1"
+        />
+    </div>
+    <button
+            id="burgermenu"
+            type="button"
+            class="button"
+            onclick="openSideNav()"
+    >
+        &#9776;
+    </button>
+    <div id="sidenav" class="sidenav">
+        <button class="button" onclick="closeSideNav()">&times;</button>
+        <button id="home" class="button">Acasă</button>
+        <div class="searchBox">
+            <input
+                    type="text"
+                    name="search"
+                    placeholder="Caută..."
+                    class="search"
+            />
+            <button type="button" class="button">&#128269;</button>
+        </div>
+        <button class="button">Contul meu</button>
+    </div>
+</div>
+<div style="flex-grow: 1">
+    <div class="container">
+        <div class="form-box">
+            <div class="login-register-box">
+                <button
+                        type="button"
+                        id="logbtn"
+                        class="toggle btn"
+                        onclick="logBtn()"
+                >
+                    Autentificare
+                </button>
+                <button type="button" id="regbtn" class="toggle" onclick="regBtn()">
+                    Înregistrare
+                </button>
+            </div>
+            <form class="login-form" id="log-form">
+                <input
+                        type="text"
+                        placeholder="Adresa de email"
+                        name="username"
+                        required
+                />
+                <input
+                        type="text"
+                        class="login-pass"
+                        placeholder="Parola"
+                        name="psw"
+                        required
+                />
+
+                <div class="checkbox-group">
+                    <label for="remember">Reține autentificarea</label>
+                    <input type="checkbox" class="check-box" id="remember"/>
+                </div>
+
+                <button type="submit" class="submit-btn">Autentificare</button>
+
+                <a href="#" class="forgot-pass">Mi-am pierdut parola</a>
+            </form>
+
+            <form class="login-form" id="reg-form">
+                <input type="text" placeholder="Numele" name="name" required/>
+                <input
+                        type="text"
+                        placeholder="Adresa de email"
+                        name="username"
+                        required
+                />
+                <input
+                        type="text"
+                        class="register-pass"
+                        placeholder="Parola"
+                        name="psw"
+                        required
+                />
+                <input
+                        type="text"
+                        class="register-pass"
+                        placeholder="Confirmarea parolei"
+                        name="psw"
+                        required
+                />
+
+                <div class="checkbox-group">
+                    <label for="agree-conditions"
+                    >Sunt de acord cu prelucrarea informațiilor de către "IaȘi
+                        Vinde!"</label
+                    >
+                    <input type="checkbox" class="check-box" id="agree-conditions"/>
+                </div>
+
+                <button type="submit" class="submit-btn">Înregistrare</button>
+            </form>
+        </div>
+    </div>
+</div>

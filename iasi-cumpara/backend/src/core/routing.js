@@ -2,7 +2,8 @@ const path = require('path');
 const staticServe = require('node-static');
 const home = require("../routes/home");
 const profile = require('../routes/profile');
-const category = require('../routes/category')
+const category = require('../routes/category');
+const login = require('../routes/login');
 
 const file = new (staticServe.Server)(path.join(__dirname, '../pages/'));
 
@@ -18,6 +19,8 @@ const routing = (req, res) => {
         case '/category/cars':
             req.category = 'cars';
             return category(req, res);
+        case '/login':
+            return login(req, res);
     }
 
     // dynamic routes

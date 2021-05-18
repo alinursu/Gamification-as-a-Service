@@ -7,5 +7,10 @@
     <span style="margin: 10px; color: white; align-self: flex-end; justify-self: flex-end;">&copy; Luciana Bejan, Mircea Sofrone, Alin Ursu</span>
 </footer>
 <script src="./js/header_footer.js"></script>
+
+{{#each scripts}}
+    <script src="./js/{{this}}.js"></script>
+{{/each}}
+
 </body>
 </html>
