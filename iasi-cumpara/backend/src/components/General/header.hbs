@@ -1,0 +1,46 @@
+<header>
+    <div class="head">
+        <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="./src/assets/images/header_bg.png" alt="header image"
+                 style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <div class="navbar">
+            <button class="button button1" onclick="location.href = '/'">Acasă</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Caută..." class="search">
+                <button type="button" class="button button1"
+                        onclick="location.href = './src/app/announces/searchresult.html'">
+                    &#128269;
+                </button>
+            </div>
+            <button class="button button1" onclick="location.href = '/profile'">Contul
+                meu
+            </button>
+        </div>
+    </div>
+    <div id="menu" class="mobileMenu">
+        <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="bubble">
+                <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+            </div>
+            <img src="./src/assets/images/header_bg.png" alt="header image"
+                 style="width: 100%; height: auto; z-index: -1;">
+        </div>
+        <button id="burgermenu" type="button" class="button" onclick="openSideNav()">&#9776;</button>
+        <div id="sidenav" class="sidenav">
+            <button class="button" onclick="closeSideNav()">&times;</button>
+            <button class="button" onclick="location.href = 'index.hbs'">Acasă</button>
+            <div class="searchBox">
+                <input type="text" name="search" placeholder="Caută..." class="search">
+                <button type="button" class="button">
+                    &#128269;
+                </button>
+            </div>
+            <button class="button" onclick="location.href = '/profile'">Contul meu
+            </button>
+        </div>
+    </div>
+</header>

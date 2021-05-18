@@ -1,175 +1,139 @@
- <header>
-        <div class="head">
-            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <div class="bubble">
-                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+<div style="flex-grow: 1;  margin-left: 5px; margin-right: 5px; padding: 20px">
+    <div class="div-categories">
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/car_icon.png" alt="" style="max-width: 80px; margin-top: 8%;">
                 </div>
-                <img src="./src/assets/images/header_bg.png" alt="header image" style="width: 100%; height: auto; z-index: -1;">
+                <div class="flipping-card-back">
+                    <p>Automobile și ambarcațiuni</p>
+                </div>
             </div>
-            <div class="navbar">
-                <button class="button button1" onclick="location.href = 'index.hbs'">Acasă</button>
-                <div class="searchBox">
-                    <input type="text" name="search" placeholder="Caută..." class="search">
-                    <button type="button" class="button button1" onclick="location.href = './src/app/announces/searchresult.html'">
-                        &#128269;
-                    </button> 
+        </a>
+
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/laptop_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
                 </div>
-                <button class="button button1" onclick="location.href = './src/app/pagina_profil/pagina_profil.html'">Contul meu </button>
+                <div class="flipping-card-back">
+                    <p>Laptopuri și calculatoare</p>
+                </div>
             </div>
-        </div>
-        <div id="menu" class="mobileMenu">
-            <div id="imghead" style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <div class="bubble">
-                    <span style="font-size: 5vw; color: white;">IaȘi vinde!</span>
+        </a>
+
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/smartphone_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
                 </div>
-                <img src="./src/assets/images/header_bg.png" alt="header image" style="width: 100%; height: auto; z-index: -1;">
+                <div class="flipping-card-back">
+                    <p>Telefoane și tablete</p>
+                </div>
+
             </div>
-            <button id="burgermenu" type="button" class="button" onclick="openSideNav()">&#9776;</button>
-            <div id="sidenav" class="sidenav">
-                <button class="button" onclick="closeSideNav()">&times;</button>
-                <button class="button" onclick="location.href = 'index.hbs'">Acasă</button>
-                <div class="searchBox">
-                    <input type="text" name="search" placeholder="Caută..." class="search">
-                    <button type="button" class="button">
-                        &#128269;
-                    </button> 
+        </a>
+
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/house_icon.png" alt="" style="max-width: 80px; margin-top: 5%;">
                 </div>
-                <button class="button" onclick="location.href = './src/app/pagina_profil/pagina_profil.html'">Contul meu</button>
+                <div class="flipping-card-back">
+                    <p>Inchirieri și vânzări apartamente</p>
+                </div>
             </div>
-        </div>
-    </header>
-    <div style="flex-grow: 1;  margin-left: 5px; margin-right: 5px; padding: 20px">
-        <div class="div-categories">
-            <a class="flipping-card" href="src/app/categories/cars.html">
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/car_icon.png" alt="" style="max-width: 80px; margin-top: 8%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Automobile și ambarcațiuni</p>
-                    </div>
+        </a>
+
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/furniture_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
                 </div>
-            </a>
-    
-            <a class="flipping-card" href="src/app/categories/cars.html">
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/laptop_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Laptopuri și calculatoare</p>
-                    </div>
+                <div class="flipping-card-back">
+                    <p>Mobilier și electrocasnice</p>
                 </div>
-            </a>
-    
-            <a class="flipping-card" href="src/app/categories/cars.html">  
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/smartphone_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Telefoane și tablete</p>
-                    </div>
-                    
+            </div>
+        </a>
+
+        <a class="flipping-card" href="/category/cars">
+            <div class="flipping-card-content">
+                <div class="flipping-card-front">
+                    <img src="src/assets/images/others_icon.png" alt="" style="max-width: 80px; margin-top: 7%;">
                 </div>
-            </a>
-    
-            <a class="flipping-card" href="src/app/categories/cars.html">
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/house_icon.png" alt="" style="max-width: 80px; margin-top: 5%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Inchirieri și vânzări apartamente</p>
-                    </div>
+                <div class="flipping-card-back">
+                    <p>Alte tipuri de produse</p>
                 </div>
-            </a>
-    
-            <a class="flipping-card" href="src/app/categories/cars.html">
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/furniture_icon.png" alt="" style="max-width: 80px; margin-top: 6%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Mobilier și electrocasnice</p>
-                    </div>
-                </div>
-            </a>
-    
-            <a class="flipping-card" href="src/app/categories/cars.html">
-                <div class="flipping-card-content">
-                    <div class="flipping-card-front">
-                        <img src="src/assets/images/others_icon.png" alt="" style="max-width: 80px; margin-top: 7%;">
-                    </div>
-                    <div class="flipping-card-back">
-                        <p>Alte tipuri de produse</p>
-                    </div>
-                </div>
-            </a>
+            </div>
+        </a>
+    </div>
+
+    <hr class="line" style="grid-row-start:2; grid-row-end:3;">
+
+
+    <div style="display: flex; flex-direction: column;">
+        <div class="achievements-buttons-container">
+            <button type="button" onclick="changeToSellers()" id="sellersAchievementsBtn"
+                    class="achievements-menu-button">Vânzători
+            </button>
+            <button type="button" onclick="changeToBuyers()" id="buyersAchievementsBtn"
+                    class="achievements-menu-button">Cumpărători
+            </button>
         </div>
 
-        <hr class="line" style="grid-row-start:2; grid-row-end:3;">
-            
+        <div class="divAchievements">
+            <div id="sellers-achievements-container">
+                <h3>Realizări ale vânzătorilor</h3>
 
-        <div style="display: flex; flex-direction: column;">
-            <div class="achievements-buttons-container">
-                <button type="button" onclick="changeToSellers()" id="sellersAchievementsBtn" class="achievements-menu-button">Vânzători</button>
-                <button type="button" onclick="changeToBuyers()" id="buyersAchievementsBtn" class="achievements-menu-button">Cumpărători</button>
-            </div>
+                <div class="achievementList">
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe produse vândute în ultima lună</p>
+                        <h3>Ion Ionescu - 100</h3>
+                    </div>
 
-            <div class="divAchievements">
-                <div id="sellers-achievements-container">
-                    <h3>Realizări ale vânzătorilor</h3>
-    
-                    <div class="achievementList">
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe produse vândute în ultima lună</p>
-                            <h3>Ion Ionescu - 100</h3>
-                        </div>
-        
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe țepe date în ultima lună</p>
-                            <h3>Ion Ionescu - 20</h3>
-                        </div>
-        
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe review-uri primite în ultima lună</p>
-                            <h3>Ion Ionescu - 524</h3>
-                        </div>
-        
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe mesaje primite pentru un singur produs listat</p>
-                            <h3>Ion Ionescu - 24</h3>
-                        </div>
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe țepe date în ultima lună</p>
+                        <h3>Ion Ionescu - 20</h3>
+                    </div>
+
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe review-uri primite în ultima lună</p>
+                        <h3>Ion Ionescu - 524</h3>
+                    </div>
+
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe mesaje primite pentru un singur produs listat</p>
+                        <h3>Ion Ionescu - 24</h3>
                     </div>
                 </div>
-    
-                <div id="buyers-achievements-container">
-                    <h3>Realizări ale cumpărătorilor</h3>
-    
-                    <div class="achievementList">
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe produse cumpărate în ultima lună</p>
-                            <h3>Ion Ionescu - 100</h3>
-                        </div>
-        
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe țepe primite în ultima lună</p>
-                            <h3>Ion Ionescu - 20</h3>
-                        </div>
-        
-                        <div class="divAchievement">
-                            <p style="margin-left: 4%;">Cele mai multe review-uri date în ultima lună</p>
-                            <h3>Ion Ionescu - 524</h3>
-                        </div>
-    
-                        <pre style="grid-row: 3 / 4; grid-column: 1 / 4;"></pre>
-                        <pre style="grid-row: 4 / 5; grid-column: 1 / 4;"></pre>
-                        <pre style="grid-row: 5 / 6; grid-column: 1 / 4;"></pre>
-                    </div>
-                </div>
-
-                <script style="display:none;">initAchievements();</script>
             </div>
+
+            <div id="buyers-achievements-container">
+                <h3>Realizări ale cumpărătorilor</h3>
+
+                <div class="achievementList">
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe produse cumpărate în ultima lună</p>
+                        <h3>Ion Ionescu - 100</h3>
+                    </div>
+
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe țepe primite în ultima lună</p>
+                        <h3>Ion Ionescu - 20</h3>
+                    </div>
+
+                    <div class="divAchievement">
+                        <p style="margin-left: 4%;">Cele mai multe review-uri date în ultima lună</p>
+                        <h3>Ion Ionescu - 524</h3>
+                    </div>
+
+                    <pre style="grid-row: 3 / 4; grid-column: 1 / 4;"></pre>
+                    <pre style="grid-row: 4 / 5; grid-column: 1 / 4;"></pre>
+                    <pre style="grid-row: 5 / 6; grid-column: 1 / 4;"></pre>
+                </div>
+            </div>
+
+            <script style="display:none;">initAchievements();</script>
         </div>
     </div>
+</div>
