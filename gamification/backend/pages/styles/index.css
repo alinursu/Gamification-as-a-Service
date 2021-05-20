@@ -1,0 +1,286 @@
+#body-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#body-div > * {
+    width: 100%;
+}
+
+/* presentation-div */
+#presentation-div {
+    background-color: #423788;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#presentation-div > * {
+    width: 45%;
+}
+
+#presentation-text-div {
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    width: 45%;
+    margin: 1em auto;
+}
+
+#presentation-text-div > div > h1 {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #ffffff;
+    margin-top: 1em;
+    margin-left: 2em;
+}
+
+#presentation-text-div > div > p {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #c2bfe2;
+    margin-top: 0.5em;
+    margin-left: 4em;
+}
+
+#presentation-div > div > img {
+    width: 70%;
+    margin: 0;
+    margin-right: auto;
+    margin: 1em auto;
+}
+
+/* services-div */
+#services-anchor {
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+}
+
+#services-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#services-div > * {
+    width: 85%;
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+}
+
+#services-div > h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-size: 20px;
+}
+
+#services-div > p {
+    margin: 0.5em 0;
+    text-indent: 2em;
+    font-size: 18px;    
+}
+
+/* documentation-div */
+#documentation-anchor {
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+}
+
+#documentation-div {
+    width: 100%;
+    background-color: #423788;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+#documentation-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #ffffff;
+    margin: 0.7em 0;
+}
+
+#documentation-steps-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#documentation-steps-div > * {
+    margin: 0 1em;
+    width: 30%;
+}
+
+#documentation-steps-div > div > p {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #ffffff;
+    font-size: 16px;
+    margin-top: 0.4em;
+}
+
+#documentation-real-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#documentation-real-div > * {
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+#documentation-real-div > p {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #ffffff;
+    font-size: 16px;
+    margin-right: 0.2em;
+}
+
+#documentation-real-div > button {
+    margin-left: 0.2em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    font-weight: bold;
+    background-color: #423788;
+    border-color: #ffffff;
+    border-radius: 5px; 
+    box-shadow: 2px 2px 4px #000000;
+    color: #ffffff;
+    width: 10em;
+}
+
+#documentation-real-div > button:hover {
+    color: #423788;
+    background-color: #fd6191;
+    border-color: #fd6191;
+}
+
+/* contact-div */
+#contact-anchor {
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+}
+
+#contact-div {
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3em;
+}
+
+#contact-div > p {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #423788;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+}
+
+#contact-form > * {
+    margin: 0.5em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #423788;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+#contact-name, #contact-email {
+    min-width: 174px;
+}
+
+#contact-submit {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #423788;
+    border-color: #423788;
+    min-width: 6em;
+    margin: auto;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+#contact-submit:hover {
+    color: #423788;
+    background-color: #fd6191;
+    border-color: #fd6191;
+}
+
+@media screen and (max-width: 800px) {
+    #presentation-div {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #presentation-text-div {
+        width: 80%;
+        margin: 0;
+        margin-bottom: 0.5em;
+    }
+
+    #presentation-text-div > div > h1 {
+        font-size: 24px;
+    }
+
+    #presentation-div > div > img {
+        margin: 0;
+        width: 90%;
+        margin-bottom: 1em;
+    }
+
+    #documentation-text {
+        width: 80%;
+    }
+
+    #documentation-steps-div > div {
+        width: 80%;
+    }
+
+    #documentation-real-div {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #documentation-real-div > * {
+        width: 80%;
+    }
+
+    #documentation-real-div > button {
+        margin-top: 0;
+    }
+
+    #contact-div > p {
+        width: 80%;
+    }
+
+    #contact-div > form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #contact-div > form > textarea {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    #documentation-steps-div{
+        flex-direction: column;
+        align-items: center;
+    }
+}

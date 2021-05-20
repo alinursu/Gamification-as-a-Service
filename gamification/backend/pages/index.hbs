@@ -1,0 +1,100 @@
+{{!-- 
+    Dark magenta-bluish: #423788 (background + highlighted text in white background)
+    White: #ffffff (text + selected buttons)
+    Non-selected buttons: #c2bfe2
+    Pink: #fd6191
+
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+ --}}
+
+
+
+ <div id="body-div">
+     <div id="presentation-div">
+        <div id="presentation-text-div">
+            <div>
+                <h1>Recompensează-ți clienții fără eforturi.</h1>
+                <p>Gestionează un sistem de recompense simplu și eficient.</p>
+            </div>
+        </div>
+        
+        <div>
+            <img src="/images/index-presentation-image.png" alt="">
+        </div> 
+     </div>
+
+     <a id="services-anchor"></a>
+
+     <div id="services-div">
+        <h3>
+            GamS oferă un serviciu de API extern ce controlează un sistem de recompense pentru aplicația dumneavoastră.
+        </h3>
+
+        <p>Utilizând API-ul oferit de noi, puteți integra în site-ul dumneavoastră un sistem de recomandări bazat pe insigne sau pe nivele.
+            Clienții dumneavoastră vor primi o anumită insignă/un anumit nivel atunci cand aceștia îndeplinesc anumite criterii predefinite de dumneavoastră.
+        </p>
+
+        <p>
+            Folosind GamS, aveți libertatea de a crea atât recompensele oferite utilizatorilor (insignele sau nivelele), cât și criteriile pe care clienții trebuie sa 
+            le îndeplinească pentru a le primi. <b>Totul în browser!</b>
+        </p>
+
+        <p style="margin-bottom: 1em;">
+            Datele vor fi stocate în sistemul nostru, iar dumneavoastră le veți putea accesa folosind o cheie API unică, pe care o primiți atunci când vă înregistrati
+            în sistemul nostru.
+        </p>
+     </div>
+
+     <a id="documentation-anchor"></a>
+
+     <div id="documentation-div">
+        <h3 id="documentation-text">
+            Creează un sistem de recompense pentru site-ul tău în câteva minute...
+        </h3>
+
+        <div id="documentation-steps-div">
+            <div>
+                <img src="/images/documentation-step1.png" alt="" style="max-width: 6em;">
+                <p>Creează-ți un cont pe platforma noastră.</p>
+            </div>
+
+            <div>
+                <img src="/images/documentation-step2.png" alt="" style="max-width: 7.8em;">
+                <p>Creează un sistem de recompense și obține o cheie API.</p>
+            </div>
+
+            <div>
+                <img src="/images/documentation-step3.png" alt="" style="max-width: 7.6em;">
+                <p>Integrează API-ul în site-ul tău.</p>
+            </div>
+        </div>
+
+        <div id="documentation-real-div">
+            <p>Consultă întregul proces de integrare a API-ului la pagina următoare:</p>
+            
+            {{!-- TODO: Routing --}}
+            <button type="button" onclick=""><a href="/" style="text-decoration: none; color: #ffffff;">DOCUMENTAȚIE</a></button>
+        </div>
+     </div>
+
+     <a id="contact-anchor"></a>
+
+     <div id="contact-div">
+        <p>
+            Pentru mai multe detalii sau în cazul în care întâmpini probleme, contactează-ne:
+        </p>
+
+        {{!-- TODO: POST method --}}
+        <form id="contact-form" method="post" action="/">
+            <input type="text" id="contact-name" name="contact-name" placeholder="Nume">
+            <input type="text" id="contact-email" name="contact-email" placeholder="Adresă de email">
+            <br>
+            <textarea name="contact-mesage" cols="40" rows="5" placeholder="Mesaj..."></textarea>
+            <br>
+            {{!-- TODO: clickable button --}}
+            <div style="width:100%; display:flex; border: none; box-shadow: none;">
+                <input type="submit" id="contact-submit" name="contact-submit" value="Trimite">
+            </div>
+        </form>
+     </div>
+ </div>

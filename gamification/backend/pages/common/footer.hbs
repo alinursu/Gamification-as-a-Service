@@ -1,0 +1,42 @@
+<footer>
+    <div id="footer-div">
+        <div id="footer-info-div">
+            <div style="display: flex; flex-direction: row;">
+                <img src="/images/common/logo_magenta.png" style="max-width: 50px">
+                <p id="logo-text-footer">GamS</p>
+            </div>
+            <p id="footer-info-definition">GamS oferă un serviciu de API extern ce controlează un sistem de recompense pentru aplicația dumneavoastră.</p>
+            <div id="footer-info-creators">
+                <p class="footer-info-creator-text">Bejan Luciana - 2B4</p>
+                <p class="footer-info-creator-text">Sofrone Mircea - 2A6</p>
+                <p class="footer-info-creator-text">Ursu Alin - 2B4</p>
+            </div>
+        </div>
+
+        <div id="footer-navigation-div">
+            {{!-- TODO: de adaugat ancore --}}
+            <p id="footer-navigation-title">Link-uri rapide:</p>
+            <a href="" class="footer-navigation-text">Servicii</a>
+            <a href="" class="footer-navigation-text">Documentație</a>
+            <a href="" class="footer-navigation-text">Contactează-ne</a>
+        </div>
+
+        <div id="footer-user-div">
+            <button type="button" id="footer-user-register-btn">
+                <a href="/register" class="footer-user-btn-text">ÎNREGISTREAZĂ-TE</a>
+            </button>
+            <div style="display: flex; flex-wrap: wrap; flex-direction: row;">
+                <p id="footer-user-text">sau</p>
+                <button type="button" onclick="location.href = '/login'" id="footer-user-login-btn">
+                    <a class="footer-user-btn-text" style="font-size: 14px;">AUTENTIFICĂ-TE</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="/js/stickyHeader.js"></script>
+
+{{#each client_js}}
+        <script type="text/javascript" src="/js/{{this}}.js"></script>
+{{/each}}

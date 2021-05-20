@@ -1,0 +1,155 @@
+footer {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+}
+
+#footer-div {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+#footer-info-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: auto;   
+    width: 30%;  
+    margin-top: 0;
+}
+
+#logo-text-footer {
+    margin-right: auto;
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    font-weight: bold;
+    color: #423788;
+    font-size: 30px;
+}
+
+#footer-info-definition {
+    text-indent: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+}
+
+#footer-info-creators {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.footer-info-creator-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #656180;
+}
+
+#footer-navigation-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: auto;   
+    width: 30%;  
+    margin-top: 0;
+}
+
+#footer-navigation-title {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 0.5em;
+}
+
+.footer-navigation-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+    font-size: 16px;
+    text-decoration: none;
+    margin-bottom: 0.4em;
+}
+
+.footer-navigation-text:hover {
+    color: #656180;
+}
+
+#footer-user-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: auto;   
+    margin-top: 0;
+    width: 30%;
+    align-items: center;
+}
+
+#footer-user-register-btn {
+    background-color: #423788;
+    min-width: 220px;
+    min-height: 40px;
+    border-color: #423788;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+#footer-user-register-btn:hover {
+    background-color: #fd6191;
+    border-color: #fd6191;
+    color: #423788;
+}
+
+#footer-user-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #423788;
+    font-size: 16px;
+    margin-right: 0.2em;
+}
+
+#footer-user-login-btn {
+    background-color: #423788;
+    min-width: 140px;
+    min-height: 25px;
+    border-color: #423788;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+#footer-user-login-btn:hover {
+    background-color: #fd6191;
+    border-color: #fd6191;
+    color: #423788;
+}
+
+.footer-user-btn-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    text-decoration: none;
+    color: #ffffff; 
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.footer-user-btn-text:hover {
+    color: #423788;
+}
+
+@media only screen and (max-width: 750px) {
+    #footer-div { 
+        flex-direction: column;
+    }
+
+    #footer-info-div, #footer-navigation-div, #footer-user-div {
+        width: 100%;
+        align-items: center;
+        margin-bottom: 2em;
+    }
+
+    #footer-info-definition {
+        max-width: 70%;
+    }
+}
