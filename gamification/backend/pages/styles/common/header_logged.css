@@ -1,0 +1,41 @@
+#navbar > div {
+    display: flex; 
+    align-items: center;
+    margin: 0 0.5em;
+}
+
+#navbar > div > a > img {
+    width: 35px; 
+}
+
+#navbar > div > a {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #ffffff;
+    margin-left: 0.3em;
+    text-decoration: none;
+}
+
+#navbar > div > a:hover {
+    color: #fd6191;
+}
+
+#sidenav > div:not(#horizontal-line-burgermenu) {
+    display: flex; 
+    align-items: center;
+    margin: 0.5em 0;
+}
+
+#sidenav > div > a > img {
+    width: 30px; 
+}
+
+#sidenav > div > a {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #ffffff;
+    margin-left: 0.3em;
+    text-decoration: none;
+}
+
+#sidenav > div > a:hover {
+    color: #fd6191;
+}
