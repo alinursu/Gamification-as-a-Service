@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+
+}
+
+span {
+    margin-top: 50px;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 30px;
+    color: #423788;
+}
+
+.card-form {
+    background-color: #c2bfe2;
+    padding: 7px;
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+.card-form p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.card-form input {
+    margin-top: 10px;
+}
+
+#name{
+    width: 80%;
+    height: 30px;
+    border:none;
+    border-radius: 10px;
+}
+
+#nume-rec{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.add button{
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 30px;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #423788;
+    color:white;
+}
+
+.add button:hover{
+    background-color: #fd6191;
+}
+
+
+
