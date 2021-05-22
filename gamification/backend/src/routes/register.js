@@ -15,7 +15,10 @@ const registerRoute = (request, response) => {
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
-    return renderPage(paths.head, {title: 'Gamification as a Service'}, (data) => {
+    return renderPage(paths.head, {
+        title: 'Gamification as a Service',
+        styles: ['register']
+    }, (data) => {
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(data);
 

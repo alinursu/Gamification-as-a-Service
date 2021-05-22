@@ -1,24 +1,15 @@
-{{!-- 
-    Dark magenta-bluish: #423788 (background + highlighted text in white background)
-    White: #ffffff (text + selected buttons)
-    Non-selected buttons: #c2bfe2
-    Pink: #fd6191
+<div id="body-div">
+    {{!-- TODO: Make form work (method POST/GET ? + action) --}}
+    <form method="get" action="/">
+        <label for="email">Adresa de email:</label>
+        <input type="text" id="email" name="email"> 
+        <br>
+        <label for="password">Parola:</label>
+        <input type="password" id="password" name="password">
+        <br>
 
-    font-family: "Comic Sans MS", "Comic Sans", cursive; 
- --}}
-
-
-
-{{!-- TODO: valid html form tag  --}}
-{{!-- TODO: Make form work (method POST + action) --}}
-<form>
-    <label for="email">Adresa de email:</label>
-    <input type="text" id="email" name="email"> 
-    <br>
-    <label for="password">Parola:</label>
-    <input type="password" id="password" name="password">
-    <br>
-
-    {{!-- TODO: clickable button --}}
-    <input type="submit" value="Autentifica-te">
-</form>
+        <div>
+            <input type="submit" value="Autentifcă-te">
+        </div>
+    </form>
+</div>

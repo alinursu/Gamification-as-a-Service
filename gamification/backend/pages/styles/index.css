@@ -211,6 +211,7 @@
     color: #ffffff;
     border-radius: 5px;
     box-shadow: 2px 2px 4px #000000;
+    cursor: pointer;
 }
 
 #contact-submit:hover {

@@ -62,7 +62,7 @@
             <p>Consultă întregul proces de integrare a API-ului la pagina următoare:</p>
             
             {{!-- TODO: Routing --}}
-            <button type="button" onclick=""><a href="/" style="text-decoration: none; color: #ffffff;">DOCUMENTAȚIE</a></button>
+            <button type="button" onclick=""><a href="/documentation" style="text-decoration: none; color: #ffffff;">DOCUMENTAȚIE</a></button>
         </div>
      </div>
 
@@ -73,14 +73,14 @@
             Pentru mai multe detalii sau în cazul în care întâmpini probleme, contactează-ne:
         </p>
 
-        {{!-- TODO: POST method --}}
+        {{!-- TODO: POST method + action --}}
         <form id="contact-form" method="post" action="/">
             <input type="text" id="contact-name" name="contact-name" placeholder="Nume">
             <input type="text" id="contact-email" name="contact-email" placeholder="Adresă de email">
             <br>
             <textarea name="contact-mesage" cols="40" rows="5" placeholder="Mesaj..."></textarea>
             <br>
-            {{!-- TODO: clickable button --}}
+
             <div style="width:100%; display:flex; border: none; box-shadow: none;">
                 <input type="submit" id="contact-submit" name="contact-submit" value="Trimite">
             </div>

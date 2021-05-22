@@ -2,28 +2,23 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 /**
- * Generates the index HTML page, based on index.hbs, head.hbs, header.hbs and footer.hbs.
+ * Generates the register HTML page, based on profile.hbs, head.hbs, header.hbs and footer.hbs.
  * @param {*} request The given request.
  * @param {*} response The response based on the given request.
  * @returns The rendered page.
  */
-const indexRoute = (request, response) => {
-    // TODO: <doctype html5> (to all pages)
-    // TODO: <html lang="en"> (to all pages)
-    // TODO: if user is logged in, use header_loggedin (to all pages)
-    // TODO: validate html page (all pages)
-    
+const profileRoute = (request, response) => {
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
         header: path.join(__dirname, '../../pages/common/header.hbs'),
-        index: path.join(__dirname, '../../pages/index.hbs'),
+        index: path.join(__dirname, '../../pages/profile.hbs'),
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
     return renderPage(paths.head, {
         title: 'Gamification as a Service',
-        styles: ['index']
-                                }, (data) => {
+        styles: ['profile']
+    }, (data) => {
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(data);
 
@@ -34,10 +29,10 @@ const indexRoute = (request, response) => {
                 response.write(data);
 
                 return renderPage(paths.footer, {
-                    client_js: ['scrollNavbarAnimation']
+                    client_js: ['profilePageMenu']
                 }, (data) => {
                     response.write(data);
-
+                    
                     response.end();
                 })
             })
@@ -45,4 +40,4 @@ const indexRoute = (request, response) => {
     })
 }
 
-module.exports = indexRoute;
+module.exports = profileRoute;

@@ -4,7 +4,7 @@
             <img src="/images/common/logo_white.png" style="max-width: 50px" alt="">
             <a href="/" id="logo-text">GamS</a>
         </div>
-
+        
         <nav id="navbar">
             <button type="button" onclick="" class="navbar-button">
                 <a href="/#services-anchor" class="navbar-clickable-button">SERVICII</a> 
@@ -25,5 +25,21 @@
                 <a href="/register" class="navbar-clickable-button">ÎNREGISTRARE</a>
             </button>
         </nav>
+
+        <div id="burgermenu-div">
+            <button type="button" id="burgermenu" onclick="openBurgermenu()">&#9776;</button>
+
+            <div id="sidenav">
+                <button type="button" class="burgermenu-button" onclick="closeBurgermenu()">X</button>
+                <button type="button" class="burgermenu-button" onclick="location.href = '/#services-anchor'">SERVICII</button>
+                <button type="button" class="burgermenu-button" onclick="location.href = '/#documentation-anchor'">DOCUMENTAȚIE</button>
+                <button type="button" class="burgermenu-button" onclick="location.href = '/#contact-anchor'">CONTACTEAZĂ-NE</button>
+                
+                <div id="horizontal-line-burgermenu"></div>
+                
+                <button type="button" class="burgermenu-button" onclick="location.href = '/login'">AUTENTIFICARE</button>
+                <button type="button" class="burgermenu-button" onclick="location.href = '/register'">ÎNREGISTRARE</button>
+            </div>
+        </div>
     </div>
 </header>

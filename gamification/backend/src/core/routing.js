@@ -1,14 +1,18 @@
 const indexRoute = require("../routes/index");
 const loginRoute = require('../routes/login');
 const registerRoute = require('../routes/register');
-const formRoute = require('../routes/form')
+const documentationRoute = require('../routes/documentation');
+const profileRoute = require('../routes/profile');
+
 const staticServe = require('node-static');
 const path = require('path');
-const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1});
+const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 });
+
+// TODO: header cand esti logat
 
 /**
  * Handles the routing.
- * @param {*} request The given request.
+ * @param {*} request The given request. 
  * @param {*} response The response based on the request.
  * @returns The rendered page.
  */
@@ -19,29 +23,32 @@ const routing = (request, response) => {
     switch (url) {
         case '/':
             return indexRoute(request, response);
-
+        
         case '/login':
             return loginRoute(request, response);
 
         case '/register':
             return registerRoute(request, response);
 
-        case '/form':
-            return formRoute(request, response);
+        case '/documentation':
+            return documentationRoute(request, response);
+
+        case '/profile':
+            return profileRoute(request, response);
 
         default: {
             // CSS routes
-            if (url.toString().substr(0, 8) === '/styles/') {
+            if(url.toString().substr(0, 8) === '/styles/') {
                 return file.serve(request, response)
             }
 
             // Image routes
-            if (url.toString().substr(0, 8) === '/images/') {
+            if(url.toString().substr(0, 8) === '/images/') {
                 return file.serve(request, response);
             }
 
             // JS routes
-            if (url.toString().substr(0, 4) === '/js/') {
+            if(url.toString().substr(0, 4) === '/js/') {
                 return file.serve(request, response);
             }
 
@@ -49,7 +56,10 @@ const routing = (request, response) => {
             response.write('<h1>404<h1>');
             response.end();
         }
+
     }
+
+    
 }
 
 module.exports = routing;

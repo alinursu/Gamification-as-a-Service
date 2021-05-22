@@ -1,18 +1,24 @@
-<form>
-    <label for="lastname">Nume:</label>
-    <input type="text" id="lastname" name="lastname"> 
-    <br>
-    <label for="firstname">Prenume:</label>
-    <input type="text" id="firstname" name="firstname"> 
-    <br>
-    <label for="email">Adresa de email:</label>
-    <input type="text" id="email" name="email"> 
-    <br>
-    <label for="password">Parola contului:</label>
-    <input type="password" id="password" name="password">
-    <br>
-    <label for="weburl">Adresa site-ului web in care doriti sa integrati sistemul de recompense:</label>
-    <input type="text" id="weburl" name="weburl"> 
-    <br>
-    <input type="submit" value="Inregistreaza-te">
-</form>
+<div id="body-div">
+    {{!-- TODO: Make form work (method POST/GET ? + action) --}}
+    <form method="post" action="/">
+        <label for="lastname">Nume:</label>
+        <input type="text" id="lastname" name="lastname"> 
+        <br>
+        <label for="firstname">Prenume:</label>
+        <input type="text" id="firstname" name="firstname"> 
+        <br>
+        <label for="email">Adresa de email:</label>
+        <input type="text" id="email" name="email"> 
+        <br>
+        <label for="password">Parola:</label>
+        <input type="password" id="password" name="password">
+        <br>
+        <label for="weburl">Adresa site-ului web în care doriți să integrați sistemul de recompense:</label>
+        <input type="text" id="weburl" name="weburl"> 
+        <br>
+        
+        <div>
+            <input type="submit" value="Inregistrează-te">
+        </div>
+    </form>
+</div>

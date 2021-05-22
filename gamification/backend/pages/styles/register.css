@@ -39,7 +39,7 @@
     border-color: #423788;
     border-radius: 10px;
     box-shadow: 2px 2px 4px #000000;
-    min-width: 130px;
+    min-width: 160px;
     min-height: 30px;
     cursor: pointer;
 }
@@ -50,7 +50,7 @@
     border-color: #fd6191;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 890px) {
     #body-div > form {
         width: 80%;
     }

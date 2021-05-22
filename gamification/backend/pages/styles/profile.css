@@ -1,0 +1,314 @@
+#body-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+#container-div {
+    width: 80%;
+    border: 5px solid #423788;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#vertical-line {
+    border: 2px solid #423788;
+}
+
+#left-part-div, #right-part-div {
+    margin: 0.5em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.horizontal-line {
+    border: 2px solid #c2bfe2;
+    margin: 0;
+}
+
+/* #left-part-div {
+    width: 19%;
+} */
+
+#left-part-div > * { 
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.left-part-row-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.left-part-row-button {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    font-size: 14px;
+    font-weight: bold;
+    color: #c2bfe2;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.left-part-row-selected-button {
+    color: #423788;
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.left-part-row-button:hover {
+    color: #fd6191;
+}
+
+#right-part-div { 
+    flex-grow: 1;
+}
+
+#profile-menu-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+.profile-menu-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0.5em;
+    align-items: center;
+    /* width: 100%; */
+}
+
+.profile-gamification-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0.5em;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-menu-row > * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+}
+
+.profile-menu-row > h2 {
+    font-size: 26px;
+    color: #423788;
+}
+
+.profile-menu-row > h3 {
+    font-size: 18px;
+    color: #c2bfe2;
+}
+
+.profile-menu-row > h3 > a {
+    color: #c2bfe2;
+    text-decoration: none;
+}
+
+.profile-menu-row > h3 > a:hover {
+    color: #fd6191;
+    text-decoration: underline;
+}
+
+.profile-menu-row > img {
+    margin-right: 0.5em;
+}
+
+#profile-menu-horizontal-line {
+    border: 2px solid #423788;
+    width: 80%;
+    margin: 0.7em auto;
+}
+
+.profile-gamification-card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 97%;
+    border: 3px solid #423788;
+    border-radius: 7px;
+    margin: 0.5em 0;
+    cursor: pointer;
+    transition: transform .2s;
+    align-items: center;
+}
+
+.profile-gamification-card:hover {
+    transform: scale(1.02);
+    border-color: #fd6191;
+}
+
+.profile-gamification-card > p {
+    font-size: 18px;
+    color: #423788;
+}
+
+.profile-gamification-card:hover > p {
+    color: #fd6191;
+}
+
+.profile-gamification-card > img {
+    margin: 0.3em;
+}
+
+#settings-menu-div {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.settings-menu-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    /* width: 100%; */
+    flex-grow: 1;
+    margin: 0.5em;
+}
+
+.settings-menu-row > h2 {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+    margin: 0 auto;
+    margin-bottom: 1em;
+}
+
+.settings-menu-row > form > * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+    font-size: 18px;
+    margin-right: 0.5em;
+}
+
+.settings-menu-row > form > input[type="submit"] {
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    border-color: #423788;
+    background-color: #423788;
+    border-radius: 5px;
+    min-width: 90px;
+    box-shadow: 2px 2px 4px #000000;
+}
+
+.settings-menu-row > form > input[type="submit"]:hover {
+    color: #423788;
+    border-color: #fd6191;
+    background-color: #fd6191;
+}
+
+@media screen and (min-width: 801px) and (max-width: 986px) {
+    .settings-menu-row > form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .settings-menu-row > form > * {
+        margin: 0.5em 0;
+    }
+} 
+
+@media screen and (min-width: 724px) and (max-width: 800px) {
+    #container-div {
+        flex-direction: column;
+    }
+
+    #left-part-div {
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .left-part-row-div {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .horizontal-line {
+        height: 100%;
+        margin: 0.2em 0.5em;
+    }
+
+    .settings-menu-row > form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .settings-menu-row > form > * {
+        margin: 0 0.2em;
+    }
+
+    .settings-menu-row > form > input#url {
+        margin-left: auto;
+    }
+
+    .settings-menu-row > form > input#submit-url {
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 723px) {
+    #container-div {
+        flex-direction: column;
+    }
+
+    #left-part-div {
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .left-part-row-div {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .horizontal-line {
+        height: 100%;
+        margin: 0.2em 0.5em;
+    }
+
+    .settings-menu-row > form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .settings-menu-row > form > * {
+        margin: 0.5em 0;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .settings-menu-row > h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 405px) {
+    .horizontal-line {
+        display: none;
+    }
+}
