@@ -1,0 +1,35 @@
+#body-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#body-div > div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0.8em 0;
+}
+
+#body-div > p, #body-div > div > * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: #423788;
+}
+
+#body-div > p {
+    width: 90%;
+    margin: auto;
+    text-indent: 1em;
+}
+
+#body-div > div > h3 {
+    font-size: 20px;
+}
+
+@media screen and (max-width: 1139px) {
+    #body-div > div {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+}
