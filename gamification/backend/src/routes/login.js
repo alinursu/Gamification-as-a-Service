@@ -25,7 +25,10 @@ const loginRoute = (request, response) => {
         return renderPage(paths.header, null, (data) => {
             response.write(data);
 
-            return renderPage(paths.index, null, (data) => {
+            return renderPage(paths.index, {
+                errorMessage: request.errorMessage,
+                previousEmailValue: request.previousEmailValue
+            }, (data) => {
                 response.write(data);
 
                 return renderPage(paths.footer, null, (data) => {

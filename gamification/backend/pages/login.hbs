@@ -1,15 +1,22 @@
 <div id="body-div">
-    {{!-- TODO: Make form work (method POST/GET ? + action) --}}
-    <form method="get" action="/">
+    {{#if errorMessage}}
+        <h2 id="error-message-login">{{errorMessage}}</h2>
+    {{/if}}
+    
+    <form method="post" action="/login">
         <label for="email">Adresa de email:</label>
-        <input type="text" id="email" name="email"> 
+        {{#if previousEmailValue}}
+            <input type="text" id="email" name="email" value="{{previousEmailValue}}"> 
+        {{else}}
+            <input type="text" id="email" name="email"> 
+        {{/if}}
         <br>
         <label for="password">Parola:</label>
         <input type="password" id="password" name="password">
         <br>
 
         <div>
-            <input type="submit" value="Autentifcă-te">
+            <input type="submit" value="Autentifică-te">
         </div>
     </form>
 </div>

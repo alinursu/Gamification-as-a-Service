@@ -3,6 +3,7 @@ const loginRoute = require('../routes/login');
 const registerRoute = require('../routes/register');
 const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
+const userController = require('../controllers/userController');
 
 const staticServe = require('node-static');
 const path = require('path');
@@ -18,6 +19,16 @@ const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cach
  */
 const routing = (request, response) => {
     const url = request.url;
+
+    // Handling POST requests
+    if(request.method == 'POST') {
+        switch (url) {
+            case '/login':
+                return userController.handleLoginRequest(request, response);
+        }
+    }
+
+    // Handling custom GET requests
 
     // Routes
     switch (url) {

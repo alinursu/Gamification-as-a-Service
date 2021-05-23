@@ -8,6 +8,12 @@
     margin-bottom: 2em;
 }
 
+#error-message-login {
+    margin-bottom: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: red;
+}
+
 #body-div > form > * {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #423788;
