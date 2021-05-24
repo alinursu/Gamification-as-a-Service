@@ -27,7 +27,7 @@ function handleLoginRequest(request, response) {
 
         // Verific datele
         if(user.email == null || user.password == null){
-            request.statusCode = 400;
+            response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
             request.errorMessage = "Request-ul de tip POST primit la pagina /login nu este unul valid!";
             return errorRoute(request, response);
@@ -89,7 +89,7 @@ function handleLoginRequest(request, response) {
         if(user.lastname == null || user.firstname == null || 
             user.email == null || user.password == null ||
             user.url == null) {
-                request.statusCode = 400;
+                response.statusCode = 400;
                 request.statusCodeMessage = "Bad Request";
                 request.errorMessage = "Request-ul de tip POST primit la pagina /register nu este unul valid!";
                 return errorRoute(request, response);

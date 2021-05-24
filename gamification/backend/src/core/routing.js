@@ -71,7 +71,7 @@ const routing = (request, response) => {
             }
 
             // 404 Not found 
-            request.statusCode = 404;
+            response.statusCode = 404;
             request.statusCodeMessage = "Not Found";
             request.errorMessage = "Nu am gasit pagina pe care incerci sa o accesezi!";
             return errorRoute(request, response);

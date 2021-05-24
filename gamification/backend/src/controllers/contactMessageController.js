@@ -26,7 +26,7 @@ function handleContactRequest(request, response) {
 
         // Verific datele
         if(message.name == null || message.email == null || message.text == null){
-            request.statusCode = 400;
+            response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
             request.errorMessage = "Request-ul de tip POST primit la pagina / nu este unul valid!";
             return errorRoute(request, response);
