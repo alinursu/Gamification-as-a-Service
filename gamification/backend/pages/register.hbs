@@ -1,20 +1,48 @@
 <div id="body-div">
-    {{!-- TODO: Make form work (method POST/GET ? + action) --}}
-    <form method="post" action="/">
+    {{#if errorMessage}}
+        <h2 id="error-message-register">{{errorMessage}}</h2>
+    {{/if}}
+
+    <form method="post" action="/register">
         <label for="lastname">Nume:</label>
-        <input type="text" id="lastname" name="lastname"> 
+        {{#if previousLastnameValue}}
+            <input type="text" id="lastname" name="lastname" value="{{previousLastnameValue}}"> 
+        {{else}}
+            <input type="text" id="lastname" name="lastname"> 
+        {{/if}} 
+
         <br>
+
         <label for="firstname">Prenume:</label>
-        <input type="text" id="firstname" name="firstname"> 
+        {{#if previousFirstnameValue}}
+            <input type="text" id="firstname" name="firstname" value="{{previousFirstnameValue}}">
+        {{else}}
+            <input type="text" id="firstname" name="firstname">
+        {{/if}} 
+
         <br>
+        
         <label for="email">Adresa de email:</label>
-        <input type="text" id="email" name="email"> 
+        {{#if previousEmailValue}}
+            <input type="text" id="email" name="email" value="{{previousEmailValue}}"> 
+        {{else}}
+            <input type="text" id="email" name="email"> 
+        {{/if}} 
+
+        
         <br>
         <label for="password">Parola:</label>
         <input type="password" id="password" name="password">
+
         <br>
+        
         <label for="weburl">Adresa site-ului web în care doriți să integrați sistemul de recompense:</label>
-        <input type="text" id="weburl" name="weburl"> 
+        {{#if previousUrlValue}}
+            <input type="text" id="weburl" name="weburl" value="{{previousUrlValue}}">
+        {{else}}
+            <input type="text" id="weburl" name="weburl">
+        {{/if}} 
+
         <br>
         
         <div>

@@ -3,34 +3,41 @@ const loginRoute = require('../routes/login');
 const registerRoute = require('../routes/register');
 const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
+const errorRoute = require("../routes/error");
+
 const userController = require('../controllers/userController');
+const contactMessageController = require('../controllers/contactMessageController');
 
 const staticServe = require('node-static');
 const path = require('path');
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 });
 
-// TODO: header cand esti logat
-
 /**
- * Handles the routing.
- * @param {*} request The given request. 
- * @param {*} response The response based on the request.
- * @returns The rendered page.
+ * Face rutarea.
+ * @param {*} request Request-ul dat.
+ * @param {*} response Raspunsul dat de server.
+ * @returns Pagina generata.
  */
 const routing = (request, response) => {
     const url = request.url;
 
-    // Handling POST requests
+    // Request-uri de tip POST
     if(request.method == 'POST') {
         switch (url) {
+            case '/':
+                return contactMessageController.handleContactRequest(request, response);
+
             case '/login':
                 return userController.handleLoginRequest(request, response);
+
+            case '/register':
+                return userController.handleRegisterRequest(request, response);
         }
     }
 
-    // Handling custom GET requests
+    // Request-uri custom de tip GET
 
-    // Routes
+    // Rutari
     switch (url) {
         case '/':
             return indexRoute(request, response);
@@ -48,24 +55,26 @@ const routing = (request, response) => {
             return profileRoute(request, response);
 
         default: {
-            // CSS routes
+            // Rutari CSS
             if(url.toString().substr(0, 8) === '/styles/') {
                 return file.serve(request, response)
             }
 
-            // Image routes
+            // Rutari pentru imagini
             if(url.toString().substr(0, 8) === '/images/') {
                 return file.serve(request, response);
             }
 
-            // JS routes
+            // Rutari client-side JS
             if(url.toString().substr(0, 4) === '/js/') {
                 return file.serve(request, response);
             }
 
             // 404 Not found 
-            response.write('<h1>404<h1>');
-            response.end();
+            request.statusCode = 404;
+            request.statusCodeMessage = "Not Found";
+            request.errorMessage = "Nu am gasit pagina pe care incerci sa o accesezi!";
+            return errorRoute(request, response);
         }
 
     }

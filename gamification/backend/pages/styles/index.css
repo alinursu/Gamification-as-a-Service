@@ -178,6 +178,13 @@
     margin-bottom: 3em;
 }
 
+#error-message-index {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: red;
+}
+
 #contact-div > p {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #423788;
@@ -187,7 +194,7 @@
     margin-top: 0.5em;
 }
 
-#contact-form > * {
+#contact_form > * {
     margin: 0.5em;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #423788;
@@ -195,8 +202,12 @@
     box-shadow: 2px 2px 4px #000000;
 }
 
-#contact-name, #contact-email {
+#contact_name, #contact_email {
     min-width: 174px;
+}
+
+#contact_name:focus, #contact_email:focus, #contact_message:focus {
+    outline: none;
 }
 
 #contact-submit {

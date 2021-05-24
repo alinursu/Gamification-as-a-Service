@@ -2,10 +2,10 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 /**
- * Generates the register HTML page, based on profile.hbs, head.hbs, header.hbs and footer.hbs.
- * @param {*} request The given request.
- * @param {*} response The response based on the given request.
- * @returns The rendered page.
+ * Genereaza pagina HTML pentru un profil, folosind fisierele profile.hbs, head.hbs, header.hbs si footer.hbs.
+ * @param {*} request Request-ul primit
+ * @param {*} response Raspunsul dat pentru request.
+ * @returns Pagina generata.
  */
 const profileRoute = (request, response) => {
     const paths = {
@@ -19,7 +19,13 @@ const profileRoute = (request, response) => {
         title: 'Gamification as a Service',
         styles: ['profile']
     }, (data) => {
-        response.writeHead(200, {'Content-Type': 'text/html'});
+        var statusCode = response.statusCode;
+        if(statusCode != null) {
+            response.writeHead(statusCode, {'Content-Type': 'text/html'});
+        }
+        else {
+            response.writeHead(200, {'Content-Type': 'text/html'});
+        }
         response.write(data);
 
         return renderPage(paths.header, null, (data) => {

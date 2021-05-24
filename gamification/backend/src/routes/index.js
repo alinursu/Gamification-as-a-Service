@@ -2,10 +2,10 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 /**
- * Generates the index HTML page, based on index.hbs, head.hbs, header.hbs and footer.hbs.
- * @param {*} request The given request.
- * @param {*} response The response based on the given request.
- * @returns The rendered page.
+ * Genereaza pagina HTML index, folosind fisierele index.hbs, head.hbs, header.hbs si footer.hbs.
+ * @param {*} request Request-ul primit
+ * @param {*} response Raspunsul dat pentru request.
+ * @returns Pagina generata.
  */
 const indexRoute = (request, response) => {
     // TODO: <doctype html5> (to all pages)
@@ -23,14 +23,25 @@ const indexRoute = (request, response) => {
     return renderPage(paths.head, {
         title: 'Gamification as a Service',
         styles: ['index']
-                                }, (data) => {
-        response.writeHead(200, {'Content-Type': 'text/html'});
+    }, (data) => {
+        var statusCode = response.statusCode;
+        if(statusCode != null) {
+            response.writeHead(statusCode, {'Content-Type': 'text/html'});
+        }
+        else {
+            response.writeHead(200, {'Content-Type': 'text/html'});
+        }
         response.write(data);
 
         return renderPage(paths.header, null, (data) => {
             response.write(data);
 
-            return renderPage(paths.index, null, (data) => {
+            return renderPage(paths.index, {
+                errorMessage: request.errorMessage,
+                previousNameValue: request.previousNameValue,
+                previousEmailValue: request.previousEmailValue,
+                previousTextValue: request.previousTextValue
+            }, (data) => {
                 response.write(data);
 
                 return renderPage(paths.footer, {

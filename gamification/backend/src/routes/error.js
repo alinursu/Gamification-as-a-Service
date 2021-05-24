@@ -2,22 +2,22 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 /**
- * Genereaza pagina HTML pentru documentatie, folosind fisierele documentation.hbs, head.hbs, header.hbs si footer.hbs.
+ * Genereaza pagina HTML pentru eroare, folosind fisierele error.hbs, head.hbs, header.hbs si footer.hbs.
  * @param {*} request Request-ul primit
  * @param {*} response Raspunsul dat pentru request.
  * @returns Pagina generata.
  */
-const documentationRoute = (request, response) => {
+const errorRoute = (request, response) => {
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
         header: path.join(__dirname, '../../pages/common/header.hbs'),
-        index: path.join(__dirname, '../../pages/documentation.hbs'),
+        index: path.join(__dirname, '../../pages/error.hbs'),
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
     return renderPage(paths.head, {
         title: 'Gamification as a Service',
-        styles: ['documentation']
+        styles: ['error']
     }, (data) => {
         var statusCode = response.statusCode;
         if(statusCode != null) {
@@ -31,7 +31,11 @@ const documentationRoute = (request, response) => {
         return renderPage(paths.header, null, (data) => {
             response.write(data);
 
-            return renderPage(paths.index, null, (data) => {
+            return renderPage(paths.index, {
+                statusCode: request.statusCode,
+                statusCodeMessage: request.statusCodeMessage,
+                errorMessage: request.errorMessage
+            }, (data) => {
                 response.write(data);
 
                 return renderPage(paths.footer, null, (data) => {
@@ -44,4 +48,4 @@ const documentationRoute = (request, response) => {
     })
 }
 
-module.exports = documentationRoute;
+module.exports = errorRoute;

@@ -1,10 +1,10 @@
 const routing = require('./routing')
 
 /**
- * Routing request handler.
- * @param {*} request The given request.
- * @param {*} response The response based on the request.
- * @returns The rendered HTML page.
+ * Ruteaza request-ul.
+ * @param {*} request Request-ul primit.
+ * @param {*} response Raspunsul dat de server.
+ * @returns Pagina HTML generata.
  */
 const requestHandler = (request, response) => {
     return routing(request, response);

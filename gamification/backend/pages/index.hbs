@@ -61,7 +61,6 @@
         <div id="documentation-real-div">
             <p>Consultă întregul proces de integrare a API-ului la pagina următoare:</p>
             
-            {{!-- TODO: Routing --}}
             <button type="button" onclick=""><a href="/documentation" style="text-decoration: none; color: #ffffff;">DOCUMENTAȚIE</a></button>
         </div>
      </div>
@@ -69,16 +68,35 @@
      <a id="contact-anchor"></a>
 
      <div id="contact-div">
+        {{#if errorMessage}}
+            <h2 id="error-message-index">{{errorMessage}}</h2>
+        {{/if}}
+
         <p>
             Pentru mai multe detalii sau în cazul în care întâmpini probleme, contactează-ne:
         </p>
 
-        {{!-- TODO: POST method + action --}}
-        <form id="contact-form" method="post" action="/">
-            <input type="text" id="contact-name" name="contact-name" placeholder="Nume">
-            <input type="text" id="contact-email" name="contact-email" placeholder="Adresă de email">
+        <form id="contact_form" method="post" action="/">
+            {{#if previousNameValue}}
+                <input type="text" id="contact_name" name="contact_name" placeholder="Nume" value="{{previousNameValue}}">
+            {{else}}
+                <input type="text" id="contact_name" name="contact_name" placeholder="Nume">
+            {{/if}}
+
+            {{#if previousEmailValue}}
+                <input type="text" id="contact_email" name="contact_email" placeholder="Adresă de email" value="{{previousEmailValue}}">
+            {{else}}
+                <input type="text" id="contact_email" name="contact_email" placeholder="Adresă de email">
+            {{/if}}
+            
             <br>
-            <textarea name="contact-mesage" cols="40" rows="5" placeholder="Mesaj..."></textarea>
+            
+            {{#if previousTextValue}}
+                <textarea name="contact_message" cols="40" rows="5" placeholder="Mesaj...">{{previousTextValue}}</textarea>
+            {{else}}
+                <textarea name="contact_message" cols="40" rows="5" placeholder="Mesaj..."></textarea>
+            {{/if}}
+            
             <br>
 
             <div style="width:100%; display:flex; border: none; box-shadow: none;">
