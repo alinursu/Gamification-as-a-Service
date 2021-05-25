@@ -34,14 +34,14 @@ span {
     margin-top: 10px;
 }
 
-#name{
+.name{
     width: 80%;
     height: 30px;
     border:none;
     border-radius: 10px;
 }
 
-#nume-rec{
+.nume-rec{
     font-size: 17px;
     font-weight: bold;
 }

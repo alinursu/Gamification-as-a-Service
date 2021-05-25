@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node node_modules/nodemon/bin/nodemon.js app.js"
+    "dev": "node node_modules/nodemon/bin/nodemon.js app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "handlebars": "^4.7.7",
+    "mysql": "^2.18.1",
     "node-static": "^0.7.11"
   },
   "devDependencies": {

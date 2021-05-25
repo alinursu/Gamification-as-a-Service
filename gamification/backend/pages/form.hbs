@@ -2,21 +2,23 @@
     <span>
         Creează un sistem de recompense!
     </span>
-    <div class="card-form">
-        <form>
+    <form id="rec-form">
+        <div class="card-form">
             <p>Selectează tipul de recompensă!</p>
-            <input type="radio" id="badge" name="alegere">
-            <label for="badge">Badge</label> <br>
-            <input type="radio" id="levels" name="alegere">
-            <label for="levels">Nivele</label> <br>
-            <label for="name" id="nume-rec">Nume recompensă:</label> <br>
-            <input type="text" id="name" name="recompensă">
+            <input type="radio" id="badge1" name="alegere1">
+            <label for="badge1">Badge</label> <br>
+            <input type="radio" id="levels1" name="alegere1">
+            <label for="levels1">Nivele</label> <br>
+            <label for="name" class="nume-rec" id="nume-rec1">Nume recompensă:</label> <br>
+            <input type="text" class="name" id="nume-rec1" name="recompensă">
             <br>
-        </form>
-    </div>
+        </div>
+    </form>
     <div class="add">
-        <button type="button"> +</button>
+        <button type="button" id="add-btn"> +</button>
     </div>
 </div>
+
+<script src="js/form.js"></script>
 
 

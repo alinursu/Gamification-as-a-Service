@@ -4,6 +4,7 @@ const registerRoute = require('../routes/register');
 const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
 const errorRoute = require("../routes/error");
+const formRoute = require("../routes/form");
 
 const userController = require('../controllers/userController');
 const contactMessageController = require('../controllers/contactMessageController');
@@ -191,6 +192,19 @@ const routing = (request, response) => {
                 return profileRoute(request, response);
             }
             
+            // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+            response.statusCode = 403;
+            request.statusCodeMessage = "Forbidden";
+            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+            response.setHeader('Location', '/error');
+            return errorRoute(request, response);
+        }
+
+        case '/form': {
+            // if(cookies.authToken != null) {
+                return formRoute(request, response);
+            // }
+
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
             response.statusCode = 403;
             request.statusCodeMessage = "Forbidden";
