@@ -1,16 +1,20 @@
 const renderPage = require("../core/render");
+
 const path = require("path");
+var cookie = require('cookie');
 
 /**
  * Genereaza pagina HTML pentru un profil, folosind fisierele profile.hbs, head.hbs, header.hbs si footer.hbs.
  * @param {*} request Request-ul primit
  * @param {*} response Raspunsul dat pentru request.
- * @returns Pagina generata.
  */
 const profileRoute = (request, response) => {
+    var cookies = cookie.parse(request.headers.cookie || '');
+
+    // TODO: Nu poate fi accesat daca nu esti logat!
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
-        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        header: path.join(__dirname, '../../pages/common/header_logged.hbs'),
         index: path.join(__dirname, '../../pages/profile.hbs'),
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
@@ -28,10 +32,15 @@ const profileRoute = (request, response) => {
         }
         response.write(data);
 
+        // TODO: If cookies.loginToken is present(!= null), get info from database and display in page
         return renderPage(paths.header, null, (data) => {
             response.write(data);
 
-            return renderPage(paths.index, null, (data) => {
+            return renderPage(paths.index, {
+                errorMessage: request.errorMessage,
+                successMessage: request.successMessage,
+                previousURLValue: request.previousURLValue
+            }, (data) => {
                 response.write(data);
 
                 return renderPage(paths.footer, {

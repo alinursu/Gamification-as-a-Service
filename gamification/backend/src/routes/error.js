@@ -1,16 +1,19 @@
 const renderPage = require("../core/render");
+
 const path = require("path");
+var cookie = require('cookie');
 
 /**
  * Genereaza pagina HTML pentru eroare, folosind fisierele error.hbs, head.hbs, header.hbs si footer.hbs.
  * @param {*} request Request-ul primit
  * @param {*} response Raspunsul dat pentru request.
- * @returns Pagina generata.
  */
 const errorRoute = (request, response) => {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
-        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        header: ((cookies.authToken == null) ? path.join(__dirname, '../../pages/common/header.hbs') : path.join(__dirname, '../../pages/common/header_logged.hbs')),
         index: path.join(__dirname, '../../pages/error.hbs'),
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
@@ -28,11 +31,12 @@ const errorRoute = (request, response) => {
         }
         response.write(data);
 
+        // TODO: If cookies.loginToken is present(!= null), get info from database and display in page
         return renderPage(paths.header, null, (data) => {
             response.write(data);
 
             return renderPage(paths.index, {
-                statusCode: request.statusCode,
+                statusCode: response.statusCode,
                 statusCodeMessage: request.statusCodeMessage,
                 errorMessage: request.errorMessage
             }, (data) => {

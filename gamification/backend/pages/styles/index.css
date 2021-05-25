@@ -185,6 +185,13 @@
     color: red;
 }
 
+#success-message-index {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: green;
+}
+
 #contact-div > p {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #423788;

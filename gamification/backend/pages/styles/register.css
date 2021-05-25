@@ -14,6 +14,12 @@
     color: red;
 }
 
+#success-message-register {
+    margin-bottom: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: green;
+}
+
 #body-div > form > * {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #423788;

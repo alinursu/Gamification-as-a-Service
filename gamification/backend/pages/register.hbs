@@ -3,6 +3,10 @@
         <h2 id="error-message-register">{{errorMessage}}</h2>
     {{/if}}
 
+    {{#if successMessage}}
+        <h2 id="success-message-register">{{successMessage}}</h2>
+    {{/if}}
+
     <form method="post" action="/register">
         <label for="lastname">Nume:</label>
         {{#if previousLastnameValue}}

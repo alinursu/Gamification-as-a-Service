@@ -1,5 +1,13 @@
 {{!-- TODO: Fill the informations with the right data after a request --}}
  <div id="body-div">
+     {{#if errorMessage}}
+        <h2 id="error-profile">{{errorMessage}}</h2>
+     {{/if}}
+
+     {{#if successMessage}}
+        <h2 id="success-profile">{{successMessage}}</h2>
+     {{/if}}
+     
      <div id="container-div">
         <div id="left-part-div">
             <div class="left-part-row-div">
@@ -16,10 +24,9 @@
 
             <div class="horizontal-line"></div>
 
-            {{!-- TODO: Create action for logout button --}}
             <div class="left-part-row-div">
                 <img alt="" src="/images/logout-icon.png" style="width: 30px; margin-right: 0.3em;">
-                <button class="left-part-row-button" type="button" onclick="/">DECONECTARE</button>
+                <button class="left-part-row-button" type="button" onclick="location.href = '/logout'">DECONECTARE</button>
             </div>
         </div>
 
@@ -61,10 +68,13 @@
                 <div class="settings-menu-row">
                     <h2>Modifică adresa site-ului web</h2>
 
-                    {{!-- TODO: POST/PUT (update) the url --}}
-                    <form method="put" action="/profile">
-                        <input type="text" id="url" name="url" value="http://www.google.com/">
-                        <input type="submit" id="submit-url" name="submit-url" value="Modifică">
+                    <form method="post" action="/profile/change_url">
+                        {{#if previousURLValue}}
+                            <input type="text" id="new_url" name="new_url" placeholder="Adresa site-ului web" value="{{previousURLValue}}">
+                        {{else}}
+                            <input type="text" id="new_url" name="new_url" placeholder="Adresa site-ului web" value="http://www.google.com/">
+                        {{/if}}
+                        <input type="submit" id="submit_url" name="submit_url" value="Modifică">
                     </form>
                 </div>
 
@@ -73,11 +83,10 @@
                 <div class="settings-menu-row">
                     <h2>Modifică parola contului</h2>
 
-                    {{!-- TODO: POST/PUT (update) the password --}}
-                    <form method="put" action="/profile">
-                        <input type="password" id="old-password" name="old-password" placeholder="Parola veche">
-                        <input type="password" id="new-password" name="new-password" placeholder="Parola nouă">
-                        <input type="submit" id="submit-url" name="submit-url" value="Modifică">
+                    <form method="post" action="/profile/change_password">
+                        <input type="password" id="old_password" name="old_password" placeholder="Parola veche">
+                        <input type="password" id="new_password" name="new_password" placeholder="Parola nouă">
+                        <input type="submit" id="submit_pwd" name="submit_pwd" value="Modifică">
                     </form>
                 </div>
             </div>

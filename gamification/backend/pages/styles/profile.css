@@ -8,6 +8,18 @@
     margin-bottom: 2em;
 }
 
+#error-profile {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: red;
+    margin-bottom: 0.5em;
+}
+
+#success-profile {
+    font-family: "Comic Sans MS", "Comic Sans", cursive; 
+    color: green;
+    margin-bottom: 0.5em;
+}
+
 #container-div {
     width: 80%;
     border: 5px solid #423788;

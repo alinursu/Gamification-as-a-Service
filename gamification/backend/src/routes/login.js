@@ -5,7 +5,6 @@ const path = require("path");
  * Genereaza pagina HTML pentru autentificare, folosind fisierele login.hbs, head.hbs, header.hbs si footer.hbs.
  * @param {*} request Request-ul primit
  * @param {*} response Raspunsul dat pentru request.
- * @returns Pagina generata.
  */
 const loginRoute = (request, response) => {
     const paths = {

@@ -5,7 +5,6 @@ const path = require("path");
  * Genereaza pagina HTML pentru inregistrare, folosind fisierele register.hbs, head.hbs, header.hbs si footer.hbs.
  * @param {*} request Request-ul primit
  * @param {*} response Raspunsul dat pentru request.
- * @returns Pagina generata.
  */
 const registerRoute = (request, response) => {
     const paths = {
@@ -33,6 +32,7 @@ const registerRoute = (request, response) => {
 
             return renderPage(paths.index, {
                 errorMessage: request.errorMessage,
+                successMessage: request.successMessage,
                 previousLastnameValue: request.previousLastnameValue,
                 previousFirstnameValue: request.previousFirstnameValue,
                 previousEmailValue: request.previousEmailValue,
