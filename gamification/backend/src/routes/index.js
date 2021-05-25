@@ -19,7 +19,7 @@ const indexRoute = (request, response) => {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
         header: ((cookies.authToken == null) ? path.join(__dirname, '../../pages/common/header.hbs') : path.join(__dirname, '../../pages/common/header_logged.hbs')),
         index: path.join(__dirname, '../../pages/index.hbs'),
-        footer: path.join(__dirname, '../../pages/common/footer.hbs')
+        footer: ((cookies.authToken == null) ? path.join(__dirname, '../../pages/common/footer.hbs') : path.join(__dirname, '../../pages/common/footer_logged.hbs'))
     }
 
     return renderPage(paths.head, {

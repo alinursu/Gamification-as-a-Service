@@ -1,0 +1,35 @@
+<footer>
+    <div id="footer-div">
+        <div id="footer-info-div">
+            <div style="display: flex; flex-direction: row;">
+                <img src="/images/common/logo_magenta.png" style="max-width: 50px">
+                <p id="logo-text-footer">GamS</p>
+            </div>
+            <p id="footer-info-definition">GamS oferă un serviciu de API extern ce controlează un sistem de recompense pentru aplicația dumneavoastră.</p>
+            
+        </div>
+
+        <div id="footer-navigation-div">
+            <p id="footer-navigation-title">Link-uri rapide:</p>
+            <a href="/#services-anchor" class="footer-navigation-text">Servicii</a>
+            <a href="/#documentation-anchor" class="footer-navigation-text">Documentație</a>
+            <a href="/#contact-anchor" class="footer-navigation-text">Contactează-ne</a>
+        </div>
+
+        <div id="footer-user-div">
+            <div id="footer-info-creators">
+                <p class="footer-info-creator-text" style="margin-bottom: 0.5em;">Tehnologii Web (2020-2021)</p>
+                <p class="footer-info-creator-text">Bejan Luciana - 2B4</p>
+                <p class="footer-info-creator-text">Sofrone Mircea - 2A6</p>
+                <p class="footer-info-creator-text">Ursu Alin - 2B4</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="/js/stickyHeader.js"></script>
+<script type="text/javascript" src="/js/burgermenu.js"></script>
+
+{{#each client_js}}
+        <script type="text/javascript" src="/js/{{this}}.js"></script>
+{{/each}}

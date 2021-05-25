@@ -16,7 +16,7 @@ const profileRoute = (request, response) => {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
         header: path.join(__dirname, '../../pages/common/header_logged.hbs'),
         index: path.join(__dirname, '../../pages/profile.hbs'),
-        footer: path.join(__dirname, '../../pages/common/footer.hbs')
+        footer: path.join(__dirname, '../../pages/common/footer_logged.hbs')
     }
 
     return renderPage(paths.head, {

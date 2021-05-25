@@ -38,14 +38,14 @@ function verifyPresenceOfLoginCredentials(userModel, request, response) {
     }
 
     if(userModel.email.length == 0) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Câmpul adresei de email nu poate fi gol!";
         loginRoute(request, response);
         return 0;
     }
 
     if(userModel.password.length == 0) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Câmpul parolei nu poate fi gol!";
         request.previousEmailValue = userModel.email;
         loginRoute(request, response);
@@ -64,7 +64,7 @@ function verifyPresenceOfLoginCredentials(userModel, request, response) {
  */
 function validateLoginCredentials(userModel, request, response) {
     if(!/[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/.test(userModel.email)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Adresa de email nu este validă!";
         request.previousEmailValue = userModel.email;
         loginRoute(request, response);
@@ -115,7 +115,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
     }
 
     if(userModel.lastname.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
         request.previousEmailValue = userModel.email;
@@ -126,7 +126,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
     }
 
     if(userModel.firstname.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
         request.previousEmailValue = userModel.email;
@@ -137,7 +137,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
     }
 
     if(userModel.email.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
         request.previousEmailValue = userModel.email;
@@ -148,7 +148,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
     }
 
     if(userModel.password.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
         request.previousEmailValue = userModel.email;
@@ -159,7 +159,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
     }
 
     if(userModel.url.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
         request.previousEmailValue = userModel.email;
@@ -181,7 +181,7 @@ function generateAuthCookie(expiresIn24Hours, request, response) {
  */
 function validateRegisterCredentials(userModel, request, response) {
     if(!/^[A-Za-z]+$/.test(userModel.lastname)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Numele nu este valid!";
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
@@ -192,7 +192,7 @@ function validateRegisterCredentials(userModel, request, response) {
     }
 
     if(!/^[A-Za-z]+$/.test(userModel.firstname)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Prenumele nu este valid!";
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
@@ -203,7 +203,7 @@ function validateRegisterCredentials(userModel, request, response) {
     }
 
     if(!/[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/.test(userModel.email)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Adresa de email nu este validă!";
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
@@ -214,7 +214,7 @@ function validateRegisterCredentials(userModel, request, response) {
     }
 
     if(userModel.password.length < 6) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Parola trebuie să conțină cel puțin 6 caractere!";
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
@@ -225,7 +225,7 @@ function validateRegisterCredentials(userModel, request, response) {
     }
 
     if(!/^((http|https):\/\/)?[A-Za-z]+\.([A-Za-z]+\.|[A-Za-z]+)+[\/]?[[A-Za-z0-9/.=+?"'!@#$%^&*() -_]*]?$/.test(userModel.url)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Adresa site-ului web nu este validă!";
         request.previousLastnameValue = userModel.lastname;
         request.previousFirstnameValue = userModel.firstname;
@@ -256,7 +256,7 @@ function validateRegisterCredentials(userModel, request, response) {
     }
 
     if(userModel.url.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Câmpul adresei site-ului web nu poate fi gol!";
         request.previousURLValue = previousURL;
         profileRoute(request, response);
@@ -275,7 +275,7 @@ function validateRegisterCredentials(userModel, request, response) {
  */
 function validateChangeURLCredentials(userModel, request, response) {
     if(!/^((http|https):\/\/)?[A-Za-z]+\.([A-Za-z]+\.|[A-Za-z]+)+[\/]?[[A-Za-z0-9/.=+?"'!@#$%^&*() -_]*]?$/.test(userModel.url)) {
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Adresa site-ului web nu este validă!";
         request.previousURLValue = userModel.url;
         profileRoute(request, response);
@@ -294,13 +294,6 @@ function validateChangeURLCredentials(userModel, request, response) {
  * @returns 1, daca am primit destule informatii; 0, altfel
  */
  function verifyPresenceOfChangePasswordCredentials(oldPassword, userModel, request, response) {
-    if(oldPassword.length == 0) {
-        response.statusCode = 401; // 401 - Unauthorized
-        request.errorMessage = "Câmpul pentru parola veche nu poate fi gol!";
-        profileRoute(request, response);
-        return 0;
-    }
-    
     if(userModel.password == null) {
         response.statusCode = 400;
         request.statusCodeMessage = "Bad Request";
@@ -309,8 +302,15 @@ function validateChangeURLCredentials(userModel, request, response) {
         return 0;
     }
 
+    if(oldPassword.length == 0) {
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
+        request.errorMessage = "Câmpul pentru parola veche nu poate fi gol!";
+        profileRoute(request, response);
+        return 0;
+    }
+
     if(userModel.password.length == 0){
-        response.statusCode = 401; // 401 - Unauthorized
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Câmpul pentru parola nouă nu poate fi gol!";
         profileRoute(request, response);
         return 0;
