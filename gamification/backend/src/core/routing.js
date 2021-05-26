@@ -20,7 +20,7 @@ const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cach
  * @param {*} response Raspunsul dat de server.
  * @returns Pagina generata.
  */
-const routing = (request, response) => {
+const routing = async (request, response) => {
     const url = request.url;
     var cookies = cookie.parse(request.headers.cookie || '');
 

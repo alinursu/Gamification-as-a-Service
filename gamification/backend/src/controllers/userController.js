@@ -4,7 +4,10 @@ var cookie = require('cookie');
 const UserModel = require('../models/User');
 const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
-const errorRoute = require('../routes/error');
+const loginRoute = require('../routes/login');
+const utils = require('../internal/utils');
+const usersRepository = require('../repositories/usersRepository');
+const tokensRepository = require('../repositories/tokensRepository');
 const {verifyPresenceOfLoginCredentials, validateLoginCredentials, generateAuthCookie, verifyPresenceOfRegisterCredentials, 
     validateRegisterCredentials, verifyPresenceOfChangeURLCredentials, validateChangeURLCredentials, 
     verifyPresenceOfChangePasswordCredentials, validateChangePasswordCredentials} = require('../services/userServices');
@@ -22,7 +25,7 @@ function handleLoginRequest(request, response) {
     });
 
     var parsedBody;
-    request.on('end', () => {
+    request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
@@ -42,12 +45,25 @@ function handleLoginRequest(request, response) {
         }
 
         // Verific daca modelul apare in baza de date 
-                                                                                            // TODO + preluare din DB
+        var databaseUserModel = null;
+        usersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
+            databaseUserModel = result;
+        });
+        await utils.timeout(1000);
+
+        if(databaseUserModel == null) {
+            response.statusCode = 401; // 401 - Unauthorized
+            request.errorMessage = "Adresa de email sau parola este incorectă!";
+            request.previousEmailValue = user.email;
+            loginRoute(request, response);
+            return;
+        }
 
         // Creez un cookie care sa pastreze utilizatorul autentificat
         var token = generateAuthCookie(parsedBody.rememberChckBox, request, response);
 
-        // TODO: Adaug token-ul in baza de date, impreuna cu userID, userFname si userLname
+        // Adaug token-ul in baza de date, impreuna cu user.id, user.firstname si user.lastname
+        tokensRepository.addTokenToDatabase(token, databaseUserModel);
 
         // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
         response.writeHead(307, {'Location': '/'});
@@ -68,7 +84,7 @@ function handleLoginRequest(request, response) {
     });
 
     var parsedBody;
-    request.on('end', () => {
+    request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
@@ -88,11 +104,26 @@ function handleLoginRequest(request, response) {
             return;
         }
 
-        // Verific daca modelul apare in baza de date
-                                                                                            // TODO
+        // Verific daca exista un model in baza de date cu email-ul introdus de client
+        var databaseResponse;
+        usersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
+            databaseResponse = result;
+        });
+        await utils.timeout(1000);
+
+        if(databaseResponse == 1) {
+            response.statusCode = 401; // 401 - Unauthorized
+            request.errorMessage = "Există un cont creat cu această adresă de email!";
+            request.previousLastnameValue = user.lastname;
+            request.previousFirstnameValue = user.firstname;
+            request.previousEmailValue = user.email;
+            request.previousUrlValue = user.url;
+            registerRoute(request, response);
+            return;
+        }
 
         // Adaug modelul in baza de date
-                                                                                            // TODO
+        usersRepository.insertUserModel(user);
 
         response.statusCode = 201;
         request.successMessage = "Contul a fost creat cu succes!";
@@ -118,7 +149,8 @@ function handleLoginRequest(request, response) {
         maxAge: 0
     }));
 
-    // TODO: Sterg token-ul din baza de date
+    // Sterg token-ul din baza de date
+    tokensRepository.deleteTokenFromDatabase(token);
 
     // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
     response.writeHead(307, {'Location': '/'});
@@ -131,6 +163,9 @@ function handleLoginRequest(request, response) {
  * @param {*} response Raspunsul dat de server.
  */
 function handleChangeURLRequest(request, response) {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
+
     // Citesc request body-ul
     let body = '';
     request.on('data', chunk => {
@@ -138,27 +173,40 @@ function handleChangeURLRequest(request, response) {
     });
 
     var parsedBody;
-    request.on('end', () => {
+    request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
-        // TODO: preiau modelul din baza de date in functie de token
-        var previousURL = 'http://previous.url/'; // TODO: de luat din model
-        let user = new UserModel(null, null, null, null, null, parsedBody.new_url);
+        // Preiau modelul User din baza de date cu ajutorul token-ului
+        var userId;
+        tokensRepository.getUserIdByToken(token).then(function(result) {
+            userId = result;
+        });
+        await utils.timeout(1000);
+
+        var userModel;
+        usersRepository.getUserModelById(userId).then(function(result) {
+            userModel = result;
+        })
+        await utils.timeout(1000);
+
+        var previousURL = userModel.url;
+        userModel.url = parsedBody.new_url;
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfChangeURLCredentials(previousURL, user, request, response);
+        var serviceResponse = verifyPresenceOfChangeURLCredentials(previousURL, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateChangeURLCredentials(user, request, response);
+        var serviceResponse = validateChangeURLCredentials(userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
-        // TODO: Fac update in baza de date
+        // Fac update in baza de date
+        usersRepository.updateUserModelURL(userModel);
 
         request.successMessage = "Adresa site-ului web a fost modificată cu succes!";
         return profileRoute(request, response);
@@ -171,6 +219,9 @@ function handleChangeURLRequest(request, response) {
  * @param {*} response Raspunsul dat de server.
  */
  function handleChangePasswordRequest(request, response) {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
+
     // Citesc request body-ul
     let body = '';
     request.on('data', chunk => {
@@ -178,26 +229,40 @@ function handleChangeURLRequest(request, response) {
     });
 
     var parsedBody;
-    request.on('end', () => {
+    request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
-        // TODO: preiau modelul din baza de date in functie de token
-        let user = new UserModel(null, null, null, null, parsedBody.new_password, null);
+        // Preiau modelul User din baza de date cu ajutorul token-ului
+        var userId;
+        tokensRepository.getUserIdByToken(token).then(function(result) {
+            userId = result;
+        });
+        await utils.timeout(1000);
+
+        var userModel;
+        usersRepository.getUserModelById(userId).then(function(result) {
+            userModel = result;
+        })
+        await utils.timeout(1000);
+
+        var dbOldPassword = userModel.password;
+        userModel.password = parsedBody.new_password;
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, user, request, response);
+        var serviceResponse = verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateChangePasswordCredentials(parsedBody.old_password, user, request, response);
+        var serviceResponse = validateChangePasswordCredentials(parsedBody.old_password, dbOldPassword, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
-        // TODO: Fac update in baza de date
+        // Fac update in baza de date
+        usersRepository.updateUserModelPassword(userModel);
 
         request.successMessage = "Parola a fost modificată cu succes!";
         return profileRoute(request, response);

@@ -2,6 +2,7 @@ const { parse } = require('querystring');
 
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
+const contactMessageRepository = require('../repositories/contactMessagesRepository');
 const { verifyPresenceOfContactMessageCredentials, validateContactMessageCredentials } = require('../services/contactMessageServices');
 
 
@@ -43,7 +44,7 @@ function handleContactRequest(request, response) {
         }
 
         // Adaug modelul in baza de date
-                                                                                            // TODO
+        contactMessageRepository.addContactMessageToDatabase(message);
 
         request.successMessage = "Mesajul a fost trimis cu succes!";
         return indexRoute(request, response);

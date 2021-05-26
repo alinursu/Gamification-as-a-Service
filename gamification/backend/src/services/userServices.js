@@ -322,19 +322,25 @@ function validateChangeURLCredentials(userModel, request, response) {
 /**
  * Verifica daca datele primite de la client pentru cererea de schimbare a parolei sunt valide. Daca nu sunt, va construi raspunsul.
  * @param {*} oldPassword Valoarea introdusa de utilizator in campul "Old Password".
+ * @param {*} dbOldPassword Parola veche, cea preluata din baza de date.
  * @param {*} userModel Modelul construit pe baza informatiilor primite de la client.
  * @param {*} request Cererea primita de la client.
  * @param {*} response Raspunsul dat de server.
  * @returns 1, daca datele sunt valide; 0, altfel
  */
-function validateChangePasswordCredentials(oldPassword, userModel, request, response) {
-    // TODO: verifica daca parola veche coincide cu parola din model
+function validateChangePasswordCredentials(oldPassword, dbOldPassword, userModel, request, response) {
+    if(oldPassword != dbOldPassword) {
+        response.statusCode = 401; // 401 - Unauthorized
+        request.errorMessage = "Parola veche nu este corectă!";
+        profileRoute(request, response);
+        return 0;
+    }
 
     if(userModel.password.length < 6) {
-            response.statusCode = 401; // 401 - Unauthorized
-            request.errorMessage = "Noua parolă trebuie să conțină cel puțin 6 caractere!";
-            profileRoute(request, response);
-            return 0;
+        response.statusCode = 401; // 401 - Unauthorized
+        request.errorMessage = "Noua parolă trebuie să conțină cel puțin 6 caractere!";
+        profileRoute(request, response);
+        return 0;
     }
 
     return 1;
