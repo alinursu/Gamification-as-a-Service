@@ -7,10 +7,12 @@ const errorRoute = require("../routes/error");
 const formRoute = require("../routes/form");
 
 const userController = require('../controllers/userController');
+const tokenController = require('../controllers/tokenController');
 const contactMessageController = require('../controllers/contactMessageController');
 
 const staticServe = require('node-static');
 const path = require('path');
+const utils = require('../internal/utils');
 var cookie = require('cookie');
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 });
 
@@ -23,6 +25,24 @@ const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cach
 const routing = async (request, response) => {
     const url = request.url;
     var cookies = cookie.parse(request.headers.cookie || '');
+    
+    if(!url.startsWith('/styles/') && !url.startsWith('/images/') && !url.startsWith('/js/')) {
+        // Daca utilizatorul este autentificat, preiau date despre contul acestuia din baza de date, date pe care le voi afisa in pagina
+        request.userFullName = null;
+        request.userURL = null;
+        if(cookies.authToken != null) {
+            var userModel;
+            userController.getUserModelByToken(cookies.authToken).then(function(result) {
+                userModel = result;
+            });
+
+            while(userModel == null) {
+                await utils.timeout(10);
+            }
+            request.userFullName = userModel.firstname + " " + userModel.lastname;
+            request.userURL = userModel.url;
+        }
+    }
 
     // Request-uri de tip PUT
     if(request.method == 'PUT') {
@@ -120,6 +140,9 @@ const routing = async (request, response) => {
     // Rutari (request-uri de tip GET pentru resurse)
     switch (url) {
         case '/': {
+            // Sterg din baza de date tokenii care au expirat (stergere periodica, de fiecare data cand cineva acceseaza homepage)
+            tokenController.deleteAllExpiredTokens();
+
             return indexRoute(request, response);
         }
             
@@ -215,17 +238,17 @@ const routing = async (request, response) => {
 
         default: {
             // Rutari CSS
-            if(url.toString().substr(0, 8) === '/styles/') {
+            if(url.startsWith('/styles/')) {
                 return file.serve(request, response)
             }
 
             // Rutari pentru imagini
-            if(url.toString().substr(0, 8) === '/images/') {
+            if(url.startsWith('/images/')) {
                 return file.serve(request, response);
             }
 
             // Rutari client-side JS
-            if(url.toString().substr(0, 4) === '/js/') {
+            if(url.startsWith('/js/')) {
                 return file.serve(request, response);
             }
 

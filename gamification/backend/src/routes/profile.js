@@ -32,14 +32,17 @@ const profileRoute = (request, response) => {
         }
         response.write(data);
 
-        // TODO: If cookies.loginToken is present(!= null), get info from database and display in page
-        return renderPage(paths.header, null, (data) => {
+        return renderPage(paths.header, {
+            userFullName: request.userFullName
+        }, (data) => {
             response.write(data);
 
             return renderPage(paths.index, {
                 errorMessage: request.errorMessage,
                 successMessage: request.successMessage,
-                previousURLValue: request.previousURLValue
+                previousURLValue: request.previousURLValue,
+                userFullName: request.userFullName,
+                userURL: request.userURL
             }, (data) => {
                 response.write(data);
 

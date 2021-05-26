@@ -5,12 +5,28 @@ const UserModel = require('../models/User');
 const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
 const loginRoute = require('../routes/login');
-const utils = require('../internal/utils');
 const usersRepository = require('../repositories/usersRepository');
 const tokensRepository = require('../repositories/tokensRepository');
-const {verifyPresenceOfLoginCredentials, validateLoginCredentials, generateAuthCookie, verifyPresenceOfRegisterCredentials, 
-    validateRegisterCredentials, verifyPresenceOfChangeURLCredentials, validateChangeURLCredentials, 
-    verifyPresenceOfChangePasswordCredentials, validateChangePasswordCredentials} = require('../services/userServices');
+const userServices = require('../services/userServices');
+
+/**
+ * Preia din baza de date un model User pe baza unui token de autentificare.
+ * @param {*} token Token-ul dupa care se face cautarea.
+ * @returns Modelul User asociat token-ului de autentificare; null, daca nu exista unul
+ */
+async function getUserModelByToken(token) {
+    var userId;
+    await tokensRepository.getUserIdByToken(token).then(function(result) {
+        userId = result;
+    });
+
+    var userModel = null;
+    await usersRepository.getUserModelById(userId).then(function(result) {
+        userModel = result;
+    })
+
+    return userModel;
+}
 
 /**
  * Rezolva un request de tip POST facut la pagina /login.
@@ -33,23 +49,22 @@ function handleLoginRequest(request, response) {
         let user = new UserModel(null, null, null, parsedBody.email, parsedBody.password, null);
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfLoginCredentials(user, request, response);
+        var serviceResponse = userServices.verifyPresenceOfLoginCredentials(user, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateLoginCredentials(user, request, response);
+        var serviceResponse = userServices.validateLoginCredentials(user, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Verific daca modelul apare in baza de date 
         var databaseUserModel = null;
-        usersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
+        await usersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
             databaseUserModel = result;
         });
-        await utils.timeout(1000);
 
         if(databaseUserModel == null) {
             response.statusCode = 401; // 401 - Unauthorized
@@ -60,7 +75,7 @@ function handleLoginRequest(request, response) {
         }
 
         // Creez un cookie care sa pastreze utilizatorul autentificat
-        var token = generateAuthCookie(parsedBody.rememberChckBox, request, response);
+        var token = userServices.generateAuthCookie(parsedBody.rememberChckBox, request, response);
 
         // Adaug token-ul in baza de date, impreuna cu user.id, user.firstname si user.lastname
         tokensRepository.addTokenToDatabase(token, databaseUserModel);
@@ -93,23 +108,22 @@ function handleLoginRequest(request, response) {
             parsedBody.email, parsedBody.password, parsedBody.weburl);
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfRegisterCredentials(user, request, response);
+        var serviceResponse = userServices.verifyPresenceOfRegisterCredentials(user, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateRegisterCredentials(user, request, response);
+        var serviceResponse = userServices.validateRegisterCredentials(user, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Verific daca exista un model in baza de date cu email-ul introdus de client
         var databaseResponse;
-        usersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
+        await usersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
             databaseResponse = result;
         });
-        await utils.timeout(1000);
 
         if(databaseResponse == 1) {
             response.statusCode = 401; // 401 - Unauthorized
@@ -178,29 +192,22 @@ function handleChangeURLRequest(request, response) {
         parsedBody = parse(body);
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
-        var userId;
-        tokensRepository.getUserIdByToken(token).then(function(result) {
-            userId = result;
-        });
-        await utils.timeout(1000);
-
         var userModel;
-        usersRepository.getUserModelById(userId).then(function(result) {
+        getUserModelByToken(token).then(function(result) {
             userModel = result;
-        })
-        await utils.timeout(1000);
+        });
 
         var previousURL = userModel.url;
         userModel.url = parsedBody.new_url;
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfChangeURLCredentials(previousURL, userModel, request, response);
+        var serviceResponse = userServices.verifyPresenceOfChangeURLCredentials(previousURL, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateChangeURLCredentials(userModel, request, response);
+        var serviceResponse = userServices.validateChangeURLCredentials(userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
@@ -234,29 +241,22 @@ function handleChangeURLRequest(request, response) {
         parsedBody = parse(body);
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
-        var userId;
-        tokensRepository.getUserIdByToken(token).then(function(result) {
-            userId = result;
-        });
-        await utils.timeout(1000);
-
         var userModel;
-        usersRepository.getUserModelById(userId).then(function(result) {
+        getUserModelByToken(token).then(function(result) {
             userModel = result;
-        })
-        await utils.timeout(1000);
+        });
 
         var dbOldPassword = userModel.password;
         userModel.password = parsedBody.new_password;
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, userModel, request, response);
+        var serviceResponse = userServices.verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateChangePasswordCredentials(parsedBody.old_password, dbOldPassword, userModel, request, response);
+        var serviceResponse = userServices.validateChangePasswordCredentials(parsedBody.old_password, dbOldPassword, userModel, request, response);
         if(serviceResponse == 0) {
             return;
         }
@@ -269,4 +269,4 @@ function handleChangeURLRequest(request, response) {
     });    
 }
 
-module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest};
+module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, getUserModelByToken};

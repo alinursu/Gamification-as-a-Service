@@ -7,9 +7,12 @@ const utils = require('../internal/utils');
  * @param {*} userModel Utilizatorul cu care va fi asociat
  */
 function addTokenToDatabase(token, userModel) {
+    var actualDate = new Date();
+    var expiresAtDate = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + (actualDate.getDate() + 1);
+
     var connection = getDatabaseConnection();
     // TODO: use parameterized query to avoid sql injection
-    var sql = "INSERT INTO tokens VALUES('" + token + "', " + userModel.id + ", '" + userModel.firstname + "', '" + userModel.lastname + "')";
+    var sql = "INSERT INTO tokens VALUES('" + token + "', " + userModel.id + ", '" + userModel.firstname + "', '" + userModel.lastname + "', STR_TO_DATE('" + expiresAtDate + "', '%Y-%m-%d'))";
 
     connection.connect();
 
@@ -59,7 +62,10 @@ async function getUserIdByToken(token) {
 
     connection.end();
 
-    await utils.timeout(1000);
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+    
     if(queryResult.length > 0) {
         return queryResult[0].user_id;
     }
@@ -67,4 +73,24 @@ async function getUserIdByToken(token) {
     return null;
 }
 
-module.exports = {addTokenToDatabase, deleteTokenFromDatabase, getUserIdByToken}
+/**
+ * Sterge din baza de date toti tokenii care au expirat.
+ */
+ function deleteAllExpiredTokens() {
+    var actualDate = new Date();
+    var dateToday = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + actualDate.getDate();
+
+    var connection = getDatabaseConnection();
+    // TODO: use parameterized query to avoid sql injection
+    var sql = "DELETE FROM tokens WHERE expires_at=STR_TO_DATE('" + dateToday + "', '%Y-%m-%d')";
+
+    connection.connect();
+
+    connection.query(sql, function(error, results) {
+        if(error) throw error; // TODO: error handling
+    })
+
+    connection.end();
+}
+
+module.exports = {addTokenToDatabase, deleteTokenFromDatabase, getUserIdByToken, deleteAllExpiredTokens}

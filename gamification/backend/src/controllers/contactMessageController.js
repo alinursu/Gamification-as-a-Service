@@ -3,7 +3,7 @@ const { parse } = require('querystring');
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const contactMessageRepository = require('../repositories/contactMessagesRepository');
-const { verifyPresenceOfContactMessageCredentials, validateContactMessageCredentials } = require('../services/contactMessageServices');
+const contactMessageServices = require('../services/contactMessageServices');
 
 
 /**
@@ -32,13 +32,13 @@ function handleContactRequest(request, response) {
         }
 
         // Verific datele
-        var serviceResponse = verifyPresenceOfContactMessageCredentials(message, request, response);
+        var serviceResponse = contactMessageServices.verifyPresenceOfContactMessageCredentials(message, request, response);
         if(serviceResponse == 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = validateContactMessageCredentials(message, request, response);
+        var serviceResponse = contactMessageServices.validateContactMessageCredentials(message, request, response);
         if(serviceResponse == 0) {
             return;
         }

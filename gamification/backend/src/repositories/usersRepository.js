@@ -22,7 +22,10 @@ async function verifyUserModelLoginCredentials(userModel) {
 
     connection.end();
 
-    await utils.timeout(1000);
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
     if(queryResult.length > 0) {
         return queryResult[0];
     }
@@ -50,7 +53,10 @@ async function verifyUserModelRegisterCredentials(userModel) {
 
     connection.end();
 
-    await utils.timeout(1000);
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
     if(queryResult.length > 0) {
         return 1;
     }
@@ -96,7 +102,10 @@ async function getUserModelById(userId) {
 
     connection.end();
 
-    await utils.timeout(1000);
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+    
     if(queryResult.length > 0) {
         var userModel = new UserModel(queryResult[0].id, queryResult[0].lastname, queryResult[0].firstname, queryResult[0].email, queryResult[0].password, queryResult[0].url);
         return userModel;

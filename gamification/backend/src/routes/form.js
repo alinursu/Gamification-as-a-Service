@@ -20,7 +20,9 @@ const formRoute = (request, response) => {
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(data);
 
-        return renderPage(paths.header, null, (data) => {
+        return renderPage(paths.header, {
+            userFullName: request.userFullName
+        }, (data) => {
             response.write(data);
 
             return renderPage(paths.index, null, (data) => {
