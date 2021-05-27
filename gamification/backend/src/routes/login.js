@@ -36,7 +36,9 @@ const loginRoute = (request, response) => {
             }, (data) => {
                 response.write(data);
 
-                return renderPage(paths.footer, null, (data) => {
+                return renderPage(paths.footer, {
+                    client_js: ['requests/login']
+                }, (data) => {
                     response.write(data);
                     
                     response.end();

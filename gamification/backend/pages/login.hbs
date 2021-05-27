@@ -3,7 +3,7 @@
         <h2 id="error-message-login">{{errorMessage}}</h2>
     {{/if}}
     
-    <form method="post" action="/login">
+    <form method="post" action="/login" id="login-form">
         <label for="email">Adresa de email:</label>
         {{#if previousEmailValue}}
             <input type="text" id="email" name="email" value="{{previousEmailValue}}"> 

@@ -3,7 +3,22 @@
     flex-direction: column;
     align-items: center;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
 
+form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.create-btn-container {
+    width: 100%;
+    text-align: center;
+}
+
+.create-btn-container input {
+    width: 200px;
 }
 
 span {
@@ -45,35 +60,43 @@ span {
 
 .card-form input {
     margin-top: 10px;
+    outline: 0;
+    padding-left: 10px;
 }
 
-.name{
+.name {
     width: 80%;
     height: 30px;
-    border:none;
+    border: none;
     border-radius: 10px;
 }
 
-.nume-rec{
+.nume-rec {
     font-size: 17px;
     font-weight: bold;
 }
 
-.add button{
-    margin-left: auto;
+.add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     font-weight: bold;
-    font-size: 20px;
-    margin-top: 30px;
-    height: 40px;
-    width: 40px;
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+    height: 165px;
+    width: 278px;
     border-radius: 10px;
     border: none;
     background-color: #423788;
-    color:white;
+    color: white;
     box-shadow: 2px 2px 4px #000000;
+    margin-top: 30px;
+    margin-left: 30px;
 }
 
-.add button:hover{
+.add button:hover {
     background-color: #fd6191;
 }
 

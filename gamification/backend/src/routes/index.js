@@ -9,10 +9,6 @@ var cookie = require('cookie');
  * @param {*} response Raspunsul dat pentru request.
  */
 const indexRoute = (request, response) => {
-    // TODO: <doctype html5> (to all pages)
-    // TODO: <html lang="en"> (to all pages)
-    // TODO: validate html page (all pages)
-
     var cookies = cookie.parse(request.headers.cookie || '');
     
     const paths = {
