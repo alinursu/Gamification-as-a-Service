@@ -1,6 +1,7 @@
 const { getDatabaseConnection } = require('../internal/databaseConnection');
 const utils = require('../internal/utils');
 const UserModel = require('../models/User');
+const hash = require('../internal/hash');
 
 /**
  * Verifica daca datele de conectare dintr-un model User sunt valide.
@@ -10,7 +11,7 @@ const UserModel = require('../models/User');
 async function verifyUserModelLoginCredentials(userModel) {
     var connection = getDatabaseConnection(); 
     // TODO: use parameterized query to avoid sql injection
-    var sql = "SELECT * FROM users WHERE email='" + userModel.email + "' AND password='" + userModel.password + "'";
+    var sql = "SELECT * FROM users WHERE email='" + hash.encrypt(userModel.email) + "' AND password='" + hash.encrypt(userModel.password) + "'";
     
     connection.connect();
 
@@ -27,7 +28,11 @@ async function verifyUserModelLoginCredentials(userModel) {
     }
 
     if(queryResult.length > 0) {
-        return queryResult[0];
+        var userModel = new UserModel(
+            queryResult[0].id, hash.decrypt(queryResult[0].lastname), hash.decrypt(queryResult[0].firstname), 
+                hash.decrypt(queryResult[0].email), hash.decrypt(queryResult[0].password), hash.decrypt(queryResult[0].url)
+        );
+        return userModel;
     }
 
     return null;
@@ -41,7 +46,7 @@ async function verifyUserModelLoginCredentials(userModel) {
 async function verifyUserModelRegisterCredentials(userModel) {
     var connection = getDatabaseConnection(); 
     // TODO: use parameterized query to avoid sql injection
-    var sql = "SELECT * FROM users WHERE email='" + userModel.email + "'";
+    var sql = "SELECT * FROM users WHERE email='" + hash.encrypt(userModel.email) + "'";
     
     connection.connect();
 
@@ -71,7 +76,10 @@ async function verifyUserModelRegisterCredentials(userModel) {
 function insertUserModel(userModel) {
     var connection = getDatabaseConnection(); 
     // TODO: use parameterized query to avoid sql injection
-    var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES('" + userModel.firstname + "', '" + userModel.lastname + "', '" + userModel.email + "', '" + userModel.password + "', '" + userModel.url + "')";
+    var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES('" +
+             hash.encrypt(userModel.firstname) + "', '" + hash.encrypt(userModel.lastname) + "', '" + 
+             hash.encrypt(userModel.email) + "', '" + hash.encrypt(userModel.password) + "', '" + 
+             hash.encrypt(userModel.url) + "')";
     
     connection.connect();
 
@@ -107,7 +115,10 @@ async function getUserModelById(userId) {
     }
     
     if(queryResult.length > 0) {
-        var userModel = new UserModel(queryResult[0].id, queryResult[0].lastname, queryResult[0].firstname, queryResult[0].email, queryResult[0].password, queryResult[0].url);
+        var userModel = new UserModel(
+            queryResult[0].id, hash.decrypt(queryResult[0].lastname), hash.decrypt(queryResult[0].firstname), 
+                hash.decrypt(queryResult[0].email), hash.decrypt(queryResult[0].password), hash.decrypt(queryResult[0].url)
+        );
         return userModel;
     }
 
@@ -121,7 +132,7 @@ async function getUserModelById(userId) {
 function updateUserModelURL(userModel) {
     var connection = getDatabaseConnection(); 
     // TODO: use parameterized query to avoid sql injection
-    var sql = "UPDATE users SET url='" + userModel.url + "' WHERE id=" + userModel.id;
+    var sql = "UPDATE users SET url='" + hash.encrypt(userModel.url) + "' WHERE id=" + userModel.id;
 
     connection.connect();
 
@@ -139,7 +150,7 @@ function updateUserModelURL(userModel) {
 function updateUserModelPassword(userModel) {
     var connection = getDatabaseConnection(); 
     // TODO: use parameterized query to avoid sql injection
-    var sql = "UPDATE users SET password='" + userModel.password + "' WHERE id=" + userModel.id;
+    var sql = "UPDATE users SET password='" + hash.encrypt(userModel.password) + "' WHERE id=" + userModel.id;
 
     connection.connect();
 

@@ -31,6 +31,7 @@ const routing = async (request, response) => {
         // Daca utilizatorul este autentificat, preiau date despre contul acestuia din baza de date, date pe care le voi afisa in pagina
         request.userFullName = null;
         request.userURL = null;
+
         if(cookies.authToken != null) {
             var userModel;
             userController.getUserModelByToken(cookies.authToken).then(function(result) {
@@ -155,7 +156,7 @@ const routing = async (request, response) => {
     switch (url) {
         case '/': {
             // Sterg din baza de date tokenii care au expirat (stergere periodica, de fiecare data cand cineva acceseaza homepage)
-            tokenController.deleteAllExpiredTokens();
+            await tokenController.deleteAllExpiredTokens();
 
             return indexRoute(request, response);
         }

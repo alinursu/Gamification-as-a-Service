@@ -1,5 +1,6 @@
 const { getDatabaseConnection } = require('../internal/databaseConnection');
 const utils = require('../internal/utils');
+const hash = require('../internal/hash');
 
 /**
  * Adauga un token in baza de date, asociind-ul cu un anumit User.
@@ -12,7 +13,9 @@ function addTokenToDatabase(token, userModel) {
 
     var connection = getDatabaseConnection();
     // TODO: use parameterized query to avoid sql injection
-    var sql = "INSERT INTO tokens VALUES('" + token + "', " + userModel.id + ", '" + userModel.firstname + "', '" + userModel.lastname + "', STR_TO_DATE('" + expiresAtDate + "', '%Y-%m-%d'))";
+    var sql = "INSERT INTO tokens VALUES('" + token + "', " + userModel.id + ", '" +
+             hash.encrypt(userModel.firstname) + "', '" + hash.encrypt(userModel.lastname) + 
+             "', STR_TO_DATE('" + expiresAtDate + "', '%Y-%m-%d'))";
 
     connection.connect();
 
@@ -76,7 +79,7 @@ async function getUserIdByToken(token) {
 /**
  * Sterge din baza de date toti tokenii care au expirat.
  */
- function deleteAllExpiredTokens() {
+async function deleteAllExpiredTokens() {
     var actualDate = new Date();
     var dateToday = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + actualDate.getDate();
 
