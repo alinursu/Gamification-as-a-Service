@@ -2,13 +2,18 @@
     <span>
         Creează un sistem de recompense!
     </span>
-    <form id="rec-form">
+
+    <form id="rec-form" method="POST" action="/profile/create_gamification_system">
+        <div style="display:flex; flex-wrap:wrap; flex-direction: column; align-items: center;">
+            <input type="submit" id="submit_btn" name="submit_btn" value="CREEAZĂ">
+        </div>
+
         <div class="card-form">
             <p>Selectează tipul de recompensă!</p>
             <input type="radio" id="badge1" name="alegere1">
-            <label for="badge1">Badge</label> <br>
+            <label for="badge1">Insignă</label> <br>
             <input type="radio" id="levels1" name="alegere1">
-            <label for="levels1">Nivele</label> <br>
+            <label for="levels1">Nivel</label> <br>
             <label for="name" class="nume-rec" id="nume-rec1">Nume recompensă:</label> <br>
             <input type="text" class="name" id="nume-rec1" name="recompensă">
             <br>

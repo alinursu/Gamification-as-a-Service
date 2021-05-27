@@ -9,6 +9,7 @@ const formRoute = require("../routes/form");
 const userController = require('../controllers/userController');
 const tokenController = require('../controllers/tokenController');
 const contactMessageController = require('../controllers/contactMessageController');
+const gamificationSystemController = require('../controllers/gamificationSystemController');
 
 const staticServe = require('node-static');
 const path = require('path');
@@ -126,6 +127,19 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
+            case '/profile/create_gamification_system': {
+                if(cookies.authToken != null) {
+                    return gamificationSystemController.handleNewGamificationSystemRequest(request, response);
+                }
+
+                // Utilizatorul este neautentificat - 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
             default: {
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden
                 response.statusCode = 403;
@@ -223,10 +237,10 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/form': {
-            // if(cookies.authToken != null) {
+        case '/profile/create_gamification_system': {
+            if(cookies.authToken != null) {
                 return formRoute(request, response);
-            // }
+            }
 
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
             response.statusCode = 403;

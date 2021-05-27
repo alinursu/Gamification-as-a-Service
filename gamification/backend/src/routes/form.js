@@ -2,15 +2,11 @@ const renderPage = require("../core/render");
 const path = require("path");
 
 const formRoute = (request, response) => {
-    // TODO: <doctype html5>
-    // TODO: pentru incarcarea css-usului in functie de pagina, sa am in head un {{other_styles}} si, in functie de pagina, imi inserez ce am nevoie
-    //daca nu am nevoie, pun o linie goala
-
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
-        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        header: path.join(__dirname, '../../pages/common/header_logged.hbs'),
         index: path.join(__dirname, '../../pages/form.hbs'),
-        footer: path.join(__dirname, '../../pages/common/footer.hbs')
+        footer: path.join(__dirname, '../../pages/common/footer_logged.hbs')
     }
 
     return renderPage(paths.head, {
