@@ -25,7 +25,7 @@ const formRoute = (request, response) => {
                 response.write(data);
 
                 return renderPage(paths.footer, {
-                    client_js: ['scrollNavbarAnimation']
+                    client_js: ['form']
                 }, (data) => {
                     response.write(data);
 

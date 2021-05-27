@@ -15,7 +15,7 @@ const staticServe = require('node-static');
 const path = require('path');
 const utils = require('../internal/utils');
 var cookie = require('cookie');
-const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 });
+const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 }); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
 /**
  * Face rutarea.

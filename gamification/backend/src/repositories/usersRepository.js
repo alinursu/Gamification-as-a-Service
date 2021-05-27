@@ -6,18 +6,20 @@ const hash = require('../internal/hash');
 /**
  * Verifica daca datele de conectare dintr-un model User sunt valide.
  * @param {*} userModel Modelul a caror date de conectare vor fi verificate.
- * @returns Modelul User din baza de date, daca datele de conectare sunt valide; null, altfel
+ * @returns Modelul User din baza de date, daca datele de conectare sunt valide; null, altfel; -1, daca a aparut o eroare pe parcursul executarii
  */
 async function verifyUserModelLoginCredentials(userModel) {
     var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "SELECT * FROM users WHERE email='" + hash.encrypt(userModel.email) + "' AND password='" + hash.encrypt(userModel.password) + "'";
-    
+    var sql = "SELECT * FROM users WHERE email=? AND password=?";
+
     connection.connect();
 
     var queryResult;
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    connection.query(sql, [hash.encrypt(userModel.email), hash.encrypt(userModel.password)], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
         queryResult = results;
     })
 
@@ -25,6 +27,10 @@ async function verifyUserModelLoginCredentials(userModel) {
 
     while(queryResult == null) {
         await utils.timeout(10);
+    }
+
+    if(queryResult == -1) {
+        return -1;
     }
 
     if(queryResult.length > 0) {
@@ -41,18 +47,20 @@ async function verifyUserModelLoginCredentials(userModel) {
 /**
  * Verifica daca exista in baza de date deja un model cu email-ul userModel.email.
  * @param {*} userModel Modelul creat cu datele introduse de utilizator
- * @returns 1, daca exista; 0, altfel
+ * @returns 1, daca exista; 0, altfel; -1, daca a aparut o eroare pe parcursul executarii
  */
 async function verifyUserModelRegisterCredentials(userModel) {
     var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "SELECT * FROM users WHERE email='" + hash.encrypt(userModel.email) + "'";
+    var sql = "SELECT * FROM users WHERE email=?";
     
     connection.connect();
 
     var queryResult;
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    connection.query(sql, [hash.encrypt(userModel.email)], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
         queryResult = results;
     })
 
@@ -60,6 +68,10 @@ async function verifyUserModelRegisterCredentials(userModel) {
 
     while(queryResult == null) {
         await utils.timeout(10);
+    }
+
+    if(queryResult == -1) {
+        return -1;
     }
 
     if(queryResult.length > 0) {
@@ -72,39 +84,51 @@ async function verifyUserModelRegisterCredentials(userModel) {
 /**
  * Adauga un model User in baza de date.
  * @param {*} userModel Modelul care va fi adaugat.
+ * @returns 0, daca a fost adaugat modelul; -1, daca a aparut o eroare pe parcursul executarii
  */
-function insertUserModel(userModel) {
-    var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES('" +
-             hash.encrypt(userModel.firstname) + "', '" + hash.encrypt(userModel.lastname) + "', '" + 
-             hash.encrypt(userModel.email) + "', '" + hash.encrypt(userModel.password) + "', '" + 
-             hash.encrypt(userModel.url) + "')";
+async function insertUserModel(userModel) {
+    var connection = getDatabaseConnection();
+    var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES(?, ?, ?, ?, ?)";
     
     connection.connect();
 
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(userModel.firstname), hash.encrypt(userModel.lastname), hash.encrypt(userModel.email), 
+             hash.encrypt(userModel.password), hash.encrypt(userModel.url)], function(error, results) {
+        if(error)  {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
     })
 
     connection.end();
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
 }
 
 /**
  * Preia din baza de date un model user pe baza unui id.
  * @param {*} userId Id-ul dupa care se face cautarea
- * @returns Modelul User gasit; null, altfel
+ * @returns Modelul User gasit; null, altfel; -1, daca a aparut o eroare pe parcursul executarii
  */
 async function getUserModelById(userId) {
     var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "SELECT * from users WHERE id=" + userId;
+    var sql = "SELECT * from users WHERE id=?";
 
     connection.connect();
 
     var queryResult;
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    connection.query(sql, [userId], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
         queryResult = results;
     })
 
@@ -112,6 +136,10 @@ async function getUserModelById(userId) {
 
     while(queryResult == null) {
         await utils.timeout(10);
+    }
+    
+    if(queryResult == -1) {
+        return -1;
     }
     
     if(queryResult.length > 0) {
@@ -128,37 +156,61 @@ async function getUserModelById(userId) {
 /**
  * Actualizeaza campul "url" al modelului User din baza de date.
  * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "url".
+ * @returns 0, daca a fost updatat modelul; -1, daca a aparut o eroare pe parcursul executarii
  */
-function updateUserModelURL(userModel) {
+async function updateUserModelURL(userModel) {
     var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "UPDATE users SET url='" + hash.encrypt(userModel.url) + "' WHERE id=" + userModel.id;
+    var sql = "UPDATE users SET url=? WHERE id=?";
 
     connection.connect();
 
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(userModel.url), userModel.id], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
     })
 
     connection.end();
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
 }
 
 /**
  * Actualizeaza campul "password" al modelului User din baza de date.
  * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "password".
+ * @returns 0, daca modelul a fost actualizat; -1, daca a aparut o eroare pe parcursul executarii
  */
-function updateUserModelPassword(userModel) {
+async function updateUserModelPassword(userModel) {
     var connection = getDatabaseConnection(); 
-    // TODO: use parameterized query to avoid sql injection
-    var sql = "UPDATE users SET password='" + hash.encrypt(userModel.password) + "' WHERE id=" + userModel.id;
+    var sql = "UPDATE users SET password=? WHERE id=?";
 
     connection.connect();
 
-    connection.query(sql, function(error, results) {
-        if(error) throw error; // TODO: error handling
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(userModel.password), userModel.id], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
     })
 
     connection.end();
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
 }
 
 module.exports = {verifyUserModelLoginCredentials, verifyUserModelRegisterCredentials, insertUserModel, getUserModelById, updateUserModelURL, updateUserModelPassword};

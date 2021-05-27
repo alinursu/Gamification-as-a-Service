@@ -5,6 +5,7 @@ const UserModel = require('../models/User');
 const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
 const loginRoute = require('../routes/login');
+const errorRoute = require('../routes/error');
 const usersRepository = require('../repositories/usersRepository');
 const tokensRepository = require('../repositories/tokensRepository');
 const userServices = require('../services/userServices');
@@ -20,10 +21,42 @@ async function getUserModelByToken(token) {
         userId = result;
     });
 
+    if(userId == -1) {
+        // Sterg cookie-ul
+        response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
+            httpOnly: true,
+            maxAge: 0
+        }));
+        
+        // Creez un raspuns, instiintand utilizatorul de eroare
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        errorRoute(request, response);
+        return;
+    }
+
     var userModel = null;
     await usersRepository.getUserModelById(userId).then(function(result) {
         userModel = result;
     })
+
+    if(userModel == -1) { // Database error
+        // Sterg cookie-ul
+        response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
+            httpOnly: true,
+            maxAge: 0
+        }));
+        
+        // Creez un raspuns, instiintand utilizatorul de eroare
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        errorRoute(request, response);
+        return;
+    }
 
     return userModel;
 }
@@ -66,6 +99,16 @@ function handleLoginRequest(request, response) {
             databaseUserModel = result;
         });
 
+        if(databaseUserModel == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
         if(databaseUserModel == null) {
             response.statusCode = 401; // 401 - Unauthorized
             request.errorMessage = "Adresa de email sau parola este incorectă!";
@@ -78,7 +121,26 @@ function handleLoginRequest(request, response) {
         var token = userServices.generateAuthCookie(parsedBody.rememberChckBox, request, response);
 
         // Adaug token-ul in baza de date, impreuna cu user.id, user.firstname si user.lastname
-        tokensRepository.addTokenToDatabase(token, databaseUserModel);
+        var dbAnswer = null;
+        await tokensRepository.addTokenToDatabase(token, databaseUserModel).then(function (result) {
+            dbAnswer = result;
+        });
+
+        if(dbAnswer == -1) { // Database error
+            // Sterg cookie-ul
+            response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
+                httpOnly: true,
+                maxAge: 0
+            }));
+            
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
         // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
         response.writeHead(307, {'Location': '/'});
@@ -125,6 +187,16 @@ function handleLoginRequest(request, response) {
             databaseResponse = result;
         });
 
+        if(databaseResponse == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
         if(databaseResponse == 1) {
             response.statusCode = 401; // 401 - Unauthorized
             request.errorMessage = "Există un cont creat cu această adresă de email!";
@@ -137,7 +209,20 @@ function handleLoginRequest(request, response) {
         }
 
         // Adaug modelul in baza de date
-        usersRepository.insertUserModel(user);
+        var dbAnswer = null;
+        await usersRepository.insertUserModel(user).then(function (result) {
+            dbAnswer = result;
+        });
+
+        if(dbAnswer == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
         response.statusCode = 201;
         request.successMessage = "Contul a fost creat cu succes!";
@@ -154,7 +239,7 @@ function handleLoginRequest(request, response) {
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
- function handleLogoutRequest(request, response) {
+async function handleLogoutRequest(request, response) {
     var cookies = cookie.parse(request.headers.cookie || '');
     var token = cookies.authToken;
 
@@ -164,7 +249,20 @@ function handleLoginRequest(request, response) {
     }));
 
     // Sterg token-ul din baza de date
-    tokensRepository.deleteTokenFromDatabase(token);
+    var dbAnswer = null;
+    await tokensRepository.deleteTokenFromDatabase(token).then(function (result) {
+        dbAnswer = result;
+    });
+
+    if(dbAnswer == -1) { // Database error
+        // Creez un raspuns, instiintand utilizatorul de eroare
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        errorRoute(request, response);
+        return;
+    }
 
     // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
     response.writeHead(307, {'Location': '/'});
@@ -193,7 +291,7 @@ function handleChangeURLRequest(request, response) {
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
         var userModel;
-        getUserModelByToken(token).then(function(result) {
+        await getUserModelByToken(token).then(function(result) {
             userModel = result;
         });
 
@@ -213,9 +311,23 @@ function handleChangeURLRequest(request, response) {
         }
 
         // Fac update in baza de date
-        usersRepository.updateUserModelURL(userModel);
+        var dbAnswer = null;
+        await usersRepository.updateUserModelURL(userModel).then(function (result) {
+            dbAnswer = result;
+        });
+
+        if(dbAnswer == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
         request.successMessage = "Adresa site-ului web a fost modificată cu succes!";
+        request.userURL = userModel.url;
         return profileRoute(request, response);
     });    
 }
@@ -242,7 +354,7 @@ function handleChangeURLRequest(request, response) {
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
         var userModel;
-        getUserModelByToken(token).then(function(result) {
+        await getUserModelByToken(token).then(function(result) {
             userModel = result;
         });
 
@@ -262,7 +374,20 @@ function handleChangeURLRequest(request, response) {
         }
 
         // Fac update in baza de date
-        usersRepository.updateUserModelPassword(userModel);
+        var dbAnswer = null;
+        await usersRepository.updateUserModelPassword(userModel).then(function (result) {
+            dbAnswer = result;
+        });
+
+        if(dbAnswer == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
         request.successMessage = "Parola a fost modificată cu succes!";
         return profileRoute(request, response);
