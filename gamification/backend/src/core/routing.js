@@ -10,12 +10,14 @@ const userController = require('../controllers/userController');
 const tokenController = require('../controllers/tokenController');
 const contactMessageController = require('../controllers/contactMessageController');
 const gamificationSystemController = require('../controllers/gamificationSystemController');
+const requestsLimiterController = require('../controllers/requestsLimiterController');
 
 const staticServe = require('node-static');
 const path = require('path');
 const utils = require('../internal/utils');
 var cookie = require('cookie');
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 }); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
+
 
 /**
  * Face rutarea.
@@ -77,29 +79,39 @@ const routing = async (request, response) => {
 
             case '/login': {
                 if(cookies.authToken == null) {
-                    return userController.handleLoginRequest(request, response);
+                    await requestsLimiterController.loginRequestsLimiterFunction(request, response, function(request, response) {
+                        return userController.handleLoginRequest(request, response);
+                    });
+                }
+                else {
+                    // Utilizatorul este autentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Ești deja autentificat!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
 
-                // Utilizatorul este autentificat - 403 Forbidden
-                response.statusCode = 403;
-                request.statusCodeMessage = "Forbidden";
-                request.errorMessage = "Ești deja autentificat!";
-                response.setHeader('Location', '/error');
-                return errorRoute(request, response);
+                return;
             }
                 
 
             case '/register': {
                 if(cookies.authToken == null) {
-                    return userController.handleRegisterRequest(request, response);
+                    await requestsLimiterController.registerRequestsLimiterFunction(request, response, function(request, response) {
+                        return userController.handleRegisterRequest(request, response);
+                    });
+                }
+                else {
+                    // Utilizatorul este autentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Ești deja autentificat!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
 
-                // Utilizatorul este autentificat - 403 Forbidden
-                response.statusCode = 403;
-                request.statusCodeMessage = "Forbidden";
-                request.errorMessage = "Ești deja autentificat!";
-                response.setHeader('Location', '/error');
-                return errorRoute(request, response);
+                return;
             }
 
             case '/profile/change_url': {

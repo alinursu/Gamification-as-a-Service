@@ -10,7 +10,7 @@ const profileRoute = require('../routes/profile');
  * Genereaza o cheie (un token) unic, avand o lungime statica. Token-ul va fi folosit pentru a pastra un client logat (va fi stocat intr-un cookie in client-side).
  * @returns Token-ul generat.
  */
- function generateAuthUniqueToken() {
+function generateAuthUniqueToken() {
     var tokenLength = 128;
     var token = [];
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_+-=.,<>/?;|';
