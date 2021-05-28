@@ -43,6 +43,12 @@ span {
     cursor: pointer;
 }
 
+#submit_btn:hover {
+    color: #423788;
+    background-color: #fd6191;
+    border-color: #fd6191;
+}
+
 .card-form {
     background-color: #c2bfe2;
     padding: 7px;
