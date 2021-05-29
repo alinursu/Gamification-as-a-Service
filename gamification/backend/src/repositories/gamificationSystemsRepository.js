@@ -34,18 +34,8 @@ async function getGamificationSystemsByUserId(userId) {
 
     // Decriptez datele
     queryResult.forEach(gamificationSystemModel => {
-        gamificationSystemModel.APIKey = hash.decrypt(gamificationSystemModel.APIKey);
+        gamificationSystemModel.api_key = hash.decrypt(gamificationSystemModel.api_key);
         gamificationSystemModel.name = hash.decrypt(gamificationSystemModel.name);
-
-        gamificationSystemModel.listOfGamificationEvents.forEach(gamificationEventModel => {
-            gamificationEventModel.systemAPIKey = hash.decrypt(gamificationEventModel.systemAPIKey);
-            gamificationEventModel.name = hash.decrypt(gamificationEventModel.name);
-        });
-
-        gamificationSystemModel.listOfGamificationRewards.forEach(gamificationRewardModel => {
-            gamificationRewardModel.systemAPIKey = hash.decrypt(gamificationRewardModel.systemAPIKey);
-            gamificationRewardModel.name = hash.decrypt(gamificationRewardModel.name);
-        });
     });
 
     return queryResult;

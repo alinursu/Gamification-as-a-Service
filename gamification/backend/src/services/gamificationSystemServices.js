@@ -32,48 +32,67 @@ async function generateAPIKey() {
 async function createModelFromRequestBodyData(requestBody, token, request, response) {
     var listOfEventModels = [];
     var index = 1;
+    var validModel = true;
+    var errorMessage = null;
 
     // TODO: daca nu sunt toate datele prezente/valide => recompleteaza formularul cu datele din modele!
         // cu request.gamificationSystemModel = gamificationSystemModel;
 
     // Creez modelele evenimentelor
+    if(requestBody.system_name.length == 0 && validModel) {
+        validModel = false;
+
+        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
+        errorMessage = "Sistemul de recompense trebuie sa aibă un nume!"
+        // formRoute(request, response);
+        // return null;
+    }
+
     while(requestBody['nume_eveniment' + index] != null) {
         var eventModel = new GamificationEventModel(null, null, requestBody['nume_eveniment' + index], requestBody['tip_eveniment' + index]);
 
-        if(eventModel.name.length == 0) {
+        if(eventModel.name.length == 0 && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate evenimentele trebuie să aibă atribuit un nume unic!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate evenimentele trebuie să aibă atribuit un nume unic!"
+            // formRoute(request, response);
+            // return null;
         }
 
-        if(eventModel.eventType == null) {
+        if(eventModel.eventType == null && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate evenimentele trebuie să aibă selectat un tip!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate evenimentele trebuie să aibă selectat un tip!"
+            // formRoute(request, response);
+            // return null;
         }
 
         listOfEventModels.push(eventModel);
         index++;
     }
 
-    if(listOfEventModels.length == 0) {
+    if(listOfEventModels.length == 0 && validModel) {
+        validModel = false;
+
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-        request.errorMessage = "Un sistem de recompense trebuie să conțină cel puțin un eveniment!"
-        formRoute(request, response);
-        return null;
+        errorMessage = "Un sistem de recompense trebuie să conțină cel puțin un eveniment!"
+        // formRoute(request, response);
+        // return null;
     }
 
     // Verific unicitatea datelor din modelele evenimentelor
     for(index=0; index<listOfEventModels.length; index++) {
         var tempArray = listOfEventModels.filter(eventModel => eventModel.name == listOfEventModels[index].name);
         
-        if(tempArray.length > 1) {
+        if(tempArray.length > 1 && validModel) {
+            validModel = false;
+
             response.statusCode = 409; // 409 - Conflict
-            request.errorMessage = "Numele evenimentelor trebuie să fie unice!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Numele evenimentelor trebuie să fie unice!"
+            // formRoute(request, response);
+            // return null;
         }
     }
 
@@ -84,78 +103,96 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
         var rewardModel = new GamificationRewardModel(null, null, requestBody['nume_recompensa' + index], requestBody['tip_recompensa' + index], 
                 requestBody['eveniment_recompensa' + index], requestBody['valoare_eveniment' + index]);
 
-        if(rewardModel.name.length == 0) {
+        if(rewardModel.name.length == 0 && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate recompensele trebuie să aibă atribuit un nume unic!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate recompensele trebuie să aibă atribuit un nume unic!";
+            // formRoute(request, response);
+            // return null;
         }
 
-        if(rewardModel.type == null) {
+        if(rewardModel.type == null && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate recompensele trebuie să aibă selectat un tip!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate recompensele trebuie să aibă selectat un tip!"
+            // formRoute(request, response);
+            // return null;
         }
 
-        if(rewardModel.eventId.length == 0) {
+        if(rewardModel.eventId.length == 0 && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate recompensele trebuie să aibă atribuit un eveniment care o controlează!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate recompensele trebuie să aibă atribuit un eveniment care o controlează!"
+            // formRoute(request, response);
+            // return null;
         }
 
         var tempArray = listOfEventModels.filter(eventModel => eventModel.name == rewardModel.eventId);
-        if(tempArray.length == 0) {
+        if(tempArray.length == 0 && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Nu poți atribui unei recompense un eveniment inexistent!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Nu poți atribui unei recompense un eveniment inexistent!"
+            // formRoute(request, response);
+            // return null;
         }
 
-        if(rewardModel.value.length == 0) {
+        if(rewardModel.value.length == 0 && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Toate recompensele trebuie să aibă atribuită o valoare pentru care se va oferi recompensa!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Toate recompensele trebuie să aibă atribuită o valoare pentru care se va oferi recompensa!"
+            // formRoute(request, response);
+            // return null;
         }
 
-        if(parseInt(rewardModel.value, 10) == NaN) {
+        if(parseInt(rewardModel.value, 10) == NaN && validModel) {
+            validModel = false;
+
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
+            // formRoute(request, response);
+            // return null;
         }
 
         rewardModel.value = parseInt(rewardModel.value, 10);
 
-        if(rewardModel.value <= 0) {
+        if(rewardModel.value <= 0 && validModel) {
+            validModel = false;
+            
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            request.errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
+            // formRoute(request, response);
+            // return null;
         }
 
         listOfRewardModels.push(rewardModel);
         index++;
     }
 
-    if(listOfRewardModels.length == 0) {
+    if(listOfRewardModels.length == 0 && validModel) {
+        validModel = false;
+
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-        request.errorMessage = "Un sistem de recompense trebuie să conțină cel puțin o recompensă!"
-        formRoute(request, response);
-        return null;
+        errorMessage = "Un sistem de recompense trebuie să conțină cel puțin o recompensă!"
+        // formRoute(request, response);
+        // return null;
     }
 
     // Verific unicitatea datelor din modelele recompenselor
     for(index=0; index<listOfRewardModels.length; index++) {
         var tempArray = listOfRewardModels.filter(rewardModel => rewardModel.name == listOfRewardModels[index].name);
 
-        if(tempArray.length > 1) {
+        if(tempArray.length > 1 && validModel) {
+            validModel = false;
+
             response.statusCode = 409; // 409 - Conflict
-            request.errorMessage = "Numele recompenselor trebuie să fie unice!"
-            formRoute(request, response);
-            return null;
+            errorMessage = "Numele recompenselor trebuie să fie unice!"
+            // formRoute(request, response);
+            // return null;
         }
     }
 
@@ -172,14 +209,33 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
     var gamificationSystemModel = new GamificationSystemModel(null, requestBody.system_name, 
             userId, listOfEventModels, listOfRewardModels);
 
-    if(gamificationSystemModel.name.length == 0) {
+    if(gamificationSystemModel.name.length == 0 && validModel) {
+        validModel = false;
+
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-        request.errorMessage = "Sistemul de recompense trebuie să aibă atribuit un nume!"
-        formRoute(request, response);
-        return null;
+        errorMessage = "Sistemul de recompense trebuie să aibă atribuit un nume!"
+        // formRoute(request, response);
+        // return null;
     }
 
-    return gamificationSystemModel;
+    if(validModel) {
+        return gamificationSystemModel;
+    }
+
+    // Construiesc request-ul primit pentru a recompleta formularul paginii
+    request.errorMessage = errorMessage;
+
+    for(var index = 0; index < gamificationSystemModel.listOfGamificationEvents.length; index++) {
+        gamificationSystemModel.listOfGamificationEvents[index].id = index+1;
+    }
+
+    for(var index=0; index < gamificationSystemModel.listOfGamificationRewards.length; index++) {
+        gamificationSystemModel.listOfGamificationRewards[index].id = index+1;
+    };
+    
+    request.gamificationSystemModel = gamificationSystemModel;
+    formRoute(request, response);
+    return null;
 }
 
 /**

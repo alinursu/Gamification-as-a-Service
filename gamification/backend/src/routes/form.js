@@ -23,7 +23,8 @@ const formRoute = (request, response) => {
 
             return renderPage(paths.index, {
                 successMessage: request.successMessage,
-                errorMessage: request.errorMessage
+                errorMessage: request.errorMessage,
+                gamificationSystemModel: request.gamificationSystemModel
             }, (data) => {
                 response.write(data);
 

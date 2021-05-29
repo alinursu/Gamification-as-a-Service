@@ -2,6 +2,14 @@ const hbs = require('handlebars');
 const fs = require('fs');
 
 /**
+ * Creez un tag numit "ifCompareStrings" ce poate fi folosit in fisierele .hbs.
+ */
+hbs.registerHelper('ifCompareStrings', function(string1, string2, options) {
+    if(string1 == string2) { return options.fn(this); }
+    return options.inverse(this);
+});
+
+/**
  * Randeaza un fisier .hbs.
  * @param {*} filePath Calea catre fisierul hbs.
  * @param {*} vars Valorile care vor fi integrate in fisierul hbs.

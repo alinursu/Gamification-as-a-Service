@@ -7,7 +7,7 @@ const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
 
 /**
- * Rezolva un request de tip POST facut la pagina /profile/create_gamifcation_system.
+ * Rezolva un request de tip POST facut la pagina '/profile/create_gamifcation_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -64,6 +64,16 @@ function handleCreateGamificationSystemRequest(request, response) {
             case 1: {
                 response.statusCode = 401; // 401 - Unauthorized
                 request.errorMessage = "Există un sistem de recompense creat de dumneavoastră cu acest nume! Folosiți altul.";
+                
+                for(var index=0; index < gamificationSystemModel.listOfGamificationEvents.length; index++) {
+                    gamificationSystemModel.listOfGamificationEvents[index].id = index+1;
+                }
+            
+                for(var index=0; index < gamificationSystemModel.listOfGamificationRewards.length; index++) {
+                    gamificationSystemModel.listOfGamificationRewards[index].id = index+1;
+                }
+
+                request.gamificationSystemModel = gamificationSystemModel;
                 formRoute(request, response);
                 return;
             }
@@ -73,6 +83,16 @@ function handleCreateGamificationSystemRequest(request, response) {
                 //afisata cheia API generata (memorata in serviceResponse) si care contine un link catre '/documentation'
                 response.statusCode = 201; // 201 - Created
                 request.successMessage = "Sistemul de recompense a fost creat cu succes! Cheia API este: " + serviceResponse;
+                
+                for(var index=0; index < gamificationSystemModel.listOfGamificationEvents.length; index++) {
+                    gamificationSystemModel.listOfGamificationEvents[index].id = index+1;
+                }
+            
+                for(var index=0; index < gamificationSystemModel.listOfGamificationRewards.length; index++) {
+                    gamificationSystemModel.listOfGamificationRewards[index].id = index+1;
+                }
+
+                request.gamificationSystemModel = gamificationSystemModel;
                 formRoute(request, response);
                 return;
             }
