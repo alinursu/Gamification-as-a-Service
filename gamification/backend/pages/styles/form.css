@@ -5,11 +5,36 @@
     font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
+#error-message {
+    margin-top: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: red;
+}
+
+#success-message {
+    margin-top: 1em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: green;
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
+}
+
+#system-name-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+#system_name {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #423788;
+    font-size: 18px;
+    width: 30%;
 }
 
 .create-btn-container {
@@ -21,10 +46,30 @@ form {
     width: 200px;
 }
 
-span {
+.label-container {
+    margin-top: 3em;
+    margin-bottom: 0.5em;
+    width: 100%;
+    text-align: center;
+}
+
+.label-container > label {
+    color: #423788;
+    font-size: 18px;
+}
+
+#title-container {
     margin-top: 50px;
-    text-transform: uppercase;
     margin-bottom: 50px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+span {
+    text-transform: uppercase;
     font-weight: bold;
     font-size: 30px;
     color: #423788;
@@ -49,7 +94,7 @@ span {
     border-color: #fd6191;
 }
 
-.card-form {
+.card-form, .event-card-form {
     background-color: #c2bfe2;
     padding: 7px;
     margin-top: 30px;
@@ -58,13 +103,13 @@ span {
     box-shadow: 2px 2px 4px #000000;
 }
 
-.card-form p {
+.card-form p, .event-card-form p {
     margin-bottom: 10px;
     font-weight: bold;
     font-size: 17px;
 }
 
-.card-form input {
+.card-form input, .event-card-form input {
     margin-top: 10px;
     outline: 0;
     padding-left: 10px;
@@ -79,6 +124,11 @@ span {
 
 .nume-rec {
     font-size: 17px;
+    font-weight: bold;
+}
+
+.nume-rec-2 {
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -108,5 +158,32 @@ span {
     background-color: #fd6191;
 }
 
+@media screen and (min-width: 650px) and (max-width: 999px) {
+    #system_name {
+        width: 20em;
+    }
+}
 
+@media screen and (min-width: 395px) and (max-width: 649px) {
+    #system_name {
+        width: 20em;
+    }
 
+    #title-container {
+        width: 90%;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 394px) {
+    #system_name {
+        width: 15em;
+    }
+
+    #title-container {
+        width: 90%;
+        align-items: center;
+        text-align: center;
+    }
+}

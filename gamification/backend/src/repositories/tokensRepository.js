@@ -10,7 +10,7 @@ const hash = require('../internal/hash');
  */
 async function addTokenToDatabase(token, userModel) {
     var actualDate = new Date();
-    var expiresAtDate = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + (actualDate.getDate() + 1);
+    var expiresAtDate = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + (actualDate.getDate() + 2);
 
     var connection = getDatabaseConnection();
     var sql = "INSERT INTO tokens VALUES(?, ?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d'))";
@@ -113,7 +113,7 @@ async function deleteAllExpiredTokens() {
     var dateToday = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + actualDate.getDate();
 
     var connection = getDatabaseConnection();
-    var sql = "DELETE FROM tokens WHERE expires_at=STR_TO_DATE(?, '%Y-%m-%d')";
+    var sql = "DELETE FROM tokens WHERE expires_at = STR_TO_DATE(?, '%Y-%m-%d')";
 
     connection.connect();
 

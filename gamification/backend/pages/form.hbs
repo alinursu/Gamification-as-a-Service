@@ -1,25 +1,68 @@
+{{!-- TODO-CSS: Convert from px to em --}}
+{{!-- TODO: responsiveness --}}
+{{!-- TODO: ValidHTML form --}}
+{{!-- TODO: De adaugat mai multe informatii pentru fiecare camp, sub forma unui semn al intrebarii care iti ofera informatii cand treci cu mouse-ul peste el. --}}
 <div class="container">
-    <span>
-        Creează un sistem de recompense!
-    </span>
+    {{#if successMessage}}
+        <h2 id="success-message">{{successMessage}}</h2>
+    {{/if}}
+
+    {{#if errorMessage}}
+        <h2 id="error-message">{{errorMessage}}</h2>
+    {{/if}}
+
+    <div id="title-container">
+        <span>
+            Creează un sistem de recompense!
+        </span>
+    </div>
 
     <form id="rec-form" method="POST" action="/profile/create_gamification_system">
+        <div id="system-name-container">
+            <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense">
+        </div>
+
         <div class="create-btn-container">
             <input type="submit" id="submit_btn" name="submit_btn" value="CREEAZĂ">
         </div>
 
+        <div class="label-container">
+            <label>Evenimentele care stau la baza recompensării:</label>
+        </div>
+
+        <div class="event-card-form">
+            <p>Selectează tipul de eveniment!</p>
+            <input type="radio" id="time1" name="tip_eveniment1" value="time">
+            <label for="time1">Bazat pe timp</label> <br>
+            <input type="radio" id="value1" name="tip_eveniment1" value="value">
+            <label for="value1">Bazat pe o valoare</label> <br>
+            <label for="name" class="nume-rec" id="nume-event1">Numele evenimentului:</label> <br>
+            <input type="text" class="name" id="nume-event1" name="nume_eveniment1">
+            <br>
+        </div>
+        
+        <button type="button" class="add" id="add-event-btn">+</button>
+        
+        <div class="label-container">
+            <label>Recompensele care vor fi oferite utilizatorilor dumneavoastră:</label>
+        </div>
+
         <div class="card-form">
             <p>Selectează tipul de recompensă!</p>
-            <input type="radio" id="badge1" name="alegere1" value="badge">
+            <input type="radio" id="badge1" name="tip_recompensa1" value="badge">
             <label for="badge1">Insignă</label> <br>
-            <input type="radio" id="levels1" name="alegere1" value="level">
+            <input type="radio" id="levels1" name="tip_recompensa1" value="level">
             <label for="levels1">Nivel</label> <br>
-            <label for="name" class="nume-rec" id="nume-rec1">Nume recompensă:</label> <br>
-            <input type="text" class="name" id="nume-rec1" name="recompensă">
+            <label for="name" class="nume-rec" id="nume-rec1">Numele recompensei:</label> <br>
+            <input type="text" class="name" id="nume-rec1" name="nume_recompensa1"> <br>
+            <label for="name" class="nume-rec-2" id="nume-ev1">Numele evenimentului care controlează recompensa:</label> <br>
+            <input type="text" class="name" id="nume-ev1" name="eveniment_recompensa1"> <br>
+            <label for="name" class="nume-rec-2" id="valoare-ev1">Valoarea pentru care se va oferi recompensa:</label> <br>
+            <input type="text" class="name" id="nume-ev1" name="valoare_eveniment1" placeholder="Valoare întreagă pozitivă">
             <br>
         </div>
 
-        <button type="button" class="add" id="add-btn">+</div>
+        <button type="button" class="add" id="add-btn">+</button>
     </form>
 
 </div>

@@ -21,7 +21,10 @@ const formRoute = (request, response) => {
         }, (data) => {
             response.write(data);
 
-            return renderPage(paths.index, null, (data) => {
+            return renderPage(paths.index, {
+                successMessage: request.successMessage,
+                errorMessage: request.errorMessage
+            }, (data) => {
                 response.write(data);
 
                 return renderPage(paths.footer, {

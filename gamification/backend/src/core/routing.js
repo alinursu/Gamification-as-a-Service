@@ -95,7 +95,6 @@ const routing = async (request, response) => {
                 return;
             }
                 
-
             case '/register': {
                 if(cookies.authToken == null) {
                     await requestsLimiterController.registerRequestsLimiterFunction(request, response, function(request, response) {
@@ -142,7 +141,7 @@ const routing = async (request, response) => {
 
             case '/profile/create_gamification_system': {
                 if(cookies.authToken != null) {
-                    return gamificationSystemController.handleNewGamificationSystemRequest(request, response);
+                    return gamificationSystemController.handleCreateGamificationSystemRequest(request, response);
                 }
 
                 // Utilizatorul este neautentificat - 403 Forbidden
