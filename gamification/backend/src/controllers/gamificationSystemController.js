@@ -40,7 +40,7 @@ function handleCreateGamificationSystemRequest(request, response) {
             return;
         }
 
-        // TODO: Adaug modelul in baza de date (Generez un api key si verific unicitatea numelui si a api key-ului)
+        // Adaug modelul in baza de date
         var serviceResponse = null;
         await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel).then(function (result) {
             serviceResponse = result;
