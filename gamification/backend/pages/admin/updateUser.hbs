@@ -16,15 +16,15 @@
         <div class="content">
             <div class="form">
                 <form method="post" action="/admin/users/update">
-                    <input type="hidden" name="id" value="{{this.user.id}}">
+                    <input type="hidden" name="id" value="{{this.user.id}} required">
                     <label for="fname">First name:</label><br>
-                    <input type="text" id="fname" name="fname" value="{{this.user.firstname}}"><br>
+                    <input type="text" id="fname" name="fname" value="{{this.user.firstname}}" required><br>
                     <label for="lname">Last name:</label><br>
-                    <input type="text" id="lname" name="lname" value="{{this.user.lastname}}"><br>
+                    <input type="text" id="lname" name="lname" value="{{this.user.lastname}}"required><br>
                     <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" value="{{this.user.email}}"><br>
+                    <input type="text" id="email" name="email" value="{{this.user.email}}"required><br>
                     <label for="url">URL:</label><br>
-                    <input type="text" id="url" name="url" value="{{this.user.url}}"><br>
+                    <input type="text" id="url" name="url" value="{{this.user.url}}"required><br>
                     <button class="add-btn">Update</button>
                 </form>
 
