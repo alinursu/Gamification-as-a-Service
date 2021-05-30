@@ -18,6 +18,7 @@ async function verifyUserModelLoginCredentials(userModel) {
             queryResult = -1;
             return;
         }
+        
         queryResult = results;
     })
 

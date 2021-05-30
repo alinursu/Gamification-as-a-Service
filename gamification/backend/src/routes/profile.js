@@ -9,9 +9,6 @@ var cookie = require('cookie');
  * @param {*} response Raspunsul dat pentru request.
  */
 const profileRoute = (request, response) => {
-    var cookies = cookie.parse(request.headers.cookie || '');
-
-    // TODO: Nu poate fi accesat daca nu esti logat!
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
         header: path.join(__dirname, '../../pages/common/header_logged.hbs'),
@@ -42,7 +39,8 @@ const profileRoute = (request, response) => {
                 successMessage: request.successMessage,
                 previousURLValue: request.previousURLValue,
                 userFullName: request.userFullName,
-                userURL: request.userURL
+                userURL: request.userURL,
+                listOfGamificationSystemModels: request.listOfGamificationSystemModels
             }, (data) => {
                 response.write(data);
 

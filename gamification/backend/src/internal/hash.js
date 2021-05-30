@@ -8,7 +8,9 @@ var salt = alphabet.length/2;
  * @returns String-ul inversat.
  */
 function reverseString(string) {
-    if(string.length == 0) {
+    if(string == null) return null;
+    
+    if(string.length <= 1) {
         return string;
     }
 
@@ -23,6 +25,8 @@ function reverseString(string) {
  * @returns Criptarea textului.
  */
 function encrypt(text) {
+    if(text == null) return null;
+
     var encryptedText = ""
 
     for(var i=0; i<text.length; i++) {
@@ -44,6 +48,8 @@ function encrypt(text) {
  * @returns Textul decriptat.
  */
 function decrypt(text) {
+    if(text == null) return null;
+    
     var decryptedText = "";
     for(var i=0; i<text.length; i++) {
         var position = alphabet.indexOf(text[i]);

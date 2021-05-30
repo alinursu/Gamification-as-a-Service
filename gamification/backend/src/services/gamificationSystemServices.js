@@ -232,7 +232,7 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
 /**
  * Adauga un model GamificationSystem in baza de date, generandu-i si o cheie API.
  * @param {*} gamificationSystemModel Modelul care va fi adaugat in baza de date.
- * @retuns Cheia API, daca modelul a fost adaugat in baza de date; 1, daca exista deja un sistem asociat utilizatorului acesta, avand acelasi nume; -1 daca a aparut o eroare pe parcursul exeuctiei
+ * @returns Cheia API, daca modelul a fost adaugat in baza de date; 1, daca exista deja un sistem asociat utilizatorului acesta, avand acelasi nume; -1 daca a aparut o eroare pe parcursul exeuctiei
  */
 async function addGamificationSystemModelToDatabase(gamificationSystemModel) {
     await generateAPIKey().then(function (apikey) {
@@ -384,4 +384,80 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel) {
     return returnedValue;
 }
 
-module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase}
+/**
+ * Construieste o lista de modele GamificationSystem (incluzand modelele de GamificationReward si GamificationEvent din ele) create de un anumit utilizator, folosind datele din baza de date.
+ * @param {*} userId Id-ul utilizatorului pentru care se face cautarea.
+ * @returns Lista de modele GamificationSystem create de utilizator; -1 daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationSystemModelsByUserId(userId) {
+    var outputList = [];
+
+    // Preiau modelele GamificationSystem
+    var listOfGamificationSystemModels = null;
+    await gamificationSystemsRepository.getGamificationSystemsByUserId(userId).then(function (result) {
+        listOfGamificationSystemModels = result;
+    });
+
+    while(listOfGamificationSystemModels == null) {
+        await utils.timeout(10);
+    }
+
+    if(listOfGamificationSystemModels == -1) {
+        return -1;
+    }
+
+    for(var index=0; index < listOfGamificationSystemModels.length; index++) {
+        // Creez modelul
+        var gamificationSystemModel = new GamificationSystemModel(
+            listOfGamificationSystemModels[index].api_key, listOfGamificationSystemModels[index].name, listOfGamificationSystemModels[index].user_id, null, null
+        );
+        var listOfGamificationRewardModels = [];
+        var listOfGamificationEventModels = [];
+
+        // Pentru fiecare model GamificationSystem, preiau modelele GamificationEvent
+        var queryResult = null;
+        await gamificationSystemsRepository.getGamificationEventModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
+            queryResult = result;
+        });
+
+        while(queryResult == null) {
+            await utils.timeout(10);
+        }
+
+        if(queryResult == -1) return -1;
+
+        queryResult.forEach(queryResultObj => {
+            listOfGamificationEventModels.push(new GamificationEventModel(
+                queryResultObj.id, queryResultObj.system_api_key, queryResultObj.name, queryResultObj.event_type
+            ));
+        });
+        
+
+        // Pentru fiecare model GamificationSystem, preiau modelele GamificationReward
+        var queryResult2 = null;
+        await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
+            queryResult2 = result;
+        });
+
+        while(queryResult2 == null) {
+            await utils.timeout(10);
+        }
+
+        if(queryResult2 == -1) return -1;
+
+        queryResult2.forEach(queryResultObj => {
+            listOfGamificationRewardModels.push(new GamificationRewardModel(
+                queryResultObj.id, queryResultObj.system_api_key, queryResultObj.name, queryResultObj.type, queryResultObj.occurs_at_event_id, 
+                    queryResultObj.event_value, queryResultObj.reward_value
+            ));
+        });
+
+        gamificationSystemModel.listOfGamificationEvents = listOfGamificationEventModels;
+        gamificationSystemModel.listOfGamificationRewards = listOfGamificationRewardModels;
+        outputList.push(gamificationSystemModel);
+    }
+    
+    return outputList;
+}
+
+module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase, getGamificationSystemModelsByUserId}

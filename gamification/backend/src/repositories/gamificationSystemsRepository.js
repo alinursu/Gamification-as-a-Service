@@ -38,6 +38,70 @@ async function getGamificationSystemsByUserId(userId) {
 }
 
 /**
+ * Cauta in baza de date modelele GamificationReward create pentru un anumit sistem.
+ * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
+ * @return Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei
+ */
+ async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_rewards WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(systemAPIKey)], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = results;
+    });
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    // Decriptez datele
+    queryResult.forEach(gamificationRewardModel => {
+        gamificationRewardModel.system_api_key = hash.decrypt(gamificationRewardModel.system_api_key);
+        gamificationRewardModel.name = hash.decrypt(gamificationRewardModel.name);
+    });
+
+    return queryResult;
+}
+
+/**
+ * Cauta in baza de date modelele GamificationEvent create pentru un anumit sistem.
+ * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
+ * @return Lista modelelor GamificationEvent; -1, daca a aparut o eroare pe parcursul executiei
+ */
+ async function getGamificationEventModelsByAPIKey(systemAPIKey) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_events WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(systemAPIKey)], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = results;
+    });
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    // Decriptez datele
+    queryResult.forEach(gamificationEventModel => {
+        gamificationEventModel.system_api_key = hash.decrypt(gamificationEventModel.system_api_key);
+        gamificationEventModel.name = hash.decrypt(gamificationEventModel.name);
+    });
+
+    return queryResult;
+}
+
+/**
  * Adauga sistemul de gamificare in tabela "gamification_systems".
  * @param {*} gamificationSystemModel Sistemul de recompense care va fi adaugat.
  * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
@@ -112,7 +176,7 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
     if(connection == null) {
         connection = getDatabaseConnection();
     }
-    var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?)";
+    var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?, ?)";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
@@ -167,4 +231,5 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = nu
 }
 
 module.exports = {getGamificationSystemsByUserId, addGamificationSystemToDatabase, 
-    addGamificationEventToDatabase, addGamificationRewardToDatabase, getGamificationEventByAPIKeyAndName};
+    addGamificationEventToDatabase, addGamificationRewardToDatabase, getGamificationEventByAPIKeyAndName,
+    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey};
