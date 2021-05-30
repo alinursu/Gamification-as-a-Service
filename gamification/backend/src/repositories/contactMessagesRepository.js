@@ -11,8 +11,6 @@ async function addContactMessageToDatabase(contactMessageModel) {
     var connection = getDatabaseConnection();
     var sql = "INSERT INTO contact_messages(sender_name, sender_email, message) VALUES(?, ?, ?)";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [hash.encrypt(contactMessageModel.name), hash.encrypt(contactMessageModel.email), 
               hash.encrypt(contactMessageModel.text)], function(error, results) {
@@ -23,9 +21,7 @@ async function addContactMessageToDatabase(contactMessageModel) {
 
         queryResult = 1;
     })
-
-    connection.end();
-
+    
     while(queryResult == null) {
         await utils.timeout(10);
     }

@@ -14,8 +14,6 @@ async function getGamificationSystemsByUserId(userId) {
     var connection = getDatabaseConnection();
     var sql = "SELECT * FROM gamification_systems WHERE user_id = ?";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [userId], function(error, results) {
         if(error) {
@@ -25,8 +23,6 @@ async function getGamificationSystemsByUserId(userId) {
 
         queryResult = results;
     });
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -44,13 +40,14 @@ async function getGamificationSystemsByUserId(userId) {
 /**
  * Adauga sistemul de gamificare in tabela "gamification_systems".
  * @param {*} gamificationSystemModel Sistemul de recompense care va fi adaugat.
+ * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; 1, daca cheia API a mai fost folosita (ER_DUP_ENTRY); -1, daca a aparut o eroare pe parcursul executiei
  */
-async function addGamificationSystemToDatabase(gamificationSystemModel) {
-    var connection = getDatabaseConnection();
+async function addGamificationSystemToDatabase(gamificationSystemModel, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
     var sql = "INSERT INTO gamification_systems VALUES(?, ?, ?)";
-
-    connection.connect();
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationSystemModel.APIKey), hash.encrypt(gamificationSystemModel.name), 
@@ -68,8 +65,6 @@ async function addGamificationSystemToDatabase(gamificationSystemModel) {
         queryResult = 0;
     })
 
-    connection.end();
-
     while(queryResult == null) {
         await utils.timeout(10);
     }
@@ -80,13 +75,14 @@ async function addGamificationSystemToDatabase(gamificationSystemModel) {
 /**
  * Adauga un eveniment in tabela "gamification_events".
  * @param {*} gamificationEventModel Modelul-eveniment care va fi adaugat.
+ * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function addGamificationEventToDatabase(gamificationEventModel) {
-    var connection = getDatabaseConnection();
+async function addGamificationEventToDatabase(gamificationEventModel, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
     var sql = "INSERT INTO gamification_events(system_api_key, name, event_type) VALUES(?, ?, ?)";
-
-    connection.connect();
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name), 
@@ -99,8 +95,6 @@ async function addGamificationEventToDatabase(gamificationEventModel) {
         queryResult = 0;
     })
 
-    connection.end();
-
     while(queryResult == null) {
         await utils.timeout(10);
     }
@@ -111,17 +105,18 @@ async function addGamificationEventToDatabase(gamificationEventModel) {
 /**
  * Adauga un eveniment in tabela "gamification_rewards".
  * @param {*} gamificationRewardModel Modelul-recompensa care va fi adaugat.
+ * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function addGamificationRewardToDatabase(gamificationRewardModel) {
-    var connection = getDatabaseConnection();
-    var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, value) VALUES(?, ?, ?, ?, ?)";
-
-    connection.connect();
+async function addGamificationRewardToDatabase(gamificationRewardModel, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
+    var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?)";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
-            gamificationRewardModel.eventId, gamificationRewardModel.value], function(error, results) {
+            gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue], function(error, results) {
         if(error) {
             queryResult = -1;
             return;
@@ -129,8 +124,6 @@ async function addGamificationRewardToDatabase(gamificationRewardModel) {
         
         queryResult = 0;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -143,13 +136,14 @@ async function addGamificationRewardToDatabase(gamificationRewardModel) {
  * Cauta in baza de date un eveniment dupa o cheie API (a unui sistem de gamificare) si un nume.
  * @param {*} APIKey Cheia API a sistemului de gamificare dupa care se face cautarea
  * @param {*} name Numele dupa care se face cautarea.
+ * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
  * @return Evenimentul gasit; NULL, daca nu exista niciun eveniment care sa corespunda criteriilor; -1, daca a aparut o eroare pe parcursul executiei
  */
-async function getGamificationEventByAPIKeyAndName(APIKey, name) {
-    var connection = getDatabaseConnection();
+async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
     var sql = "SELECT * FROM gamification_events WHERE system_api_key = ? AND name = ?";
-
-    connection.connect();
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(APIKey), hash.encrypt(name)], function(error, results) {
@@ -160,8 +154,6 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name) {
 
         queryResult = results;
     });
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);

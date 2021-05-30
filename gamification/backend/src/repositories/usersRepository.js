@@ -12,8 +12,6 @@ async function verifyUserModelLoginCredentials(userModel) {
     var connection = getDatabaseConnection(); 
     var sql = "SELECT * FROM users WHERE email=? AND password=?";
 
-    connection.connect();
-
     var queryResult;
     connection.query(sql, [hash.encrypt(userModel.email), hash.encrypt(userModel.password)], function(error, results) {
         if(error) {
@@ -22,8 +20,6 @@ async function verifyUserModelLoginCredentials(userModel) {
         }
         queryResult = results;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -52,8 +48,6 @@ async function verifyUserModelLoginCredentials(userModel) {
 async function verifyUserModelRegisterCredentials(userModel) {
     var connection = getDatabaseConnection(); 
     var sql = "SELECT * FROM users WHERE email=?";
-    
-    connection.connect();
 
     var queryResult;
     connection.query(sql, [hash.encrypt(userModel.email)], function(error, results) {
@@ -63,8 +57,6 @@ async function verifyUserModelRegisterCredentials(userModel) {
         }
         queryResult = results;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -89,8 +81,6 @@ async function verifyUserModelRegisterCredentials(userModel) {
 async function insertUserModel(userModel) {
     var connection = getDatabaseConnection();
     var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES(?, ?, ?, ?, ?)";
-    
-    connection.connect();
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(userModel.firstname), hash.encrypt(userModel.lastname), hash.encrypt(userModel.email), 
@@ -102,8 +92,6 @@ async function insertUserModel(userModel) {
 
         queryResult = 0;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -121,8 +109,6 @@ async function getUserModelById(userId) {
     var connection = getDatabaseConnection(); 
     var sql = "SELECT * from users WHERE id=?";
 
-    connection.connect();
-
     var queryResult;
     connection.query(sql, [userId], function(error, results) {
         if(error) {
@@ -131,8 +117,6 @@ async function getUserModelById(userId) {
         }
         queryResult = results;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -162,8 +146,6 @@ async function updateUserModelURL(userModel) {
     var connection = getDatabaseConnection(); 
     var sql = "UPDATE users SET url=? WHERE id=?";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [hash.encrypt(userModel.url), userModel.id], function(error, results) {
         if(error) {
@@ -173,8 +155,6 @@ async function updateUserModelURL(userModel) {
 
         queryResult = 0;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -192,8 +172,6 @@ async function updateUserModelPassword(userModel) {
     var connection = getDatabaseConnection(); 
     var sql = "UPDATE users SET password=? WHERE id=?";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [hash.encrypt(userModel.password), userModel.id], function(error, results) {
         if(error) {
@@ -203,8 +181,6 @@ async function updateUserModelPassword(userModel) {
 
         queryResult = 0;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
