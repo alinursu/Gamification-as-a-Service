@@ -5,8 +5,10 @@ const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
 const errorRoute = require("../routes/error");
 const formRoute = require("../routes/form");
-const adminRoute = require("../routes/admin");
-const adminAddRoute = require("../routes/adminAddUser")
+const adminUsersListRoute = require("../routes/adminUsers");
+const adminAddUserRoute = require("../routes/adminAddUser");
+const adminUpdateUserRoute = require("../routes/adminUpdateUser");
+const adminAddUserPOSTRoute = require("../routes/adminAddUserPOST");
 
 const userController = require('../controllers/userController');
 const tokenController = require('../controllers/tokenController');
@@ -18,6 +20,9 @@ const staticServe = require('node-static');
 const path = require('path');
 const utils = require('../internal/utils');
 var cookie = require('cookie');
+const adminDeleteUserRoute = require("../routes/adminDeleteUser");
+const adminUpdateUserPUTRoute = require("../routes/adminUpdateUserPOST");
+
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
 
@@ -64,6 +69,7 @@ const routing = async (request, response) => {
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
         }
+
 
         // Nu poti face un request de tip PUT la pagina {{url}} - 403 Forbidden
         response.statusCode = 403;
@@ -151,6 +157,29 @@ const routing = async (request, response) => {
                 response.setHeader('Location', '/error');
                 return errorRoute(request, response);
             }
+
+            case '/admin/users/add': {
+                if (cookies.authToken != null) {
+                    return adminAddUserPOSTRoute(request, response);
+                }
+
+                // Utilizatorul este neautentificat - 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
+            case '/admin/users/update':
+                if (cookies.authToken != null) {
+                    return adminUpdateUserPUTRoute(request, response);
+                }
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
 
             default: {
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden
@@ -262,14 +291,23 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
         case '/admin/users': {
-            return adminRoute(request, response);
+            return adminUsersListRoute(request, response);
         }
 
-        case '/admin/add':{
-            return adminAddRoute(request,response);
+        case '/admin/users/add': {
+            return adminAddUserRoute(request, response);
         }
 
         default: {
+            //Rutari dinamice ADMIN
+            if (url.startsWith('/admin/users/update')) {
+                return adminUpdateUserRoute(request, response);
+            }
+
+            if (url.startsWith('/admin/users/delete')) {
+                return adminDeleteUserRoute(request, response);
+            }
+
             // Rutari CSS
             if (url.startsWith('/styles/')) {
                 return file.serve(request, response)
