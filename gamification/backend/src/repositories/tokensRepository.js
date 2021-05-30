@@ -10,12 +10,10 @@ const hash = require('../internal/hash');
  */
 async function addTokenToDatabase(token, userModel) {
     var actualDate = new Date();
-    var expiresAtDate = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + (actualDate.getDate() + 2);
+    var expiresAtDate = actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + ((actualDate.getDate() + 2)%30);
 
     var connection = getDatabaseConnection();
     var sql = "INSERT INTO tokens VALUES(?, ?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d'))";
-
-    connection.connect();
 
     var queryResult = null;
     connection.query(sql, [token, userModel.id, hash.encrypt(userModel.firstname), 
@@ -24,11 +22,8 @@ async function addTokenToDatabase(token, userModel) {
             queryResult = -1;
             return;
         }
-
         queryResult = 1;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -46,8 +41,6 @@ async function deleteTokenFromDatabase(token) {
     var connection = getDatabaseConnection();
     var sql = "DELETE FROM tokens WHERE token=?";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [token], function(error, results) {
         if(error) {
@@ -57,8 +50,6 @@ async function deleteTokenFromDatabase(token) {
 
         queryResult = 1;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -77,8 +68,6 @@ async function getUserIdByToken(token) {
     var connection = getDatabaseConnection();
     var sql = "SELECT user_id FROM tokens WHERE token=?";
 
-    connection.connect();
-
     var queryResult = null;
     connection.query(sql, [token], function(error, results) {
         if(error) {
@@ -87,8 +76,6 @@ async function getUserIdByToken(token) {
         }
         queryResult = results;
     })
-
-    connection.end();
 
     while(queryResult == null) {
         await utils.timeout(10);
@@ -115,13 +102,9 @@ async function deleteAllExpiredTokens() {
     var connection = getDatabaseConnection();
     var sql = "DELETE FROM tokens WHERE expires_at = STR_TO_DATE(?, '%Y-%m-%d')";
 
-    connection.connect();
-
     connection.query(sql, [dateToday], function(error, results) {
         if(error) return;
     })
-
-    connection.end();
 }
 
 module.exports = {addTokenToDatabase, deleteTokenFromDatabase, getUserIdByToken, deleteAllExpiredTokens}

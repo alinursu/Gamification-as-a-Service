@@ -15,6 +15,8 @@ add.addEventListener('click', (event) => {
             <label for="levels${numberOfCards + 1}">Nivel</label> <br>
             <label for="name" class="nume-rec" id="nume-rec${numberOfCards + 1}">Numele recompensei:</label> <br>
             <input type="text" class="name" id="nume-rec${numberOfCards + 1}" name="nume_recompensa${numberOfCards + 1}"> <br>
+            <label for="name" class="nume-rec" id="punctaj${numberOfCards + 1}">Valoarea importanței:</label> <br>
+            <input type="text" class="name" id="nume-rec${numberOfCards + 1}" name="punctaj${numberOfCards + 1}" placeholder="Valoare întreagă pozitivă"> <br>
             <label for="name" class="nume-rec-2" id="nume-ev${numberOfCards + 1}">Numele evenimentului care controlează recompensa:</label> <br>
             <input type="text" class="name" id="nume-ev${numberOfCards + 1}" name="eveniment_recompensa${numberOfCards + 1}"> <br>
             <label for="name" class="nume-rec-2" id="valoare-ev${numberOfCards + 1}">Valoarea pentru care se va oferi recompensa:</label> <br>

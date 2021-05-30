@@ -6,9 +6,11 @@ const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
 const loginRoute = require('../routes/login');
 const errorRoute = require('../routes/error');
+const utils = require('../internal/utils');
 const usersRepository = require('../repositories/usersRepository');
 const tokensRepository = require('../repositories/tokensRepository');
 const userServices = require('../services/userServices');
+const gamificationSystemServices = require('../services/gamificationSystemServices');
 
 /**
  * Preia din baza de date un model User pe baza unui token de autentificare.
@@ -337,7 +339,7 @@ function handleChangeURLRequest(request, response) {
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
- function handleChangePasswordRequest(request, response) {
+function handleChangePasswordRequest(request, response) {
     var cookies = cookie.parse(request.headers.cookie || '');
     var token = cookies.authToken;
 
@@ -394,4 +396,55 @@ function handleChangeURLRequest(request, response) {
     });    
 }
 
-module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, getUserModelByToken};
+/**
+ * Rezolva un request de tip GET facut la pagina '/profile'.
+ * @param {*} request Request-ul facut.
+ * @param {*} response Raspunsul dat de server.
+ */
+async function handleGETProfileRequest(request, response) {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
+
+    // Iau modelul User folosindu-ma de token
+    var userModel = 0;
+
+    await getUserModelByToken(token).then(function (result) {
+        userModel = result;
+    });
+
+    while(userModel == 0) {
+        await utils.timeout(10);
+    }
+
+    if(userModel == null) {
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        return errorRoute(request, response);
+    }
+
+    // Preiau sistemele de recompense create de user, folosindu-ma de userId
+    var listOfGamificationSystemModels = null;
+    await gamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
+        listOfGamificationSystemModels = result;
+    })
+
+    while(listOfGamificationSystemModels == null) {
+        await utils.timeout(10);
+    }
+
+    if(listOfGamificationSystemModels == -1) {
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        return errorRoute(request, response);
+    }
+
+    // Construiesc raspunsul
+    request.listOfGamificationSystemModels = listOfGamificationSystemModels;
+    return profileRoute(request, response);
+}
+
+module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, getUserModelByToken, handleGETProfileRequest};

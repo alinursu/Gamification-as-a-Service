@@ -1,5 +1,4 @@
-{{!-- TODO: Fill the informations with the right data after a request --}}
- <div id="body-div">
+<div id="body-div">
      {{#if errorMessage}}
         <h2 id="error-profile">{{errorMessage}}</h2>
      {{/if}}
@@ -46,21 +45,13 @@
 
                 <div id="profile-menu-horizontal-line"></div>
 
-                {{!-- TODO: Routing to the gamification system overview/edit page --}}
-                {{!-- TODO: in pagina sistemului de recompense => save (la create si update) + optiune de delete la update --}}
                 <div id="profile-gamification-row">
-                    <div class="profile-gamification-card" onclick="">
-                        <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
-                        <p>Gamification System 1</p>
-                    </div>
-                    <div class="profile-gamification-card" onclick="">
-                        <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
-                        <p>Gamification System 2</p>
-                    </div>
-                    <div class="profile-gamification-card" onclick="">
-                        <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
-                        <p>Gamification System 3</p>
-                    </div>
+                    {{#each listOfGamificationSystemModels}}
+                        <div class="profile-gamification-card" onclick="location.href = '/profile/view_gamification_system?apikey={{this.APIKey}}'">
+                            <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
+                            <p>{{this.name}}</p>
+                        </div>
+                    {{/each}}
                 </div>
 
                 <div id="profile-gamification-new-row">
