@@ -1,0 +1,7 @@
+{
+  "name": "gamification",
+  "version": "1.0.0",
+  "dependencies": {
+    "rate-limiter-flexible": "^2.2.2"
+  }
+}

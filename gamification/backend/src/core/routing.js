@@ -5,6 +5,8 @@ const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
 const errorRoute = require("../routes/error");
 const formRoute = require("../routes/form");
+const adminRoute = require("../routes/admin");
+const adminAddRoute = require("../routes/adminAddUser")
 
 const userController = require('../controllers/userController');
 const tokenController = require('../controllers/tokenController');
@@ -16,7 +18,7 @@ const staticServe = require('node-static');
 const path = require('path');
 const utils = require('../internal/utils');
 var cookie = require('cookie');
-const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cache: 1 }); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
+const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
 
 /**
@@ -28,19 +30,19 @@ const file = new staticServe.Server(path.join(__dirname, '../../pages/'), { cach
 const routing = async (request, response) => {
     const url = request.url;
     var cookies = cookie.parse(request.headers.cookie || '');
-    
-    if(!url.startsWith('/styles/') && !url.startsWith('/images/') && !url.startsWith('/js/')) {
+
+    if (!url.startsWith('/styles/') && !url.startsWith('/images/') && !url.startsWith('/js/')) {
         // Daca utilizatorul este autentificat, preiau date despre contul acestuia din baza de date, date pe care le voi afisa in pagina
         request.userFullName = null;
         request.userURL = null;
 
-        if(cookies.authToken != null) {
+        if (cookies.authToken != null) {
             var userModel;
-            userController.getUserModelByToken(cookies.authToken).then(function(result) {
+            userController.getUserModelByToken(cookies.authToken).then(function (result) {
                 userModel = result;
             });
 
-            while(userModel == null) {
+            while (userModel == null) {
                 await utils.timeout(10);
             }
             request.userFullName = userModel.firstname + " " + userModel.lastname;
@@ -49,9 +51,9 @@ const routing = async (request, response) => {
     }
 
     // Request-uri de tip PUT
-    if(request.method == 'PUT') {
-        if(url.startsWith('/profile/change_url')) {
-            if(cookies.authToken != null) {
+    if (request.method == 'PUT') {
+        if (url.startsWith('/profile/change_url')) {
+            if (cookies.authToken != null) {
                 return userController.handleChangeURLRequest(request, response);
             }
 
@@ -66,24 +68,23 @@ const routing = async (request, response) => {
         // Nu poti face un request de tip PUT la pagina {{url}} - 403 Forbidden
         response.statusCode = 403;
         request.statusCodeMessage = "Forbidden";
-        request.errorMessage = "Nu poți face un request de tip PUT la pagina \"" + url +"\"!";
+        request.errorMessage = "Nu poți face un request de tip PUT la pagina \"" + url + "\"!";
         response.setHeader('Location', '/error');
         return errorRoute(request, response);
     }
 
     // Request-uri de tip POST
-    if(request.method == 'POST') {
+    if (request.method == 'POST') {
         switch (url) {
             case '/':
                 return contactMessageController.handleContactRequest(request, response);
 
             case '/login': {
-                if(cookies.authToken == null) {
-                    await requestsLimiterController.loginRequestsLimiterFunction(request, response, function(request, response) {
+                if (cookies.authToken == null) {
+                    await requestsLimiterController.loginRequestsLimiterFunction(request, response, function (request, response) {
                         return userController.handleLoginRequest(request, response);
                     });
-                }
-                else {
+                } else {
                     // Utilizatorul este autentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -94,14 +95,13 @@ const routing = async (request, response) => {
 
                 return;
             }
-                
+
             case '/register': {
-                if(cookies.authToken == null) {
-                    await requestsLimiterController.registerRequestsLimiterFunction(request, response, function(request, response) {
+                if (cookies.authToken == null) {
+                    await requestsLimiterController.registerRequestsLimiterFunction(request, response, function (request, response) {
                         return userController.handleRegisterRequest(request, response);
                     });
-                }
-                else {
+                } else {
                     // Utilizatorul este autentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -114,10 +114,10 @@ const routing = async (request, response) => {
             }
 
             case '/profile/change_url': {
-                if(cookies.authToken != null) {
+                if (cookies.authToken != null) {
                     return userController.handleChangeURLRequest(request, response);
                 }
-    
+
                 // Utilizatorul este neautentificat - 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -127,7 +127,7 @@ const routing = async (request, response) => {
             }
 
             case '/profile/change_password': {
-                if(cookies.authToken != null) {
+                if (cookies.authToken != null) {
                     return userController.handleChangePasswordRequest(request, response);
                 }
 
@@ -140,7 +140,7 @@ const routing = async (request, response) => {
             }
 
             case '/profile/create_gamification_system': {
-                if(cookies.authToken != null) {
+                if (cookies.authToken != null) {
                     return gamificationSystemController.handleCreateGamificationSystemRequest(request, response);
                 }
 
@@ -156,7 +156,7 @@ const routing = async (request, response) => {
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
-                request.errorMessage = "Nu poți face un request de tip POST la pagina \"" + url +"\"!";
+                request.errorMessage = "Nu poți face un request de tip POST la pagina \"" + url + "\"!";
                 response.setHeader('Location', '/error');
                 return errorRoute(request, response);
             }
@@ -171,9 +171,9 @@ const routing = async (request, response) => {
 
             return indexRoute(request, response);
         }
-            
+
         case '/login': {
-            if(cookies.authToken == null) {
+            if (cookies.authToken == null) {
                 return loginRoute(request, response);
             }
 
@@ -184,7 +184,7 @@ const routing = async (request, response) => {
         }
 
         case '/register': {
-            if(cookies.authToken == null) {
+            if (cookies.authToken == null) {
                 return registerRoute(request, response);
             }
 
@@ -195,7 +195,7 @@ const routing = async (request, response) => {
         }
 
         case '/logout': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 return userController.handleLogoutRequest(request, response);
             }
 
@@ -211,10 +211,10 @@ const routing = async (request, response) => {
             return documentationRoute(request, response);
 
         case '/profile': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 return profileRoute(request, response);
             }
-            
+
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
             response.statusCode = 403;
             request.statusCodeMessage = "Forbidden";
@@ -222,12 +222,12 @@ const routing = async (request, response) => {
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
         }
-        
+
         case '/profile/change_url': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 return profileRoute(request, response);
             }
-            
+
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
             response.statusCode = 403;
             request.statusCodeMessage = "Forbidden";
@@ -237,10 +237,10 @@ const routing = async (request, response) => {
         }
 
         case '/profile/change_password': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 return profileRoute(request, response);
             }
-            
+
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
             response.statusCode = 403;
             request.statusCodeMessage = "Forbidden";
@@ -250,7 +250,7 @@ const routing = async (request, response) => {
         }
 
         case '/profile/create_gamification_system': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 return formRoute(request, response);
             }
 
@@ -261,20 +261,27 @@ const routing = async (request, response) => {
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
         }
+        case '/admin/users': {
+            return adminRoute(request, response);
+        }
+
+        case '/admin/add':{
+            return adminAddRoute(request,response);
+        }
 
         default: {
             // Rutari CSS
-            if(url.startsWith('/styles/')) {
+            if (url.startsWith('/styles/')) {
                 return file.serve(request, response)
             }
 
             // Rutari pentru imagini
-            if(url.startsWith('/images/')) {
+            if (url.startsWith('/images/')) {
                 return file.serve(request, response);
             }
 
             // Rutari client-side JS
-            if(url.startsWith('/js/')) {
+            if (url.startsWith('/js/')) {
                 return file.serve(request, response);
             }
 
@@ -287,7 +294,7 @@ const routing = async (request, response) => {
 
     }
 
-    
+
 }
 
 module.exports = routing;
