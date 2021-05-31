@@ -160,26 +160,55 @@ const routing = async (request, response) => {
 
             case '/admin/users/add': {
                 if (cookies.authToken != null) {
-                    return adminAddUserPOSTRoute(request, response);
+                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                        if(result) return adminAddUserPOSTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizatorul este neautentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
 
-                // Utilizatorul este neautentificat - 403 Forbidden
-                response.statusCode = 403;
-                request.statusCodeMessage = "Forbidden";
-                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
-                response.setHeader('Location', '/error');
-                return errorRoute(request, response);
+                return;
             }
 
-            case '/admin/users/update':
+            case '/admin/users/update': {
                 if (cookies.authToken != null) {
-                    return adminUpdateUserPUTRoute(request, response);
+                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                        if(result) return adminUpdateUserPUTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
                 }
-                response.statusCode = 403;
-                request.statusCodeMessage = "Forbidden";
-                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
-                response.setHeader('Location', '/error');
-                return errorRoute(request, response);
+                else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
+            }
 
             default: {
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden
@@ -291,21 +320,110 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
         case '/admin/users': {
-            return adminUsersListRoute(request, response);
+            if (cookies.authToken != null) {
+                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    console.log(result);
+                    if(result) return adminUsersListRoute(request, response);
+                    else {
+                        // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                        response.statusCode = 403;
+                        request.statusCodeMessage = "Forbidden";
+                        request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                        response.setHeader('Location', '/error');
+                        return errorRoute(request, response);
+                    }
+                });
+            }
+            else {
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
+            return;
         }
 
         case '/admin/users/add': {
-            return adminAddUserRoute(request, response);
+            if (cookies.authToken != null) {
+                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    if(result) return adminAddUserRoute(request, response);
+                    else {
+                        // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                        response.statusCode = 403;
+                        request.statusCodeMessage = "Forbidden";
+                        request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                        response.setHeader('Location', '/error');
+                        return errorRoute(request, response);
+                    }
+                });
+            }
+            else {
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
+            return;
         }
 
         default: {
             //Rutari dinamice ADMIN
             if (url.startsWith('/admin/users/update')) {
-                return adminUpdateUserRoute(request, response);
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                        if(result) return adminUpdateUserRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
             }
 
             if (url.startsWith('/admin/users/delete')) {
-                return adminDeleteUserRoute(request, response);
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                        if(result) return adminDeleteUserRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
             }
 
             // Rutari CSS

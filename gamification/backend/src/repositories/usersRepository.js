@@ -6,7 +6,7 @@ const hash = require('../internal/hash');
 /**
  * Verifica daca datele de conectare dintr-un model User sunt valide.
  * @param {*} userModel Modelul a caror date de conectare vor fi verificate.
- * @returns Modelul User din baza de date, daca datele de conectare sunt valide; null, altfel; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns Modelul User din baza de date, daca datele de conectare sunt valide; null, altfel; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function verifyUserModelLoginCredentials(userModel) {
     var connection = getDatabaseConnection();
@@ -44,7 +44,7 @@ async function verifyUserModelLoginCredentials(userModel) {
 /**
  * Verifica daca exista in baza de date deja un model cu email-ul userModel.email.
  * @param {*} userModel Modelul creat cu datele introduse de utilizator
- * @returns 1, daca exista; 0, altfel; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns 1, daca exista; 0, altfel; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function verifyUserModelRegisterCredentials(userModel) {
     var connection = getDatabaseConnection();
@@ -77,11 +77,11 @@ async function verifyUserModelRegisterCredentials(userModel) {
 /**
  * Adauga un model User in baza de date.
  * @param {*} userModel Modelul care va fi adaugat.
- * @returns 0, daca a fost adaugat modelul; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns 0, daca a fost adaugat modelul; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function insertUserModel(userModel) {
     var connection = getDatabaseConnection();
-    var sql = "INSERT INTO users(firstname, lastname, email, password, url) VALUES(?, ?, ?, ?, ?)";
+    var sql = "INSERT INTO users(firstname, lastname, email, password, url, is_admin) VALUES(?, ?, ?, ?, ?, 0)";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(userModel.firstname), hash.encrypt(userModel.lastname), hash.encrypt(userModel.email),
@@ -104,7 +104,7 @@ async function insertUserModel(userModel) {
 /**
  * Preia din baza de date un model user pe baza unui id.
  * @param {*} userId Id-ul dupa care se face cautarea
- * @returns Modelul User gasit; null, altfel; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns Modelul User gasit; null, altfel; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function getUserModelById(userId) {
     var connection = getDatabaseConnection();
@@ -130,7 +130,7 @@ async function getUserModelById(userId) {
     if (queryResult.length > 0) {
         var userModel = new UserModel(
             queryResult[0].id, hash.decrypt(queryResult[0].lastname), hash.decrypt(queryResult[0].firstname),
-            hash.decrypt(queryResult[0].email), hash.decrypt(queryResult[0].password), hash.decrypt(queryResult[0].url)
+            hash.decrypt(queryResult[0].email), hash.decrypt(queryResult[0].password), hash.decrypt(queryResult[0].url), queryResult[0].is_admin
         );
         return userModel;
     }
@@ -163,7 +163,7 @@ async function getAllUsers() {
 /**
  * Actualizeaza campul "url" al modelului User din baza de date.
  * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "url".
- * @returns 0, daca a fost updatat modelul; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns 0, daca a fost updatat modelul; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function updateUserModelURL(userModel) {
     var connection = getDatabaseConnection();
@@ -220,7 +220,7 @@ async function deleteUserById(userId) {
 /**
  * Actualizeaza campul "password" al modelului User din baza de date.
  * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "password".
- * @returns 0, daca modelul a fost actualizat; -1, daca a aparut o eroare pe parcursul executarii
+ * @returns 0, daca modelul a fost actualizat; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function updateUserModelPassword(userModel) {
     var connection = getDatabaseConnection();

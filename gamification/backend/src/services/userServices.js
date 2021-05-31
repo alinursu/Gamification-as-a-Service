@@ -5,6 +5,8 @@ const loginRoute = require('../routes/login');
 const errorRoute = require('../routes/error');
 const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
+const usersRepository = require('../repositories/usersRepository');
+const utils = require('../internal/utils');
 
 /**
  * Genereaza o cheie (un token) unic, avand o lungime statica. Token-ul va fi folosit pentru a pastra un client logat (va fi stocat intr-un cookie in client-side).

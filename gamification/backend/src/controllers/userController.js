@@ -155,7 +155,7 @@ function handleLoginRequest(request, response) {
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
- function handleRegisterRequest(request, response) {
+function handleRegisterRequest(request, response) {
     // Citesc request body-ul
     let body = '';
     request.on('data', chunk => {
@@ -447,4 +447,26 @@ async function handleGETProfileRequest(request, response) {
     return profileRoute(request, response);
 }
 
-module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, getUserModelByToken, handleGETProfileRequest};
+/**
+ * Verifica daca utilizatorul este autentificat cu un cont ce are privilegii de admin.
+ * @param token Token-ul asociat contului in care utilizatorul este in momentul actual conectat.
+ * @returns true, daca este autentificat cu un cont ce are privilegii de admin; false, daca nu; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function isUserAdmin(token) {
+    // Preiau modelul User pe baza token-ului
+    var userModel = -1;
+    await getUserModelByToken(token).then(function (result) {
+        userModel = result;
+    });
+
+    while(userModel == -1) {
+        await utils.timeout(10);
+    }
+
+    if(userModel == null) return false;
+
+    return userModel.isAdmin;
+}
+
+module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, 
+    getUserModelByToken, handleGETProfileRequest, isUserAdmin};
