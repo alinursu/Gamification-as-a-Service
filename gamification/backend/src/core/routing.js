@@ -241,7 +241,7 @@ const routing = async (request, response) => {
 
         case '/profile': {
             if (cookies.authToken != null) {
-                return profileRoute(request, response);
+                return userController.handleGETProfileRequest(request, response);
             }
 
             // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
