@@ -47,7 +47,7 @@
 
                 <div id="profile-gamification-row">
                     {{#each listOfGamificationSystemModels}}
-                        <div class="profile-gamification-card" onclick="location.href = '/profile/view_gamification_system?apikey={{this.APIKey}}'">
+                        <div class="profile-gamification-card" onclick="location.href = '/profile/view_gamification_system?systemName={{this.name}}'">
                             <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
                             <p>{{this.name}}</p>
                         </div>

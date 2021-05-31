@@ -60,6 +60,7 @@ const routing = async (request, response) => {
 
     // Request-uri de tip PUT
     if (request.method == 'PUT') {
+        // Rutari dinamice de tip PUT
         if (url.startsWith('/profile/change_url')) {
             if (cookies.authToken != null) {
                 return userController.handleChangeURLRequest(request, response);
@@ -73,6 +74,18 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
+        if(url.startsWith('/profile/modify_gamification_system')) {
+            if (cookies.authToken != null) {
+                return gamificationSystemController.handleModifyGamificationSystemPUTRequest(request, response);
+            }
+
+            // Utilizatorul este neautentificat - 403 Forbidden
+            response.statusCode = 403;
+            request.statusCodeMessage = "Forbidden";
+            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+            response.setHeader('Location', '/error');
+            return errorRoute(request, response);
+        }
 
         // Nu poti face un request de tip PUT la pagina {{url}} - 403 Forbidden
         response.statusCode = 403;
@@ -214,6 +227,20 @@ const routing = async (request, response) => {
             }
 
             default: {
+                // Rutari dinamice de tip POST
+                if(url.startsWith('/profile/modify_gamification_system')) {
+                    if (cookies.authToken != null) {
+                        return gamificationSystemController.handleModifyGamificationSystemPUTRequest(request, response);
+                    }
+        
+                    // Utilizatorul este neautentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -457,7 +484,7 @@ const routing = async (request, response) => {
         }
 
         default: {
-            //Rutari dinamice ADMIN
+            // Rutari dinamice
             if (url.startsWith('/admin/users/update')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken).then(function (result) {
@@ -508,6 +535,32 @@ const routing = async (request, response) => {
                 }
 
                 return;
+            }
+
+            if(url.startsWith('/profile/view_gamification_system')) {
+                if(cookies.authToken != null) {
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/view_gamification_system');
+                }
+
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
+            if(url.startsWith('/profile/modify_gamification_system')) {
+                if(cookies.authToken != null) {
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/modify_gamification_system');
+                }
+
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
             }
 
             // Rutari CSS
