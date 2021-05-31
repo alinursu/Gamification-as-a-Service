@@ -1,4 +1,4 @@
-const { getDatabaseConnection } = require('../internal/databaseConnection');
+const {getDatabaseConnection} = require('../internal/databaseConnection');
 const utils = require('../internal/utils');
 const GamificationEventModel = require('../models/GamificationEvent');
 const GamificationRewardModel = require('../models/GamificationReward');
@@ -15,8 +15,8 @@ async function getGamificationSystemsByUserId(userId) {
     var sql = "SELECT * FROM gamification_systems WHERE user_id = ?";
 
     var queryResult = null;
-    connection.query(sql, [userId], function(error, results) {
-        if(error) {
+    connection.query(sql, [userId], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -24,7 +24,7 @@ async function getGamificationSystemsByUserId(userId) {
         queryResult = results;
     });
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -42,13 +42,13 @@ async function getGamificationSystemsByUserId(userId) {
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
  * @return Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei
  */
- async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
+async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
     var connection = getDatabaseConnection();
     var sql = "SELECT * FROM gamification_rewards WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(systemAPIKey)], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -56,7 +56,7 @@ async function getGamificationSystemsByUserId(userId) {
         queryResult = results;
     });
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -74,13 +74,35 @@ async function getGamificationSystemsByUserId(userId) {
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
  * @return Lista modelelor GamificationEvent; -1, daca a aparut o eroare pe parcursul executiei
  */
- async function getGamificationEventModelsByAPIKey(systemAPIKey) {
+
+async function getAllSystems() {
+    const connection = getDatabaseConnection();
+    const sql = "SELECT * from gamification_systems";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [], (err, results) => {
+            if (err) {
+                console.log(err);
+                resolve([]);
+            } else {
+                const systems = results.map(result => {
+                    return new GamificationSystemModel(hash.decrypt(result.api_key), hash.decrypt(result.name),
+                        result.user_id);
+                });
+                resolve(systems);
+            }
+        })
+    })
+}
+
+
+async function getGamificationEventModelsByAPIKey(systemAPIKey) {
     var connection = getDatabaseConnection();
     var sql = "SELECT * FROM gamification_events WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(systemAPIKey)], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -88,7 +110,7 @@ async function getGamificationSystemsByUserId(userId) {
         queryResult = results;
     });
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -108,16 +130,16 @@ async function getGamificationSystemsByUserId(userId) {
  * @returns 0, daca acesta a fost adaugat; 1, daca cheia API a mai fost folosita (ER_DUP_ENTRY); -1, daca a aparut o eroare pe parcursul executiei
  */
 async function addGamificationSystemToDatabase(gamificationSystemModel, connection = null) {
-    if(connection == null) {
+    if (connection == null) {
         connection = getDatabaseConnection();
     }
     var sql = "INSERT INTO gamification_systems VALUES(?, ?, ?)";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationSystemModel.APIKey), hash.encrypt(gamificationSystemModel.name), 
-            gamificationSystemModel.userId], function(error, results) {
-        if(error) {
-            if(error.code === 'ER_DUP_ENTRY') { // Primary key constraint violation handling
+    connection.query(sql, [hash.encrypt(gamificationSystemModel.APIKey), hash.encrypt(gamificationSystemModel.name),
+        gamificationSystemModel.userId], function (error, results) {
+        if (error) {
+            if (error.code === 'ER_DUP_ENTRY') { // Primary key constraint violation handling
                 queryResult = 1;
                 return;
             }
@@ -129,7 +151,7 @@ async function addGamificationSystemToDatabase(gamificationSystemModel, connecti
         queryResult = 0;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -143,15 +165,15 @@ async function addGamificationSystemToDatabase(gamificationSystemModel, connecti
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function addGamificationEventToDatabase(gamificationEventModel, connection = null) {
-    if(connection == null) {
+    if (connection == null) {
         connection = getDatabaseConnection();
     }
     var sql = "INSERT INTO gamification_events(system_api_key, name, event_type) VALUES(?, ?, ?)";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name), 
-            gamificationEventModel.eventType], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
+        gamificationEventModel.eventType], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -159,7 +181,7 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
         queryResult = 0;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -173,23 +195,23 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function addGamificationRewardToDatabase(gamificationRewardModel, connection = null) {
-    if(connection == null) {
+    if (connection == null) {
         connection = getDatabaseConnection();
     }
     var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?, ?)";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
-            gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue], function(error, results) {
-        if(error) {
+        gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
-        
+
         queryResult = 0;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -204,14 +226,14 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
  * @return Evenimentul gasit; NULL, daca nu exista niciun eveniment care sa corespunda criteriilor; -1, daca a aparut o eroare pe parcursul executiei
  */
 async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = null) {
-    if(connection == null) {
+    if (connection == null) {
         connection = getDatabaseConnection();
     }
     var sql = "SELECT * FROM gamification_events WHERE system_api_key = ? AND name = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey), hash.encrypt(name)], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(APIKey), hash.encrypt(name)], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -219,17 +241,19 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = nu
         queryResult = results;
     });
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
-    if(queryResult.length > 0) {
+    if (queryResult.length > 0) {
         return queryResult[0];
     }
 
     return null;
 }
 
-module.exports = {getGamificationSystemsByUserId, addGamificationSystemToDatabase, 
+module.exports = {
+    getGamificationSystemsByUserId, addGamificationSystemToDatabase,
     addGamificationEventToDatabase, addGamificationRewardToDatabase, getGamificationEventByAPIKeyAndName,
-    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey};
+    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey,getAllSystems
+};

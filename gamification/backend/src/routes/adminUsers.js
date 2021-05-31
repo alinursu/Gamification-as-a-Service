@@ -9,7 +9,7 @@ const adminUsersListRoute = async (request, response) => {
 
     return renderPage(paths.index, {
         users: await usersRepository.getAllUsers(),
-        styles: ['admin']
+        styles: ['admin-users']
     }, (data) => {
         response.write(data);
         response.end();

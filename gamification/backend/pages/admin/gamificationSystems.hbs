@@ -1,0 +1,45 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../styles/admin-gamification-systems.css">
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Gamification Systems</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="" class="systems"> View All </a>
+            <a href="/admin/gamification-systems/add" class="add-gamification-system"> Add  </a>
+        </div>
+
+        <div class="content">
+            <div class="gamification-system-table">
+                <table>
+                    <tr>
+                        <th>UserId</th>
+                        <th>Name</th>
+                        <th>ApiKey</th>
+                        <th>Actions</th>
+                    </tr>
+                    {{#each systems}}
+                        <tr>
+                            <td>{{this.userId}}</td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.APIKey}}</td>
+                            <td>
+                                <button onclick="deleteUser({{this.id}})">Delete</button>
+                                <button onclick="location.href = '/admin/users/update?id={{this.id}}'">Update</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/admin/gamificationSystems.js"></script>
+</body>
+
+</HTML>

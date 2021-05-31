@@ -9,8 +9,7 @@ const adminAddUserRoute = (request, response) => {
             response.write(data);
             response.end();
         }
-    )
-        ;
+    );
 }
 
 module.exports = adminAddUserRoute;
