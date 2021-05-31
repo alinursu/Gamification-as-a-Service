@@ -1,0 +1,268 @@
+<div class="container">
+    {{#if successMessage}}
+        <h3 id="success-message">{{successMessage}}</h3>
+    {{/if}}
+
+    {{#if errorMessage}}
+        <h3 id="error-message">{{errorMessage}}</h3>
+    {{/if}}
+
+    <div id="title-container">
+        <span>
+            Creează un sistem de recompense!
+        </span>
+    </div>
+
+    <form id="rec-form" method="POST" action="/profile/modify_gamification_system">
+        <div id="system-name-container">
+            {{#if gamificationSystemModel}}
+                <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense" value="{{gamificationSystemModel.name}}">
+            {{else}}
+                <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense">
+            {{/if}}
+        </div>
+
+        <div class="create-btn-container">
+            <input type="submit" id="submit_btn" name="submit_btn" value="CREEAZĂ">
+        </div>
+
+        <div class="label-container">
+            <label>Evenimentele care stau la baza recompensării:</label>
+        </div>
+
+        {{#if gamificationSystemModel}}
+            {{#each gamificationSystemModel.listOfGamificationEvents }}
+                <div class="event-card-form">
+                    <p>Selectează tipul de eveniment!</p>
+
+                    {{#ifCompareStrings this.eventType 'time'}}
+                        <div class="input-info-container">
+                            <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time" checked>
+                            <label for="time{{this.id}}">Bazat pe timp</label> 
+                            <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                <div style="position: absolute; visibility: hidden; width: 10px;">
+                                    <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat după o anumită perioadă de timp.</p>
+                                </div>
+                            </div>              
+                        </div>
+
+                        <div class="input-info-container">
+                            <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value" >
+                            <label for="value{{this.id}}">Bazat pe un număr</label> 
+                            <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                <div style="position: absolute; visibility: hidden; width: 10px;">    
+                                    <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat de un anumit număr de ori.</p>
+                                </div>
+                            </div>              
+                        </div>
+                    {{else}}
+                        {{#ifCompareStrings this.eventType 'value'}}
+                            <div class="input-info-container">
+                                <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time">
+                                <label for="time{{this.id}}">Bazat pe timp</label> 
+                                <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                    <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                    <div style="position: absolute; visibility: hidden; width: 10px;">    
+                                        <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat după o anumită perioadă de timp.</p>
+                                    </div>
+                                </div>              
+                            </div>
+
+                            <div class="input-info-container">
+                                <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value" checked>
+                                <label for="value{{this.id}}">Bazat pe un număr</label> 
+                                <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                    <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                    <div style="position: absolute; visibility: hidden; width: 10px;">    
+                                        <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat de un anumit număr de ori.</p>
+                                    </div>
+                                </div>              
+                            </div>
+                        {{else}}
+                            <div class="input-info-container">
+                                <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time">
+                                <label for="time{{this.id}}">Bazat pe timp</label> 
+                                <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                    <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                    <div style="position: absolute; visibility: hidden; width: 10px;">    
+                                        <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat după o anumită perioadă de timp.</p>
+                                    </div>
+                                </div>              
+                            </div>
+
+                            <div class="input-info-container">
+                                <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value">
+                                <label for="value{{this.id}}">Bazat pe un număr</label> 
+                                <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                                    <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                                    <div style="position: absolute; visibility: hidden; width: 10px;">   
+                                        <p class="tooltip-text" style="font-size: 14px; left: -100%;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat de un anumit număr de ori.</p>
+                                    </div>
+                                </div>              
+                            </div>
+                        {{/ifCompareStrings}}
+                    {{/ifCompareStrings}}
+
+                    <label for="name" class="nume-rec" id="nume-event{{this.id}}">Numele evenimentului:</label> <br>
+                    <input type="text" class="name" id="nume-event{{this.id}}" name="nume_eveniment{{this.id}}" value="{{this.name}}">
+                    <br>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="event-card-form">
+                <p>Selectează tipul de eveniment!</p>
+
+                <div class="input-info-container">
+                    <input type="radio" id="time1" name="tip_eveniment1" value="time">
+                    <label for="time1">Bazat pe timp</label> 
+                    <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                        <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                        <div style="position: absolute; visibility: hidden; width: 10px;">    
+                            <p class="tooltip-text" style="font-size: 14px;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat după o anumită perioadă de timp.</p>
+                        </div>
+                    </div>              
+                </div>
+
+                <div class="input-info-container">
+                    <input type="radio" id="value1" name="tip_eveniment1" value="value">
+                    <label for="value1">Bazat pe un număr</label> 
+                    <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                        <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                        <div style="position: absolute; visibility: hidden; width: 10px;">    
+                            <p class="tooltip-text" style="font-size: 14px;">Utilizatorul va primi recompensa când evenimentul s-a întâmplat de un anumit număr de ori.</p>
+                        </div>
+                    </div>              
+                </div>
+
+                <label for="name" class="nume-rec" id="nume-event1">Numele evenimentului:</label> <br>
+                <input type="text" class="name" id="nume-event1" name="nume_eveniment1">
+                <br>
+            </div>
+        {{/if}}
+        
+        <button type="button" class="add" id="add-event-btn">+</button>
+        
+        <div class="label-container">
+            <label>Recompensele care vor fi oferite utilizatorilor dumneavoastră:</label>
+        </div>
+
+        {{#if gamificationSystemModel}}
+            {{#each gamificationSystemModel.listOfGamificationRewards }}
+                <div class="card-form">
+                    <p>Selectează tipul de recompensă!</p>
+
+                    {{#ifCompareStrings this.type 'badge'}}
+                        <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge" checked>
+                        <label for="badge{{this.id}}">Insignă</label> <br>
+                        <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level">
+                        <label for="levels{{this.id}}">Nivel</label> <br>
+                    {{else}}
+                        {{#ifCompareStrings this.type 'level'}}
+                            <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge">
+                            <label for="badge{{this.id}}">Insignă</label> <br>
+                            <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level" checked>
+                            <label for="levels{{this.id}}">Nivel</label> <br>
+                        {{else}}
+                            <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge">
+                            <label for="badge{{this.id}}">Insignă</label> <br>
+                            <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level">
+                            <label for="levels{{this.id}}">Nivel</label> <br>
+                        {{/ifCompareStrings}}
+                    {{/ifCompareStrings}}
+
+                    <label for="name" class="nume-rec" id="nume-rec{{this.id}}">Numele recompensei:</label> <br>
+                    <input type="text" class="name" id="nume-rec{{this.id}}" name="nume_recompensa{{this.id}}" value="{{this.name}}"> <br>
+
+                    <label for="name" class="nume-rec" id="punctaj{{this.id}}">Valoarea importanței recompensei:</label> <br>
+                    <div class="input-info-container">
+                        <input type="text" class="name" id="nume-rec{{this.id}}" name="punctaj{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.rewardValue}}">
+                        <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                            <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                            <div style="position: absolute; visibility: hidden; width: 10px;">    
+                                <p class="tooltip-text" style="font-size: 14px;">Recompensele pot fi diferite ca și importanță. O recompensă este mai importantă decât 
+                                    alta dacă poate fi obtinuță mai greu și/sau are o semnificație mai puternică.</p>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <label for="name" class="nume-rec-2" id="nume-ev{{this.id}}">Numele evenimentului care controlează recompensa:</label> <br>
+                    <div class="input-info-container">
+                        <input type="text" class="name" id="nume-ev{{this.id}}" name="eveniment_recompensa{{this.id}}" value="{{this.eventId}}">
+                        <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                            <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                            <div style="position: absolute; visibility: hidden; width:10px;">    
+                                <p class="tooltip-text" style="font-size: 14px;">Care este numele evenimentului care va controla oferirea acestei recompense (evenimentul care va apărea 
+                                    și va duce la progresul unui utilizator pentru obținerea acestei recompense).</p>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <label for="name" class="nume-rec-2" id="valoare-ev{{this.id}}">Valoarea pentru care se va oferi recompensa:</label> <br>
+                    <dir class="input-info-container">
+                        <input type="text" class="name" id="nume-ev{{this.id}}" name="valoare_eveniment{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.eventValue}}">
+                        <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                            <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                            <div style="position: absolute; visibility: hidden; width: 10px">   
+                                <p class="tooltip-text" style="font-size: 14px;">Perioada de timp (exprimată în ore) de la prima apariție a evenimentului/Numărul minim de apariții 
+                                    a evenimentului, în funcție de tipul acestuia, după care se va oferi această recompensă utilizatorului.</p>
+                            </div>
+                        </div>
+                    </dir>
+                    <br>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="card-form">
+                <p>Selectează tipul de recompensă!</p>
+                <input type="radio" id="badge1" name="tip_recompensa1" value="badge">
+                <label for="badge1">Insignă</label> <br>
+                <input type="radio" id="levels1" name="tip_recompensa1" value="level">
+                <label for="levels1">Nivel</label> <br>
+                <label for="name" class="nume-rec" id="nume-rec1">Numele recompensei:</label> <br>
+                <input type="text" class="name" id="nume-rec1" name="nume_recompensa1"> <br>
+                
+                <label for="name" class="nume-rec" id="punctaj1">Valoarea importanței recompensei:</label> <br>
+                <div class="input-info-container">
+                    <input type="text" class="name" id="nume-rec1" name="punctaj1" placeholder="Valoare întreagă pozitivă">
+                    <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                        <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                        <div style="position: absolute; visibility: hidden; width:10px;">    
+                            <p class="tooltip-text" style="font-size: 14px;">Recompensele pot fi diferite ca și importanță. O recompensă este mai importantă decât 
+                                alta dacă poate fi obtinuță mai greu și/sau are o semnificație mai puternică.</p>
+                        </div>
+                    </div>  
+                </div>
+                
+
+                <label for="name" class="nume-rec-2" id="nume-ev1">Numele evenimentului care controlează recompensa:</label> <br>
+                <div class="input-info-container">
+                    <input type="text" class="name" id="nume-ev1" name="eveniment_recompensa1">
+                    <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                        <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                        <div style="position: absolute; visibility: hidden; width: 10px;">    
+                            <p class="tooltip-text" style="font-size: 14px;">Care este numele evenimentului care va controla oferirea acestei recompense (evenimentul care va apărea 
+                                și va duce la progresul unui utilizator pentru obținerea acestei recompense).</p>
+                        </div> 
+                    </div>  
+                </div>
+
+                <label for="name" class="nume-rec-2" id="valoare-ev1">Valoarea pentru care se va oferi recompensa:</label> <br>
+                <dir class="input-info-container">
+                    <input type="text" class="name" id="nume-ev1" name="valoare_eveniment1" placeholder="Valoare întreagă pozitivă">
+                    <div class="tooltip" onclick="onclickShowToolTip(this)"> 
+                        <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
+                        <div style="position: absolute; visibility: hidden; width: 10px">
+                            <p class="tooltip-text" style="font-size: 14px;">Perioada de timp (exprimată în ore) de la prima apariție a evenimentului/Numărul minim de apariții 
+                                                        a evenimentului, în funcție de tipul acestuia, după care se va oferi această recompensă utilizatorului.</p>
+                        </div>   
+                    </div>
+                </dir>
+            </div>
+        {{/if}}
+
+        <button type="button" class="add" id="add-btn">+</button>
+    </form>
+
+</div>

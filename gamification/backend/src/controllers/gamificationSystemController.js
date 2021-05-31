@@ -6,6 +6,7 @@ const utils = require('../internal/utils');
 const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
 const formViewRoute = require('../routes/formView');
+const formModifyRoute = require('../routes/formModify');
 const userController = require('../controllers/userController');
 
 /**
@@ -103,16 +104,17 @@ function handleCreateGamificationSystemRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system'.
+ * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system' sau '/profile/modify_gamification_system'..
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
+ * @param {*} urlPrefix Prefixul url-ului ('/profile/view_gamification_system' sau '/profile/modify_gamification_system').
  */
-async function handleViewGamificationSystemRequest(request, response) {
+async function handleViewGamificationSystemRequest(request, response, urlPrefix) {
     var cookies = cookie.parse(request.headers.cookie || '');
     var token = cookies.authToken;
 
     // Verific validitatea url-ului
-    if(!request.url.startsWith('/profile/view_gamification_system?')) {
+    if(!request.url.startsWith(urlPrefix + '?')) {
         response.statusCode = 404;
         request.statusCodeMessage = "Not Found";
         request.errorMessage = "Nu am găsit pagina pe care încerci să o accesezi!";
@@ -121,7 +123,7 @@ async function handleViewGamificationSystemRequest(request, response) {
     }
 
     // Citesc si parsez Query String-ul
-    var queryString = request.url.split('/profile/view_gamification_system?')[1];
+    var queryString = request.url.split(urlPrefix + '?')[1];
     var queryStringObject = parse(queryString);
     if(queryStringObject.systemName == null || queryStringObject.systemName.length == 0) {
         response.statusCode = 400;
@@ -189,7 +191,20 @@ async function handleViewGamificationSystemRequest(request, response) {
 
     // Generez pagina de vizualizare
     request.gamificationSystemModel = gamificationSystemModel;
-    return formViewRoute(request, response);
+    if(urlPrefix == '/profile/view_gamification_system') {
+        return formViewRoute(request, response);
+    }
+    return formModifyRoute(request, response);
 }
 
-module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest}
+/**
+ * Rezolva un request de tip POST/PUT facut la pagina '/profile/modify_gamification_system'.
+ * @param {*} request Request-ul facut.
+ * @param {*} response Raspunsul dat de server.
+ */
+async function handleModifyGamificationSystemPUTRequest(request, response) {
+    console.log('handling put request on modify_gamification_system');
+    return null;
+}
+
+module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemPUTRequest}

@@ -10,8 +10,7 @@
             <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense" value="{{gamificationSystemModel.name}}" disabled>
         </div>
 
-        {{!-- TODO: Redirect to modify gamification system page --}}
-        <button type="button" onclick="/" class="view-action-button">MODIFICĂ</button>
+        <button type="button" onclick="location.href = '/profile/modify_gamification_system?systemName={{gamificationSystemModel.name}}'" class="view-action-button">MODIFICĂ</button>
 
         {{!-- TODO: Redirect to delete gamification system page --}}
         <button type="button" onclick="/" class="view-action-button">ȘTERGE</button>
