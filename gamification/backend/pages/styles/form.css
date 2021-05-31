@@ -17,6 +17,41 @@
     color: green;
 }
 
+.radio-option-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.tooltip {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tooltip-text {
+    visibility: hidden;
+
+    background-color: #000000;
+    color: #ffffff;
+    padding: 0.4em;
+    margin-top: 8em;
+    border-radius: 5px;
+    width: 25em;
+
+    position: relative;
+    left: -3700%;
+}
+
+div.tooltip > p:hover + div > p.tooltip-text {
+    visibility: visible;
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
@@ -42,10 +77,6 @@ form {
     text-align: center;
 }
 
-.create-btn-container input {
-    width: 200px;
-}
-
 .label-container {
     margin-top: 3em;
     margin-bottom: 0.5em;
@@ -59,8 +90,8 @@ form {
 }
 
 #title-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 3em;
+    margin-bottom: 3em;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -84,7 +115,7 @@ span {
     border-color: #423788;
     border-radius: 5px;
     box-shadow: 2px 2px 4px #000000;
-    padding: 0.3em;
+    padding: 0.3em 3em;
     cursor: pointer;
 }
 
@@ -97,22 +128,27 @@ span {
 .card-form, .event-card-form {
     background-color: #c2bfe2;
     padding: 7px;
-    margin-top: 30px;
-    margin-left: 30px;
+    margin-top: 2em;
+    margin-left: 2em;
     border-radius: 10px;
     box-shadow: 2px 2px 4px #000000;
 }
 
 .card-form p, .event-card-form p {
-    margin-bottom: 10px;
+    margin-bottom: 0.5em;
     font-weight: bold;
     font-size: 17px;
 }
 
 .card-form input, .event-card-form input {
-    margin-top: 10px;
+    margin-top: 0.6em;
     outline: 0;
-    padding-left: 10px;
+    padding-left: 0.6em;
+}
+
+.card-form input[type="radio"], .event-card-form input[type="radio"] {
+    margin-top: 0;
+    margin-right: 0.3em;
 }
 
 .name {
@@ -120,6 +156,7 @@ span {
     height: 30px;
     border: none;
     border-radius: 10px;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 .nume-rec {
@@ -142,8 +179,8 @@ span {
     font-size: 50px;
     cursor: pointer;
     user-select: none;
-    height: 165px;
-    width: 278px;
+    height: 50px;
+    width: 50px;
     border-radius: 10px;
     border: none;
     background-color: #423788;
@@ -158,13 +195,34 @@ span {
     background-color: #fd6191;
 }
 
-@media screen and (min-width: 650px) and (max-width: 999px) {
+@media screen and (min-width: 847px) and (max-width: 999px) {
     #system_name {
         width: 20em;
     }
 }
 
-@media screen and (min-width: 395px) and (max-width: 649px) {
+@media screen and (min-width: 650px) and (max-width: 846px) {
+    #system_name {
+        width: 20em;
+    }
+
+    .tooltip-text {
+        left: -900%;
+    }
+}
+
+@media screen and (min-width: 650px) and (max-width: 814px) {
+    #system_name {
+        width: 20em;
+    }
+
+    .tooltip-text {
+        width: 15em;
+        left: -900%;
+    }
+}
+
+@media screen and (min-width: 531px) and (max-width: 649px) {
     #system_name {
         width: 20em;
     }
@@ -173,6 +231,53 @@ span {
         width: 90%;
         align-items: center;
         text-align: center;
+    }
+    
+    .tooltip-text {
+        width: 15em;
+        left: -900%;
+    }
+}
+
+@media screen and (min-width: 506px) and (max-width: 530px) {
+    #system_name {
+        width: 20em;
+    }
+
+    #title-container {
+        width: 90%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .card-form, .event-card-form {
+        margin-left: 0;
+    }
+
+    .tooltip-text {
+        width: 15em;
+        left: -900%;
+    }
+}
+
+@media screen and (min-width: 395px) and (max-width: 505px) {
+    #system_name {
+        width: 20em;
+    }
+
+    #title-container {
+        width: 90%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .card-form, .event-card-form {
+        margin-left: 0;
+    }
+
+    .tooltip-text {
+        width: 10em;
+        left: -900%;
     }
 }
 
@@ -185,5 +290,14 @@ span {
         width: 90%;
         align-items: center;
         text-align: center;
+    }
+
+    .card-form, .event-card-form {
+        margin-left: 0;
+    }
+
+    .tooltip-text {
+        width: 10em;
+        left: -900%;
     }
 }

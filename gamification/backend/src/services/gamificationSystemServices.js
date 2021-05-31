@@ -51,14 +51,14 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate evenimentele trebuie să aibă atribuit un nume unic!"
+            errorMessage = "Fiecare eveniment trebuie să aibă atribuit un nume unic!"
         }
 
         if(eventModel.eventType == null && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate evenimentele trebuie să aibă selectat un tip!"
+            errorMessage = "Fiecare eveniment trebuie să aibă selectat un tip!"
         }
 
         listOfEventModels.push(eventModel);
@@ -95,21 +95,21 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate recompensele trebuie să aibă atribuit un nume unic!";
+            errorMessage = "Fiecare recompensă trebuie să aibă atribuit un nume unic!";
         }
 
         if(rewardModel.type == null && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate recompensele trebuie să aibă selectat un tip!"
+            errorMessage = "Fiecare recompensă trebuie să aibă selectat un tip!"
         }
 
         if(rewardModel.eventId.length == 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate recompensele trebuie să aibă atribuit un eveniment care o controlează!"
+            errorMessage = "Fiecare recompensă trebuie să aibă atribuit un eveniment care o controlează!"
         }
 
         var tempArray = listOfEventModels.filter(eventModel => eventModel.name == rewardModel.eventId);
@@ -124,14 +124,14 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate recompensele trebuie să aibă atribuită o valoare pentru care se va oferi recompensa!"
+            errorMessage = "Fiecare recompensă trebuie să aibă atribuită o valoare pentru care se va oferi recompensa!"
         }
 
         if(parseInt(rewardModel.eventValue, 10) == NaN && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr întreg pozitiv!"
         }
 
         rewardModel.eventValue = parseInt(rewardModel.eventValue, 10);
@@ -140,21 +140,21 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
             validModel = false;
             
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea pentru care se va oferi o recompensă trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr întreg pozitiv!"
         }
 
         if(rewardModel.rewardValue.length == 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Toate recompensele trebuie să aibă atribuită o valoare a importanței!"
+            errorMessage = "Fiecare recompensă trebuie să aibă atribuită o valoare a importanței!"
         }
 
         if(parseInt(rewardModel.rewardValue, 10) == NaN && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea importanței recompenselor trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea importanței unei recompense trebuie să fie un număr întreg pozitiv!"
         }
 
         rewardModel.rewardValue = parseInt(rewardModel.rewardValue, 10);
@@ -163,7 +163,7 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
             validModel = false;
             
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea importanței recompenselor trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea importanței unei recompense trebuie să fie un număr întreg pozitiv!"
         }
 
         listOfRewardModels.push(rewardModel);
@@ -201,13 +201,6 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
 
     var gamificationSystemModel = new GamificationSystemModel(null, requestBody.system_name, 
             userId, listOfEventModels, listOfRewardModels);
-
-    if(gamificationSystemModel.name.length == 0 && validModel) {
-        validModel = false;
-
-        response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-        errorMessage = "Sistemul de recompense trebuie să aibă atribuit un nume!"
-    }
 
     if(validModel) {
         return gamificationSystemModel;
