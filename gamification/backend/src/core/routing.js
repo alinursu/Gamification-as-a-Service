@@ -373,7 +373,7 @@ const routing = async (request, response) => {
         }
 
         default: {
-            //Rutari dinamice ADMIN
+            // Rutari dinamice
             if (url.startsWith('/admin/users/update')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken).then(function (result) {
@@ -424,6 +424,19 @@ const routing = async (request, response) => {
                 }
 
                 return;
+            }
+
+            if(url.startsWith('/profile/view_gamification_system')) {
+                if(cookies.authToken != null) {
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response);
+                }
+
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
             }
 
             // Rutari CSS

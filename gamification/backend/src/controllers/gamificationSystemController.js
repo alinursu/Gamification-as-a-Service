@@ -5,6 +5,8 @@ const gamificationSystemServices = require('../services/gamificationSystemServic
 const utils = require('../internal/utils');
 const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
+const formViewRoute = require('../routes/formView');
+const userController = require('../controllers/userController');
 
 /**
  * Rezolva un request de tip POST facut la pagina '/profile/create_gamifcation_system'.
@@ -100,4 +102,94 @@ function handleCreateGamificationSystemRequest(request, response) {
     });
 }
 
-module.exports = {handleCreateGamificationSystemRequest}
+/**
+ * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system'.
+ * @param {*} request Request-ul facut.
+ * @param {*} response Raspunsul dat de server.
+ */
+async function handleViewGamificationSystemRequest(request, response) {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
+
+    // Verific validitatea url-ului
+    if(!request.url.startsWith('/profile/view_gamification_system?')) {
+        response.statusCode = 404;
+        request.statusCodeMessage = "Not Found";
+        request.errorMessage = "Nu am găsit pagina pe care încerci să o accesezi!";
+        response.setHeader('Location', '/error');
+        return errorRoute(request, response);
+    }
+
+    // Citesc si parsez Query String-ul
+    var queryString = request.url.split('/profile/view_gamification_system?')[1];
+    var queryStringObject = parse(queryString);
+    if(queryStringObject.systemName == null || queryStringObject.systemName.length == 0) {
+        response.statusCode = 400;
+        request.statusCodeMessage = "Bad Request";
+        request.errorMessage = "Cererea făcută nu poate fi procesată deoarece nu conține destule date sau datele sunt invalide!";
+        response.setHeader('Location', '/error');
+        return errorRoute(request, response);
+    }
+
+    // Preiau modelul User folosindu-ma de token
+    var userModel = -1;
+    await userController.getUserModelByToken(token).then(function (result) {
+        userModel = result;
+    });
+
+    while(userModel == -1) {
+        await utils.timeout(10);
+    }
+
+    if(userModel == null) {
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        return errorRoute(request, response);
+    }
+
+    // Preiau sistemul de gamificare folosindu-ma de id-ul utilizatorului si de systemName
+    var listOfGamificationSystemModel = null;
+    await gamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
+        listOfGamificationSystemModel = result;
+    });
+
+    while(listOfGamificationSystemModel == null) {
+        await utils.timeout(10);
+    }
+
+    if(listOfGamificationSystemModel == -1) { // Database error
+        // Creez un raspuns, instiintand utilizatorul de eroare
+        response.statusCode = 500;
+        request.statusCodeMessage = "Internal Server Error";
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+        return errorRoute(request, response);
+    }
+
+    var gamificationSystemModel = listOfGamificationSystemModel.filter(model => model.name == queryStringObject.systemName);
+    if(gamificationSystemModel.length == 0) {
+        response.statusCode = 404;
+        request.statusCodeMessage = "Not Found";
+        request.errorMessage = "Nu am găsit sistemul de gamificație pe care încerci să îl accesezi!";
+        response.setHeader('Location', '/error');
+        return errorRoute(request, response);
+    }
+    gamificationSystemModel = gamificationSystemModel[0];
+
+    // Formatez modelul
+    for(var i=0; i< gamificationSystemModel.listOfGamificationRewards.length; i++) {
+        var eventModelsFiltered = gamificationSystemModel.listOfGamificationEvents.filter(
+            eventModel => eventModel.id == gamificationSystemModel.listOfGamificationRewards[i].eventId
+        );
+
+        gamificationSystemModel.listOfGamificationRewards[i].eventId = eventModelsFiltered[0].name;
+    }
+
+    // Generez pagina de vizualizare
+    request.gamificationSystemModel = gamificationSystemModel;
+    return formViewRoute(request, response);
+}
+
+module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest}

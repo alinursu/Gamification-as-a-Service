@@ -42,7 +42,7 @@ async function getGamificationSystemsByUserId(userId) {
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
  * @return Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei
  */
- async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
+async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
     var connection = getDatabaseConnection();
     var sql = "SELECT * FROM gamification_rewards WHERE system_api_key = ?";
 
@@ -74,7 +74,7 @@ async function getGamificationSystemsByUserId(userId) {
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
  * @return Lista modelelor GamificationEvent; -1, daca a aparut o eroare pe parcursul executiei
  */
- async function getGamificationEventModelsByAPIKey(systemAPIKey) {
+async function getGamificationEventModelsByAPIKey(systemAPIKey) {
     var connection = getDatabaseConnection();
     var sql = "SELECT * FROM gamification_events WHERE system_api_key = ?";
 
@@ -198,7 +198,7 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
 
 /**
  * Cauta in baza de date un eveniment dupa o cheie API (a unui sistem de gamificare) si un nume.
- * @param {*} APIKey Cheia API a sistemului de gamificare dupa care se face cautarea
+ * @param {*} APIKey Cheia API a sistemului de gamificare dupa care se face cautarea.
  * @param {*} name Numele dupa care se face cautarea.
  * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
  * @return Evenimentul gasit; NULL, daca nu exista niciun eveniment care sa corespunda criteriilor; -1, daca a aparut o eroare pe parcursul executiei

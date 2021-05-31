@@ -1,0 +1,115 @@
+<div class="container">
+    <div id="title-container">
+        <p style="text-transform: none; font-size: 22px; word-break: break-all;">
+            Cheia API: {{gamificationSystemModel.APIKey}}
+        </p>
+    </div>
+
+    <form id="rec-form">
+        <div id="system-name-container">
+            <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense" value="{{gamificationSystemModel.name}}" disabled>
+        </div>
+
+        {{!-- TODO: Redirect to modify gamification system page --}}
+        <button type="button" onclick="/" class="view-action-button">MODIFICĂ</button>
+
+        {{!-- TODO: Redirect to delete gamification system page --}}
+        <button type="button" onclick="/" class="view-action-button">ȘTERGE</button>
+
+        <div class="label-container">
+            <label>Evenimentele care stau la baza recompensării:</label>
+        </div>
+
+        {{#each gamificationSystemModel.listOfGamificationEvents }}
+            <div class="event-card-form">
+                <p>Selectează tipul de eveniment!</p>
+
+                {{#ifCompareStrings this.eventType 'time'}}
+                    <div class="input-info-container">
+                        <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time" checked disabled>
+                        <label for="time{{this.id}}">Bazat pe timp</label>            
+                    </div>
+
+                    <div class="input-info-container">
+                        <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value" disabled>
+                        <label for="value{{this.id}}">Bazat pe un număr</label>               
+                    </div>
+                {{else}}
+                    {{#ifCompareStrings this.eventType 'value'}}
+                        <div class="input-info-container">
+                            <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time" disabled>
+                            <label for="time{{this.id}}">Bazat pe timp</label>             
+                        </div>
+
+                        <div class="input-info-container">
+                            <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value" checked disabled>
+                            <label for="value{{this.id}}">Bazat pe un număr</label>              
+                        </div>
+                    {{else}}
+                        <div class="input-info-container">
+                            <input type="radio" id="time{{this.id}}" name="tip_eveniment{{this.id}}" value="time" disabled>
+                            <label for="time{{this.id}}">Bazat pe timp</label>               
+                        </div>
+
+                        <div class="input-info-container">
+                            <input type="radio" id="value{{this.id}}" name="tip_eveniment{{this.id}}" value="value" disabled>
+                            <label for="value{{this.id}}">Bazat pe un număr</label>              
+                        </div>
+                    {{/ifCompareStrings}}
+                {{/ifCompareStrings}}
+
+                <label for="name" class="nume-rec" id="nume-event{{this.id}}">Numele evenimentului:</label> <br>
+                <input type="text" class="name" id="nume-event{{this.id}}" name="nume_eveniment{{this.id}}" value="{{this.name}}" disabled>
+                <br>
+            </div>
+        {{/each}}
+        
+        <div class="label-container">
+            <label>Recompensele care vor fi oferite utilizatorilor dumneavoastră:</label>
+        </div>
+
+        {{#each gamificationSystemModel.listOfGamificationRewards }}
+            <div class="card-form">
+                <p>Selectează tipul de recompensă!</p>
+
+                {{#ifCompareStrings this.type 'badge'}}
+                    <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge" checked disabled>
+                    <label for="badge{{this.id}}">Insignă</label> <br>
+                    <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level" disabled>
+                    <label for="levels{{this.id}}">Nivel</label> <br>
+                {{else}}
+                    {{#ifCompareStrings this.type 'level'}}
+                        <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge" disabled>
+                        <label for="badge{{this.id}}">Insignă</label> <br>
+                        <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level" checked disabled>
+                        <label for="levels{{this.id}}">Nivel</label> <br>
+                    {{else}}
+                        <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge" disabled>
+                        <label for="badge{{this.id}}">Insignă</label> <br>
+                        <input type="radio" id="levels{{this.id}}" name="tip_recompensa{{this.id}}" value="level" disabled>
+                        <label for="levels{{this.id}}">Nivel</label> <br>
+                    {{/ifCompareStrings}}
+                {{/ifCompareStrings}}
+
+                <label for="name" class="nume-rec" id="nume-rec{{this.id}}">Numele recompensei:</label> <br>
+                <input type="text" class="name" id="nume-rec{{this.id}}" name="nume_recompensa{{this.id}}" value="{{this.name}}" disabled> <br>
+
+                <label for="name" class="nume-rec" id="punctaj{{this.id}}">Valoarea importanței recompensei:</label> <br>
+                <div class="input-info-container">
+                    <input type="text" class="name" id="nume-rec{{this.id}}" name="punctaj{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.rewardValue}}" disabled>
+                </div>
+
+                <label for="name" class="nume-rec-2" id="nume-ev{{this.id}}">Numele evenimentului care controlează recompensa:</label> <br>
+                <div class="input-info-container">
+                    <input type="text" class="name" id="nume-ev{{this.id}}" name="eveniment_recompensa{{this.id}}" value="{{this.eventId}}" disabled>
+                </div>
+
+                <label for="name" class="nume-rec-2" id="valoare-ev{{this.id}}">Valoarea pentru care se va oferi recompensa:</label> <br>
+                <dir class="input-info-container">
+                    <input type="text" class="name" id="nume-ev{{this.id}}" name="valoare_eveniment{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.eventValue}}" disabled>
+                </dir>
+                <br>
+            </div>
+        {{/each}}
+    </form>
+</div>

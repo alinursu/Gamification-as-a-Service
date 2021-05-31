@@ -9,15 +9,21 @@
     margin-top: 1em;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: red;
+    text-align: center;
+    width: 80%;
+    word-break: break-all;
 }
 
 #success-message {
     margin-top: 1em;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: green;
+    text-align: center;
+    width: 80%;
+    word-break: break-all;
 }
 
-.radio-option-container {
+.input-info-container {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -46,6 +52,26 @@
 
     position: relative;
     left: -3700%;
+}
+
+.view-action-button {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.5em;
+    color: #ffffff;
+    background-color: #423788;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px #000000;
+    cursor: pointer;
+}
+
+.view-action-button:hover {
+    color: #423788;
+    background-color: #fd6191;
 }
 
 div.tooltip > p:hover + div > p.tooltip-text {
@@ -92,14 +118,14 @@ form {
 #title-container {
     margin-top: 3em;
     margin-bottom: 3em;
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
 }
 
-span {
+span , #title-container > p{
     text-transform: uppercase;
     font-weight: bold;
     font-size: 30px;
