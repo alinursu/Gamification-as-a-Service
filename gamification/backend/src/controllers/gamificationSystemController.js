@@ -181,12 +181,17 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     gamificationSystemModel = gamificationSystemModel[0];
 
     // Formatez modelul
-    for(var i=0; i< gamificationSystemModel.listOfGamificationRewards.length; i++) {
+    for(var i=0; i<gamificationSystemModel.listOfGamificationRewards.length; i++) {
+        gamificationSystemModel.listOfGamificationRewards[i].id = i+1;
         var eventModelsFiltered = gamificationSystemModel.listOfGamificationEvents.filter(
             eventModel => eventModel.id == gamificationSystemModel.listOfGamificationRewards[i].eventId
         );
 
         gamificationSystemModel.listOfGamificationRewards[i].eventId = eventModelsFiltered[0].name;
+    }
+
+    for(var i=0; i<gamificationSystemModel.listOfGamificationEvents.length; i++) {
+        gamificationSystemModel.listOfGamificationEvents[i].id = i+1;
     }
 
     // Generez pagina de vizualizare
@@ -203,17 +208,56 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
  * @param {*} response Raspunsul dat de server.
  */
 async function handleModifyGamificationSystemRequest(request, response) {
-    // TODO: Citesc request-ul
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
 
-    // TODO: Parsez request body-ul
+    // Citesc request body-ul
+    let body = '';
+    request.on('data', chunk => {
+        body += chunk.toString();
+    });
 
-    // TODO: Creez modelul (service deja creat???)
+    var parsedBody;
+    request.on('end', async () => {
+        // Parsez request body-ul
+        parsedBody = parse(body);
 
-    // TODO: Sterg modelul deja stocat in baza de date folosind api key-ul
+        // console.log(parsedBody);
 
-    // TODO: Inserez modelul nou in baza de date (service deja creat???)
+        // Creez modelul Gamification System
+        // TODO: In caz de am eroare la verificare si validare date, sa imi returneze formModifyRoute
+        var gamificationSystemModel = 0;
+        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, request, response).then(function (result) {
+            gamificationSystemModel = result;
+        });
 
-    console.log('handling put request on modify_gamification_system');
+        while(gamificationSystemModel == 0) {
+            await utils.timeout(10);
+        }
+
+        if(gamificationSystemModel == null) {
+            return;
+        }
+
+        // console.log(gamificationSystemModel);
+
+        // TODO: Sterg modelul deja stocat in baza de date folosind api key-ul
+
+        // TODO: Inserez modelul nou in baza de date 
+        // var dbResult = null;
+        // await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
+        //     dbResult = result;
+        // });
+
+        // while(dbResult == null) {
+        //     await utils.timeout(10);
+        // }
+
+        // if(dbResult == -1) return;
+
+        // TODO: Construiesc raspunsul
+    });
+
     return null;
 }
 

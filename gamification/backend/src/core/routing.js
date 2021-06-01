@@ -77,7 +77,7 @@ const routing = async (request, response) => {
 
         if(url.startsWith('/profile/modify_gamification_system')) {
             if (cookies.authToken != null) {
-                return gamificationSystemController.handleModifyGamificationSystemPUTRequest(request, response);
+                return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
             }
 
             // Utilizatorul este neautentificat - 403 Forbidden
@@ -177,7 +177,7 @@ const routing = async (request, response) => {
 
             case '/admin/users/add': {
                 if (cookies.authToken != null) {
-                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminAddUserPOSTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -203,7 +203,7 @@ const routing = async (request, response) => {
 
             case '/admin/users/update': {
                 if (cookies.authToken != null) {
-                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminUpdateUserPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -231,7 +231,7 @@ const routing = async (request, response) => {
                 // Rutari dinamice de tip POST
                 if(url.startsWith('/profile/modify_gamification_system')) {
                     if (cookies.authToken != null) {
-                        return gamificationSystemController.handleModifyGamificationSystemPUTRequest(request, response);
+                        return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
                     }
         
                     // Utilizatorul este neautentificat - 403 Forbidden
@@ -353,7 +353,7 @@ const routing = async (request, response) => {
 
         case '/admin/home':{
             if (cookies.authToken != null) {
-                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
                     if(result) return adminHomeRoute(request, response);
                     else {
@@ -380,7 +380,7 @@ const routing = async (request, response) => {
 
         case '/admin/gamification-systems':{
             if (cookies.authToken != null) {
-                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
                     if(result) return adminGamificationSystemsRoute(request, response);
                     else {
@@ -407,7 +407,7 @@ const routing = async (request, response) => {
 
         case '/admin/users': {
             if (cookies.authToken != null) {
-                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
                     if(result) return adminUsersListRoute(request, response);
                     else {
@@ -434,7 +434,7 @@ const routing = async (request, response) => {
 
         case '/admin/users/add': {
             if (cookies.authToken != null) {
-                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     if(result) return adminAddUserRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -460,7 +460,7 @@ const routing = async (request, response) => {
 
         case '/admin/gamification-systems/add': {
             if (cookies.authToken != null) {
-                await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     if(result) return adminAddGamificationSystemRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -488,7 +488,7 @@ const routing = async (request, response) => {
             // Rutari dinamice
             if (url.startsWith('/admin/users/update')) {
                 if (cookies.authToken != null) {
-                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminUpdateUserRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -515,7 +515,7 @@ const routing = async (request, response) => {
 
             if (url.startsWith('/admin/gamification-systems/delete')) {
                 if (cookies.authToken != null) {
-                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminDeleteSystemRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -541,7 +541,7 @@ const routing = async (request, response) => {
 
             if (url.startsWith('/admin/users/delete')) {
                 if (cookies.authToken != null) {
-                    await userController.isUserAdmin(cookies.authToken).then(function (result) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminDeleteUserRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden

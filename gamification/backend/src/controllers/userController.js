@@ -452,7 +452,7 @@ async function handleGETProfileRequest(request, response) {
  * @param token Token-ul asociat contului in care utilizatorul este in momentul actual conectat.
  * @returns true, daca este autentificat cu un cont ce are privilegii de admin; false, daca nu; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function isUserAdmin(token) {
+async function isUserAdmin(token, request, response) {
     // Preiau modelul User pe baza token-ului
     var userModel = -1;
     await getUserModelByToken(token, request, response).then(function (result) {

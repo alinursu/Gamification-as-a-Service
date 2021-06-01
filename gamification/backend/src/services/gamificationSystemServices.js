@@ -225,15 +225,21 @@ async function createModelFromRequestBodyData(requestBody, token, request, respo
 /**
  * Adauga un model GamificationSystem in baza de date, generandu-i si o cheie API.
  * @param {*} gamificationSystemModel Modelul care va fi adaugat in baza de date.
+ * @param {*} apiKey Cheia API care va fi folosita pentru model (poate fi NULL si se va genera una noua).
  * @returns Cheia API, daca modelul a fost adaugat in baza de date; 1, daca exista deja un sistem asociat utilizatorului acesta, avand acelasi nume; -1 daca a aparut o eroare pe parcursul exeuctiei
  */
-async function addGamificationSystemModelToDatabase(gamificationSystemModel) {
-    await generateAPIKey().then(function (apikey) {
+async function addGamificationSystemModelToDatabase(gamificationSystemModel, apikey = null) {
+    if(apikey == null ){
+        await generateAPIKey().then(function (apikey) {
+            gamificationSystemModel.APIKey = apikey;
+        });
+    
+        while(gamificationSystemModel.APIKey == null) {
+            await utils.timeout(10);
+        }
+    }
+    else {
         gamificationSystemModel.APIKey = apikey;
-    });
-
-    while(gamificationSystemModel.APIKey == null) {
-        await utils.timeout(10);
     }
 
     // Verific daca exista un sistem de recomandari creat de acelasi utilizator, care sa aiba acelasi nume
