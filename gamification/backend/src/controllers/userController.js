@@ -23,17 +23,17 @@ async function getUserModelByToken(token, request, response) {
         userId = result;
     });
 
-    if(userId == -1) {
+    if(userId === -1) {
         // Sterg cookie-ul
         response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
             httpOnly: true,
             maxAge: 0
         }));
-        
+
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
-        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
         "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
         errorRoute(request, response);
         return;
@@ -44,17 +44,17 @@ async function getUserModelByToken(token, request, response) {
         userModel = result;
     })
 
-    if(userModel == -1) { // Database error
+    if(userModel === -1) { // Database error
         // Sterg cookie-ul
         response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
             httpOnly: true,
             maxAge: 0
         }));
-        
+
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
-        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+        request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
         "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
         errorRoute(request, response);
         return;

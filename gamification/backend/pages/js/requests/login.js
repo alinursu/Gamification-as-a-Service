@@ -1,4 +1,4 @@
-//TODO: Vezi exemplu de XMLHttpRequest
+//TODO: exemplu de XMLHttpRequest (Ajax)
 
 // const loginForm = document.getElementById('login-form');
 //

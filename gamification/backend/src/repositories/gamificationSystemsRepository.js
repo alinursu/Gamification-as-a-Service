@@ -121,6 +121,23 @@ async function getAllSystems() {
     })
 }
 
+
+async function deleteSystemByApi(api_key) {
+    const connection = getDatabaseConnection();
+    const sql = "DELETE FROM gamification_systems WHERE api_key=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [api_key], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        })
+    })
+}
+
+
 /**
  * Adauga sistemul de gamificare in tabela "gamification_systems".
  * @param {*} gamificationSystemModel Sistemul de recompense care va fi adaugat.
@@ -248,10 +265,11 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = nu
     }
 
     return null;
+    return null;
 }
 
 module.exports = {
     getGamificationSystemsByUserId, addGamificationSystemToDatabase,
     addGamificationEventToDatabase, addGamificationRewardToDatabase, getGamificationEventByAPIKeyAndName,
-    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey, getAllSystems
+    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey, getAllSystems, deleteSystemByApi
 };
