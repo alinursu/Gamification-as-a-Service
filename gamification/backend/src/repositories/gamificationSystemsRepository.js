@@ -152,7 +152,7 @@ async function addGamificationSystemToDatabase(gamificationSystemModel, connecti
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationSystemModel.APIKey), gamificationSystemModel.userId,
-        hash.encrypt(gamificationSystemModel.name), function (error, results) {
+        hash.encrypt(gamificationSystemModel.name)], function (error, results) {
         if (error) {
             if (error.code === 'ER_DUP_ENTRY') { // Primary key constraint violation handling
                 queryResult = 1;
