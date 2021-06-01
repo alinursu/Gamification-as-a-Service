@@ -13,7 +13,7 @@
         </p>
     </div>
 
-    <form id="rec-form" method="POST" action="/profile/modify_gamification_system">
+    <form id="rec-form" method="POST" action="/profile/modify_gamification_system?systemName={{gamificationSystemModel.name}}">
         <div id="system-name-container">
             <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense" value="{{gamificationSystemModel.name}}">
         </div>

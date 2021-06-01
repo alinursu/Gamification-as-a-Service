@@ -144,8 +144,8 @@ function handleLoginRequest(request, response) {
             return;
         }
 
-        // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
-        response.writeHead(307, {'Location': '/'});
+        // Redirectionez utilizatorul catre pagina principala - 303 See other
+        response.writeHead(303, {'Location': '/'});
         response.end();
     });    
 }
@@ -266,8 +266,8 @@ async function handleLogoutRequest(request, response) {
         return;
     }
 
-    // Redirectionez utilizatorul catre pagina principala - 307 Temporary Redirect
-    response.writeHead(307, {'Location': '/'});
+    // Redirectionez utilizatorul catre pagina principala - 303 See Other
+    response.writeHead(303, {'Location': '/'});
     response.end();
 }
 

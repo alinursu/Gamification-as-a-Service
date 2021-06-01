@@ -5,14 +5,18 @@
         </p>
     </div>
 
-    <form id="rec-form">
+    <form id="rec-form" method='POST' action="/profile/delete_gamification_system?systemName={{gamificationSystemModel.name}}">
         <div id="system-name-container">
             <input type="text" id="system_name" name="system_name" placeholder="Numele sistemului de recompense" value="{{gamificationSystemModel.name}}" disabled>
         </div>
 
-        <button type="button" onclick="location.href = '/profile/modify_gamification_system?systemName={{gamificationSystemModel.name}}'" class="view-action-button">MODIFICĂ</button>
+        <div class="create-btn-container">
+            <input type="submit" id="submit_btn" name="submit_btn" value="ȘTERGE">
+        </div>
 
-        <button type="button" onclick="location.href = '/profile/delete_gamification_system?systemName={{gamificationSystemModel.name}}'" class="view-action-button">ȘTERGE</button>
+        <div style="visibility: hidden;">
+            <input type="text" id="system_apikey" name="system_apikey" placeholder="Cheia API" value="{{gamificationSystemModel.APIKey}}" style="visibility: hidden;">
+        </div>
 
         <div class="label-container">
             <label>Evenimentele care stau la baza recompensării:</label>
