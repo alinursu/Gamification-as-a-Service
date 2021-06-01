@@ -61,9 +61,26 @@ const routing = async (request, response) => {
         }
     }
 
+    // Request-uri de tip DELETE
+    if(request.method == 'DELETE') {
+        // Rutari dinamice DELETE
+        if(url.startsWith('/profile/delete_gamification_system')) {
+            if (cookies.authToken != null) {
+                return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
+            }
+
+            // Utilizatorul este neautentificat - 403 Forbidden
+            response.statusCode = 403;
+            request.statusCodeMessage = "Forbidden";
+            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+            response.setHeader('Location', '/error');
+            return errorRoute(request, response);
+        }
+    }
+
     // Request-uri de tip PUT
     if (request.method == 'PUT') {
-        // Rutari dinamice de tip PUT
+        // Rutari dinamice PUT
         if (url.startsWith('/profile/change_url')) {
             if (cookies.authToken != null) {
                 return userController.handleChangeURLRequest(request, response);
@@ -101,8 +118,9 @@ const routing = async (request, response) => {
     // Request-uri de tip POST
     if (request.method == 'POST') {
         switch (url) {
-            case '/':
+            case '/': {
                 return contactMessageController.handleContactRequest(request, response);
+            }
 
             case '/login': {
                 if (cookies.authToken == null) {
@@ -256,12 +274,25 @@ const routing = async (request, response) => {
             }
 
             default: {
-                // Rutari dinamice de tip POST
+                // Rutari dinamice POST
                 if(url.startsWith('/profile/modify_gamification_system')) {
                     if (cookies.authToken != null) {
                         return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
                     }
         
+                    // Utilizatorul este neautentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                if(url.startsWith('/profile/delete_gamification_system')) {
+                    if (cookies.authToken != null) {
+                        return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
+                    }
+
                     // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -633,6 +664,19 @@ const routing = async (request, response) => {
             if(url.startsWith('/profile/modify_gamification_system')) {
                 if(cookies.authToken != null) {
                     return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/modify_gamification_system');
+                }
+
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
+            }
+
+            if(url.startsWith('/profile/delete_gamification_system')) {
+                if(cookies.authToken != null) {
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/delete_gamification_system');
                 }
 
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden

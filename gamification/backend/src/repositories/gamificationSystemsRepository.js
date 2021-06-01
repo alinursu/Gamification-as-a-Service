@@ -155,8 +155,6 @@ async function deleteSystemByApi(api_key) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_systems WHERE api_key=?";
 
-    console.log(api_key);
-
     return new Promise((resolve, reject) => {
         connection.query(sql, [api_key], (err) => {
             if (err) {
@@ -185,7 +183,7 @@ async function updateSystemModel(systemModel) {
 /**
  * Adauga sistemul de gamificare in tabela "gamification_systems".
  * @param {*} gamificationSystemModel Sistemul de recompense care va fi adaugat.
- * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; 1, daca cheia API a mai fost folosita (ER_DUP_ENTRY); -1, daca a aparut o eroare pe parcursul executiei
  */
 async function addGamificationSystemToDatabase(gamificationSystemModel, connection = null) {
@@ -220,7 +218,7 @@ async function addGamificationSystemToDatabase(gamificationSystemModel, connecti
 /**
  * Adauga un eveniment in tabela "gamification_events".
  * @param {*} gamificationEventModel Modelul-eveniment care va fi adaugat.
- * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function addGamificationEventToDatabase(gamificationEventModel, connection = null) {
@@ -250,7 +248,7 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
 /**
  * Adauga un eveniment in tabela "gamification_rewards".
  * @param {*} gamificationRewardModel Modelul-recompensa care va fi adaugat.
- * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @returns 0, daca acesta a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function addGamificationRewardToDatabase(gamificationRewardModel, connection = null) {
@@ -281,7 +279,7 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
  * Cauta in baza de date un eveniment dupa o cheie API (a unui sistem de gamificare) si un nume.
  * @param {*} APIKey Cheia API a sistemului de gamificare dupa care se face cautarea.
  * @param {*} name Numele dupa care se face cautarea.
- * @param {*} connection Conexiunea prin care se va executa instructiunile SQL (poate fi null).
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @return Evenimentul gasit; NULL, daca nu exista niciun eveniment care sa corespunda criteriilor; -1, daca a aparut o eroare pe parcursul executiei
  */
 async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = null) {
@@ -309,7 +307,93 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = nu
     }
 
     return null;
-    return null;
+}
+
+/**
+ * Sterge din baza de date toate modelele GamificationReward care sunt asociate unei chei API.
+ * @param {*} APIKey Cheia API dupa care se face cautarea.
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (by default, null).
+ * @returns 0, daca modelele au fost sterse; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function deleteAllGamificationRewardsByAPIKey(APIKey, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
+    var sql = "DELETE FROM gamification_rewards WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
+    });
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
+}
+
+/**
+ * Sterge din baza de date toate modelele GamificationEvent care sunt asociate unei chei API.
+ * @param {*} APIKey Cheia API dupa care se face cautarea.
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (by default, null).
+ * @returns 0, daca modelele au fost sterse; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function deleteAllGamificationEventsByAPIKey(APIKey, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
+    var sql = "DELETE FROM gamification_events WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
+    });
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
+}
+
+/**
+ * Sterge din baza de date modelul GamificationSystem care este asociat unei chei API.
+ * @param {*} APIKey Cheia API dupa care se face cautarea.
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (by default, null).
+ * @returns 0, daca modelul a fost sters; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function deleteGamificationSystemByAPIKey(APIKey, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
+    var sql = "DELETE FROM gamification_systems WHERE api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
+    });
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
 }
 
 module.exports = {
@@ -323,5 +407,8 @@ module.exports = {
     getAllSystems,
     deleteSystemByApi,
     getGamificationSystemByApiKey,
-    updateSystemModel
+    updateSystemModel,
+    deleteAllGamificationEventsByAPIKey,
+    deleteAllGamificationRewardsByAPIKey,
+    deleteGamificationSystemByAPIKey
 };

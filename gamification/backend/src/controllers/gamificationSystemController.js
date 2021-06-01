@@ -2,11 +2,13 @@ const { parse } = require('querystring');
 var cookie = require('cookie');
 
 const gamificationSystemServices = require('../services/gamificationSystemServices');
+const gamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
 const utils = require('../internal/utils');
 const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
 const formViewRoute = require('../routes/formView');
 const formModifyRoute = require('../routes/formModify');
+const formDeleteRoute = require('../routes/formDelete');
 const userController = require('../controllers/userController');
 
 /**
@@ -31,7 +33,7 @@ function handleCreateGamificationSystemRequest(request, response) {
 
         // Creez modelul sistemului
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, request, response).then(function (result) {
+        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, formRoute, request, response).then(function (result) {
             gamificationSystemModel = result;
         })
 
@@ -82,32 +84,21 @@ function handleCreateGamificationSystemRequest(request, response) {
             }
 
             default: {
-                // TODO: Pagina noua, cu putine informatii (in stilul error.hbs), in care sa se explice sumar urmatorii pasi, in care este
-                //afisata cheia API generata (memorata in serviceResponse) si care contine un link catre '/documentation'
-                response.statusCode = 201; // 201 - Created
-                request.successMessage = "Sistemul de recompense a fost creat cu succes! Cheia API este: " + serviceResponse;
-                
-                for(var index=0; index < gamificationSystemModel.listOfGamificationEvents.length; index++) {
-                    gamificationSystemModel.listOfGamificationEvents[index].id = index+1;
-                }
-            
-                for(var index=0; index < gamificationSystemModel.listOfGamificationRewards.length; index++) {
-                    gamificationSystemModel.listOfGamificationRewards[index].id = index+1;
-                }
-
-                request.gamificationSystemModel = gamificationSystemModel;
-                formRoute(request, response);
-                return;
+                // Redirectionez utilizatorul
+                response.writeHead(303, 
+                    {'Location': '/profile'}
+                ); // 303 - See Other
+                response.end();
             }
         }
     });
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system' sau '/profile/modify_gamification_system'..
+ * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
- * @param {*} urlPrefix Prefixul url-ului ('/profile/view_gamification_system' sau '/profile/modify_gamification_system').
+ * @param {*} urlPrefix Prefixul url-ului ('/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system').
  */
 async function handleViewGamificationSystemRequest(request, response, urlPrefix) {
     var cookies = cookie.parse(request.headers.cookie || '');
@@ -196,10 +187,19 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
 
     // Generez pagina de vizualizare
     request.gamificationSystemModel = gamificationSystemModel;
-    if(urlPrefix == '/profile/view_gamification_system') {
-        return formViewRoute(request, response);
+    switch(urlPrefix) {
+        case '/profile/view_gamification_system': {
+            return formViewRoute(request, response);
+        }
+
+        case '/profile/modify_gamification_system': {
+            return formModifyRoute(request, response);
+        }
+
+        case '/profile/delete_gamification_system': {
+            return formDeleteRoute(request, response);
+        }
     }
-    return formModifyRoute(request, response);
 }
 
 /**
@@ -222,12 +222,62 @@ async function handleModifyGamificationSystemRequest(request, response) {
         // Parsez request body-ul
         parsedBody = parse(body);
 
-        // console.log(parsedBody);
+        // Preiau modelul User folosindu-ma de token
+        var userModel = -1;
+        await userController.getUserModelByToken(token, request, response).then(function (result) {
+            userModel = result;
+        });
+
+        while(userModel == -1) {
+            await utils.timeout(10);
+        }
+
+        if(userModel == null) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Preiau sistemele de gamificatie ale utilizatorului
+        var userGamificationSystems = null;
+        await gamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+            userGamificationSystems = result;
+        });
+
+        while(userGamificationSystems == null) {
+            await utils.timeout(10);   
+        }
+
+        if(userGamificationSystems == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
+        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
+
+        if(result.length == 0) {
+            response.statusCode = 400;
+            request.statusCodeMessage = "Bad Request";
+            request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
+            errorRoute(request, response);
+            return;
+        }
 
         // Creez modelul Gamification System
-        // TODO: In caz de am eroare la verificare si validare date, sa imi returneze formModifyRoute
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, request, response).then(function (result) {
+        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, 
+            formModifyRoute, request, response, parsedBody.system_apikey
+        ).then(function (result) {
             gamificationSystemModel = result;
         });
 
@@ -235,30 +285,162 @@ async function handleModifyGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(gamificationSystemModel == null) {
+        if(gamificationSystemModel == null) { 
             return;
         }
 
-        // console.log(gamificationSystemModel);
+        // Sterg modelul deja stocat in baza de date folosind api key-ul
+        var dbResult = null;
+        await gamificationSystemServices.deleteGamificationSystemModelByAPIKey(gamificationSystemModel.APIKey)
+                .then(function(result) {
+            dbResult = result;
+        });
+        
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
 
-        // TODO: Sterg modelul deja stocat in baza de date folosind api key-ul
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
-        // TODO: Inserez modelul nou in baza de date 
-        // var dbResult = null;
-        // await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
-        //     dbResult = result;
-        // });
+        // Inserez modelul nou in baza de date 
+        var dbResult = null;
+        await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
+            dbResult = result;
+        });
 
-        // while(dbResult == null) {
-        //     await utils.timeout(10);
-        // }
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
 
-        // if(dbResult == -1) return;
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
-        // TODO: Construiesc raspunsul
+        // Redirectionez utilizatorul
+        response.writeHead(303, 
+            {'Location': '/profile/view_gamification_system?systemName=' + gamificationSystemModel.name}
+        ); // 303 - See Other
+        response.end();
     });
 
     return null;
 }
 
-module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemRequest}
+/**
+ * Rezolva un request de tip POST/DELETE facut la pagina '/profile/modify_gamification_system'.
+ * @param {*} request Request-ul facut.
+ * @param {*} response Raspunsul dat de server.
+ */
+async function handleDeleteGamificationSystemRequest(request, response) {
+    var cookies = cookie.parse(request.headers.cookie || '');
+    var token = cookies.authToken;
+
+    // Citesc request body-ul
+    let body = '';
+    request.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    var parsedBody;
+    request.on('end', async () => {
+        // Parsez request body-ul
+        parsedBody = parse(body);
+
+        // Preiau modelul User folosindu-ma de token
+        var userModel = -1;
+        await userController.getUserModelByToken(token, request, response).then(function (result) {
+            userModel = result;
+        });
+
+        while(userModel == -1) {
+            await utils.timeout(10);
+        }
+
+        if(userModel == null) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Preiau sistemele de gamificatie ale utilizatorului
+        var userGamificationSystems = null;
+        await gamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+            userGamificationSystems = result;
+        });
+
+        while(userGamificationSystems == null) {
+            await utils.timeout(10);   
+        }
+
+        if(userGamificationSystems == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
+        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
+
+        if(result.length == 0) {
+            response.statusCode = 400;
+            request.statusCodeMessage = "Bad Request";
+            request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Sterg modelul deja stocat in baza de date folosind api key-ul
+        var dbResult = null;
+        await gamificationSystemServices.deleteGamificationSystemModelByAPIKey(parsedBody.system_apikey)
+                .then(function(result) {
+            dbResult = result;
+        });
+        
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
+
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Redirectionez utilizatorul
+        response.writeHead(303, 
+            {'Location': '/profile'}
+        ); // 303 - See Other
+        response.end();
+    });
+
+    return null;
+}
+
+module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemRequest,
+    handleDeleteGamificationSystemRequest}
