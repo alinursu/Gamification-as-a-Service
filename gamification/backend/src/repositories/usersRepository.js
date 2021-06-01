@@ -123,7 +123,7 @@ async function getUserModelById(userId) {
         await utils.timeout(10);
     }
 
-    if (queryResult == -1) {
+    if (queryResult === -1) {
         return -1;
     }
 
@@ -198,7 +198,6 @@ async function updateUserModel(userModel) {
             }
         })
     })
-
 }
 
 

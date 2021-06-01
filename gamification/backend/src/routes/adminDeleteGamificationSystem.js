@@ -9,13 +9,16 @@ const adminDeleteSystemRoute = async (request, response) => {
         const queryString = request.url.split('?')[1];
         const queryObject = querystringParser.parse(queryString);
 
-        request.api_ey = queryObject.api_key;
+        request.api_key = queryObject.api_key;
 
         if (!request.api_key) {
             response.write("Bad URL");
             response.end();
             return;
         }
+
+        // decode api key
+        request.api_key = decodeURIComponent(request.api_key);
 
         await gamificationSystemsRepository.deleteSystemByApi(request.api_key);
 

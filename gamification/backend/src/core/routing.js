@@ -26,6 +26,8 @@ const adminHomeRoute = require("../routes/adminHome");
 const adminGamificationSystemsRoute = require("../routes/adminGamificationSystems");
 const adminAddGamificationSystemRoute = require("../routes/adminAddGamificationSystem");
 const adminDeleteSystemRoute = require("../routes/adminDeleteGamificationSystem");
+const adminUpdateSystemRoute = require("../routes/adminUpdateSystem");
+const adminUpdateSystemPUTRoute = require("../routes/adminUpdateSystemPOST");
 
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
@@ -205,6 +207,32 @@ const routing = async (request, response) => {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                         if(result) return adminUpdateUserPUTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
+            }
+
+            case '/admin/gamification-systems/update': {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if(result) return adminUpdateSystemPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -512,6 +540,31 @@ const routing = async (request, response) => {
                 return;
             }
 
+            if (url.startsWith('/admin/gamification-systems/update')) {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if(result) return adminUpdateSystemRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
+            }
 
             if (url.startsWith('/admin/gamification-systems/delete')) {
                 if (cookies.authToken != null) {
@@ -537,7 +590,6 @@ const routing = async (request, response) => {
                 }
                 return;
             }
-
 
             if (url.startsWith('/admin/users/delete')) {
                 if (cookies.authToken != null) {
@@ -612,10 +664,7 @@ const routing = async (request, response) => {
             request.errorMessage = "Nu am găsit pagina pe care încerci sa o accesezi!";
             return errorRoute(request, response);
         }
-
     }
-
-
 }
 
 module.exports = routing;

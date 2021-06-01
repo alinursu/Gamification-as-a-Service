@@ -29,8 +29,8 @@
                             <td>{{this.name}}</td>
                             <td>{{this.APIKey}}</td>
                             <td>
-                                <button onclick="deleteSystem({{this.APIKey}})">Delete</button>
-                                <button onclick="location.href = '/admin/users/update?id={{this.id}}'">Update</button>
+                                <button onclick="deleteSystem('{{this.APIKey}}')">Delete</button>
+                                <button onclick="updateSystem('{{this.APIKey}}')">Update</button>
                             </td>
                         </tr>
                     {{/each}}
@@ -39,7 +39,7 @@
         </div>
     </div>
 </div>
-<script src="../admin/gamificationSystems.js"></script>
+<script src="../js/admin/gamificationSystems.js"></script>
 </body>
 
 </HTML>

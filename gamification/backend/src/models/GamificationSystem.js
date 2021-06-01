@@ -1,7 +1,7 @@
 
 // Model pentru o linie din tabela "gamification_systems".
 class GamificationSystem {
-    constructor(APIKey, name, userId, listOfGamificationEvents, listOfGamificationRewards) {
+    constructor(APIKey, name, userId, listOfGamificationEvents=null, listOfGamificationRewards=null) {
         this.APIKey = APIKey;
         this.name = name;
         this.userId = userId;

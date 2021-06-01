@@ -37,6 +37,36 @@ async function getGamificationSystemsByUserId(userId) {
     return queryResult;
 }
 
+async function getGamificationSystemByApiKey(apiKey) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_systems WHERE api_key=?";
+
+
+    var queryResult;
+    connection.query(sql, [hash.encrypt(apiKey)], function (error, results) {
+        if (error) {
+            queryResult = -1;
+            return;
+        }
+        queryResult = results;
+    });
+
+    while (queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    if (queryResult === -1) {
+        return -1;
+    }
+
+    if (queryResult.length > 0) {
+        var systemModel = new GamificationSystemModel(
+            hash.decrypt(queryResult[0].api_key), hash.decrypt(queryResult[0].name), queryResult[0].user_id, null, null);
+        return systemModel;
+    }
+    return null;
+}
+
 /**
  * Cauta in baza de date modelele GamificationReward create pentru un anumit sistem.
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
@@ -121,10 +151,11 @@ async function getAllSystems() {
     })
 }
 
-
 async function deleteSystemByApi(api_key) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_systems WHERE api_key=?";
+
+    console.log(api_key);
 
     return new Promise((resolve, reject) => {
         connection.query(sql, [api_key], (err) => {
@@ -137,6 +168,19 @@ async function deleteSystemByApi(api_key) {
     })
 }
 
+async function updateSystemModel(systemModel) {
+    const connection = getDatabaseConnection();
+    const sql = "UPDATE gamification_systems SET api_key=?, user_id=?, name=? WHERE api_key=?";
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [hash.encrypt(systemModel.APIKey), systemModel.userId, hash.encrypt(systemModel.name), hash.encrypt(systemModel.APIKey)], function (error, results) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        })
+    })
+}
 
 /**
  * Adauga sistemul de gamificare in tabela "gamification_systems".
@@ -269,7 +313,15 @@ async function getGamificationEventByAPIKeyAndName(APIKey, name, connection = nu
 }
 
 module.exports = {
-    getGamificationSystemsByUserId, addGamificationSystemToDatabase,
-    addGamificationEventToDatabase, addGamificationRewardToDatabase, getGamificationEventByAPIKeyAndName,
-    getGamificationRewardModelsByAPIKey, getGamificationEventModelsByAPIKey, getAllSystems, deleteSystemByApi
+    getGamificationSystemsByUserId,
+    addGamificationSystemToDatabase,
+    addGamificationEventToDatabase,
+    addGamificationRewardToDatabase,
+    getGamificationEventByAPIKeyAndName,
+    getGamificationRewardModelsByAPIKey,
+    getGamificationEventModelsByAPIKey,
+    getAllSystems,
+    deleteSystemByApi,
+    getGamificationSystemByApiKey,
+    updateSystemModel
 };
