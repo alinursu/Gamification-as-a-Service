@@ -31,7 +31,7 @@ function handleCreateGamificationSystemRequest(request, response) {
 
         // Creez modelul sistemului
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, request, response).then(function (result) {
+        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, formRoute, request, response).then(function (result) {
             gamificationSystemModel = result;
         })
 
@@ -222,12 +222,11 @@ async function handleModifyGamificationSystemRequest(request, response) {
         // Parsez request body-ul
         parsedBody = parse(body);
 
-        // console.log(parsedBody);
-
         // Creez modelul Gamification System
-        // TODO: In caz de am eroare la verificare si validare date, sa imi returneze formModifyRoute
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, request, response).then(function (result) {
+        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, 
+            formModifyRoute, request, response, parsedBody.system_apikey
+        ).then(function (result) {
             gamificationSystemModel = result;
         });
 
@@ -235,27 +234,56 @@ async function handleModifyGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(gamificationSystemModel == null) {
+        if(gamificationSystemModel == null) { 
             return;
         }
 
-        // console.log(gamificationSystemModel);
+        // Sterg modelul deja stocat in baza de date folosind api key-ul
+        var dbResult = null;
+        await gamificationSystemServices.deleteGamificationSystemModelByAPIKey(gamificationSystemModel.APIKey)
+                .then(function(result) {
+            dbResult = result;
+        });
+        
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
 
-        // TODO: Sterg modelul deja stocat in baza de date folosind api key-ul
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
-        // TODO: Inserez modelul nou in baza de date 
-        // var dbResult = null;
-        // await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
-        //     dbResult = result;
-        // });
+        // Inserez modelul nou in baza de date 
+        var dbResult = null;
+        await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
+            dbResult = result;
+        });
 
-        // while(dbResult == null) {
-        //     await utils.timeout(10);
-        // }
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
 
-        // if(dbResult == -1) return;
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
 
-        // TODO: Construiesc raspunsul
+        // Redirectionez utilizatorul
+        response.writeHead(303, 
+            {'Location': '/profile/view_gamification_system?systemName=' + gamificationSystemModel.name}
+        ); // 303 - See Other
+        response.end();
     });
 
     return null;

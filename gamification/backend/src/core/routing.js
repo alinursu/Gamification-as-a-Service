@@ -99,8 +99,9 @@ const routing = async (request, response) => {
     // Request-uri de tip POST
     if (request.method == 'POST') {
         switch (url) {
-            case '/':
+            case '/': {
                 return contactMessageController.handleContactRequest(request, response);
+            }
 
             case '/login': {
                 if (cookies.authToken == null) {
