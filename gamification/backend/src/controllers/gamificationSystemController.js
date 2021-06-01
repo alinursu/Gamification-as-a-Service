@@ -135,7 +135,7 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
 
     // Preiau modelul User folosindu-ma de token
     var userModel = -1;
-    await userController.getUserModelByToken(token).then(function (result) {
+    await userController.getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 
@@ -202,9 +202,19 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
-async function handleModifyGamificationSystemPUTRequest(request, response) {
+async function handleModifyGamificationSystemRequest(request, response) {
+    // TODO: Citesc request-ul
+
+    // TODO: Parsez request body-ul
+
+    // TODO: Creez modelul (service deja creat???)
+
+    // TODO: Sterg modelul deja stocat in baza de date folosind api key-ul
+
+    // TODO: Inserez modelul nou in baza de date (service deja creat???)
+
     console.log('handling put request on modify_gamification_system');
     return null;
 }
 
-module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemPUTRequest}
+module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemRequest}

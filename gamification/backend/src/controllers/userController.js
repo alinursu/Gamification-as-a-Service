@@ -17,7 +17,7 @@ const gamificationSystemServices = require('../services/gamificationSystemServic
  * @param {*} token Token-ul dupa care se face cautarea.
  * @returns Modelul User asociat token-ului de autentificare; null, daca nu exista unul
  */
-async function getUserModelByToken(token) {
+async function getUserModelByToken(token, request, response) {
     var userId;
     await tokensRepository.getUserIdByToken(token).then(function(result) {
         userId = result;
@@ -293,7 +293,7 @@ function handleChangeURLRequest(request, response) {
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
         var userModel;
-        await getUserModelByToken(token).then(function(result) {
+        await getUserModelByToken(token, request, response).then(function(result) {
             userModel = result;
         });
 
@@ -356,7 +356,7 @@ function handleChangePasswordRequest(request, response) {
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
         var userModel;
-        await getUserModelByToken(token).then(function(result) {
+        await getUserModelByToken(token, request, response).then(function(result) {
             userModel = result;
         });
 
@@ -408,7 +408,7 @@ async function handleGETProfileRequest(request, response) {
     // Iau modelul User folosindu-ma de token
     var userModel = 0;
 
-    await getUserModelByToken(token).then(function (result) {
+    await getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 
@@ -455,7 +455,7 @@ async function handleGETProfileRequest(request, response) {
 async function isUserAdmin(token) {
     // Preiau modelul User pe baza token-ului
     var userModel = -1;
-    await getUserModelByToken(token).then(function (result) {
+    await getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 

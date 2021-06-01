@@ -59,7 +59,7 @@
 
                 <label for="name" class="nume-rec" id="nume-event{{this.id}}">Numele evenimentului:</label> <br>
                 <input type="text" class="name" id="nume-event{{this.id}}" name="nume_eveniment{{this.id}}" value="{{this.name}}" disabled>
-                <br>
+                <br> <br>
             </div>
         {{/each}}
         
@@ -104,9 +104,9 @@
                 </div>
 
                 <label for="name" class="nume-rec-2" id="valoare-ev{{this.id}}">Valoarea pentru care se va oferi recompensa:</label> <br>
-                <dir class="input-info-container">
+                <div class="input-info-container">
                     <input type="text" class="name" id="nume-ev{{this.id}}" name="valoare_eveniment{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.eventValue}}" disabled>
-                </dir>
+                </div>
                 <br>
             </div>
         {{/each}}

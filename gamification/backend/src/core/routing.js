@@ -46,7 +46,7 @@ const routing = async (request, response) => {
 
         if (cookies.authToken != null) {
             var userModel;
-            userController.getUserModelByToken(cookies.authToken).then(function (result) {
+            userController.getUserModelByToken(cookies.authToken, request, response).then(function (result) {
                 userModel = result;
             });
 

@@ -1,6 +1,7 @@
 const add = document.getElementById("add-btn");
 const addEventButton = document.getElementById("add-event-btn");
 const form = document.getElementById('rec-form');
+var deleteButtons = document.getElementsByClassName("delete-button");
 
 function onclickShowToolTip(node) {
     var tooltipTextNode = node.getElementsByClassName('tooltip-text')[0];
@@ -27,7 +28,7 @@ add.addEventListener('click', (event) => {
             <input type="text" class="name" id="nume-rec${numberOfCards + 1}" name="nume_recompensa${numberOfCards + 1}"> <br>
 
             <label for="name" class="nume-rec" id="punctaj${numberOfCards + 1}">Valoarea importanței recompensei:</label> <br>
-            <div class="radio-option-container">
+            <div class="input-info-container">
                 <input type="text" class="name" id="nume-rec${numberOfCards + 1}" name="punctaj${numberOfCards + 1}" placeholder="Valoare întreagă pozitivă">
                 <div class="tooltip" onclick="onclickShowToolTip(this)"> 
                     <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
@@ -39,7 +40,7 @@ add.addEventListener('click', (event) => {
             </div>
 
             <label for="name" class="nume-rec-2" id="nume-ev${numberOfCards + 1}">Numele evenimentului care controlează recompensa:</label> <br>
-            <div class="radio-option-container">
+            <div class="input-info-container">
                 <input type="text" class="name" id="nume-ev${numberOfCards + 1}" name="eveniment_recompensa${numberOfCards + 1}">
                 <div class="tooltip" onclick="onclickShowToolTip(this)"> 
                     <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
@@ -51,7 +52,7 @@ add.addEventListener('click', (event) => {
             </div>
 
             <label for="name" class="nume-rec-2" id="valoare-ev${numberOfCards + 1}">Valoarea pentru care se va oferi recompensa:</label> <br>
-            <dir class="radio-option-container">
+            <div class="input-info-container">
                 <input type="text" class="name" id="nume-ev${numberOfCards + 1}" name="valoare_eveniment${numberOfCards + 1}" placeholder="Valoare întreagă pozitivă">
                 <div class="tooltip" onclick="onclickShowToolTip(this)"> 
                     <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
@@ -60,11 +61,19 @@ add.addEventListener('click', (event) => {
                             a evenimentului, în funcție de tipul acestuia, după care se va oferi această recompensă utilizatorului.</p>
                     </div>
                 </div>
-            </dir>`;
+            </div> <br>
+            <button type="button" class="delete-button">Șterge</button>`;
     cardForm.className = 'card-form';
 
     form.insertBefore(cardForm, add);
 
+    deleteButtons = document.getElementsByClassName("delete-button");
+    for(var i=0; i<deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', (event) => {
+            var parentNode = event.currentTarget.parentNode;
+            parentNode.remove();
+        });
+    }
 })
 
 addEventButton.addEventListener('click', (event) => {
@@ -74,7 +83,7 @@ addEventButton.addEventListener('click', (event) => {
 
     const cardForm = document.createElement('div');
     cardForm.innerHTML = `<p>Selectează tipul de eveniment!</p>
-            <div class="radio-option-container">
+            <div class="input-info-container">
                 <input type="radio" id="time${numberOfCards + 1}" name="tip_eveniment${numberOfCards + 1}" value="time">
                 <label for="time${numberOfCards + 1}">Bazat pe timp</label> 
                 <div class="tooltip" onclick="onclickShowToolTip(this)"> 
@@ -85,7 +94,7 @@ addEventButton.addEventListener('click', (event) => {
                 </div>              
             </div>
 
-            <div class="radio-option-container">
+            <div class="input-info-container">
                 <input type="radio" id="value${numberOfCards + 1}" name="tip_eveniment${numberOfCards + 1}" value="value">
                 <label for="value${numberOfCards + 1}">Bazat pe un număr</label> 
                 <div class="tooltip" onclick="onclickShowToolTip(this)"> 
@@ -96,8 +105,25 @@ addEventButton.addEventListener('click', (event) => {
                 </div>              
             </div>
             <label for="name" class="nume-rec" id="nume-event${numberOfCards + 1}">Numele evenimentului:</label> <br>
-            <input type="text" class="name" id="nume-event${numberOfCards + 1}" name="nume_eveniment${numberOfCards + 1}">`;
+            <input type="text" class="name" id="nume-event${numberOfCards + 1}" name="nume_eveniment${numberOfCards + 1}">
+            <br> <br>
+            <button type="button" class="delete-button">Șterge</button>`;
     cardForm.className = 'event-card-form';
 
     form.insertBefore(cardForm, addEventButton);
+
+    deleteButtons = document.getElementsByClassName("delete-button");
+    for(var i=0; i<deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', (event) => {
+            var parentNode = event.currentTarget.parentNode;
+            parentNode.remove();
+        });
+    }
 });
+
+for(var i=0; i<deleteButtons.length; i++) {
+    deleteButtons[i].addEventListener('click', (event) => {
+        var parentNode = event.currentTarget.parentNode;
+        parentNode.remove();
+    });
+}

@@ -108,6 +108,7 @@
                     <label for="name" class="nume-rec" id="nume-event{{this.id}}">Numele evenimentului:</label> <br>
                     <input type="text" class="name" id="nume-event{{this.id}}" name="nume_eveniment{{this.id}}" value="{{this.name}}">
                     <br>
+                    <button type="button" class="delete-button">Șterge</button>
                 </div>
             {{/each}}
         {{else}}
@@ -138,7 +139,8 @@
 
                 <label for="name" class="nume-rec" id="nume-event1">Numele evenimentului:</label> <br>
                 <input type="text" class="name" id="nume-event1" name="nume_eveniment1">
-                <br>
+                <br> <br>
+                <button type="button" class="delete-button">Șterge</button>
             </div>
         {{/if}}
         
@@ -200,7 +202,7 @@
                     </div>
 
                     <label for="name" class="nume-rec-2" id="valoare-ev{{this.id}}">Valoarea pentru care se va oferi recompensa:</label> <br>
-                    <dir class="input-info-container">
+                    <div class="input-info-container">
                         <input type="text" class="name" id="nume-ev{{this.id}}" name="valoare_eveniment{{this.id}}" placeholder="Valoare întreagă pozitivă" value="{{this.eventValue}}">
                         <div class="tooltip" onclick="onclickShowToolTip(this)"> 
                             <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
@@ -209,8 +211,9 @@
                                     a evenimentului, în funcție de tipul acestuia, după care se va oferi această recompensă utilizatorului.</p>
                             </div>
                         </div>
-                    </dir>
-                    <br>
+                    </div>
+                    <br> <br>
+                    <button type="button" class="delete-button">Șterge</button>
                 </div>
             {{/each}}
         {{else}}
@@ -249,7 +252,7 @@
                 </div>
 
                 <label for="name" class="nume-rec-2" id="valoare-ev1">Valoarea pentru care se va oferi recompensa:</label> <br>
-                <dir class="input-info-container">
+                <div class="input-info-container">
                     <input type="text" class="name" id="nume-ev1" name="valoare_eveniment1" placeholder="Valoare întreagă pozitivă">
                     <div class="tooltip" onclick="onclickShowToolTip(this)"> 
                         <p style="margin-bottom: 0; margin-left: 0.5em; color:#423788;">?</p>
@@ -258,7 +261,9 @@
                                                         a evenimentului, în funcție de tipul acestuia, după care se va oferi această recompensă utilizatorului.</p>
                         </div>   
                     </div>
-                </dir>
+                </div>
+                <br>
+                <button type="button" class="delete-button">Șterge</button>
             </div>
         {{/if}}
 
