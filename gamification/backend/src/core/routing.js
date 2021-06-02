@@ -14,6 +14,7 @@ const userController = require('../controllers/userController');
 const tokenController = require('../controllers/tokenController');
 const contactMessageController = require('../controllers/contactMessageController');
 const gamificationSystemController = require('../controllers/gamificationSystemController');
+const gamificationSystemExternalController = require('../controllers/gamificationSystemExternalController');
 const requestsLimiterController = require('../controllers/requestsLimiterController');
 
 const staticServe = require('node-static');
@@ -105,6 +106,10 @@ const routing = async (request, response) => {
             request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
+        }
+
+        if(url.startsWith('/external/gamification_system')) {
+            return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
         }
 
         // Nu poti face un request de tip PUT la pagina {{url}} - 403 Forbidden
@@ -299,6 +304,10 @@ const routing = async (request, response) => {
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
                     response.setHeader('Location', '/error');
                     return errorRoute(request, response);
+                }
+
+                if(url.startsWith('/external/gamification_system')) {
+                    return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
                 }
 
                 // Nu poti face un request de tip POST la pagina {{url}} - 403 Forbidden

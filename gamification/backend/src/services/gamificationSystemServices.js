@@ -14,7 +14,7 @@ const { getDatabaseConnection } = require('../internal/databaseConnection');
 async function generateAPIKey() {
     var keyLength = 64;
     var key = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@%^*_+-=';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@%^*_-';
     var charactersLength = characters.length;
     for(var i=0; i<keyLength; i++) {
         key.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
@@ -47,7 +47,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
     }
 
     while(requestBody['nume_eveniment' + index] != null) {
-        var eventModel = new GamificationEventModel(null, apikey, requestBody['nume_eveniment' + index], requestBody['tip_eveniment' + index]);
+        var eventModel = new GamificationEventModel(requestBody['id_eveniment' + index], apikey, requestBody['nume_eveniment' + index], requestBody['tip_eveniment' + index]);
 
         if(eventModel.name.length == 0 && validModel) {
             validModel = false;
@@ -90,7 +90,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
     var listOfRewardModels = [];
     index = 1;
     while(requestBody['nume_recompensa' + index] != null) {
-        var rewardModel = new GamificationRewardModel(null, apikey, requestBody['nume_recompensa' + index], requestBody['tip_recompensa' + index], 
+        var rewardModel = new GamificationRewardModel(requestBody['id_recompensa' + index], apikey, requestBody['nume_recompensa' + index], requestBody['tip_recompensa' + index], 
                 requestBody['eveniment_recompensa' + index], requestBody['valoare_eveniment' + index], requestBody['punctaj' + index]);
 
         if(rewardModel.name.length == 0 && validModel) {
@@ -462,6 +462,83 @@ async function getGamificationSystemModelsByUserId(userId) {
 }
 
 /**
+ * Construieste un model GamificationSystem (incluzand modelele de GamificationReward si GamificationEvent din ele) dupa o cheie API.
+ * @param {*} APIKey Cheia API dupa se face cautarea.
+ * @returns Modelul GamificationSystem gasit; null, daca nu exista niciunul cu aceasta cheie API; -1 daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationSystemModelByAPIKey(APIKey) {
+    // Preiau modelul GamificationSystem
+    var gamificationSystemModel = 0;
+    await gamificationSystemsRepository.getGamificationSystemByApiKey(APIKey).then(function (result) {
+        gamificationSystemModel = result;
+    });
+
+    while(gamificationSystemModel == 0) {
+        await utils.timeout(10);
+    }
+
+    if(gamificationSystemModel == null || gamificationSystemModel == -1) {
+        return gamificationSystemModel;
+    }
+
+    // Preiau modelele GamificationEvent
+    var listOfGamificationEventModels = null;
+
+    await gamificationSystemsRepository.getGamificationEventModelsByAPIKey(APIKey).then(function (result) {
+        listOfGamificationEventModels = result;
+    });
+
+    while(listOfGamificationEventModels == null) {
+        await utils.timeout(10);
+    }
+
+    if(listOfGamificationEventModels == -1) return -1;
+
+    // Formatez modelele GamificationEvent
+    var tempList = [];
+    for(var i=0; i<listOfGamificationEventModels.length; i++) {
+        var eventModel = new GamificationEventModel(
+            listOfGamificationEventModels[i].id, listOfGamificationEventModels[i].system_api_key, 
+                listOfGamificationEventModels[i].name, listOfGamificationEventModels[i].event_type
+        );
+        
+        tempList.push(eventModel);
+    }
+    listOfGamificationEventModels = tempList;
+
+    // Preiau modelele GamificationReward
+    var listOfGamificationRewardModels = null;
+
+    await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
+        listOfGamificationRewardModels = result;
+    });
+
+    while(listOfGamificationRewardModels == null) {
+        await utils.timeout(10);
+    }
+
+    if(listOfGamificationRewardModels == -1) return -1;
+
+    // Formatez modelele GamificationReward
+    var tempList = [];
+    for(var i=0; i<listOfGamificationRewardModels.length; i++) {
+        var rewardModel = new GamificationRewardModel(
+            listOfGamificationRewardModels[i].id, listOfGamificationEventModels[i].system_api_key, 
+                listOfGamificationRewardModels[i].name, listOfGamificationEventModels[i].type,
+                listOfGamificationRewardModels[i].occurs_at_event_id, listOfGamificationRewardModels[i].event_value,
+                listOfGamificationRewardModels[i].reward_value
+        );
+        
+        tempList.push(rewardModel);
+    }
+    listOfGamificationRewardModels = tempList;
+
+    gamificationSystemModel.listOfGamificationEvents = listOfGamificationEventModels;
+    gamificationSystemModel.listOfGamificationRewards = listOfGamificationRewardModels;
+    return gamificationSystemModel;
+}
+
+/**
  * Sterge din baza de date un model GamificationSystem, pe baza unei chei API.
  * @param {*} APIKey Cheia API dupa care se face stergerea.
  * @return 0, daca stergerea a fost efectuata cu succes; -1, daca a aparut o eroare pe parcursul executiei.
@@ -539,4 +616,5 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
 }
 
 module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase, 
-    getGamificationSystemModelsByUserId, deleteGamificationSystemModelByAPIKey}
+    getGamificationSystemModelsByUserId, getGamificationSystemModelByAPIKey, 
+    deleteGamificationSystemModelByAPIKey}

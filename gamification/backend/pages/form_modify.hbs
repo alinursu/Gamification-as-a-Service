@@ -33,6 +33,7 @@
         {{#each gamificationSystemModel.listOfGamificationEvents }}
             <div class="event-card-form">
                 <p>Selectează tipul de eveniment!</p>
+                <input type="text" name="id_eveniment{{this.id}}" style="display:none;" value="{{eventIdBasedByIndex @index}}">
 
                 {{#ifCompareStrings this.eventType 'time'}}
                     <div class="input-info-container">
@@ -121,6 +122,7 @@
         {{#each gamificationSystemModel.listOfGamificationRewards }}
             <div class="card-form">
                 <p>Selectează tipul de recompensă!</p>
+                <input type="text" name="id_recompensa{{this.id}}" style="display:none;" value="{{rewardIdBasedByIndex @index}}">
 
                 {{#ifCompareStrings this.type 'badge'}}
                     <input type="radio" id="badge{{this.id}}" name="tip_recompensa{{this.id}}" value="badge" checked>

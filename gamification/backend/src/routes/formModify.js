@@ -24,7 +24,9 @@ const formModifyRoute = (request, response) => {
             return renderPage(paths.index, {
                 successMessage: request.successMessage,
                 errorMessage: request.errorMessage,
-                gamificationSystemModel: request.gamificationSystemModel
+                gamificationSystemModel: request.gamificationSystemModel,
+                rewardModelIds: request.rewardModelIds,
+                eventModelIds: request.eventModelIds
             }, (data) => {
                 response.write(data);
 

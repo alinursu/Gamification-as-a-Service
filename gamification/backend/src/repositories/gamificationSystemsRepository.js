@@ -225,11 +225,19 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
     if (connection == null) {
         connection = getDatabaseConnection();
     }
-    var sql = "INSERT INTO gamification_events(system_api_key, name, event_type) VALUES(?, ?, ?)";
+    if(gamificationEventModel.id == null) {
+        var sql = "INSERT INTO gamification_events(system_api_key, name, event_type) VALUES(?, ?, ?)";
+        var params = [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
+            gamificationEventModel.eventType];
+    }
+    else {
+        var sql = "INSERT INTO gamification_events VALUES (?, ?, ?, ?)";
+        var params = [gamificationEventModel.id, hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
+            gamificationEventModel.eventType]
+    }
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
-        gamificationEventModel.eventType], function (error, results) {
+    connection.query(sql, params, function (error, results) {
         if (error) {
             queryResult = -1;
             return;
@@ -255,11 +263,20 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
     if (connection == null) {
         connection = getDatabaseConnection();
     }
-    var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?, ?)";
+
+    if(gamificationRewardModel.id == null) {
+        var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?, ?)";
+        var params = [hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
+            gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue];
+    }
+    else {
+        var sql = "INSERT INTO gamification_rewards VALUES(?, ?, ?, ?, ?, ?, ?)";
+        var params = [gamificationRewardModel.id, hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
+            gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue];
+    }
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationRewardModel.systemAPIKey), hash.encrypt(gamificationRewardModel.name), gamificationRewardModel.type,
-        gamificationRewardModel.eventId, gamificationRewardModel.eventValue, gamificationRewardModel.rewardValue], function (error, results) {
+    connection.query(sql, params, function (error, results) {
         if (error) {
             queryResult = -1;
             return;

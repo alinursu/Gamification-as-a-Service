@@ -3,6 +3,7 @@ var cookie = require('cookie');
 
 const gamificationSystemServices = require('../services/gamificationSystemServices');
 const gamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
+const gamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
 const utils = require('../internal/utils');
 const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
@@ -172,7 +173,9 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     gamificationSystemModel = gamificationSystemModel[0];
 
     // Formatez modelul
+    var rewardIds = []
     for(var i=0; i<gamificationSystemModel.listOfGamificationRewards.length; i++) {
+        rewardIds.push(gamificationSystemModel.listOfGamificationRewards[i].id);
         gamificationSystemModel.listOfGamificationRewards[i].id = i+1;
         var eventModelsFiltered = gamificationSystemModel.listOfGamificationEvents.filter(
             eventModel => eventModel.id == gamificationSystemModel.listOfGamificationRewards[i].eventId
@@ -181,12 +184,16 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
         gamificationSystemModel.listOfGamificationRewards[i].eventId = eventModelsFiltered[0].name;
     }
 
+    var eventIds = []
     for(var i=0; i<gamificationSystemModel.listOfGamificationEvents.length; i++) {
+        eventIds.push(gamificationSystemModel.listOfGamificationEvents[i].id);
         gamificationSystemModel.listOfGamificationEvents[i].id = i+1;
     }
 
     // Generez pagina de vizualizare
     request.gamificationSystemModel = gamificationSystemModel;
+    request.rewardModelIds = rewardIds;
+    request.eventModelIds = eventIds;
     switch(urlPrefix) {
         case '/profile/view_gamification_system': {
             return formViewRoute(request, response);
@@ -418,6 +425,26 @@ async function handleDeleteGamificationSystemRequest(request, response) {
             dbResult = result;
         });
         
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
+
+        if(dbResult == -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
+            "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            errorRoute(request, response);
+            return;
+        }
+
+        // Sterg datele asociate cheii API din tabela 'gamification_user_data'
+        var dbResult = null;
+        await gamificationSystemExternalServices.deleteGamificationUserDataByAPIKey(parsedBody.system_apikey).then(function (result) {
+            dbResult = result;
+        });
+
         while(dbResult == null) {
             await utils.timeout(10);
         }

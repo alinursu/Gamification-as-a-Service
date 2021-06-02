@@ -9,6 +9,22 @@ hbs.registerHelper('ifCompareStrings', function(string1, string2, options) {
     return options.inverse(this);
 });
 
+hbs.registerHelper('eventIdBasedByIndex', function(index, options) {
+    if(options.data.root.eventModelIds == null) return null;
+
+    if(index >= options.data.root.eventModelIds.length) return null;
+
+    return options.data.root.eventModelIds[index];
+})
+
+hbs.registerHelper('rewardIdBasedByIndex', function(index, options) {
+    if(options.data.root.rewardModelIds == null) return null;
+
+    if(index >= options.data.root.rewardModelIds.length) return null;
+
+    return options.data.root.rewardModelIds[index];
+})
+
 /**
  * Randeaza un fisier .hbs.
  * @param {*} filePath Calea catre fisierul hbs.
