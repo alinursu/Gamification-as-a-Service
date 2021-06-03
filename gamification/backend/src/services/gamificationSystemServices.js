@@ -34,7 +34,6 @@ async function generateAPIKey() {
  */
 async function createModelFromRequestBodyData(requestBody, token, routeFunctionCallback, request, response, apikey=null) {
     var listOfEventModels = [];
-    var index = 1;
     var validModel = true;
     var errorMessage = null;
 
@@ -46,7 +45,16 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         errorMessage = "Sistemul de recompense trebuie sa aibă un nume!"
     }
 
-    while(requestBody['nume_eveniment' + index] != null) {
+    // Preiau indecsii evenimentelor
+    var eventKeys = Object.keys(requestBody).filter(key => key.startsWith('nume_eveniment'));
+    var eventIndexes = [];
+    for(var i=0; i<eventKeys.length; i++) {
+        eventIndexes.push(eventKeys[i].split('nume_eveniment')[1]);
+    }
+
+    // Creez modelele evenimentelor
+    for(var i=0; i<eventIndexes.length; i++) {
+        var index = eventIndexes[i];
         var eventModel = new GamificationEventModel(requestBody['id_eveniment' + index], apikey, requestBody['nume_eveniment' + index], requestBody['tip_eveniment' + index]);
 
         if(eventModel.name.length == 0 && validModel) {
@@ -86,10 +94,17 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         }
     }
 
+    // Preiau indecsii recompenselor
+    var rewardKeys = Object.keys(requestBody).filter(key => key.startsWith('nume_recompensa'));
+    var rewardIndexes = [];
+    for(var i=0; i<rewardKeys.length; i++) {
+        rewardIndexes.push(rewardKeys[i].split('nume_recompensa')[1]);
+    }
+
     // Creez modelele recompenselor
     var listOfRewardModels = [];
-    index = 1;
-    while(requestBody['nume_recompensa' + index] != null) {
+    for(var i=0; i<rewardIndexes.length; i++) {
+        var index = rewardIndexes[i];
         var rewardModel = new GamificationRewardModel(requestBody['id_recompensa' + index], apikey, requestBody['nume_recompensa' + index], requestBody['tip_recompensa' + index], 
                 requestBody['eveniment_recompensa' + index], requestBody['valoare_eveniment' + index], requestBody['punctaj' + index]);
 
