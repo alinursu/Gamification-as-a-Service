@@ -630,6 +630,34 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
     return returnedValue;
 }
 
+/**
+ * Cauta in baza de date modelele GamificationReward create pentru un anumit sistem.
+ * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
+ * @return Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei
+ */
+async function getGamificationRewardModelsByAPIKey(APIKey) {
+    var dbResult = null;
+    await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    if(dbResult == -1) return -1;
+    if(dbResult.length == 0) return [];
+
+    // Creez modelele
+    var outputList = [];
+    for(var i=0; i<dbResult.length; i++) {
+        var rewardModel = new GamificationRewardModel(dbResult[i].id, dbResult[i].system_api_key, dbResult[i].name, dbResult[i].type,
+            dbResult[i].occurs_at_event_id, dbResult[i].event_value, dbResult[i].reward_value);
+        outputList.push(rewardModel);
+    }
+
+    return outputList;
+}
 module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase, 
     getGamificationSystemModelsByUserId, getGamificationSystemModelByAPIKey, 
-    deleteGamificationSystemModelByAPIKey}
+    deleteGamificationSystemModelByAPIKey, getGamificationRewardModelsByAPIKey}

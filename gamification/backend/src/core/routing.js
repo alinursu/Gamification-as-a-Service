@@ -84,6 +84,10 @@ const routing = async (request, response) => {
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
         }
+
+        if(url.startsWith('/external/gamification_system')) {
+            return gamificationSystemExternalController.handleExternalGamificationSystemDELETERequest(request, response);
+        }
     }
 
     // Request-uri de tip PUT
