@@ -164,5 +164,31 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
     return null;
 }
 
+/**
+ * Sterge din baza de date toate datele un model GamificaitonUserData.
+ * @param {*} gamificationUserData Modelul care va fi sters.
+ * @returns 0, daca acesta a fost sters; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function deleteGamificationUserDataModel(gamificationUserData) {
+    var connection = getDatabaseConnection();
+    var sql = "DELETE FROM gamification_user_data WHERE system_api_key = ? AND user_id = ? AND reward_id = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(gamificationUserData.APIKey), gamificationUserData.userId, gamificationUserData.rewardId], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = 0;
+    })
+    
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    return queryResult;
+}
+
 module.exports = {getGamificationUserData, insertGamificationUserData, updateGamificationUserData,
-    deleteGamificationUserDataByAPIKey, getGamificationUserDataByUserId};
+    deleteGamificationUserDataByAPIKey, getGamificationUserDataByUserId, deleteGamificationUserDataModel};

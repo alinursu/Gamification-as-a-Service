@@ -105,7 +105,7 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemGETRequest(request, response) {    
-    //  Verific validitatea url-ului
+    // Verific validitatea url-ului
     if(!request.url.startsWith('/external/gamification_system?')) {
         response.statusCode = 404; // 404 - Not Found
         var json = JSON.stringify({
@@ -226,4 +226,95 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
     });
 }
 
-module.exports = {handleExternalGamificationSystemPOSTPUTRequest, handleExternalGamificationSystemGETRequest};
+/**
+ * Rezolva un request de tip DELETE facut la pagina '/external/gamification_system' de catre un site extern.
+ * @param {*} request Cererea facuta de catre client.
+ * @param {*} response Raspunsul dat.
+ */
+async function handleExternalGamificationSystemDELETERequest(request, response) {
+    // Verific validitatea url-ului
+    if(!request.url.startsWith('/external/gamification_system?')) {
+        response.statusCode = 404; // 404 - Not Found
+        var json = JSON.stringify({
+            status: "failed",
+            message: "Invalid URL."
+        });
+        response.end(json);
+        return;
+    }
+
+    // Citesc si parsez Query String-ul
+    var queryString = request.url.split('/external/gamification_system?')[1];
+    var queryStringObject = parse(queryString);
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+        response.statusCode = 400; // 400 - Bad Request
+        var json = JSON.stringify({
+            status: "failed",
+            message: "Invalid Query String."
+        });
+        response.end(json);
+        return;
+    }
+
+    // Citesc si parsez request body-ul
+    let body = '';
+    request.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    var parsedBody;
+    request.on('end', async () => {
+        parsedBody = parse(body);
+
+        // Verific datele din request body
+        if(parsedBody.userId == null || parsedBody.userId.length == 0 ||
+                parsedBody.rewardName == null | parsedBody.rewardName.length == 0) {
+            response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
+            var json = JSON.stringify({
+                status: "failed",
+                message: "Not enough data in request body."
+            });
+            response.end(json);
+            return;
+        }
+
+        // Sterg datele legate de utiliatorul cu id-ul dat
+        var serviceResult = null;
+        await gamificationSystemExternalServices.deleteGamificationUserData(
+            queryStringObject.apikey, parsedBody.userId, parsedBody.rewardName
+        ).then(function (result) {
+            serviceResult = result;
+        })
+
+        while(serviceResult == null) {
+            await utils.timeout(10);
+        }
+
+        if(serviceResult == 1) {
+            response.statusCode = 422; // 422 - Unprocessable Entity
+            var json = JSON.stringify({
+                status: "failed",
+                message: "Invalid API key/reward name."
+            });
+            response.end(json);
+            return;
+        }
+
+        if(serviceResult == -1) {
+            response.statusCode = 500; // 500 - Internal Server Error
+            var json = JSON.stringify({
+                status: "failed"
+            });
+            response.end(json);
+            return;
+        }
+
+        var json = JSON.stringify({
+            status: "success"
+        });
+        response.end(json);
+        return;
+    });
+}
+module.exports = {handleExternalGamificationSystemPOSTPUTRequest, handleExternalGamificationSystemGETRequest,
+    handleExternalGamificationSystemDELETERequest};

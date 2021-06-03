@@ -117,5 +117,47 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
     return dbResult;
 }
 
+/**
+ * Sterge din baza de date modelul GamificationUserData asociat cheii API, id-ului utilizatorului si recompensei cu un nume dat.
+ * @param {*} APIKey Cheia API prin care s-a facut apelarea.
+ * @param {*} userId Id-ul utilizatorului, dat de catre cel care a apelat API-ul extern.
+ * @param {*} rewardName Numele recompensei, dat de catre cel care a apelat API-ul extern.
+ * @returns 0, daca datele au fost sterse din baza de date; 1, daca nu am gasit niciun model GamificationSystem dupa cheia API/recompensa dupa nume; -1, daca a aparut o eroare pe parcursul executarii.
+ */
+async function deleteGamificationUserData(APIKey, userId, rewardName) {
+    // Preiau modelul GamificationSystem din baza de date, folosindu-ma de cheia API
+    var gamificationSystemModel = 0;
+    await gamificationSystemServices.getGamificationSystemModelByAPIKey(APIKey).then(function (result) {
+        gamificationSystemModel = result;
+    })
+
+    while(gamificationSystemModel == 0) {
+        await utils.timeout(10);
+    }
+
+    if(gamificationSystemModel == null) return 1;
+    if(gamificationSystemModel == -1) return -1;
+
+    // Verific daca exista vreun model GamificationReward cu acest nume
+    var tempList = gamificationSystemModel.listOfGamificationRewards.filter(rewardModel => rewardModel.name == rewardName);
+    if(tempList.length == 0) return 1;
+
+    var rewardModel = tempList[0];
+    
+    // Sterg datele din baza de date
+    var dbResult = null;
+    await gamificationSystemExternalRepository.deleteGamificationUserDataModel(
+        new GamificationUserData(APIKey, userId, rewardModel.id, null)
+    ).then(function (result) {
+        dbResult = result;
+    })
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
 module.exports = {addGamificationUserDataToDatabase, deleteGamificationUserDataByAPIKey,
-    getGamificationUserDataByUserId};
+    getGamificationUserDataByUserId, deleteGamificationUserData};
