@@ -696,6 +696,10 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
+            if(url.startsWith('/external/gamification_system')) {
+                return gamificationSystemExternalController.handleExternalGamificationSystemGETRequest(request, response);
+            }
+
             // Rutari CSS
             if (url.startsWith('/styles/')) {
                 return file.serve(request, response)

@@ -20,7 +20,6 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
             queryResult = -1;
             return;
         }
-        if(error) throw error;
 
         queryResult = results;
     })
@@ -123,5 +122,43 @@ async function deleteGamificationUserDataByAPIKey(APIKey) {
     return queryResult;
 }
 
+/**
+ * Citeste din baza de date modelele GamificationUserData asociate unui id de utilizator.
+ * @param {*} APIKey Cheia API a sistemului de gamificatie.
+ * @param {*} userId Id-ul utilizatorului dupa care se face cautarea.
+ * @returns Lista modelelor GamificationUserData asociate; null, daca nu am gasit niciun model asociat; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationUserDataByUserId(APIKey, userId) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ? AND user_id = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(APIKey), userId], function(error, results) {
+        if(error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = results;
+    })
+
+    while(queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    if(queryResult == -1) return -1;
+
+    if(queryResult.length > 0) {
+        var gamificationUserDataModel = new GamificationUserData(
+            hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id, 
+                queryResult[0].reward_id, queryResult[0].progress
+        );
+
+        return gamificationUserDataModel;
+    }
+
+    return null;
+}
+
 module.exports = {getGamificationUserData, insertGamificationUserData, updateGamificationUserData,
-    deleteGamificationUserDataByAPIKey};
+    deleteGamificationUserDataByAPIKey, getGamificationUserDataByUserId};
