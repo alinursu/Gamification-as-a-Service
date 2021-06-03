@@ -29,6 +29,7 @@ const adminAddGamificationSystemRoute = require("../routes/adminAddGamificationS
 const adminDeleteSystemRoute = require("../routes/adminDeleteGamificationSystem");
 const adminUpdateSystemRoute = require("../routes/adminUpdateSystem");
 const adminUpdateSystemPUTRoute = require("../routes/adminUpdateSystemPOST");
+const adminAddSystemPOSTRoute = require("../routes/adminAddSystemPOST");
 
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
@@ -242,6 +243,32 @@ const routing = async (request, response) => {
                 }
                 else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return;
+            }
+
+            case '/admin/gamification-systems/add': {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if(result) return adminAddSystemPOSTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                }
+                else {
+                    // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
