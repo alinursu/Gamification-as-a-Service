@@ -1,0 +1,43 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../../styles/admin-add-gamification-reward.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Gamification Rewards</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="/admin/gamification-rewards" class="gamification-rewards"> View All </a>
+            <a href="" class="add-gamification-reward"> Add </a>
+        </div>
+        <div class="content">
+            <div class="form">
+                <form method="post" action="/admin/gamification-rewards/update">
+                    <br/>
+                    <input type="hidden" name="id" value="{{this.reward.id}}">
+                    <label for="api-key">SystemAPIKey</label><br>
+                    <input type="text" id="api-key" name="api-key" value="{{this.reward.systemAPIKey}}" required><br>
+                    <label for="name">Name</label><br>
+                    <input type="text" id="name" name="name" value="{{this.reward.name}}" required><br>
+                    <label for="type">Type</label><br>
+                    <input type="text" id="type" name="type" value="{{this.reward.type}}" required><br>
+                    <label for="eventId">EventID</label><br>
+                    <input type="text" id="eventId" name="eventId" value="{{this.reward.eventId}}" required><br>
+                    <label for="event-value">EventValue</label><br>
+                    <input type="text" id="event-value" name="event-value" value="{{this.reward.eventValue}}" required><br>
+                    <label for="reward-value">RewardValue</label><br>
+                    <input type="text" id="reward-value" name="reward-value" value="{{this.reward.rewardValue}}" required><br>
+                    <button class="add-btn">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</HTML>

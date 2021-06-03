@@ -1,0 +1,53 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../styles/admin-gamification-rewards.css">
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Gamification Rewards</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="" class="rewards"> View All </a>
+            <a href="/admin/gamification-rewards/add" class="add-gamification-reward"> Add  </a>
+        </div>
+
+        <div class="content">
+            <div class="gamification-reward-table">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>SystemAPIKey</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>eventID</th>
+                        <th>eventValue</th>
+                        <th>rewardValue</th>
+                        <th>Action</th>
+                    </tr>
+                    {{#each rewards}}
+                        <tr>
+                            <td>{{this.id}}</td>
+                            <td>{{this.systemAPIKey}}</td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.type}}</td>
+                            <td>{{this.eventId}}</td>
+                            <td>{{this.eventValue}}</td>
+                            <td>{{this.rewardValue}}</td>
+                            <td>
+                                <button onclick="deleteReward('{{this.id}}')">Delete</button>
+                                <button onclick="updateReward('{{this.id}}')">Update</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/admin/gamificationRewards.js"></script>
+</body>
+
+</HTML>

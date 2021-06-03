@@ -16,7 +16,7 @@ const adminUpdateSystemPUTRoute = (request, response) => {
         const parsedBody = parse(body);
 
         console.log(parsedBody);
-        const newSystem = new System(parsedBody['api-key'], parsedBody.name, parsedBody.userId, null, null);
+        const newSystem = new System(parsedBody['api-key'], parsedBody.name, parsedBody.type,parsedBody.eventId,parsedBody['event-value'], parsedBody['reward-value']);
         await GamificationSystem.updateSystemModel(newSystem);
 
         response.writeHead(302, {'Location': '/admin/gamification-systems'});
