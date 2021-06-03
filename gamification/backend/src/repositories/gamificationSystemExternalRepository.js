@@ -149,12 +149,16 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
     if(queryResult == -1) return -1;
 
     if(queryResult.length > 0) {
-        var gamificationUserDataModel = new GamificationUserData(
-            hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id, 
-                queryResult[0].reward_id, queryResult[0].progress
-        );
-
-        return gamificationUserDataModel;
+        var outputList = []
+        for(var i=0; i<queryResult.length; i++) {
+            var gamificationUserDataModel = new GamificationUserData(
+                hash.decrypt(queryResult[i].system_api_key), queryResult[i].user_id, 
+                    queryResult[i].reward_id, queryResult[i].progress
+            );
+            outputList.push(gamificationUserDataModel);
+        }
+        
+        return outputList;
     }
 
     return null;
