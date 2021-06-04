@@ -1,0 +1,33 @@
+<div style="flex-grow: 1; margin-left: 5px; margin-right: 5px; padding: 20px">
+    <div>
+        <h2 style="margin: 20px 10px; font-size:30px;">Automobile și ambarcațiuni</h2>
+        <h2 style="margin: 20px 10px;">Am gasit 12 anunturi.</h2>
+        <div class="announces">
+            {{#each cars}}
+                <a class="announce" href="../announces/products/volvo-v70-2,5-tdi.html">
+                    <img src="../assets/images_annouces/volvo-v70-2,5-tdi/1.jpg" alt="" style="max-width:200px;">
+                    <div>
+                        <div class="product-informations">
+                            <p class="announce-title">Volvo v70 2,5 tdi</p>
+                            <p class="announce-price">5000 €</p>
+                        </div>
+                        <div class="announce-informations">
+                            <p>Ion Ionescu</p>
+                            <p>Iasi - 27.03.2021</p>
+                        </div>
+                    </div>
+                </a>
+            {{/each}}
+
+        </div>
+
+        <div style="text-align: center;">
+            <div class="page-bar">
+                <a href="" class="page-bar-item page-bar-item-disabled">&lt;</a>
+                <a href="cars.html" class="page-bar-item page-bar-item-selected">1</a>
+                <a href="cars-page2.html" class="page-bar-item">2</a>
+                <a href="cars-page2.html" class="page-bar-item">&gt;</a>
+            </div>
+        </div>
+    </div>
+</div>

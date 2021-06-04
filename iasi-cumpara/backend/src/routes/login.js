@@ -1,16 +1,16 @@
-const render = require("../core/render");
-const path = require("path");
+const render = require('../core/render')
+const path = require('path')
 
-const login = (req, res) => {
-    const styles = ['user/auth/login', 'user/auth/mobile'];
+const login = (req,res) => {
+    const styles = ['auth/login', 'auth/mobile']
 
-    const scripts = ['user/auth/login'];
+    const scripts = ['auth/login']
 
     const paths = {
-        head: path.join(__dirname, '../components/General/head.hbs'),
-        header: path.join(__dirname, '../components/General/header.hbs'),
-        index: path.join(__dirname, '../pages/login.hbs'),
-        footer: path.join(__dirname, '../components/General/footer.hbs')
+        head: path.join(__dirname, '../../pages/common/head.hbs'),
+        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        index: path.join(__dirname, '../../pages/views/login.hbs'),
+        footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
     return render(paths.head, {
@@ -32,6 +32,5 @@ const login = (req, res) => {
         })
     })
 }
-
 
 module.exports = login;

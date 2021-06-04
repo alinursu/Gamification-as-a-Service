@@ -1,30 +1,29 @@
 const selectAllUsers = (conn) => {
     return new Promise((resolve, reject) => {
-        conn.query('SELECT * FROM users', (err,rows) => {
+        conn.query('SELECT * FROM users', (err, rows) => {
             if(err) {
-                reject(err);
+                reject(err)
             }
-
             resolve(rows);
-        });
+        })
     })
 }
 
-const insertUser = (conn, name, email, password) => {
+const insertUser = (conn, firstname, lastname, email, password) => {
     const user = {
         email: email,
-        name: name,
+        firstname: firstname,
+        lastname: lastname,
         password: password
     }
 
     return new Promise((resolve, reject) => {
-        conn.query('INSERT INTO users SET ?', user, (err, results, fields) => {
+        conn.query('INSERT INTO isc_users SET ?', user, (err, results, fields) => {
             if(err) {
-                reject(err);
+                reject(err)
             }
-
-            resolve();
-        });
+            resolve()
+        })
     })
 }
 

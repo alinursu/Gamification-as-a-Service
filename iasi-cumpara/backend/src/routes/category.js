@@ -6,15 +6,15 @@ const category = (req, res) => {
     const styles = ['products/searchresult']
 
     const paths = {
-        head: path.join(__dirname, '../components/General/head.hbs'),
-        header: path.join(__dirname, '../components/General/header.hbs'),
-        index: path.join(__dirname, '../pages/category.hbs'),
-        footer: path.join(__dirname, '../components/General/footer.hbs')
+        head: path.join(__dirname, '../../pages/common/head.hbs'),
+        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        index: path.join(__dirname, '../../pages/views/category.hbs'),
+        footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
     const cars = [{},{},{},{},{},{},{},{},{},{}]
     return render(paths.head, {
-        title: 'IaȘi Vinde',
+        title: 'IaȘi Cumpără',
         styles: styles
     }, (data) => {
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header

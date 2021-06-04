@@ -5,14 +5,14 @@ const profile = (req, res) => {
     const styles = ['products/searchresult', 'profile/view-profile', 'profile/view-profile-mobile']
 
     const paths = {
-        head: path.join(__dirname, '../components/General/head.hbs'),
-        header: path.join(__dirname, '../components/General/header.hbs'),
-        profile: path.join(__dirname, '../pages/profile.hbs'),
-        footer: path.join(__dirname, '../components/General/footer.hbs')
+        head: path.join(__dirname, '../../pages/common/head.hbs'),
+        header: path.join(__dirname, '../../pages/common/header.hbs'),
+        profile: path.join(__dirname, '../../pages/views/profile.hbs'),
+        footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
 
     return render(paths.head, {
-        title: 'IaȘi Vinde',
+        title: 'IaȘi Cumpără',
         styles: styles
     }, (data) => {
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header

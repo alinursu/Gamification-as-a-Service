@@ -1,0 +1,103 @@
+.container {
+    padding: 10px;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 5px;
+    background-color: #00458b;
+    padding: 20px;
+  }
+  
+  .header .informatii_contact {
+    color: white;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header .informatii_contact a {
+    background-color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+    color: #00458b;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+  }
+  
+  .header .informatii_contact a:hover {
+    opacity: 0.8;
+  }
+  
+  .imagine_profil {
+    width: 100px;
+    min-height: 100px;
+    background-image: url("blank.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    margin-right: 30px;
+  }
+  
+  .informatii_profil {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    letter-spacing: 1px;
+    font-family: Bradley Hand, cursive;
+    float: left;
+    color: #fff;
+  }
+  
+  .username {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 32px;
+  }
+  
+  .location {
+    font-size: 15px;
+    font-weight: 200;
+  }
+  
+  .profile_achievements {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 -10px;
+  }
+  
+  .profile_achievements .profile_achievement {
+    margin: 0 10px 5px;
+    background-color: #00458b;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+  }
+  
+  .profile_achievements .profile_achievement span {
+    font-weight: 600;
+  }
+  
+  h2 {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+  
+  .announces {
+    width: calc(100% - 20px);
+    margin: 0px auto;
+  }
+  

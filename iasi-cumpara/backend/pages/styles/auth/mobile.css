@@ -1,0 +1,28 @@
+@media screen and (max-width: 500px) {
+    .form-box {
+      width: 75%;
+    }
+  
+    .login-register-box {
+      width: 150px;
+      margin: 20px auto;
+    }
+  
+    .login-form {
+      margin-top: 10px;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  
+    .toggle {
+      padding: 13px 0px;
+      font-size: 13px;
+    }
+  
+    .checkbox-group label {
+      font-size: 11px;
+    }
+  }
+  
