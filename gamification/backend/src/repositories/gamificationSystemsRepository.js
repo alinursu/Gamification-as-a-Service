@@ -96,6 +96,32 @@ async function getGamificationRewardById(id) {
 
 }
 
+async function getGamificationEventById(id) {
+    const connection = getDatabaseConnection();
+    const sql = "SELECT * FROM gamification_events WHERE id=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [id], (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (result.length === 0)
+                    resolve(null);
+                else {
+                    const event = new GamificationEventModel(
+                        result[0].id,
+                        hash.decrypt(result[0].system_api_key),
+                        hash.decrypt(result[0].name),
+                        result[0].event_type,
+                    );
+                    resolve(event);
+                }
+            }
+        })
+    });
+
+}
+
 /**
  * Cauta in baza de date modelele GamificationReward create pentru un anumit sistem.
  * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
@@ -200,6 +226,26 @@ async function getAllRewards() {
     })
 }
 
+async function getAllEvents() {
+    const connection = getDatabaseConnection();
+    const sql = "SELECT * from gamification_events";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [], (err, results) => {
+            if (err) {
+                console.log(err);
+                resolve([]);
+            } else {
+                const rewards = results.map(result => {
+                    return new GamificationEventModel(result.id, hash.decrypt(result.system_api_key), hash.decrypt(result.name),
+                        result.event_type);
+                });
+                resolve(rewards);
+            }
+        })
+    })
+}
+
 async function deleteSystemByApi(api_key) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_systems WHERE api_key=?";
@@ -230,6 +276,25 @@ async function deleteRewardById(id) {
     })
 }
 
+<<<<<<< Updated upstream
+=======
+async function deleteEventById(id) {
+    const connection = getDatabaseConnection();
+    const sql = "DELETE FROM gamification_events WHERE id=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [id], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        })
+    })
+}
+
+
+>>>>>>> Stashed changes
 async function updateSystemModel(systemModel) {
     const connection = getDatabaseConnection();
     const sql = "UPDATE gamification_systems SET api_key=?, user_id=?, name=? WHERE api_key=?";
@@ -250,6 +315,21 @@ async function updateRewardModel(rewardModel) {
     const sql = "UPDATE gamification_rewards SET id=?, system_api_key=?, name=?, type=?, occurs_at_event_id=?, event_value=?, reward_value=? WHERE id=?";
     return new Promise((resolve, reject) => {
         connection.query(sql, [rewardModel.id, hash.encrypt(rewardModel.systemAPIKey), hash.encrypt(rewardModel.name), rewardModel.type, rewardModel.eventId, rewardModel.eventValue, rewardModel.rewardValue, rewardModel.id], function (error, results) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        })
+    })
+}
+
+async function updateEventModel(eventModel) {
+    const connection = getDatabaseConnection();
+    console.log(eventModel);
+    const sql = "UPDATE gamification_events SET system_api_key=?, name=?, event_type=? WHERE id=?";
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [hash.encrypt(eventModel.systemAPIKey),hash.encrypt(eventModel.name),eventModel.eventType,eventModel.id], function (error, results) {
             if (error) {
                 reject(error);
             } else {
@@ -304,6 +384,7 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
     if (connection == null) {
         connection = getDatabaseConnection();
     }
+
     if (gamificationEventModel.id == null) {
         var sql = "INSERT INTO gamification_events(system_api_key, name, event_type) VALUES(?, ?, ?)";
         var params = [hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
@@ -313,6 +394,8 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
         var params = [gamificationEventModel.id, hash.encrypt(gamificationEventModel.systemAPIKey), hash.encrypt(gamificationEventModel.name),
             gamificationEventModel.eventType]
     }
+
+
 
     var queryResult = null;
     connection.query(sql, params, function (error, results) {
@@ -327,6 +410,7 @@ async function addGamificationEventToDatabase(gamificationEventModel, connection
     while (queryResult == null) {
         await utils.timeout(10);
     }
+
 
     return queryResult;
 }
@@ -510,5 +594,9 @@ module.exports = {
     getAllRewards,
     deleteRewardById,
     getGamificationRewardById,
-    updateRewardModel
+    updateRewardModel,
+    getAllEvents,
+    deleteEventById,
+    getGamificationEventById,
+    updateEventModel
 };
