@@ -227,6 +227,124 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
 }
 
 /**
+ * Rezolva un request de tip GET facut la pagina '/external/gamification_system/top_users' de catre un site extern.
+ * @param {*} request Cererea facuta de catre client.
+ * @param {*} response Raspunsul dat.
+ */
+async function handleExternalGamificationSystemTopUsersGETRequest(request, response) {
+    // Verific validitatea url-ului
+    if(!request.url.startsWith('/external/gamification_system/top_users?')) {
+        response.statusCode = 404; // 404 - Not Found
+        var json = JSON.stringify({
+            status: "failed",
+            message: "Invalid URL."
+        });
+        response.end(json);
+        return;
+    }
+
+    // Citesc si parsez Query String-ul
+    var queryString = request.url.split('/external/gamification_system/top_users?')[1];
+    var queryStringObject = parse(queryString);
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+        response.statusCode = 400; // 400 - Bad Request
+        var json = JSON.stringify({
+            status: "failed",
+            message: "Invalid Query String."
+        });
+        response.end(json);
+        return;
+    }
+
+    // Citesc si parsez request body-ul
+    let body = '';
+    request.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    var parsedBody;
+    request.on('end', async () => {
+        parsedBody = parse(body);
+
+        // Preiau din baza de date modelele GamificationUserData, dupa id-ul utilizatorului
+        var listOfGamificationUserDataModels = 0;
+        await gamificationSystemExternalServices.getGamificationUserDatasByAPIKey(
+            queryStringObject.apikey
+        ).then(function (result) {
+            listOfGamificationUserDataModels = result;
+        });
+
+        while(listOfGamificationUserDataModels == 0) {
+            await utils.timeout(10);
+        }
+
+        if(listOfGamificationUserDataModels == -1) {
+            response.statusCode = 500; // 500 - Internal Server Error
+            var json = JSON.stringify({
+                status: "failed"
+            });
+            response.end(json);
+            return;
+        }
+
+        if(listOfGamificationUserDataModels == null) {
+            var json = JSON.stringify({
+                status: "success",
+                rewards: []
+            })
+            response.end(json);
+            return;
+        }
+
+        // Preiau din baza de date modelele GamificationReward, dupa id-urile din modelele GamificationUserData
+        var listOfRewardModels = null;
+        await gamificationSystemServices.getGamificationRewardModelsByAPIKey(queryStringObject.apikey).then(function (result) {
+            listOfRewardModels = result;
+        });
+
+        while(listOfRewardModels == null) {
+            await utils.timeout(10);
+        }
+
+        if(listOfRewardModels == -1) {
+            response.statusCode = 500; // 500 - Internal Server Error
+            var json = JSON.stringify({
+                status: "failed"
+            });
+            response.end(json);
+            return;
+        }
+        console.log(listOfGamificationUserDataModels);
+        console.log(listOfRewardModels);
+
+        // Construiesc raspunsul
+        // var rewardData = [];
+        // for(var i=0; i<listOfGamificationUserDataModels.length; i++) {
+        //     var rewardModel = (listOfRewardModels.filter(model => model.id == listOfGamificationUserDataModels[i].rewardId).length > 0) ?
+        //         (listOfRewardModels.filter(model => model.id == listOfGamificationUserDataModels[i].rewardId)[0]) :
+        //         null;
+        //
+        //     if(rewardModel != null) {
+        //         var rewardDataObject = Object();
+        //         rewardDataObject.reward_name = rewardModel.name;
+        //         rewardDataObject.reward_type = rewardModel.type;
+        //         rewardDataObject.reward_value = rewardModel.rewardValue;
+        //         rewardDataObject.progress = (Math.min((100 * listOfGamificationUserDataModels[i].progress / rewardModel.eventValue), 100)) + "%";
+        //
+        //         rewardData.push(rewardDataObject);
+        //     }
+        // }
+        //
+        // var json = JSON.stringify({
+        //     status: "success",
+        //     rewards: rewardData
+        // });
+        // response.end(json);
+        // return;
+    });
+}
+
+/**
  * Rezolva un request de tip DELETE facut la pagina '/external/gamification_system' de catre un site extern.
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
@@ -317,4 +435,4 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
     });
 }
 module.exports = {handleExternalGamificationSystemPOSTPUTRequest, handleExternalGamificationSystemGETRequest,
-    handleExternalGamificationSystemDELETERequest};
+    handleExternalGamificationSystemDELETERequest, handleExternalGamificationSystemTopUsersGETRequest};
