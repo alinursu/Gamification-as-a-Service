@@ -15,7 +15,7 @@ const utils = require('../internal/utils');
 function generateAuthUniqueToken() {
     var tokenLength = 128;
     var token = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_+-=.,<>/?;|';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#^&*_+-=.,<>/?;|';
     var charactersLength = characters.length;
     for(var i=0; i<tokenLength; i++) {
         token.push(characters.charAt(Math.floor(Math.random() * charactersLength)));

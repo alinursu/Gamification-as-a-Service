@@ -38,26 +38,21 @@ async function addTokenToDatabase(token, userModel) {
  * @param {*} token Token-ul care va fi sters.
  * @returns 1, daca token-ul a fost sters; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function deleteTokenFromDatabase(token) {
-    var connection = getDatabaseConnection();
-    var sql = "DELETE FROM tokens WHERE token=?";
+async function deleteToken(token) {
+    const connection = getDatabaseConnection();
+    const sql = "DELETE FROM tokens WHERE token=?";
 
-    var queryResult = null;
-    connection.query(sql, [token], function (error, results) {
-        if (error) {
-            queryResult = -1;
-            return;
-        }
-
-        queryResult = 1;
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [hash.encrypt(token)], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true)
+            }
+        })
     })
-
-    while (queryResult == null) {
-        await utils.timeout(10);
-    }
-
-    return queryResult;
 }
+
 
 async function getAllTokens() {
     const connection = getDatabaseConnection();
@@ -133,7 +128,7 @@ async function deleteAllExpiredTokens() {
 
 module.exports = {
     addTokenToDatabase,
-    deleteTokenFromDatabase,
+    deleteToken,
     getUserIdByToken,
     deleteAllExpiredTokens,
     getAllTokens

@@ -1,5 +1,5 @@
 
-var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{};:|,<.>/?~";
+var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$^*()_+-=[]{};:|,<.>/?~";
 var salt = alphabet.length/2;
 
 /**

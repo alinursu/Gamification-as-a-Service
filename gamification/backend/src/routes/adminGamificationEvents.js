@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const gamificationRewardsRepository = require("../repositories/gamificationSystemsRepository");
+const gamificationEventsRepository = require("../repositories/gamificationSystemsRepository");
 
 const adminGamificationEventsRoute = async (request, response) => {
     const paths = {
@@ -8,7 +8,7 @@ const adminGamificationEventsRoute = async (request, response) => {
     }
 
     return renderPage(paths.index, {
-        events: await gamificationRewardsRepository.getAllEvents(),
+        events: await gamificationEventsRepository.getAllEvents(),
         styles: ['admin-gamification-events']
     }, (data) => {
         response.write(data);
