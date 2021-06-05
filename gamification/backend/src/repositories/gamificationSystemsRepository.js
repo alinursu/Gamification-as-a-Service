@@ -276,8 +276,6 @@ async function deleteRewardById(id) {
     })
 }
 
-<<<<<<< Updated upstream
-=======
 async function deleteEventById(id) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_events WHERE id=?";
@@ -293,8 +291,6 @@ async function deleteEventById(id) {
     })
 }
 
-
->>>>>>> Stashed changes
 async function updateSystemModel(systemModel) {
     const connection = getDatabaseConnection();
     const sql = "UPDATE gamification_systems SET api_key=?, user_id=?, name=? WHERE api_key=?";
