@@ -15,7 +15,7 @@ const adminUpdateSystemPUTRoute = (request, response) => {
         // Parsez request body-ul *care vine de la form (name din hbs)*
         const parsedBody = parse(body);
 
-        console.log(parsedBody);
+        // console.log(parsedBody);
         const newSystem = new System(parsedBody['api-key'], parsedBody.name, parsedBody.type,parsedBody.eventId,parsedBody['event-value'], parsedBody['reward-value']);
         await GamificationSystem.updateSystemModel(newSystem);
 

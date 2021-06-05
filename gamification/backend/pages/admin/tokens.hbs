@@ -1,0 +1,51 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../styles/admin-tokens.css">
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL </a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="" class="btn"> View all </a>
+            <a href="/admin/tokens/add" class="btn"> Add token </a>
+            <a href="" class="btn"> Export </a>
+            <a href="" class="btn"> Import </a>
+        </div>
+
+        <div class="content">
+            <div class="tokens-table">
+                <table>
+                    <tr>
+                        <th>Token</th>
+                        <th>userID</th>
+                        <th>userFirstName</th>
+                        <th>userLastName</th>
+                        <th>expiresAt</th>
+                        <th>Actions</th>
+                    </tr>
+                    {{#each tokens}}
+                        <tr>
+                            <td>{{this.token}}</td>
+                            <td>{{this.userId}}</td>
+                            <td>{{this.userFirstName}}</td>
+                            <td>{{this.userLastName}}</td>
+                            <td>{{this.expiresAt}}</td>
+                            <td>
+                                <button onclick="deleteToken(`{{this.token}}`)">Delete</button>
+                                <button onclick="updateToken(`{{this.token}}`)">Update</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/admin/tokens.js"></script>
+</body>
+
+</HTML>
