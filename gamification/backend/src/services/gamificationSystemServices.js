@@ -538,8 +538,8 @@ async function getGamificationSystemModelByAPIKey(APIKey) {
     var tempList = [];
     for(var i=0; i<listOfGamificationRewardModels.length; i++) {
         var rewardModel = new GamificationRewardModel(
-            listOfGamificationRewardModels[i].id, listOfGamificationEventModels[i].system_api_key, 
-                listOfGamificationRewardModels[i].name, listOfGamificationEventModels[i].type,
+            listOfGamificationRewardModels[i].id, listOfGamificationRewardModels[i].system_api_key,
+                listOfGamificationRewardModels[i].name, listOfGamificationRewardModels[i].type,
                 listOfGamificationRewardModels[i].occurs_at_event_id, listOfGamificationRewardModels[i].event_value,
                 listOfGamificationRewardModels[i].reward_value
         );
