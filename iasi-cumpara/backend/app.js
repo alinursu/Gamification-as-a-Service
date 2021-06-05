@@ -29,7 +29,6 @@ const startServer = async () => {
 
     try {
         const users = await selectAllUsers(con)
-        console.log(users)
     } catch (error) {
         console.log(`DB Query Error: ${error}`)
     }
