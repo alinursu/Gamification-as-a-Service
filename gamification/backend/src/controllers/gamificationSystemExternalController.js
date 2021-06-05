@@ -290,7 +290,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
         if(listOfGamificationUserDataModels == null) {
             var json = JSON.stringify({
                 status: "success",
-                rewards: []
+                top: []
             })
             response.end(json);
             return;
@@ -314,33 +314,39 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             response.end(json);
             return;
         }
-        console.log(listOfGamificationUserDataModels);
-        console.log(listOfRewardModels);
 
         // Construiesc raspunsul
-        // var rewardData = [];
-        // for(var i=0; i<listOfGamificationUserDataModels.length; i++) {
-        //     var rewardModel = (listOfRewardModels.filter(model => model.id == listOfGamificationUserDataModels[i].rewardId).length > 0) ?
-        //         (listOfRewardModels.filter(model => model.id == listOfGamificationUserDataModels[i].rewardId)[0]) :
-        //         null;
-        //
-        //     if(rewardModel != null) {
-        //         var rewardDataObject = Object();
-        //         rewardDataObject.reward_name = rewardModel.name;
-        //         rewardDataObject.reward_type = rewardModel.type;
-        //         rewardDataObject.reward_value = rewardModel.rewardValue;
-        //         rewardDataObject.progress = (Math.min((100 * listOfGamificationUserDataModels[i].progress / rewardModel.eventValue), 100)) + "%";
-        //
-        //         rewardData.push(rewardDataObject);
-        //     }
-        // }
-        //
-        // var json = JSON.stringify({
-        //     status: "success",
-        //     rewards: rewardData
-        // });
-        // response.end(json);
-        // return;
+        const userIdList = Array.from(new Set(listOfGamificationUserDataModels.map(model => model.userId)));
+        let topUsers = []
+        for(let i=0; i<userIdList.length; i++) {
+            let userScore = 0;
+            let userDataList = listOfGamificationUserDataModels.filter(model => model.userId === userIdList[i]);
+
+            for(let j=0; j<userDataList.length; j++) {
+                let rewardModel = listOfRewardModels.filter(model => model.id === userDataList[j].rewardId)[0];
+                userScore += rewardModel.rewardValue * userDataList[j].progress;
+            }
+
+            topUsers.push(new Object({
+                userId: userIdList[i],
+                score: userScore
+            }));
+        }
+        topUsers.sort(function compare(obj1, obj2) {
+            if(obj2.score > obj1.score)
+                return 1;
+
+            if(obj1.score > obj2.score)
+                return -1;
+
+            return 0;
+        })
+        var json = JSON.stringify({
+            status: "success",
+            top: topUsers
+        });
+        response.end(json);
+        return;
     });
 }
 

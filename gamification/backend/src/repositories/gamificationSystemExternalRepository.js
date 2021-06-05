@@ -43,9 +43,9 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
 }
 
 /**
- * Selecteaza din baza de date informatiile unui utilizator legate de o anumita recompensa, intr-un anumit sistem de gamificare.
+ * Selecteaza din baza de date informatiile despre utilizatorii unui anumit sistem de gamificare.
  * @param {*} APIKey Cheia API a sistemului de gamificare.
- * @returns Modelul GamificationUserData selectat; null, daca nu am gasit niciunul; -1, daca a aparut o eroare pe parcursul executiei.
+ * @returns Lista modelelor GamificationUserData selectate; -1, daca a aparut o eroare pe parcursul executiei.
  */
 async function getGamificationUserDatasByAPIKey(APIKey) {
     var connection = getDatabaseConnection();
@@ -67,16 +67,15 @@ async function getGamificationUserDatasByAPIKey(APIKey) {
 
     if(queryResult == -1) return -1;
 
-    if(queryResult.length > 0) {
-        var gamificationUserDataModel = new GamificationUserData(
-            hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id,
-            queryResult[0].reward_id, queryResult[0].progress
-        );
+    var outputList = [];
+    queryResult.forEach(dbModel => {
+        outputList.push(new GamificationUserData(
+            hash.decrypt(dbModel.system_api_key), dbModel.user_id,
+            dbModel.reward_id, dbModel.progress
+        ))
+    })
 
-        return gamificationUserDataModel;
-    }
-
-    return null;
+    return outputList;
 }
 
 /**
