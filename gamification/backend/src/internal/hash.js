@@ -1,5 +1,5 @@
 
-var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{};:'\"\\|,<.>/?`~";
+var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{};:|,<.>/?~";
 var salt = alphabet.length/2;
 
 /**
@@ -35,7 +35,8 @@ function encrypt(text) {
             encryptedText = encryptedText + text[i];
             continue;
         }
-
+        console.log(text[i] + ' - ' + alphabet[(position + salt)%alphabet.length]);
+        console.log((position + salt)%alphabet.length);
         encryptedText = encryptedText + alphabet[(position + salt)%alphabet.length];
     }
 
