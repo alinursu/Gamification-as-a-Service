@@ -37,6 +37,12 @@ const adminAddGamificationRewardRoute = require("../routes/adminAddGamificationR
 const adminAddRewardPOSTRoute = require("../routes/adminAddRewardPOST");
 const adminUpdateRewardRoute = require("../routes/adminUpdateReward");
 const adminUpdateRewardPUTRoute = require("../routes/adminUpdateRewardPOST");
+const adminGamificationEventsRoute = require("../routes/adminGamificationEvents");
+const adminDeleteEventRoute = require("../routes/adminDeleteGamificationEvent");
+const adminAddGamificationEventRoute = require("../routes/adminaddGamificationEvent");
+const adminAddEventPOSTRoute = require("../routes/adminAddEventPOST");
+const adminUpdateEventRoute = require("../routes/adminUpdateEvent");
+const adminUpdateEventPUTRoute = require("../routes/adminUpdateEventPOST");
 
 const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
 
@@ -71,9 +77,9 @@ const routing = async (request, response) => {
     }
 
     // Request-uri de tip DELETE
-    if(request.method == 'DELETE') {
+    if (request.method == 'DELETE') {
         // Rutari dinamice DELETE
-        if(url.startsWith('/profile/delete_gamification_system')) {
+        if (url.startsWith('/profile/delete_gamification_system')) {
             if (cookies.authToken != null) {
                 return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
             }
@@ -86,7 +92,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if(url.startsWith('/external/gamification_system')) {
+        if (url.startsWith('/external/gamification_system')) {
             return gamificationSystemExternalController.handleExternalGamificationSystemDELETERequest(request, response);
         }
     }
@@ -107,7 +113,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if(url.startsWith('/profile/modify_gamification_system')) {
+        if (url.startsWith('/profile/modify_gamification_system')) {
             if (cookies.authToken != null) {
                 return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
             }
@@ -120,7 +126,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if(url.startsWith('/external/gamification_system')) {
+        if (url.startsWith('/external/gamification_system')) {
             return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
         }
 
@@ -215,7 +221,7 @@ const routing = async (request, response) => {
             case '/admin/users/add': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminAddUserPOSTRoute(request, response);
+                        if (result) return adminAddUserPOSTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -225,8 +231,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -241,7 +246,7 @@ const routing = async (request, response) => {
             case '/admin/users/update': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateUserPUTRoute(request, response);
+                        if (result) return adminUpdateUserPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -251,8 +256,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -267,7 +271,7 @@ const routing = async (request, response) => {
             case '/admin/gamification-systems/add': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminAddSystemPOSTRoute(request, response);
+                        if (result) return adminAddSystemPOSTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -277,8 +281,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -293,7 +296,7 @@ const routing = async (request, response) => {
             case '/admin/gamification-rewards/add': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminAddRewardPOSTRoute(request, response);
+                        if (result) return adminAddRewardPOSTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -303,8 +306,32 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
+                } else {
+                    // Utilizatorul este neautentificat - 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
-                else {
+
+                return;
+            }
+
+            case '/admin/gamification-events/add': {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if (result) return adminAddEventPOSTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                } else {
                     // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -319,7 +346,7 @@ const routing = async (request, response) => {
             case '/admin/gamification-systems/update': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateSystemPUTRoute(request, response);
+                        if (result) return adminUpdateSystemPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -329,8 +356,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -345,7 +371,7 @@ const routing = async (request, response) => {
             case '/admin/gamification-rewards/update': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateRewardPUTRoute(request, response);
+                        if (result) return adminUpdateRewardPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -355,8 +381,32 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
+                } else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
-                else {
+
+                return;
+            }
+
+            case '/admin/gamification-events/update': {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if (result) return adminUpdateEventPUTRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -369,15 +419,13 @@ const routing = async (request, response) => {
             }
 
 
-
-
             default: {
                 // Rutari dinamice POST
-                if(url.startsWith('/profile/modify_gamification_system')) {
+                if (url.startsWith('/profile/modify_gamification_system')) {
                     if (cookies.authToken != null) {
                         return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
                     }
-        
+
                     // Utilizatorul este neautentificat - 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -386,7 +434,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(url.startsWith('/profile/delete_gamification_system')) {
+                if (url.startsWith('/profile/delete_gamification_system')) {
                     if (cookies.authToken != null) {
                         return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
                     }
@@ -399,7 +447,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(url.startsWith('/external/gamification_system')) {
+                if (url.startsWith('/external/gamification_system')) {
                     return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
                 }
 
@@ -512,11 +560,11 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/admin/home':{
+        case '/admin/home': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
-                    if(result) return adminHomeRoute(request, response);
+                    if (result) return adminHomeRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -526,8 +574,7 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
-            }
-            else {
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -539,11 +586,11 @@ const routing = async (request, response) => {
 
         }
 
-        case '/admin/gamification-systems':{
+        case '/admin/gamification-systems': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
-                    if(result) return adminGamificationSystemsRoute(request, response);
+                    if (result) return adminGamificationSystemsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -553,8 +600,7 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
-            }
-            else {
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -565,6 +611,7 @@ const routing = async (request, response) => {
             return;
         }
 
+<<<<<<< Updated upstream
         case '/admin/gamification-systems/export': {
             if(cookies.authToken != null) {
                 var isAdmin = null;
@@ -605,10 +652,13 @@ const routing = async (request, response) => {
         }
 
         case '/admin/gamification-rewards':{
+=======
+        case '/admin/gamification-rewards': {
+>>>>>>> Stashed changes
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     console.log(result);
-                    if(result) return adminGamificationRewardsRoute(request, response);
+                    if (result) return adminGamificationRewardsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -618,8 +668,7 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
-            }
-            else {
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -669,6 +718,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
+<<<<<<< Updated upstream
         case '/admin/contact-messages/export': {
             if(cookies.authToken != null) {
                 var isAdmin = null;
@@ -707,11 +757,12 @@ const routing = async (request, response) => {
             response.setHeader('Location', '/error');
             return errorRoute(request, response);
         }
-
-        case '/admin/users': {
+=======
+        case '/admin/gamification-events': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminUsersListRoute(request, response);
+                    console.log(result);
+                    if (result) return adminGamificationEventsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -721,8 +772,38 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
+            } else {
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
             }
-            else {
+            return;
+        }
+
+>>>>>>> Stashed changes
+
+        case '/admin/users': {
+            if (cookies.authToken != null) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+<<<<<<< Updated upstream
+                    if(result) return adminUsersListRoute(request, response);
+=======
+                    console.log(result);
+                    if (result) return adminUsersListRoute(request, response);
+>>>>>>> Stashed changes
+                    else {
+                        // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                        response.statusCode = 403;
+                        request.statusCodeMessage = "Forbidden";
+                        request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                        response.setHeader('Location', '/error');
+                        return errorRoute(request, response);
+                    }
+                });
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -737,7 +818,7 @@ const routing = async (request, response) => {
         case '/admin/users/add': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminAddUserRoute(request, response);
+                    if (result) return adminAddUserRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -747,8 +828,7 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
-            }
-            else {
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -802,7 +882,7 @@ const routing = async (request, response) => {
         case '/admin/gamification-systems/add': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminAddGamificationSystemRoute(request, response);
+                    if (result) return adminAddGamificationSystemRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -812,8 +892,7 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
-            }
-            else {
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -828,7 +907,7 @@ const routing = async (request, response) => {
         case '/admin/gamification-rewards/add': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminAddGamificationRewardRoute(request, response);
+                    if (result) return adminAddGamificationRewardRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -838,8 +917,32 @@ const routing = async (request, response) => {
                         return errorRoute(request, response);
                     }
                 });
+            } else {
+                // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                response.statusCode = 403;
+                request.statusCodeMessage = "Forbidden";
+                request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                response.setHeader('Location', '/error');
+                return errorRoute(request, response);
             }
-            else {
+
+            return;
+        }
+
+        case '/admin/gamification-events/add': {
+            if (cookies.authToken != null) {
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                    if (result) return adminAddGamificationEventRoute(request, response);
+                    else {
+                        // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                        response.statusCode = 403;
+                        request.statusCodeMessage = "Forbidden";
+                        request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                        response.setHeader('Location', '/error');
+                        return errorRoute(request, response);
+                    }
+                });
+            } else {
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                 response.statusCode = 403;
                 request.statusCodeMessage = "Forbidden";
@@ -856,7 +959,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/users/update')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateUserRoute(request, response);
+                        if (result) return adminUpdateUserRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -866,8 +969,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -882,7 +984,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/gamification-systems/update')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateSystemRoute(request, response);
+                        if (result) return adminUpdateSystemRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -892,8 +994,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -908,7 +1009,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/gamification-rewards/update')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminUpdateRewardRoute(request, response);
+                        if (result) return adminUpdateRewardRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -918,8 +1019,32 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
+                } else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
-                else {
+
+                return;
+            }
+
+            if (url.startsWith('/admin/gamification-events/update')) {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if (result) return adminUpdateEventRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -934,7 +1059,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/gamification-systems/delete')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminDeleteSystemRoute(request, response);
+                        if (result) return adminDeleteSystemRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -944,8 +1069,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -959,7 +1083,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/gamification-rewards/delete')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminDeleteRewardRoute(request, response);
+                        if (result) return adminDeleteRewardRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -969,8 +1093,31 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
+                } else {
+                    // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
                 }
-                else {
+                return;
+            }
+
+            if (url.startsWith('/admin/gamification-events/delete')) {
+                if (cookies.authToken != null) {
+                    await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                        if (result) return adminDeleteEventRoute(request, response);
+                        else {
+                            // Utilizatorul nu are privilegii de administrator - 403 Forbidden
+                            response.statusCode = 403;
+                            request.statusCodeMessage = "Forbidden";
+                            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                            response.setHeader('Location', '/error');
+                            return errorRoute(request, response);
+                        }
+                    });
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -984,7 +1131,7 @@ const routing = async (request, response) => {
             if (url.startsWith('/admin/users/delete')) {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if(result) return adminDeleteUserRoute(request, response);
+                        if (result) return adminDeleteUserRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -994,8 +1141,7 @@ const routing = async (request, response) => {
                             return errorRoute(request, response);
                         }
                     });
-                }
-                else {
+                } else {
                     // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
@@ -1007,8 +1153,8 @@ const routing = async (request, response) => {
                 return;
             }
 
-            if(url.startsWith('/profile/view_gamification_system')) {
-                if(cookies.authToken != null) {
+            if (url.startsWith('/profile/view_gamification_system')) {
+                if (cookies.authToken != null) {
                     return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/view_gamification_system');
                 }
 
@@ -1020,8 +1166,8 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if(url.startsWith('/profile/modify_gamification_system')) {
-                if(cookies.authToken != null) {
+            if (url.startsWith('/profile/modify_gamification_system')) {
+                if (cookies.authToken != null) {
                     return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/modify_gamification_system');
                 }
 
@@ -1033,8 +1179,8 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if(url.startsWith('/profile/delete_gamification_system')) {
-                if(cookies.authToken != null) {
+            if (url.startsWith('/profile/delete_gamification_system')) {
+                if (cookies.authToken != null) {
                     return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/delete_gamification_system');
                 }
 
@@ -1046,7 +1192,7 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if(url.startsWith('/external/gamification_system')) {
+            if (url.startsWith('/external/gamification_system')) {
                 return gamificationSystemExternalController.handleExternalGamificationSystemGETRequest(request, response);
             }
 

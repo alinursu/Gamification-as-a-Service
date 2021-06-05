@@ -1,0 +1,38 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../../styles/admin-add-gamification-event.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Gamification Events</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="/admin/gamification-events" class="gamification-events"> View All </a>
+            <a href="/admin/gamification-events/add" class="add-gamification-event"> Add </a>
+        </div>
+        <div class="content">
+            <div class="form">
+                <form method="post">
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required><br>
+
+                    <label for="api-key">SystemApiKey</label><br>
+                    <input type="text" id="system-api-key" name="system-api-key" required><br>
+
+                    <label for="type">eventType</label><br>
+                    <input type="text" id="type" name="type" required><br>
+
+                    <button class="add-btn">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</HTML>
