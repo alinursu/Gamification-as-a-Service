@@ -215,7 +215,6 @@ async function deleteSystemByApi(api_key) {
     })
 }
 
-
 async function deleteRewardById(id) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_rewards WHERE id=?";
@@ -230,7 +229,6 @@ async function deleteRewardById(id) {
         })
     })
 }
-
 
 async function updateSystemModel(systemModel) {
     const connection = getDatabaseConnection();

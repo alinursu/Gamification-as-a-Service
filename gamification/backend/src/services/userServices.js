@@ -348,5 +348,24 @@ function validateChangePasswordCredentials(oldPassword, dbOldPassword, userModel
     return 1;
 }
 
-module.exports = {verifyPresenceOfLoginCredentials, validateLoginCredentials, generateAuthCookie, verifyPresenceOfRegisterCredentials, validateRegisterCredentials,
-    verifyPresenceOfChangeURLCredentials, validateChangeURLCredentials, verifyPresenceOfChangePasswordCredentials, validateChangePasswordCredentials};
+/**
+ * Preia din baza de date toate modelele User din baza de date.
+ * @returns Lista modelelor User; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getAllUsers() {
+    var dbResult = null;
+    await usersRepository.getAllUsers().then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
+module.exports = {verifyPresenceOfLoginCredentials, validateLoginCredentials, generateAuthCookie,
+    verifyPresenceOfRegisterCredentials, validateRegisterCredentials,
+    verifyPresenceOfChangeURLCredentials, validateChangeURLCredentials, verifyPresenceOfChangePasswordCredentials,
+    validateChangePasswordCredentials, getAllUsers};

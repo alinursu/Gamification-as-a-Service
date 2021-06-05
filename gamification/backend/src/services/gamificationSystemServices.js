@@ -632,7 +632,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
 
 /**
  * Cauta in baza de date modelele GamificationReward create pentru un anumit sistem.
- * @param {*} systemAPIKey Cheia API a sistemului de gamificare.
+ * @param {*} APIKey Cheia API a sistemului de gamificare.
  * @return Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei
  */
 async function getGamificationRewardModelsByAPIKey(APIKey) {
@@ -658,6 +658,43 @@ async function getGamificationRewardModelsByAPIKey(APIKey) {
 
     return outputList;
 }
+
+/**
+ * Preia din baza de date toate modelele GamificationSystem din baza de date.
+ * @returns Lista modelelor GamificationSystem; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getAllGamificationSystems() {
+    var dbResult = null;
+    await gamificationSystemsRepository.getAllSystems().then(function (result) {
+       dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    console.log(dbResult);
+    return dbResult;
+}
+
+/**
+ * Preia din baza de date toate modelele GamificationReward din baza de date.
+ * @returns Lista modelelor GamificationReward; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getAllGamificationReward() {
+    var dbResult = null;
+    await gamificationSystemsRepository.getAllRewards().then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
 module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase, 
     getGamificationSystemModelsByUserId, getGamificationSystemModelByAPIKey, 
-    deleteGamificationSystemModelByAPIKey, getGamificationRewardModelsByAPIKey}
+    deleteGamificationSystemModelByAPIKey, getGamificationRewardModelsByAPIKey, getAllGamificationSystems,
+    getAllGamificationReward}

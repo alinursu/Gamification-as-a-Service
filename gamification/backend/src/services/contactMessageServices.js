@@ -1,6 +1,8 @@
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
+const contactMessageRepository = require('../repositories/contactMessagesRepository');
+const utils = require("../internal/utils");
 
 /**
  * Verifica daca am primit destule informatii pentru a putea procesa in continuare cererea de trimitere a unui mesaj. Daca nu am primit, va construi raspunsul.
@@ -9,7 +11,7 @@ const errorRoute = require('../routes/error');
  * @param {*} response Raspunsul dat de server.
  * @returns 1, daca am primit destule informatii; 0, altfel
  */
- function verifyPresenceOfContactMessageCredentials(contactMessageModel, request, response) {
+function verifyPresenceOfContactMessageCredentials(contactMessageModel, request, response) {
     if(contactMessageModel.name == null || contactMessageModel.email == null || contactMessageModel.text == null){
         response.statusCode = 400;
         request.statusCodeMessage = "Bad Request";
@@ -72,4 +74,31 @@ function validateContactMessageCredentials(contactMessageModel, request, respons
     return 1;
 }
 
-module.exports = {verifyPresenceOfContactMessageCredentials, validateContactMessageCredentials};
+/**
+ * Preia din baza de date toate mesajele trimise pana acum.
+ * @returns Lista modelelor ContactMessage din baza de date; -1, in cazul in care a aparut o eroare pe parcursul executiei.
+ */
+async function getAllMessages() {
+    var dbResult = null;
+    await contactMessageRepository.getAllMessages().then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    if(dbResult == -1) return dbResult;
+
+    var outputList = [];
+    dbResult.forEach(dbContactMessageModel => {
+        var contactMessageModel = new ContactMessageModel(dbContactMessageModel.id,
+            dbContactMessageModel.sender_name, dbContactMessageModel.sender_email, dbContactMessageModel.message);
+        outputList.push(contactMessageModel);
+    });
+
+    return outputList;
+}
+
+module.exports = {verifyPresenceOfContactMessageCredentials, validateContactMessageCredentials,
+    getAllMessages};

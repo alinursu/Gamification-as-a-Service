@@ -159,7 +159,6 @@ async function getAllUsers() {
     })
 }
 
-
 /**
  * Actualizeaza campul "url" al modelului User din baza de date.
  * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "url".
@@ -199,7 +198,6 @@ async function updateUserModel(userModel) {
         })
     })
 }
-
 
 async function deleteUserById(userId) {
     const connection = getDatabaseConnection();
