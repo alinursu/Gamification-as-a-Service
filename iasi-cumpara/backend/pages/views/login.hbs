@@ -14,18 +14,20 @@
                     Înregistrare
                 </button>
             </div>
-            <form class="login-form" id="log-form">
+            <form method="POST" action="/login" class="login-form" id="log-form">
                 <input
+                        id="emailLog"
                         type="text"
                         placeholder="Adresa de email"
-                        name="username"
+                        name="emailLog"
                         required
                 />
                 <input
+                        id="passLog"
                         type="text"
                         class="login-pass"
                         placeholder="Parola"
-                        name="psw"
+                        name="passLog"
                         required
                 />
 
@@ -39,26 +41,29 @@
                 <a href="#" class="forgot-pass">Mi-am pierdut parola</a>
             </form>
 
-            <form class="login-form" id="reg-form">
-                <input type="text" placeholder="Numele" name="name" required/>
+            <form method="POST" action="/register" class="login-form" id="reg-form">
+                <input type="text" id="nameReg" placeholder="Numele" name="nameReg" required/>
                 <input
+                        id="emailReg"
                         type="text"
                         placeholder="Adresa de email"
-                        name="username"
+                        name="emailReg"
                         required
                 />
                 <input
+                        id="passReg"
                         type="text"
                         class="register-pass"
                         placeholder="Parola"
-                        name="psw"
+                        name="passReg"
                         required
                 />
                 <input
+                        id="confirmReg"
                         type="text"
                         class="register-pass"
                         placeholder="Confirmarea parolei"
-                        name="psw"
+                        name="confirmReg"
                         required
                 />
 
