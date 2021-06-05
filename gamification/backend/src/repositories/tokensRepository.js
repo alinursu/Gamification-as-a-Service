@@ -69,7 +69,6 @@ async function getAllTokens() {
                         hash.decrypt(result.user_lastname), result.expires_at
                     );
                 });
-                // console.log(tokens);
                 resolve(tokens);
             }
         })

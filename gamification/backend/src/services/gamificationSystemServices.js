@@ -694,7 +694,24 @@ async function getAllGamificationReward() {
     return dbResult;
 }
 
+/**
+ * Preia din baza de date toate modelele GamificationEvent din baza de date.
+ * @returns Lista modelelor GamificationEvent; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getAllGamificationEvent() {
+    var dbResult = null;
+    await gamificationSystemsRepository.getAllEvents().then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
 module.exports = {createModelFromRequestBodyData, addGamificationSystemModelToDatabase, 
     getGamificationSystemModelsByUserId, getGamificationSystemModelByAPIKey, 
     deleteGamificationSystemModelByAPIKey, getGamificationRewardModelsByAPIKey, getAllGamificationSystems,
-    getAllGamificationReward}
+    getAllGamificationReward, getAllGamificationEvent}

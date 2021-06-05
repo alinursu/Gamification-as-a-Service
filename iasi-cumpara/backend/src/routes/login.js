@@ -14,7 +14,7 @@ const login = (req,res) => {
     }
 
     return render(paths.head, {
-        title: 'IaȘi Vinde',
+        title: 'IaȘi Cumpără',
         styles: styles
     }, (data) => {
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header

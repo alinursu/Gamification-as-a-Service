@@ -830,6 +830,45 @@ const routing = async (request, response) => {
             return;
         }
 
+        case '/admin/tokens/export': {
+            if(cookies.authToken != null) {
+                var isAdmin = null;
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                    isAdmin = result;
+                })
+
+                while(isAdmin == null) {
+                    await utils.timeout(10);
+                }
+
+                if(isAdmin == -1) { // Database error
+                    // Creez un raspuns, instiintand utilizatorul de eroare
+                    response.statusCode = 500;
+                    request.statusCodeMessage = "Internal Server Error";
+                    request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                    return errorRoute(request, response);
+                }
+
+                if(isAdmin == false) {
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return dataController.handleExportTokensRequest(request, response);
+            }
+
+            // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+            response.statusCode = 403;
+            request.statusCodeMessage = "Forbidden";
+            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+            response.setHeader('Location', '/error');
+            return errorRoute(request, response);
+        }
+
         case '/admin/users/add': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
@@ -967,6 +1006,45 @@ const routing = async (request, response) => {
             }
 
             return;
+        }
+
+        case '/admin/gamification-events/export': {
+            if(cookies.authToken != null) {
+                var isAdmin = null;
+                await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
+                    isAdmin = result;
+                })
+
+                while(isAdmin == null) {
+                    await utils.timeout(10);
+                }
+
+                if(isAdmin == -1) { // Database error
+                    // Creez un raspuns, instiintand utilizatorul de eroare
+                    response.statusCode = 500;
+                    request.statusCodeMessage = "Internal Server Error";
+                    request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                    return errorRoute(request, response);
+                }
+
+                if(isAdmin == false) {
+                    response.statusCode = 403;
+                    request.statusCodeMessage = "Forbidden";
+                    request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+                    response.setHeader('Location', '/error');
+                    return errorRoute(request, response);
+                }
+
+                return dataController.handleExportGamificationEventsRequest(request, response);
+            }
+
+            // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
+            response.statusCode = 403;
+            request.statusCodeMessage = "Forbidden";
+            request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
+            response.setHeader('Location', '/error');
+            return errorRoute(request, response);
         }
 
         default: {
