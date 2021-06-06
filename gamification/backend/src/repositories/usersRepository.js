@@ -77,22 +77,26 @@ async function verifyUserModelRegisterCredentials(userModel) {
 /**
  * Adauga un model User in baza de date.
  * @param {*} userModel Modelul care va fi adaugat.
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @returns 0, daca a fost adaugat modelul; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function insertUserModel(userModel) {
-    var connection = getDatabaseConnection();
-    var sql = "INSERT INTO users(firstname, lastname, email, password, url, is_admin) VALUES(?, ?, ?, ?, ?, 0)";
+async function insertUserModel(userModel, connection = null) {
+    if (connection == null) {
+        connection = getDatabaseConnection();
+    }
+    var sql = "INSERT INTO users(firstname, lastname, email, password, url, is_admin) VALUES(?, ?, ?, ?, ?, ?)";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(userModel.firstname), hash.encrypt(userModel.lastname), hash.encrypt(userModel.email),
-        hash.encrypt(userModel.password), hash.encrypt(userModel.url)], function (error, results) {
-        if (error) {
-            queryResult = -1;
-            return;
-        }
+        hash.encrypt(userModel.password), hash.encrypt(userModel.url), (userModel.isAdmin != null ? userModel.isAdmin : 0)],
+        function (error, results) {
+            if (error) {
+                queryResult = -1;
+                return;
+            }
 
-        queryResult = 0;
-    })
+            queryResult = 0;
+    });
 
     while (queryResult == null) {
         await utils.timeout(10);

@@ -252,7 +252,7 @@ async function handleLogoutRequest(request, response) {
 
     // Sterg token-ul din baza de date
     var dbAnswer = null;
-    await tokensRepository.deleteTokenFromDatabase(token).then(function (result) {
+    await tokensRepository.deleteToken(token).then(function (result) {
         dbAnswer = result;
     });
 
