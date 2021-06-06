@@ -17,8 +17,6 @@ const adminDeleteUserDataRoute = async (request, response) => {
             return;
         }
 
-        console.log(request.api_key)
-
         // decode api key
         request.api_key = decodeURIComponent(request.api_key);
 

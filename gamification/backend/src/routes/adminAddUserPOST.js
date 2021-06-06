@@ -15,7 +15,6 @@ const adminAddUserPOSTRoute = (request, response) => {
         // Parsez request body-ul
         const parsedBody = parse(body);
 
-        console.log(parsedBody);
         const newUser = new User(null, parsedBody.lname, parsedBody.fname, parsedBody.email, parsedBody.password, parsedBody.url);
         await usersRepository.insertUserModel(newUser)
 

@@ -15,8 +15,6 @@ const adminUpdateEventPUTRoute = (request, response) => {
         // Parsez request body-ul *care vine de la form (name din hbs)*
         const parsedBody = parse(body);
 
-        console.log(parsedBody);
-
         const newEvent = new Event(parsedBody.id, parsedBody['system-api-key'], parsedBody.name, parsedBody.type);
         await GamificationEvent.updateEventModel(newEvent);
 

@@ -17,7 +17,6 @@ const adminUpdateUserDataPUTRoute = (request, response) => {
 
         // console.log(parsedBody);
         const newUserData = new UserData(parsedBody['system-api-key'], parsedBody.userId, parsedBody.rewardId, parsedBody.progress);
-        console.log(newUserData)
         await GamificationUserData.updateUserData(newUserData);
 
         response.writeHead(302, {'Location': '/admin/user-data'});

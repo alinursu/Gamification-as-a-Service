@@ -16,7 +16,7 @@ const adminDeleteContactRoute = async (request, response) => {
             response.end();
             return;
         }
-        console.log(request.id)
+
         await gamificationContactRepository.deleteContactById(request.id);
         response.writeHead(302, {'Location': '/admin/contact'});
         response.end();

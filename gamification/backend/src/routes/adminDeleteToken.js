@@ -17,13 +17,10 @@ const adminDeleteTokenRoute = async (request, response) => {
             return;
         }
 
-        console.log("1")
         // decode token
         request.token = decodeURIComponent(request.token);
-        console.log("2")
 
         await tokensRepository.deleteToken(request.token);
-        console.log("3")
 
         response.writeHead(302, {'Location': '/admin/tokens'});
         response.end();

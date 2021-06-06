@@ -15,8 +15,6 @@ const adminUpdateContactPOSTRoute = (request, response) => {
         // Parsez request body-ul *care vine de la form (name din hbs)*
         const parsedBody = parse(body);
 
-        console.log(parsedBody);
-
         const newEvent = new GamificationContact(parsedBody.id, parsedBody['sender-name'], parsedBody['sender-email'], parsedBody.message);
         await ContactMessages.updateContactById(newEvent);
 
