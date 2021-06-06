@@ -5,6 +5,11 @@ const usersService = require("../services/userServices");
 const tokensServices = require("../services/tokensServices");
 
 const {Parser} = require('json2csv');
+const { parse } = require('querystring');
+const formidable = require('formidable');
+const fs = require('fs');
+const dataServices = require("../services/dataServices");
+const utils = require("../internal/utils");
 
 /**
  * Rezolva un request de tip GET facut la ruta '/admin/contact-messages/export'.
@@ -36,7 +41,7 @@ async function handleExportContactMessagesRequest(request, response) {
 
     response.writeHead(200, {
        'Content-Type': 'text/csv',
-       'Content-Disposition': 'attachment;filename=Exported-Contact-Messages'
+       'Content-Disposition': 'attachment;filename=Exported-Contact-Messages.csv'
     });
     response.end(formattedData);
 }
@@ -80,9 +85,80 @@ async function handleGamificationSystemsExport(request, response) {
 
     response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment;filename=Exported-Gamification-Systems'
+        'Content-Disposition': 'attachment;filename=Exported-Gamification-Systems.csv'
     });
     response.end(formattedData);
+}
+
+/**
+ * Rezolva un request de tip POST facut la ruta '/admin/gamification-systems/import'.
+ * @param request Cererea facuta.
+ * @param response Raspunsul dat de server.
+ */
+async function handleImportGamificationSystemsRequest(request, response) {
+    var form = new formidable.IncomingForm();
+
+    // Parsez continutul fisierului importat
+    form.parse(request, function(error, fields, files) {
+        fs.readFile(files['imported-CSV-file'].path, async function(error, data) {
+            // Formatez buffer-ul
+            let lines = data.toString().replace(/\r/g, '').split('\n').filter(
+                line => line.length > 0
+            );
+
+            if(lines.length < 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține suficiente date.";
+                return errorRoute(request, response);
+            }
+
+            // Verific header-ul fisierului CSV
+            const headerContent = lines[0].split(',');
+            if(!headerContent.includes('APIKey') || !headerContent.includes('name') || !headerContent.includes('userId')) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține datele necesare pentru importarea sistemelor de gamificare.";
+                return errorRoute(request, response);
+            }
+
+            let serviceResult = null;
+            await dataServices.addImportedGamificationSystems(lines).then(function(result) {
+                serviceResult = result;
+            })
+
+            while(serviceResult == null) {
+                await utils.timeout(10);
+            }
+
+            if(serviceResult === 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat conține linii cu prea multe sau prea puține date.";
+                return errorRoute(request, response);
+            }
+
+            if(serviceResult === 20) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Există cel puțin o linie în fișier care conține o cheie API deja folosită.";
+                return errorRoute(request, response);
+            }
+
+            if(serviceResult === -1) { // Database error
+                // Creez un raspuns, instiintand utilizatorul de eroare
+                response.statusCode = 500;
+                request.statusCodeMessage = "Internal Server Error";
+                request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                    "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                return errorRoute(request, response);
+            }
+
+            // Redirectionez catre pagina '/admin/gamification-systems' - 303 See Other
+            response.writeHead(303, {'Location': '/admin/gamification-systems'});
+            response.end();
+        })
+    });
 }
 
 /**
@@ -115,9 +191,74 @@ async function handleExportGamificationRewardsRequest(request, response) {
 
     response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment;filename=Exported-Gamification-Rewards'
+        'Content-Disposition': 'attachment;filename=Exported-Gamification-Rewards.csv'
     });
     response.end(formattedData);
+}
+
+/**
+ * Rezolva un request de tip POST facut la ruta '/admin/gamification-rewards/import'.
+ * @param request Cererea facuta.
+ * @param response Raspunsul dat de server.
+ */
+async function handleImportGamificationRewardsRequest(request, response) {
+    var form = new formidable.IncomingForm();
+
+    // Parsez continutul fisierului importat
+    form.parse(request, function(error, fields, files) {
+        fs.readFile(files['imported-CSV-file'].path, async function(error, data) {
+            // Formatez buffer-ul
+            let lines = data.toString().replace(/\r/g, '').split('\n').filter(
+                line => line.length > 0
+            );
+
+            if(lines.length < 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține suficiente date.";
+                return errorRoute(request, response);
+            }
+
+            // Verific header-ul fisierului CSV
+            const headerContent = lines[0].split(',');
+            if(!headerContent.includes('systemAPIKey') || !headerContent.includes('name') || !headerContent.includes('type') ||
+                    !headerContent.includes('eventId') || !headerContent.includes('eventValue') || !headerContent.includes('rewardValue')) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține datele necesare pentru importarea recompenselor unor sisteme de gamificare.";
+                return errorRoute(request, response);
+            }
+
+            let serviceResult = null;
+            await dataServices.addImportedGamificationRewards(lines).then(function(result) {
+                serviceResult = result;
+            })
+
+            while(serviceResult == null) {
+                await utils.timeout(10);
+            }
+
+            if(serviceResult === 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat conține linii cu prea multe sau prea puține date.";
+                return errorRoute(request, response);
+            }
+
+            if(serviceResult === -1) { // Database error
+                // Creez un raspuns, instiintand utilizatorul de eroare
+                response.statusCode = 500;
+                request.statusCodeMessage = "Internal Server Error";
+                request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                    "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                return errorRoute(request, response);
+            }
+
+            // Redirectionez catre pagina '/admin/gamification-rewards' - 303 See Other
+            response.writeHead(303, {'Location': '/admin/gamification-rewards'});
+            response.end();
+        })
+    });
 }
 
 /**
@@ -150,9 +291,73 @@ async function handleExportGamificationEventsRequest(request, response) {
 
     response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment;filename=Exported-Gamification-Events'
+        'Content-Disposition': 'attachment;filename=Exported-Gamification-Events.csv'
     });
     response.end(formattedData);
+}
+
+/**
+ * Rezolva un request de tip POST facut la ruta '/admin/gamification-events/import'.
+ * @param request Cererea facuta.
+ * @param response Raspunsul dat de server.
+ */
+async function handleImportGamificationEventsRequest(request, response) {
+    var form = new formidable.IncomingForm();
+
+    // Parsez continutul fisierului importat
+    form.parse(request, function(error, fields, files) {
+        fs.readFile(files['imported-CSV-file'].path, async function(error, data) {
+            // Formatez buffer-ul
+            let lines = data.toString().replace(/\r/g, '').split('\n').filter(
+                line => line.length > 0
+            );
+
+            if(lines.length < 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține suficiente date.";
+                return errorRoute(request, response);
+            }
+
+            // Verific header-ul fisierului CSV
+            const headerContent = lines[0].split(',');
+            if(!headerContent.includes('systemAPIKey') || !headerContent.includes('name') || !headerContent.includes('eventType')) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține datele necesare pentru importarea evenimentelor unor sisteme de gamificare.";
+                return errorRoute(request, response);
+            }
+
+            let serviceResult = null;
+            await dataServices.addImportedGamificationEvents(lines).then(function(result) {
+                serviceResult = result;
+            })
+
+            while(serviceResult == null) {
+                await utils.timeout(10);
+            }
+
+            if(serviceResult === 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat conține linii cu prea multe sau prea puține date.";
+                return errorRoute(request, response);
+            }
+
+            if(serviceResult === -1) { // Database error
+                // Creez un raspuns, instiintand utilizatorul de eroare
+                response.statusCode = 500;
+                request.statusCodeMessage = "Internal Server Error";
+                request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                    "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                return errorRoute(request, response);
+            }
+
+            // Redirectionez catre pagina '/admin/gamification-events' - 303 See Other
+            response.writeHead(303, {'Location': '/admin/gamification-events'});
+            response.end();
+        })
+    });
 }
 
 /**
@@ -185,9 +390,74 @@ async function handleExportUsersRequest(request, response) {
 
     response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment;filename=Exported-Users'
+        'Content-Disposition': 'attachment;filename=Exported-Users.csv'
     });
     response.end(formattedData);
+}
+
+/**
+ * Rezolva un request de tip POST facut la ruta '/admin/users/import'.
+ * @param request Cererea facuta.
+ * @param response Raspunsul dat de server.
+ */
+async function handleImportUsersRequest(request, response) {
+    var form = new formidable.IncomingForm();
+
+    // Parsez continutul fisierului importat
+    form.parse(request, function(error, fields, files) {
+        fs.readFile(files['imported-CSV-file'].path, async function(error, data) {
+            // Formatez buffer-ul
+            let lines = data.toString().replace(/\r/g, '').split('\n').filter(
+                line => line.length > 0
+            );
+
+            if(lines.length < 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține suficiente date.";
+                return errorRoute(request, response);
+            }
+
+            // Verific header-ul fisierului CSV
+            const headerContent = lines[0].split(',');
+            if(!headerContent.includes('lastname') || !headerContent.includes('firstname') || !headerContent.includes('email') ||
+                    !headerContent.includes('password') || !headerContent.includes('url') || !headerContent.includes("isAdmin")) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat nu conține datele necesare pentru importarea utilizatorilor.";
+                return errorRoute(request, response);
+            }
+
+            let serviceResult = null;
+            await dataServices.addImportedUsers(lines).then(function(result) {
+                serviceResult = result;
+            })
+
+            while(serviceResult == null) {
+                await utils.timeout(10);
+            }
+
+            if(serviceResult === 1) {
+                response.statusCode = 422;
+                request.statusCodeMessage = "Unprocessable Entity";
+                request.errorMessage = "Fișierul încărcat conține linii cu prea multe sau prea puține date.";
+                return errorRoute(request, response);
+            }
+
+            if(serviceResult === -1) { // Database error
+                // Creez un raspuns, instiintand utilizatorul de eroare
+                response.statusCode = 500;
+                request.statusCodeMessage = "Internal Server Error";
+                request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                    "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                return errorRoute(request, response);
+            }
+
+            // Redirectionez catre pagina '/admin/users' - 303 See Other
+            response.writeHead(303, {'Location': '/admin/users'});
+            response.end();
+        })
+    });
 }
 
 /**
@@ -220,11 +490,13 @@ async function handleExportTokensRequest(request, response) {
 
     response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment;filename=Exported-Tokens'
+        'Content-Disposition': 'attachment;filename=Exported-Tokens.csv'
     });
     response.end(formattedData);
 }
 
+
 module.exports = {handleExportContactMessagesRequest, handleGamificationSystemsExport,
     handleExportGamificationRewardsRequest, handleExportUsersRequest, handleExportGamificationEventsRequest,
-    handleExportTokensRequest};
+    handleExportTokensRequest, handleImportUsersRequest, handleImportGamificationSystemsRequest,
+    handleImportGamificationEventsRequest, handleImportGamificationRewardsRequest};
