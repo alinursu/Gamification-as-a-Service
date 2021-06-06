@@ -1,0 +1,35 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../../styles/admin-add-user-data.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - User Data</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="/admin/user-data" class="btn"> View All </a>
+            <a href="/admin/user-data/add" class="btn"> Add </a>
+        </div>
+        <div class="content">
+            <div class="form">
+                <form method="post">
+                    <label for="api-key">SystemApiKey</label><br>
+                    <input type="text" id="system-api-key" name="system-api-key" required><br>
+                    <label for="userId">UserId</label><br>
+                    <input type="text" id="userId" name="userId" required><br>
+                    <label for="rewardId">RewardId</label><br>
+                    <input type="text" id="rewardId" name="rewardId" required><br>
+                    <label for="progress">Progress</label><br>
+                    <input type="text" id="progress" name="progress" required><br>
+                    <button class="add-btn">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</HTML>

@@ -1,4 +1,4 @@
-const { getDatabaseConnection } = require('../internal/databaseConnection');
+const {getDatabaseConnection} = require('../internal/databaseConnection');
 const hash = require('../internal/hash');
 const utils = require('../internal/utils');
 const GamificationUserData = require('../models/GamificationUserData');
@@ -15,8 +15,8 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
     var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ? AND user_id = ? AND reward_id = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey), userId, rewardId], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(APIKey), userId, rewardId], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -24,16 +24,16 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
         queryResult = results;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
-    if(queryResult == -1) return -1;
+    if (queryResult == -1) return -1;
 
-    if(queryResult.length > 0) {
+    if (queryResult.length > 0) {
         var gamificationUserDataModel = new GamificationUserData(
-            hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id, 
-                queryResult[0].reward_id, queryResult[0].progress
+            hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id,
+            queryResult[0].reward_id, queryResult[0].progress
         );
 
         return gamificationUserDataModel;
@@ -43,17 +43,16 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
 }
 
 /**
- * Selecteaza din baza de date informatiile despre utilizatorii unui anumit sistem de gamificare.
- * @param {*} APIKey Cheia API a sistemului de gamificare.
- * @returns Lista modelelor GamificationUserData selectate; -1, daca a aparut o eroare pe parcursul executiei.
+ * Preia din baza de date toate user data de pana acum.
+ * @returns Lista modelelor UserData din baza de date; -1, in cazul in care a aparut o eroare pe parcursul executiei.
  */
-async function getGamificationUserDatasByAPIKey(APIKey) {
+async function getAllGamificationUserData() {
     var connection = getDatabaseConnection();
-    var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ?";
+    var sql = "SELECT * FROM gamification_user_data";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey)], function(error, results) {
-        if(error) {
+    connection.query(sql, function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -61,11 +60,41 @@ async function getGamificationUserDatasByAPIKey(APIKey) {
         queryResult = results;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
-    if(queryResult == -1) return -1;
+    queryResult.forEach(result => {
+        result.system_api_key = hash.decrypt(result.system_api_key);
+    });
+
+    return queryResult;
+}
+
+/**
+ * Selecteaza din baza de date informatiile despre utilizatorii unui anumit sistem de gamificare.
+ * @param {*} APIKey Cheia API a sistemului de gamificare.
+ * @returns Lista modelelor GamificationUserData selectate; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationUserDataByAPIKey(APIKey) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+        if (error) {
+            queryResult = -1;
+            return;
+        }
+
+        queryResult = results;
+    })
+
+    while (queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    if (queryResult === -1) return -1;
 
     var outputList = [];
     queryResult.forEach(dbModel => {
@@ -78,6 +107,31 @@ async function getGamificationUserDatasByAPIKey(APIKey) {
     return outputList;
 }
 
+async function getUserDataByAPIKey(systemAPIKey) {
+    var connection = getDatabaseConnection();
+    var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ?";
+
+    var queryResult = null;
+    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+        if (error) {
+            queryResult = -1;
+            return;
+        }
+        queryResult = results;
+    });
+
+    while (queryResult == null) {
+        await utils.timeout(10);
+    }
+
+    // Decriptez datele
+    queryResult.forEach(gamificationUserData => {
+        gamificationUserData.system_api_key = hash.decrypt(gamificationUserData.system_api_key);
+    });
+
+    return queryResult;
+}
+
 /**
  * Insereaza un model GamificationUserData in baza de date.
  * @param {*} gamificationUserDataModel Modelul care va fi inserat.
@@ -88,17 +142,17 @@ async function insertGamificationUserData(gamificationUserDataModel) {
     var sql = "INSERT INTO gamification_user_data VALUES(?, ?, ?, ?)";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId, 
-            gamificationUserDataModel.rewardId, gamificationUserDataModel.progress], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId,
+        gamificationUserDataModel.rewardId, gamificationUserDataModel.progress], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
 
         queryResult = 0;
     })
-    
-    while(queryResult == null) {
+
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -112,24 +166,43 @@ async function insertGamificationUserData(gamificationUserDataModel) {
  */
 async function updateGamificationUserData(gamificationUserDataModel) {
     var connection = getDatabaseConnection();
-    var sql = "UPDATE gamification_user_data SET progress = ? WHERE system_api_key = ? AND user_id = ? AND reward_id = ?";
+    var sql = "UPDATE gamification_user_data SET system_api_key = ?, user_id = ?, reward_id = ?, progress = ? WHERE system_api_key = ? AND user_id = ? AND reward_id = ?";
 
     var queryResult = null;
-    connection.query(sql, [gamificationUserDataModel.progress, hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId, 
-            gamificationUserDataModel.rewardId], function(error, results) {
-        if(error) {
-            queryResult = -1;
-            return;
+    connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId, gamificationUserDataModel.rewardId,
+            gamificationUserDataModel.progress, hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId, gamificationUserDataModel.rewardId],
+        function (error, results) {
+            if (error) {
+                queryResult = -1;
+                return;
+            }
+            queryResult = 0;
         }
+    )
 
-        queryResult = 0;
-    })
-    
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
+
     return queryResult;
+}
+
+
+async function updateUserData(userData) {
+    const connection = getDatabaseConnection();
+    // console.log(userData);
+    const sql = "UPDATE gamification_user_data SET reward_id=?, progress=? WHERE system_api_key=? AND user_id=?";
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [userData.rewardId, userData.progress, hash.encrypt(userData.APIKey), userData.userId], function (error, results) {
+            if (error) {
+                console.log(error)
+                reject(error);
+            } else {
+                resolve();
+            }
+        })
+    })
 }
 
 /**
@@ -142,16 +215,16 @@ async function deleteGamificationUserDataByAPIKey(APIKey) {
     var sql = "DELETE FROM gamification_user_data WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey)], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
 
         queryResult = 0;
     })
-    
-    while(queryResult == null) {
+
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
@@ -169,8 +242,8 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
     var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ? AND user_id = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey), userId], function(error, results) {
-        if(error) {
+    connection.query(sql, [hash.encrypt(APIKey), userId], function (error, results) {
+        if (error) {
             queryResult = -1;
             return;
         }
@@ -178,54 +251,52 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
         queryResult = results;
     })
 
-    while(queryResult == null) {
+    while (queryResult == null) {
         await utils.timeout(10);
     }
 
-    if(queryResult == -1) return -1;
+    if (queryResult === -1) return -1;
 
-    if(queryResult.length > 0) {
+    if (queryResult.length > 0) {
         var outputList = []
-        for(var i=0; i<queryResult.length; i++) {
+        for (var i = 0; i < queryResult.length; i++) {
             var gamificationUserDataModel = new GamificationUserData(
-                hash.decrypt(queryResult[i].system_api_key), queryResult[i].user_id, 
-                    queryResult[i].reward_id, queryResult[i].progress
+                hash.decrypt(queryResult[i].system_api_key), queryResult[i].user_id,
+                queryResult[i].reward_id, queryResult[i].progress
             );
             outputList.push(gamificationUserDataModel);
         }
-        
+
         return outputList;
     }
 
     return null;
 }
 
-/**
- * Sterge din baza de date toate datele un model GamificaitonUserData.
- * @param {*} gamificationUserData Modelul care va fi sters.
- * @returns 0, daca acesta a fost sters; -1, daca a aparut o eroare pe parcursul executiei.
- */
-async function deleteGamificationUserDataModel(gamificationUserData) {
-    var connection = getDatabaseConnection();
-    var sql = "DELETE FROM gamification_user_data WHERE system_api_key = ? AND user_id = ? AND reward_id = ?";
+async function deleteUserDataByApi(api_key) {
+    const connection = getDatabaseConnection();
+    const sql = "DELETE FROM gamification_user_data WHERE system_api_key=?";
 
-    var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationUserData.APIKey), gamificationUserData.userId, gamificationUserData.rewardId], function(error, results) {
-        if(error) {
-            queryResult = -1;
-            return;
-        }
-
-        queryResult = 0;
+    console.log(api_key)
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [hash.decrypt(api_key)], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        })
     })
-    
-    while(queryResult == null) {
-        await utils.timeout(10);
-    }
-
-    return queryResult;
 }
 
-module.exports = {getGamificationUserData, insertGamificationUserData, updateGamificationUserData,
-    deleteGamificationUserDataByAPIKey, getGamificationUserDataByUserId, deleteGamificationUserDataModel,
-    getGamificationUserDatasByAPIKey};
+module.exports = {
+    getGamificationUserData,
+    insertGamificationUserData,
+    updateGamificationUserData,
+    deleteGamificationUserDataByAPIKey,
+    getGamificationUserDataByUserId,
+    deleteUserDataByApi,
+    getAllGamificationUserData,
+    getUserDataByAPIKey,
+    updateUserData
+};

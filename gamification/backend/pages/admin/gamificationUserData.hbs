@@ -1,0 +1,49 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../styles/admin-user-data.css">
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Gamification User Data</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="" class="btn"> View All </a>
+            <a href="/admin/user-data/add" class="btn"> Add  </a>
+            <a href="/admin/user-date/export" class="btn"> Export </a>
+            <a href="" class="btn"> Import </a>
+        </div>
+
+        <div class="content">
+            <div class="user-data-table">
+                <table>
+                    <tr>
+                        <th>SystemAPIKey</th>
+                        <th>UserID</th>
+                        <th>RewardID</th>
+                        <th>Progress</th>
+                        <th>Action</th>
+                    </tr>
+                    {{#each data}}
+                        <tr>
+                            <td>{{this.system_api_key}}</td>
+                            <td>{{this.user_id}}</td>
+                            <td>{{this.reward_id}}</td>
+                            <td>{{this.progress}}</td>
+                            <td>
+                                <button onclick="deleteUserData('{{this.system_api_key}}')">Delete</button>
+                                <button onclick="updateUserData('{{this.system_api_key}}', {{this.user_id}})">Update</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/admin/userData.js"></script>
+</body>
+
+</HTML>

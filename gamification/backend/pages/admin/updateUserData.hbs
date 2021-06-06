@@ -1,0 +1,39 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../../styles/admin-add-user-data.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - User Data</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="/admin/user-data" class="btn"> View All </a>
+            <a href="/admin/user-data/add" class="btn"> Add </a>
+        </div>
+        <div class="content">
+            <div class="form">
+                <form method="post" action="/admin/user-data/update">
+                    <br/>
+                    <input type="hidden" name="system-api-key" value="{{this.userData.system_api_key}}"/>
+                    <label for="api-key">SystemApiKey</label><br>
+                    <input type="text" id="system-api-key"
+                           value="{{this.userData.system_api_key}}" required disabled/><br>
+                    <input type="hidden" name="userId" value="{{this.userData.user_id}}"/>
+                    <label for="userId">UserId</label><br>
+                    <input type="text" id="userId" value="{{this.userData.user_id}}" required disabled/><br>
+                    <label for="rewardId">RewardId</label><br>
+                    <input type="text" id="rewardId" name="rewardId" value="{{this.userData.reward_id}}" required><br>
+                    <label for="progress">Progress</label><br>
+                    <input type="text" id="progress" name="progress" value="{{this.userData.progress}}" required><br>
+                    <button class="add-btn">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</HTML>
