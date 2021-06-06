@@ -1,0 +1,45 @@
+<HTML>
+<head>
+    <title>Admin Pannel</title>
+    <link rel="stylesheet" href="../../styles/admin-add-gamification-contact.css">
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href=""> ADMIN PANEL - Contact Messages</a>
+    </div>
+    <div class="box">
+        <div class="side-nav">
+            <a href="" class="btn"> View All </a>
+            <a href="/admin/contact/add" class="btn"> Add </a>
+            <a href="/admin/contact/export" class="btn"> Export </a>
+
+            <form method="POST" action="/admin/contact/import" style="display:none;" enctype="multipart/form-data">
+                <input type="file" id="imported-CSV-file" name="imported-CSV-file" accept=".csv">
+                <button type="submit" id="import-CSV-submit"></button>
+            </form>
+            <a class="btn" onclick="importBtn()" style="cursor: pointer;"> Import </a>
+        </div>
+
+        <div class="content">
+            <div class="form">
+                <form method="post">
+                    <label for="sender-name">Sender Name</label><br>
+                    <input type="text" id="sender-name" name="sender-name" required><br>
+
+                    <label for="sender-email">Sender Email</label><br>
+                    <input type="text" id="sender-email" name="sender-email" required><br>
+
+                    <label for="message">Message</label><br>
+                    <input type="text" id="message" name="message" required><br>
+
+                    <button class="add-btn">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/admin/gamificationContact.js"></script>
+</body>
+
+</HTML>

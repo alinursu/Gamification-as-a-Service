@@ -1,6 +1,7 @@
 const { getDatabaseConnection } = require('../internal/databaseConnection');
 const hash = require('../internal/hash');
 const utils = require('../internal/utils');
+const ContactMessageModel = require("../models/ContactMessage");
 
 /**
  * Adauga un mesaj in baza de date.
@@ -27,6 +28,62 @@ async function addContactMessageToDatabase(contactMessageModel) {
     }
 
     return queryResult;
+}
+
+async function deleteContactById(id) {
+    const connection = getDatabaseConnection();
+    const sql = "DELETE FROM contact_messages WHERE id=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [id], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        })
+    })
+}
+
+async function getGamificationContactById(id) {
+    const connection = getDatabaseConnection();
+    const sql = "SELECT * FROM contact_messages WHERE id=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [id], (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (result.length === 0)
+                    resolve(null);
+                else {
+                    const contact = new ContactMessageModel(
+                        result[0].id,
+                        hash.decrypt(result[0].sender_name),
+                        hash.decrypt(result[0].sender_email),
+                        hash.decrypt(result[0].message)
+                    );
+                    resolve(contact);
+                }
+            }
+        })
+    });
+
+}
+
+async function updateContactById(contact) {
+    const connection = getDatabaseConnection();
+    const sql = "UPDATE contact_messages SET sender_name=?, sender_email=?, message=? WHERE id=?";
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [hash.encrypt(contact.name), hash.encrypt(contact.email), hash.encrypt(contact.text), contact.id], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        })
+    })
 }
 
 /**
@@ -60,4 +117,10 @@ async function getAllMessages() {
     return queryResult;
 }
 
-module.exports = {addContactMessageToDatabase, getAllMessages};
+module.exports = {
+    addContactMessageToDatabase,
+    getAllMessages,
+    deleteContactById,
+    getGamificationContactById,
+    updateContactById
+};
