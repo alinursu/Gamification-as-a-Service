@@ -307,7 +307,7 @@ async function updateSystemModel(systemModel) {
 
 async function updateRewardModel(rewardModel) {
     const connection = getDatabaseConnection();
-    console.log(rewardModel);
+
     const sql = "UPDATE gamification_rewards SET id=?, system_api_key=?, name=?, type=?, occurs_at_event_id=?, event_value=?, reward_value=? WHERE id=?";
     return new Promise((resolve, reject) => {
         connection.query(sql, [rewardModel.id, hash.encrypt(rewardModel.systemAPIKey), hash.encrypt(rewardModel.name), rewardModel.type, rewardModel.eventId, rewardModel.eventValue, rewardModel.rewardValue, rewardModel.id], function (error, results) {
@@ -322,7 +322,7 @@ async function updateRewardModel(rewardModel) {
 
 async function updateEventModel(eventModel) {
     const connection = getDatabaseConnection();
-    console.log(eventModel);
+
     const sql = "UPDATE gamification_events SET system_api_key=?, name=?, event_type=? WHERE id=?";
     return new Promise((resolve, reject) => {
         connection.query(sql, [hash.encrypt(eventModel.systemAPIKey),hash.encrypt(eventModel.name),eventModel.eventType,eventModel.id], function (error, results) {
@@ -421,8 +421,6 @@ async function addGamificationRewardToDatabase(gamificationRewardModel, connecti
     if (connection == null) {
         connection = getDatabaseConnection();
     }
-
-    console.log(gamificationRewardModel);
 
     if (gamificationRewardModel.id == null) {
         var sql = "INSERT INTO gamification_rewards(system_api_key, name, type, occurs_at_event_id, event_value, reward_value) VALUES(?, ?, ?, ?, ?, ?)";

@@ -191,7 +191,7 @@ async function updateGamificationUserData(gamificationUserDataModel) {
 
 async function updateUserData(userData) {
     const connection = getDatabaseConnection();
-    // console.log(userData);
+
     const sql = "UPDATE gamification_user_data SET reward_id=?, progress=? WHERE system_api_key=? AND user_id=?";
     return new Promise((resolve, reject) => {
         connection.query(sql, [userData.rewardId, userData.progress, hash.encrypt(userData.APIKey), userData.userId], function (error, results) {
@@ -277,7 +277,6 @@ async function deleteUserDataByApi(api_key) {
     const connection = getDatabaseConnection();
     const sql = "DELETE FROM gamification_user_data WHERE system_api_key=?";
 
-    console.log(api_key)
     return new Promise((resolve, reject) => {
         connection.query(sql, [hash.decrypt(api_key)], (err) => {
             if (err) {

@@ -11,8 +11,6 @@ const adminUpdateUserDataRoute = async (request, response) => {
     const queryString = request.url.split('?')[1];
     const queryObject = querystringParser.parse(queryString);
 
-    // console.log(queryObject)
-
     try {
         if (!queryObject.api_key) {
             request.api_key = null;
