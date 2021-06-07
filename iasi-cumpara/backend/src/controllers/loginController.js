@@ -14,19 +14,29 @@ const handleLoginReq = (req, res) => {
     req.on('end', async () =>{
         parsedBody = parse(body)
         let user = new User(null, null, parsedBody.emailLog, parsedBody.passLog)
-
+        
         checkUser(conn, user).then(
-            (res) => {
-                console.log(res)
+            (result) => {
+                console.log('DB Result', result)
+                if(result.length === 0) {
+                    console.log('not registered')
+                    // return { statusCode: 401, location: '/login'}
+                    res.writeHead(303, { 'Location' : '/login'})
+                    alert('Email or password are incorrect!')
+                    res.end()
+                } else {
+                    console.log('logged in succesfully')
+                    // return { statusCode: 303, location: '/'}
+                    res.writeHead(303, { 'Location' : '/'})
+                    res.end()
+                }
             },
-            (err) => {
-                console.log(err)
-            }
-        )
-
-
-        // res.writeHead(303, {'Location': '/'})
-        res.end()
+            (error) => {
+                console.log('DB Error:', error)
+                // return { statusCode: 500, location: '/500'}
+                res.writeHead(303, { 'Location' : '/500'})
+                res.end()
+            })
     })
 }
 
@@ -44,15 +54,19 @@ const handleRegisterReq = (req, res) => {
         let user = new User(null, encrypt(parsedBody.nameReg), encrypt(parsedBody.emailReg), encrypt(parsedBody.passReg))
 
         insertUser(conn, user).then(
-            res => {
-                console.log(res)
+            (result) => {
+                console.log(result)
+                res.writeHead(303, {'Location': '/registerSuccess'})
+                res.end()
             },
-            err => {
-                console.log(err)
+            (error) => {
+                console.log(error)
+                res.writeHead(303, {'Location': '/500'})
+                res.end()
             }
         )
 
-        res.end()
+        
     })
 }
 
