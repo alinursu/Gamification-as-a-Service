@@ -246,7 +246,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
     // Citesc si parsez Query String-ul
     var queryString = request.url.split('/external/gamification_system/top_users?')[1];
     var queryStringObject = parse(queryString);
-    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length === 0) {
         response.statusCode = 400; // 400 - Bad Request
         var json = JSON.stringify({
             status: "failed",
@@ -266,7 +266,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
     request.on('end', async () => {
         parsedBody = parse(body);
 
-        // Preiau din baza de date modelele GamificationUserData, dupa id-ul utilizatorului
+        // Preiau din baza de date modelele GamificationUserData, dupa cheia API
         var listOfGamificationUserDataModels = 0;
         await gamificationSystemExternalServices.getGamificationUserDatasByAPIKey(
             queryStringObject.apikey
@@ -274,11 +274,11 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             listOfGamificationUserDataModels = result;
         });
 
-        while(listOfGamificationUserDataModels == 0) {
+        while(listOfGamificationUserDataModels === 0) {
             await utils.timeout(10);
         }
 
-        if(listOfGamificationUserDataModels == -1) {
+        if(listOfGamificationUserDataModels === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
@@ -324,7 +324,9 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
 
             for(let j=0; j<userDataList.length; j++) {
                 let rewardModel = listOfRewardModels.filter(model => model.id === userDataList[j].rewardId)[0];
-                userScore += rewardModel.rewardValue * userDataList[j].progress;
+                if(rewardModel != null) {
+                    userScore += rewardModel.rewardValue * userDataList[j].progress;
+                }
             }
 
             topUsers.push(new Object({

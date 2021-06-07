@@ -122,7 +122,7 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
  */
 async function getGamificationUserDatasByAPIKey(APIKey) {
     var dbResult = 0;
-    await gamificationSystemExternalRepository.getGamificationUserDatasByAPIKey(APIKey).then(function (result) {
+    await gamificationSystemExternalRepository.getGamificationUserDataByAPIKey(APIKey).then(function (result) {
         dbResult = result;
     });
 

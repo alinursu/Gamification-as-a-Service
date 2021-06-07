@@ -298,5 +298,6 @@ module.exports = {
     deleteUserDataByApi,
     getAllGamificationUserData,
     getUserDataByAPIKey,
-    updateUserData
+    updateUserData,
+    getGamificationUserDataByAPIKey
 };
