@@ -116,7 +116,7 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
 }
 
 /**
- * Citeste din baza de date modelele GamificationUserData asociate unui id de utilizator.
+ * Citeste din baza de date modelele GamificationUserData asociate unei chei API.
  * @param {*} APIKey Cheia API a sistemului de gamificatie.
  * @returns Lista modelelor GamificationUserData asociate; null, daca nu am gasit niciun model asociat; -1, daca a aparut o eroare pe parcursul executiei.
  */
@@ -175,6 +175,23 @@ async function deleteGamificationUserData(APIKey, userId, rewardName) {
     return dbResult;
 }
 
+/**
+ * Citeste din baza de date modelele GamificationUserData.
+ * @returns Lista modelelor GamificationUserData; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationUserDatas() {
+    var dbResult = 0;
+    await gamificationSystemExternalRepository.getAllGamificationUserData().then(function (result) {
+        dbResult = result;
+    });
+
+    while (dbResult == 0) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
 
 module.exports = {
     addGamificationUserDataToDatabase,
@@ -182,4 +199,5 @@ module.exports = {
     getGamificationUserDataByUserId,
     deleteGamificationUserData,
     getGamificationUserDatasByAPIKey,
+    getGamificationUserDatas
 };

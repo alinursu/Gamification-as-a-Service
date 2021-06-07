@@ -3,9 +3,11 @@ const UserModel = require('../models/User');
 const GamificationSystemModel = require('../models/GamificationSystem');
 const GamificationEventModel = require('../models/GamificationEvent');
 const GamificationRewardModel = require('../models/GamificationReward');
+const ContactMessageModel = require('../models/ContactMessage');
 const utils = require("../internal/utils");
 const usersRepository = require("../repositories/usersRepository");
 const gamificationSystemsRepository = require("../repositories/gamificationSystemsRepository");
+const contactMessagesRepository = require("../repositories/contactMessagesRepository");
 
 /**
  * Adauga in baza de date utilizatorii importati dintr-un fisier CSV.
@@ -219,4 +221,56 @@ async function addImportedGamificationRewards(lines) {
     return returnedValue;
 }
 
-module.exports = {addImportedUsers, addImportedGamificationSystems, addImportedGamificationEvents, addImportedGamificationRewards};
+/**
+ * Adauga in baza de date mesajele de contact importate dintr-un fisier CSV.
+ * @param lines Continutul fisierului CSV.
+ * @returns 0, daca mesajele au fost adaugate cu succes; 1, daca o linie contine prea multe/prea putine date; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function addImportedContactMessages(lines) {
+    var connectionPool = getDatabaseConnection();
+    var returnedValue = null;
+
+    connectionPool.getConnection(async function (error, connection) {
+        // Verific si adaug datele din fisierul CSV
+        for(let i=1; i<lines.length; i++) {
+            let line = lines[i].split(',');
+            if(line.length !== 3) {
+                connection.rollback();
+                connection.release();
+                returnedValue = 1;
+                return;
+            }
+
+            let contactMessageModel = new ContactMessageModel(null, line[0], line[1], line[2], line[3]);
+
+            var dbResult = null;
+            await contactMessagesRepository.addContactMessageToDatabase(contactMessageModel, connection).then(function (result) {
+                dbResult = result;
+            })
+
+            while(dbResult == null) {
+                await utils.timeout(10);
+            }
+
+            if(dbResult === -1) {
+                connection.rollback();
+                connection.release();
+                returnedValue = -1;
+                return;
+            }
+        }
+
+        connection.commit();
+        connection.release();
+        returnedValue = 0;
+    });
+
+    while(returnedValue == null) {
+        await utils.timeout(10);
+    }
+
+    return returnedValue;
+}
+
+module.exports = {addImportedUsers, addImportedGamificationSystems, addImportedGamificationEvents,
+    addImportedGamificationRewards, addImportedContactMessages};

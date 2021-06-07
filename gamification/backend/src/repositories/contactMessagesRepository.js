@@ -6,10 +6,13 @@ const ContactMessageModel = require("../models/ContactMessage");
 /**
  * Adauga un mesaj in baza de date.
  * @param {*} contactMessageModel Modelul mesajului care va fi adaugat in baza de date
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
  * @returns 1, daca mesajul a fost trimis; -1, daca a aparut o eroare pe parcursul executiei.
  */
-async function addContactMessageToDatabase(contactMessageModel) {
-    var connection = getDatabaseConnection();
+async function addContactMessageToDatabase(contactMessageModel, connection = null) {
+    if(connection == null) {
+        connection = getDatabaseConnection();
+    }
     var sql = "INSERT INTO contact_messages(sender_name, sender_email, message) VALUES(?, ?, ?)";
 
     var queryResult = null;
