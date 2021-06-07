@@ -15,7 +15,6 @@ const adminAddRewardPOSTRoute = (request, response) => {
         // Parsez request body-ul
         const parsedBody = parse(body);
 
-        // console.log(parsedBody);
         const newReward = new GamificationReward(parsedBody.id, parsedBody['api-key'], parsedBody.name, parsedBody.type, parsedBody.eventId, parsedBody['event-value'], parsedBody['reward-value']);
         await gamificationSystemRepository.addGamificationRewardToDatabase(newReward);
 

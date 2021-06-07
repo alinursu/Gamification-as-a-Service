@@ -14,8 +14,6 @@ async function getAllTokens() {
         await utils.timeout(10);
     }
 
-    console.log(dbResult);
-
     return dbResult;
 }
 

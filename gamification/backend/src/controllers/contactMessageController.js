@@ -1,10 +1,11 @@
 const { parse } = require('querystring');
-
+const GamificationContact = require("../models/ContactMessage");
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
 const contactMessageRepository = require('../repositories/contactMessagesRepository');
 const contactMessageServices = require('../services/contactMessageServices');
+const gamificationContactRepository = require("../repositories/contactMessagesRepository");
 
 /**
  * Rezolva un request de tip POST facut in pagina /.
@@ -64,4 +65,29 @@ function handleContactRequest(request, response) {
     });    
 }
 
-module.exports = {handleContactRequest};
+//////////////////////
+
+const adminAddContactPOSTRequest = (request, response) => {
+    // Citesc request body-ul
+    let body = '';
+    request.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    request.on('end', async () => {
+        // Parsez request body-ul
+        const parsedBody = parse(body);
+        const newContact = new GamificationContact(null, parsedBody['sender-name'], parsedBody['sender-email'], parsedBody.message);
+        await gamificationContactRepository.addContactMessageToDatabase(newContact);
+
+
+
+        response.writeHead(302, {'Location': '/admin/contact'});
+        response.end();
+    });
+}
+
+module.exports = {
+    handleContactRequest,
+    adminAddContactPOSTRequest,
+};

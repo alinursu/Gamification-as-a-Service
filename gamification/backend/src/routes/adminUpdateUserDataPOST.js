@@ -15,7 +15,6 @@ const adminUpdateUserDataPUTRoute = (request, response) => {
         // Parsez request body-ul *care vine de la form (name din hbs)*
         const parsedBody = parse(body);
 
-        // console.log(parsedBody);
         const newUserData = new UserData(parsedBody['system-api-key'], parsedBody.userId, parsedBody.rewardId, parsedBody.progress);
         await GamificationUserData.updateUserData(newUserData);
 

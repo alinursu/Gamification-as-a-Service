@@ -460,7 +460,7 @@ const routing = async (request, response) => {
             case '/admin/contact/add': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if (result) return adminAddContactPOSTRoute(request, response);
+                        if (result) return contactMessageController.adminAddContactPOSTRequest(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -610,7 +610,7 @@ const routing = async (request, response) => {
             case '/admin/user-data/update': {
                 if (cookies.authToken != null) {
                     await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                        if (result) return  adminUpdateUserDataPUTRoute(request, response);
+                        if (result) return adminUpdateUserDataPUTRoute(request, response);
                         else {
                             // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                             response.statusCode = 403;
@@ -677,6 +677,7 @@ const routing = async (request, response) => {
     }
 
     // Rutari (request-uri de tip GET pentru resurse)
+    if (request.method === 'GET')
     switch (url) {
         case '/': {
             // Sterg din baza de date tokenii care au expirat (stergere periodica, de fiecare data cand cineva acceseaza homepage)
@@ -778,7 +779,7 @@ const routing = async (request, response) => {
         case '/admin/home': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
+
                     if (result) return adminHomeRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -804,7 +805,7 @@ const routing = async (request, response) => {
         case '/admin/gamification-systems': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
+
                     if (result) return adminGamificationSystemsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -827,17 +828,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/gamification-systems/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -846,7 +847,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -865,10 +866,10 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/admin/gamification-rewards':{
+        case '/admin/gamification-rewards': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
+
                     if (result) return adminGamificationRewardsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -891,17 +892,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/gamification-rewards/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -910,7 +911,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -930,17 +931,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/contact-messages/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -949,7 +950,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -996,7 +997,7 @@ const routing = async (request, response) => {
         case '/admin/users': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminUsersListRoute(request, response);
+                    if (result) return adminUsersListRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -1021,7 +1022,7 @@ const routing = async (request, response) => {
         case '/admin/user-data': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminUserDataRoute(request, response);
+                    if (result) return adminUserDataRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -1046,7 +1047,7 @@ const routing = async (request, response) => {
         case '/admin/contact': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminGamificationContactRoute(request, response);
+                    if (result) return adminGamificationContactRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -1072,7 +1073,7 @@ const routing = async (request, response) => {
         case '/admin/tokens': {
             if (cookies.authToken != null) {
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    if(result) return adminTokensRoute(request, response);
+                    if (result) return adminTokensRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
                         response.statusCode = 403;
@@ -1095,17 +1096,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/tokens/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -1114,7 +1115,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -1184,17 +1185,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/users/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -1203,7 +1204,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -1323,17 +1324,17 @@ const routing = async (request, response) => {
         }
 
         case '/admin/gamification-events/export': {
-            if(cookies.authToken != null) {
+            if (cookies.authToken != null) {
                 var isAdmin = null;
                 await userController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
                     isAdmin = result;
                 })
 
-                while(isAdmin == null) {
+                while (isAdmin == null) {
                     await utils.timeout(10);
                 }
 
-                if(isAdmin == -1) { // Database error
+                if (isAdmin == -1) { // Database error
                     // Creez un raspuns, instiintand utilizatorul de eroare
                     response.statusCode = 500;
                     request.statusCodeMessage = "Internal Server Error";
@@ -1342,7 +1343,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     response.statusCode = 403;
                     request.statusCodeMessage = "Forbidden";
                     request.errorMessage = "Nu ai dreptul de a accesa această pagină!";
@@ -1721,11 +1722,11 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if(url.startsWith('/external/gamification_system/top_users')) {
+            if (url.startsWith('/external/gamification_system/top_users')) {
                 return gamificationSystemExternalController.handleExternalGamificationSystemTopUsersGETRequest(request, response);
             }
 
-            if(url.startsWith('/external/gamification_system')) {
+            if (url.startsWith('/external/gamification_system')) {
                 return gamificationSystemExternalController.handleExternalGamificationSystemGETRequest(request, response);
             }
 
@@ -1750,6 +1751,13 @@ const routing = async (request, response) => {
             request.errorMessage = "Nu am găsit pagina pe care încerci sa o accesezi!";
             return errorRoute(request, response);
         }
+    }
+    else{
+        response.statusCode = 403;
+        request.statusCodeMessage = "Forbidden";
+        request.errorMessage = "Nu poți face un request de tip GET la pagina \"" + url + "\"!";
+        response.setHeader('Location', '/error');
+        return errorRoute(request, response);
     }
 }
 
