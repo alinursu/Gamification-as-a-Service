@@ -22,6 +22,8 @@ const adminUpdateUserRoute = async (request, response) => {
         request.user = null;
     }
 
+    console.log(request.user);
+
     return renderPage(paths.index, {user: request.user, styles: ['admin-update']}, (data) => {
         response.write(data);
         response.end();

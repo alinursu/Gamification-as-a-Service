@@ -1,6 +1,6 @@
 const { parse } = require('querystring');
 var cookie = require('cookie');
-const GamificationSystem = require("../models/GamificationSystem");
+
 const gamificationSystemServices = require('../services/gamificationSystemServices');
 const gamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
 const gamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
@@ -11,7 +11,6 @@ const formViewRoute = require('../routes/formView');
 const formModifyRoute = require('../routes/formModify');
 const formDeleteRoute = require('../routes/formDelete');
 const userController = require('../controllers/userController');
-const gamificationSystemRepository = require("../repositories/gamificationSystemsRepository");
 
 /**
  * Rezolva un request de tip POST facut la pagina '/profile/create-gamifcation-system'.
@@ -470,32 +469,5 @@ async function handleDeleteGamificationSystemRequest(request, response) {
     return null;
 }
 
-
-///////////////
-
-const adminAddSystemPOSTRequest = (request, response) => {
-    // Citesc request body-ul
-    let body = '';
-    request.on('data', chunk => {
-        body += chunk.toString();
-    });
-
-    request.on('end', async () => {
-        // Parsez request body-ul
-        const parsedBody = parse(body);
-
-        const newSystem = new GamificationSystem(parsedBody['api-key'], parsedBody.name, parsedBody.userId, null, null);
-        await gamificationSystemRepository.addGamificationSystemToDatabase(newSystem);
-
-        response.writeHead(302, {'Location': '/admin/gamification-systems'});
-        response.end();
-    });
-}
-
-module.exports = {
-    handleCreateGamificationSystemRequest,
-    handleViewGamificationSystemRequest,
-    handleModifyGamificationSystemRequest,
-    handleDeleteGamificationSystemRequest,
-    adminAddSystemPOSTRequest
-}
+module.exports = {handleCreateGamificationSystemRequest, handleViewGamificationSystemRequest, handleModifyGamificationSystemRequest,
+    handleDeleteGamificationSystemRequest}

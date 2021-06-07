@@ -468,13 +468,5 @@ async function isUserAdmin(token, request, response) {
     return userModel.isAdmin;
 }
 
-module.exports = {
-    handleLoginRequest,
-    handleRegisterRequest,
-    handleLogoutRequest,
-    handleChangeURLRequest,
-    handleChangePasswordRequest,
-    getUserModelByToken,
-    handleGETProfileRequest,
-    isUserAdmin
-};
+module.exports = {handleLoginRequest, handleRegisterRequest, handleLogoutRequest, handleChangeURLRequest, handleChangePasswordRequest, 
+    getUserModelByToken, handleGETProfileRequest, isUserAdmin};
