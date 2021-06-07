@@ -1,17 +1,18 @@
 const { parse } = require('querystring');
 
 const utils = require('../internal/utils');
-const gamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
-const gamificationSystemServices = require('../services/gamificationSystemServices');
+
+const GamificationSystemExternalServices = require('../services/GamificationSystemExternalServices');
+const GamificationSystemServices = require('../services/GamificationSystemServices');
 
 /**
- * Rezolva un request de tip POST/PUT facut la pagina '/external/gamification_system' de catre un site extern.
+ * Rezolva un request de tip POST/PUT facut la pagina '/external/gamification-system' de catre un site extern.
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemPOSTPUTRequest(request, response) {
     // Verific validitatea url-ului
-    if(!request.url.startsWith('/external/gamification_system?')) {
+    if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found
         var json = JSON.stringify({
             status: "failed",
@@ -22,9 +23,9 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
     }
 
     // Citesc si parsez Query String-ul
-    var queryString = request.url.split('/external/gamification_system?')[1];
+    var queryString = request.url.split('/external/gamification-system?')[1];
     var queryStringObject = parse(queryString);
-    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length === 0) {
         response.statusCode = 400; // 400 - Bad Request
         var json = JSON.stringify({
             status: "failed",
@@ -46,8 +47,8 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
         parsedBody = parse(body);
 
         // Verific request body-ul
-        if(parsedBody.userId == null || parsedBody.userId.length == 0 ||
-                parsedBody.eventName == null || parsedBody.eventName.length == 0) {
+        if(parsedBody.userId == null || parsedBody.userId.length === 0 ||
+                parsedBody.eventName == null || parsedBody.eventName.length === 0) {
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
             var json = JSON.stringify({
                 status: "failed",
@@ -59,7 +60,7 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
 
         // Introduc datele in baza de date
         var serviceResult = null;
-        await gamificationSystemExternalServices.addGamificationUserDataToDatabase(
+        await GamificationSystemExternalServices.addGamificationUserDataToDatabase(
             queryStringObject.apikey, parsedBody.userId, parsedBody.eventName
         ).then(function (result) {
             serviceResult = result;
@@ -69,7 +70,7 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
             await utils.timeout(10);
         }
 
-        if(serviceResult == 1) {
+        if(serviceResult === 1) {
             response.statusCode = 422; // 422 - Unprocessable Entity
             var json = JSON.stringify({
                 status: "failed",
@@ -79,7 +80,7 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
             return;
         }
 
-        if(serviceResult == -1) {
+        if(serviceResult === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
@@ -100,13 +101,13 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/external/gamification_system' de catre un site extern.
+ * Rezolva un request de tip GET facut la pagina '/external/gamification-system' de catre un site extern.
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemGETRequest(request, response) {    
     // Verific validitatea url-ului
-    if(!request.url.startsWith('/external/gamification_system?')) {
+    if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found
         var json = JSON.stringify({
             status: "failed",
@@ -117,9 +118,9 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
     }
 
     // Citesc si parsez Query String-ul
-    var queryString = request.url.split('/external/gamification_system?')[1];
+    var queryString = request.url.split('/external/gamification-system?')[1];
     var queryStringObject = parse(queryString);
-    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length === 0) {
         response.statusCode = 400; // 400 - Bad Request
         var json = JSON.stringify({
             status: "failed",
@@ -140,7 +141,7 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
         parsedBody = parse(body);
 
         // Verific datele din request body
-        if(parsedBody.userId == null || parsedBody.userId.length == 0) {
+        if(parsedBody.userId == null || parsedBody.userId.length === 0) {
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
             var json = JSON.stringify({
                 status: "failed",
@@ -152,17 +153,17 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
 
         // Preiau din baza de date modelele GamificationUserData, dupa id-ul utilizatorului
         var listOfGamificationUserDataModels = 0;
-        await gamificationSystemExternalServices.getGamificationUserDataByUserId(
+        await GamificationSystemExternalServices.getGamificationUserDataByUserId(
             queryStringObject.apikey, parsedBody.userId
         ).then(function (result) {
             listOfGamificationUserDataModels = result;
         });
 
-        while(listOfGamificationUserDataModels == 0) {
+        while(listOfGamificationUserDataModels === 0) {
             await utils.timeout(10);
         }
 
-        if(listOfGamificationUserDataModels == -1) {
+        if(listOfGamificationUserDataModels === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
@@ -182,7 +183,7 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
 
         // Preiau din baza de date modelele GamificationReward, dupa id-urile din modelele GamificationUserData
         var listOfRewardModels = null;
-        await gamificationSystemServices.getGamificationRewardModelsByAPIKey(queryStringObject.apikey).then(function (result) {
+        await GamificationSystemServices.getGamificationRewardModelsByAPIKey(queryStringObject.apikey).then(function (result) {
             listOfRewardModels = result;
         });
 
@@ -190,7 +191,7 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(listOfRewardModels == -1) {
+        if(listOfRewardModels === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
@@ -227,13 +228,13 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/external/gamification_system/top_users' de catre un site extern.
+ * Rezolva un request de tip GET facut la pagina '/external/gamification-system/top-users' de catre un site extern.
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemTopUsersGETRequest(request, response) {
     // Verific validitatea url-ului
-    if(!request.url.startsWith('/external/gamification_system/top_users?')) {
+    if(!request.url.startsWith('/external/gamification-system/top-users?')) {
         response.statusCode = 404; // 404 - Not Found
         var json = JSON.stringify({
             status: "failed",
@@ -244,7 +245,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
     }
 
     // Citesc si parsez Query String-ul
-    var queryString = request.url.split('/external/gamification_system/top_users?')[1];
+    var queryString = request.url.split('/external/gamification-system/top-users?')[1];
     var queryStringObject = parse(queryString);
     if(queryStringObject.apikey == null || queryStringObject.apikey.length === 0) {
         response.statusCode = 400; // 400 - Bad Request
@@ -268,7 +269,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
 
         // Preiau din baza de date modelele GamificationUserData, dupa cheia API
         var listOfGamificationUserDataModels = 0;
-        await gamificationSystemExternalServices.getGamificationUserDatasByAPIKey(
+        await GamificationSystemExternalServices.getGamificationUserDatasByAPIKey(
             queryStringObject.apikey
         ).then(function (result) {
             listOfGamificationUserDataModels = result;
@@ -298,7 +299,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
 
         // Preiau din baza de date modelele GamificationReward, dupa id-urile din modelele GamificationUserData
         var listOfRewardModels = null;
-        await gamificationSystemServices.getGamificationRewardModelsByAPIKey(queryStringObject.apikey).then(function (result) {
+        await GamificationSystemServices.getGamificationRewardModelsByAPIKey(queryStringObject.apikey).then(function (result) {
             listOfRewardModels = result;
         });
 
@@ -320,10 +321,10 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
         let topUsers = []
         for(let i=0; i<userIdList.length; i++) {
             let userScore = 0;
-            let userDataList = listOfGamificationUserDataModels.filter(model => model.userId === userIdList[i]);
+            let userDataList = listOfGamificationUserDataModels.filter(model => model.userId == userIdList[i]);
 
             for(let j=0; j<userDataList.length; j++) {
-                let rewardModel = listOfRewardModels.filter(model => model.id === userDataList[j].rewardId)[0];
+                let rewardModel = listOfRewardModels.filter(model => model.id == userDataList[j].rewardId)[0];
                 if(rewardModel != null) {
                     userScore += rewardModel.rewardValue * userDataList[j].progress;
                 }
@@ -353,13 +354,13 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
 }
 
 /**
- * Rezolva un request de tip DELETE facut la pagina '/external/gamification_system' de catre un site extern.
+ * Rezolva un request de tip DELETE facut la pagina '/external/gamification-system' de catre un site extern.
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemDELETERequest(request, response) {
     // Verific validitatea url-ului
-    if(!request.url.startsWith('/external/gamification_system?')) {
+    if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found
         var json = JSON.stringify({
             status: "failed",
@@ -370,9 +371,9 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
     }
 
     // Citesc si parsez Query String-ul
-    var queryString = request.url.split('/external/gamification_system?')[1];
+    var queryString = request.url.split('/external/gamification-system?')[1];
     var queryStringObject = parse(queryString);
-    if(queryStringObject.apikey == null || queryStringObject.apikey.length == 0) {
+    if(queryStringObject.apikey == null || queryStringObject.apikey.length === 0) {
         response.statusCode = 400; // 400 - Bad Request
         var json = JSON.stringify({
             status: "failed",
@@ -393,8 +394,8 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
         parsedBody = parse(body);
 
         // Verific datele din request body
-        if(parsedBody.userId == null || parsedBody.userId.length == 0 ||
-                parsedBody.rewardName == null | parsedBody.rewardName.length == 0) {
+        if(parsedBody.userId == null || parsedBody.userId.length === 0 ||
+                parsedBody.rewardName == null | parsedBody.rewardName.length === 0) {
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
             var json = JSON.stringify({
                 status: "failed",
@@ -406,7 +407,7 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
 
         // Sterg datele legate de utiliatorul cu id-ul dat
         var serviceResult = null;
-        await gamificationSystemExternalServices.deleteGamificationUserData(
+        await GamificationSystemExternalServices.deleteGamificationUserData(
             queryStringObject.apikey, parsedBody.userId, parsedBody.rewardName
         ).then(function (result) {
             serviceResult = result;
@@ -416,7 +417,7 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
             await utils.timeout(10);
         }
 
-        if(serviceResult == 1) {
+        if(serviceResult === 1) {
             response.statusCode = 422; // 422 - Unprocessable Entity
             var json = JSON.stringify({
                 status: "failed",
@@ -426,7 +427,7 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
             return;
         }
 
-        if(serviceResult == -1) {
+        if(serviceResult === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"

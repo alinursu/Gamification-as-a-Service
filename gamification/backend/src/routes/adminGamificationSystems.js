@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const gamificationSystemsRepository = require("../repositories/gamificationSystemsRepository");
+const gamificationSystemsRepository = require("../repositories/GamificationSystemsRepository");
 
 const adminGamificationSystemsRoute = async (request, response) => {
     const paths = {

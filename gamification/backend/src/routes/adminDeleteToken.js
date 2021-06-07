@@ -2,7 +2,7 @@ const renderPage = require("../core/render");
 const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
-const tokensRepository = require("../repositories/tokensRepository");
+const tokensRepository = require("../repositories/TokensRepository");
 
 const adminDeleteTokenRoute = async (request, response) => {
     try {

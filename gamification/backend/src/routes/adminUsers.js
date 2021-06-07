@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const usersRepository = require("../repositories/usersRepository");
+const usersRepository = require("../repositories/UsersRepository");
 
 const adminUsersListRoute = async (request, response) => {
     const paths = {

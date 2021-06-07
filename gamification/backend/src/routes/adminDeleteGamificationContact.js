@@ -2,7 +2,7 @@ const renderPage = require("../core/render");
 const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
-const gamificationContactRepository = require("../repositories/contactMessagesRepository");
+const gamificationContactRepository = require("../repositories/ContactMessagesRepository");
 
 const adminDeleteContactRoute = async (request, response) => {
     try {

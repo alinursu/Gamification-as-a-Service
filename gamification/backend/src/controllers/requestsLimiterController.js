@@ -1,4 +1,5 @@
 const errorRoute = require("../routes/error");
+
 const utils = require("../internal/utils");
 
 const { RateLimiterMemory } = require('rate-limiter-flexible');
@@ -24,11 +25,11 @@ const loginRequestsLimiterFunction = async (request, response, callback) => {
         response.statusCode = 0;
         var callbackResponse = callback(request, response);
 
-        while(response.statusCode == 0) {
+        while(response.statusCode === 0) {
             await utils.timeout(10);
         }
 
-        if(response.statusCode == 307) {
+        if(response.statusCode === 307) {
             loginRequestsLimiter.delete(request.ip);
         }
         return callbackResponse;
@@ -52,11 +53,11 @@ const registerRequestsLimiterFunction = async (request, response, callback) => {
         response.statusCode = 0;
         var callbackResponse = callback(request, response);
 
-        while(response.statusCode == 0) {
+        while(response.statusCode === 0) {
             await utils.timeout(10);
         }
 
-        if(response.statusCode == 201) {
+        if(response.statusCode === 201) {
             loginRequestsLimiter.delete(request.ip);
         }
         return callbackResponse;

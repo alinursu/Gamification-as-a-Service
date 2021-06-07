@@ -5,7 +5,7 @@ var deleteButtons = document.getElementsByClassName("delete-button");
 
 function onclickShowToolTip(node) {
     var tooltipTextNode = node.getElementsByClassName('tooltip-text')[0];
-    if(tooltipTextNode.style.visibility == 'visible') {
+    if(tooltipTextNode.style.visibility === 'visible') {
         tooltipTextNode.style.visibility = 'hidden';
     }
     else {

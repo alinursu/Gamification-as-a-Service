@@ -1,7 +1,7 @@
 const renderPage = require("../core/render");
 const path = require("path");
 const Reward = require("../models/GamificationReward");
-const GamificationReward = require("../repositories/gamificationSystemsRepository");
+const GamificationReward = require("../repositories/GamificationSystemsRepository");
 const {parse} = require('querystring');
 
 const adminUpdateRewardPUTRoute = (request, response) => {

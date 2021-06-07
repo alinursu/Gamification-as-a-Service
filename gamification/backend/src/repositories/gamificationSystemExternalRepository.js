@@ -28,7 +28,7 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
         await utils.timeout(10);
     }
 
-    if (queryResult == -1) return -1;
+    if (queryResult === -1) return -1;
 
     if (queryResult.length > 0) {
         var gamificationUserDataModel = new GamificationUserData(

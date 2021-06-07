@@ -1,13 +1,16 @@
 const { getDatabaseConnection } = require('../internal/databaseConnection');
+
 const UserModel = require('../models/User');
 const GamificationSystemModel = require('../models/GamificationSystem');
 const GamificationEventModel = require('../models/GamificationEvent');
 const GamificationRewardModel = require('../models/GamificationReward');
 const ContactMessageModel = require('../models/ContactMessage');
+
 const utils = require("../internal/utils");
-const usersRepository = require("../repositories/usersRepository");
-const gamificationSystemsRepository = require("../repositories/gamificationSystemsRepository");
-const contactMessagesRepository = require("../repositories/contactMessagesRepository");
+
+const UsersRepository = require("../repositories/UsersRepository");
+const GamificationSystemsRepository = require("../repositories/GamificationSystemsRepository");
+const ContactMessagesRepository = require("../repositories/ContactMessagesRepository");
 
 /**
  * Adauga in baza de date utilizatorii importati dintr-un fisier CSV.
@@ -32,7 +35,7 @@ async function addImportedUsers(lines) {
             let userModel = new UserModel(null, line[0], line[1], line[2], line[3], line[4], line[5]);
 
             var dbResult = null;
-            await usersRepository.insertUserModel(userModel, connection).then(function (result) {
+            await UsersRepository.insertUserModel(userModel, connection).then(function (result) {
                 dbResult = result;
             })
 
@@ -84,7 +87,7 @@ async function addImportedGamificationSystems(lines) {
             let gamificationSystemModel = new GamificationSystemModel(line[0], line[1], line[2], null, null);
 
             var dbResult = null;
-            await gamificationSystemsRepository.addGamificationSystemToDatabase(gamificationSystemModel, connection).then(function (result) {
+            await GamificationSystemsRepository.addGamificationSystemToDatabase(gamificationSystemModel, connection).then(function (result) {
                 dbResult = result;
             })
 
@@ -142,7 +145,7 @@ async function addImportedGamificationEvents(lines) {
             let gamificationEventModel = new GamificationEventModel(null, line[0], line[1], line[2] );
 
             var dbResult = null;
-            await gamificationSystemsRepository.addGamificationEventToDatabase(gamificationEventModel, connection).then(function (result) {
+            await GamificationSystemsRepository.addGamificationEventToDatabase(gamificationEventModel, connection).then(function (result) {
                 dbResult = result;
             })
 
@@ -193,7 +196,7 @@ async function addImportedGamificationRewards(lines) {
             let gamificationRewardModel = new GamificationRewardModel(null, line[0], line[1], line[2], line[3], line[4], line[5]);
 
             var dbResult = null;
-            await gamificationSystemsRepository.addGamificationRewardToDatabase(gamificationRewardModel, connection).then(function (result) {
+            await GamificationSystemsRepository.addGamificationRewardToDatabase(gamificationRewardModel, connection).then(function (result) {
                 dbResult = result;
             })
 
@@ -244,7 +247,7 @@ async function addImportedContactMessages(lines) {
             let contactMessageModel = new ContactMessageModel(null, line[0], line[1], line[2], line[3]);
 
             var dbResult = null;
-            await contactMessagesRepository.addContactMessageToDatabase(contactMessageModel, connection).then(function (result) {
+            await ContactMessagesRepository.addContactMessageToDatabase(contactMessageModel, connection).then(function (result) {
                 dbResult = result;
             })
 

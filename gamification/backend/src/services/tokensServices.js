@@ -2,11 +2,11 @@
  * Preia din baza de date toate modelele Token din baza de date.
  * @returns Lista modelelor Token; -1, daca a aparut o eroare pe parcursul executiei.
  */
-const tokensRepository = require("../repositories/tokensRepository");
+const TokensRepository = require("../repositories/TokensRepository");
 
 async function getAllTokens() {
     var dbResult = null;
-    await tokensRepository.getAllTokens().then(function (result) {
+    await TokensRepository.getAllTokens().then(function (result) {
         dbResult = result;
     });
 

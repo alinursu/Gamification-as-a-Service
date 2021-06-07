@@ -1,6 +1,6 @@
 const utils = require('../internal/utils');
-const gamificationSystemServices = require('../services/gamificationSystemServices');
-const gamificationSystemExternalRepository = require('../repositories/gamificationSystemExternalRepository');
+const GamificationSystemServices = require('./GamificationSystemServices');
+const GamificationSystemExternalRepository = require('../repositories/GamificationSystemExternalRepository');
 const GamificationUserData = require('../models/GamificationUserData');
 
 /**
@@ -13,20 +13,20 @@ const GamificationUserData = require('../models/GamificationUserData');
 async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
     // Preiau modelul GamificationSystem din baza de date, folosindu-ma de cheia API
     var gamificationSystemModel = 0;
-    await gamificationSystemServices.getGamificationSystemModelByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemServices.getGamificationSystemModelByAPIKey(APIKey).then(function (result) {
         gamificationSystemModel = result;
     })
 
-    while (gamificationSystemModel == 0) {
+    while (gamificationSystemModel === 0) {
         await utils.timeout(10);
     }
 
     if (gamificationSystemModel == null) return 1;
-    if (gamificationSystemModel == -1) return -1;
+    if (gamificationSystemModel === -1) return -1;
 
     // Verific daca exista vreun eventModel cu acest eventName
     var tempList = gamificationSystemModel.listOfGamificationEvents.filter(eventModel => eventModel.name == eventName);
-    if (tempList.length == 0) return 1;
+    if (tempList.length === 0) return 1;
 
     var eventModel = tempList[0];
 
@@ -37,12 +37,12 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
     for (var i = 0; i < rewardModelList.length; i++) {
         var gamificationUserDataModel = 0;
 
-        await gamificationSystemExternalRepository.getGamificationUserData(APIKey, userId, rewardModelList[i].id)
+        await GamificationSystemExternalRepository.getGamificationUserData(APIKey, userId, rewardModelList[i].id)
             .then(function (result) {
                 gamificationUserDataModel = result;
             });
 
-        while (gamificationUserDataModel == 0) {
+        while (gamificationUserDataModel === 0) {
             await utils.timeout(10);
         }
 
@@ -50,7 +50,7 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
             gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 1);
 
             var dbResult = null;
-            await gamificationSystemExternalRepository.insertGamificationUserData(gamificationUserDataModel).then(function (result) {
+            await GamificationSystemExternalRepository.insertGamificationUserData(gamificationUserDataModel).then(function (result) {
                 dbResult = result;
             });
 
@@ -58,12 +58,12 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
                 await utils.timeout(10);
             }
 
-            if (dbResult == -1) return -1;
+            if (dbResult === -1) return -1;
         } else { // Actualizez
             gamificationUserDataModel.progress++;
 
             var dbResult = null;
-            await gamificationSystemExternalRepository.updateGamificationUserData(gamificationUserDataModel).then(function (result) {
+            await GamificationSystemExternalRepository.updateGamificationUserData(gamificationUserDataModel).then(function (result) {
                 dbResult = result;
             });
 
@@ -71,7 +71,7 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
                 await utils.timeout(10);
             }
 
-            if (dbResult == -1) return -1;
+            if (dbResult === -1) return -1;
         }
     }
 
@@ -85,7 +85,7 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
  */
 async function deleteGamificationUserDataByAPIKey(APIKey) {
     var dbResult = null;
-    await gamificationSystemExternalRepository.deleteGamificationUserDataByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemExternalRepository.deleteGamificationUserDataByAPIKey(APIKey).then(function (result) {
         dbResult = result;
     });
 
@@ -104,11 +104,11 @@ async function deleteGamificationUserDataByAPIKey(APIKey) {
  */
 async function getGamificationUserDataByUserId(APIKey, userId) {
     var dbResult = 0;
-    await gamificationSystemExternalRepository.getGamificationUserDataByUserId(APIKey, userId).then(function (result) {
+    await GamificationSystemExternalRepository.getGamificationUserDataByUserId(APIKey, userId).then(function (result) {
         dbResult = result;
     });
 
-    while (dbResult == 0) {
+    while (dbResult === 0) {
         await utils.timeout(10);
     }
 
@@ -122,11 +122,11 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
  */
 async function getGamificationUserDatasByAPIKey(APIKey) {
     var dbResult = 0;
-    await gamificationSystemExternalRepository.getGamificationUserDataByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemExternalRepository.getGamificationUserDataByAPIKey(APIKey).then(function (result) {
         dbResult = result;
     });
 
-    while (dbResult == 0) {
+    while (dbResult === 0) {
         await utils.timeout(10);
     }
 
@@ -143,26 +143,26 @@ async function getGamificationUserDatasByAPIKey(APIKey) {
 async function deleteGamificationUserData(APIKey, userId, rewardName) {
     // Preiau modelul GamificationSystem din baza de date, folosindu-ma de cheia API
     var gamificationSystemModel = 0;
-    await gamificationSystemServices.getGamificationSystemModelByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemServices.getGamificationSystemModelByAPIKey(APIKey).then(function (result) {
         gamificationSystemModel = result;
     })
 
-    while (gamificationSystemModel == 0) {
+    while (gamificationSystemModel === 0) {
         await utils.timeout(10);
     }
 
     if (gamificationSystemModel == null) return 1;
-    if (gamificationSystemModel == -1) return -1;
+    if (gamificationSystemModel === -1) return -1;
 
     // Verific daca exista vreun model GamificationReward cu acest nume
     var tempList = gamificationSystemModel.listOfGamificationRewards.filter(rewardModel => rewardModel.name == rewardName);
-    if (tempList.length == 0) return 1;
+    if (tempList.length === 0) return 1;
 
     var rewardModel = tempList[0];
 
     // Sterg datele din baza de date
     var dbResult = null;
-    await gamificationSystemExternalRepository.deleteGamificationUserDataModel(
+    await GamificationSystemExternalRepository.deleteGamificationUserDataModel(
         new GamificationUserData(APIKey, userId, rewardModel.id, null)
     ).then(function (result) {
         dbResult = result;
@@ -181,11 +181,11 @@ async function deleteGamificationUserData(APIKey, userId, rewardName) {
  */
 async function getGamificationUserDatas() {
     var dbResult = 0;
-    await gamificationSystemExternalRepository.getAllGamificationUserData().then(function (result) {
+    await GamificationSystemExternalRepository.getAllGamificationUserData().then(function (result) {
         dbResult = result;
     });
 
-    while (dbResult == 0) {
+    while (dbResult === 0) {
         await utils.timeout(10);
     }
 

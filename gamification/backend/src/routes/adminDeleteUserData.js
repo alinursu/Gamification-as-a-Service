@@ -2,7 +2,7 @@ const renderPage = require("../core/render");
 const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
-const gamificationUserDataRepository = require("../repositories/gamificationSystemExternalRepository");
+const gamificationUserDataRepository = require("../repositories/GamificationSystemExternalRepository");
 
 const adminDeleteUserDataRoute = async (request, response) => {
     try {

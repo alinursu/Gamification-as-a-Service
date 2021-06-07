@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const tokensRepository = require("../repositories/tokensRepository");
+const tokensRepository = require("../repositories/TokensRepository");
 
 const adminTokensRoute = async (request, response) => {
     const paths = {

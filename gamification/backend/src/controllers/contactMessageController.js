@@ -3,9 +3,9 @@ const GamificationContact = require("../models/ContactMessage");
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
-const contactMessageRepository = require('../repositories/contactMessagesRepository');
-const contactMessageServices = require('../services/contactMessageServices');
-const gamificationContactRepository = require("../repositories/contactMessagesRepository");
+const ContactMessageRepository = require('../repositories/ContactMessagesRepository');
+const ContactMessageServices = require('../services/ContactMessageServices');
+const GamificationContactRepository = require("../repositories/ContactMessagesRepository");
 
 /**
  * Rezolva un request de tip POST facut in pagina /.
@@ -33,24 +33,24 @@ function handleContactRequest(request, response) {
         }
 
         // Verific datele
-        var serviceResponse = contactMessageServices.verifyPresenceOfContactMessageCredentials(message, request, response);
-        if(serviceResponse == 0) {
+        var serviceResponse = ContactMessageServices.verifyPresenceOfContactMessageCredentials(message, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = contactMessageServices.validateContactMessageCredentials(message, request, response);
-        if(serviceResponse == 0) {
+        var serviceResponse = ContactMessageServices.validateContactMessageCredentials(message, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Adaug modelul in baza de date
         var dbAnswer = null;
-        await contactMessageRepository.addContactMessageToDatabase(message).then(function (result) {
+        await ContactMessageRepository.addContactMessageToDatabase(message).then(function (result) {
             dbAnswer = result;
         });
 
-        if(dbAnswer == -1) { // Database error
+        if(dbAnswer === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -78,7 +78,7 @@ const adminAddContactPOSTRequest = (request, response) => {
         // Parsez request body-ul
         const parsedBody = parse(body);
         const newContact = new GamificationContact(null, parsedBody['sender-name'], parsedBody['sender-email'], parsedBody.message);
-        await gamificationContactRepository.addContactMessageToDatabase(newContact);
+        await GamificationContactRepository.addContactMessageToDatabase(newContact);
 
 
 
