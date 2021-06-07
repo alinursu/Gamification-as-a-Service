@@ -5,6 +5,9 @@ const profile = require('../routes/profile')
 const login = require('../routes/login')
 const category = require('../routes/category')
 const { handleLoginReq, handleRegisterReq } = require('../controllers/loginController')
+const registerSuccess = require('../routes/success/registerSuccess')
+const notFound = require('../routes/error/404')
+const internalErr = require('../routes/error/500')
 
 const file = new (staticServe.Server)(path.join(__dirname,'../../pages/'), { cache: 1})
 
@@ -15,14 +18,20 @@ const routing = (req,res) => {
     if(req.method === 'GET') {
         switch (url) {
             case '/':
-                return home(req, res);
+                return home(req, res)
             case '/profile':
-                return profile(req, res);
+                return profile(req, res)
             case '/category/cars':
-                req.category = 'cars';
-                return category(req, res);
+                req.category = 'cars'
+                return category(req, res)
             case '/login':
-                return login(req, res);
+                return login(req, res)
+            case '/registerSuccess':
+                return registerSuccess(req, res)
+            case '/404':
+                return notFound(req, res)
+            case '/500':
+                return internalErr(req,res)
         }
     }
 
@@ -51,7 +60,7 @@ const routing = (req,res) => {
         }
     }
 
-    res.write('<h1>404<h1>') //write a respoonse
+    res.writeHead(404, { 'Location' : '/404'}) //write a respoonse
     res.end()
 }
 
