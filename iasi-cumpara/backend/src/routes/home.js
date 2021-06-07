@@ -1,5 +1,6 @@
 const render = require('../core/render')
 const path = require('path')
+const postDataRequest = require("../gamification/postDataRequest");
 
 const home = (req,res) => {
     const styles = ['index/categories', 'index/achievements']
@@ -10,6 +11,10 @@ const home = (req,res) => {
         index: path.join(__dirname, '../../pages/views/index.hbs'),
         footer: path.join(__dirname, '../../pages/common/footer.hbs')
     }
+
+    //test gamification api
+
+    postDataRequest()
 
     return render(paths.head, {
         title: 'IaȘi Cumpără',
