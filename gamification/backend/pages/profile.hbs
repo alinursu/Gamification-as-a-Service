@@ -47,7 +47,7 @@
 
                 <div id="profile-gamification-row">
                     {{#each listOfGamificationSystemModels}}
-                        <div class="profile-gamification-card" onclick="location.href = '/profile/view-gamification-system?systemName={{this.name}}'">
+                        <div class="profile-gamification-card" onclick="location.href = '/profile/view_gamification_system?systemName={{this.name}}'">
                             <img alt="" src="/images/gamification-system-icon.png" style="width: 45px;">
                             <p>{{this.name}}</p>
                         </div>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div id="profile-gamification-new-row">
-                    <button type="button" onclick="location.href = '/profile/create-gamification-system'">Creează un sistem nou</button>
+                    <button type="button" onclick="location.href = '/profile/create_gamification_system'">Creează un sistem nou</button>
                 </div>
             </div>
                 
@@ -63,7 +63,7 @@
                 <div class="settings-menu-row">
                     <h2>Modifică adresa site-ului web</h2>
 
-                    <form method="post" action="/profile/change-url">
+                    <form method="post" action="/profile/change_url">
                         {{#if previousURLValue}}
                             <input type="text" id="new_url" name="new_url" placeholder="Adresa site-ului web" value="{{previousURLValue}}">
                         {{else}}
@@ -78,7 +78,7 @@
                 <div class="settings-menu-row">
                     <h2>Modifică parola contului</h2>
 
-                    <form method="post" action="/profile/change-password">
+                    <form method="post" action="/profile/change_password">
                         <input type="password" id="old_password" name="old_password" placeholder="Parola veche">
                         <input type="password" id="new_password" name="new_password" placeholder="Parola nouă">
                         <input type="submit" id="submit_pwd" name="submit_pwd" value="Modifică">

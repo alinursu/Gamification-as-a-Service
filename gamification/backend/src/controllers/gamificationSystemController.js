@@ -13,7 +13,7 @@ const formDeleteRoute = require('../routes/formDelete');
 const userController = require('../controllers/userController');
 
 /**
- * Rezolva un request de tip POST facut la pagina '/profile/create-gamifcation-system'.
+ * Rezolva un request de tip POST facut la pagina '/profile/create_gamifcation_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -96,10 +96,10 @@ function handleCreateGamificationSystemRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/profile/view-gamification-system', '/profile/modify-gamification-system' sau '/profile/delete-gamification-system'.
+ * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
- * @param {*} urlPrefix Prefixul url-ului ('/profile/view-gamification-system', '/profile/modify-gamification-system' sau '/profile/delete-gamification-system').
+ * @param {*} urlPrefix Prefixul url-ului ('/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system').
  */
 async function handleViewGamificationSystemRequest(request, response, urlPrefix) {
     var cookies = cookie.parse(request.headers.cookie || '');
@@ -195,22 +195,22 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     request.rewardModelIds = rewardIds;
     request.eventModelIds = eventIds;
     switch(urlPrefix) {
-        case '/profile/view-gamification-system': {
+        case '/profile/view_gamification_system': {
             return formViewRoute(request, response);
         }
 
-        case '/profile/modify-gamification-system': {
+        case '/profile/modify_gamification_system': {
             return formModifyRoute(request, response);
         }
 
-        case '/profile/delete-gamification-system': {
+        case '/profile/delete_gamification_system': {
             return formDeleteRoute(request, response);
         }
     }
 }
 
 /**
- * Rezolva un request de tip POST/PUT facut la pagina '/profile/modify-gamification-system'.
+ * Rezolva un request de tip POST/PUT facut la pagina '/profile/modify_gamification_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -339,7 +339,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Redirectionez utilizatorul
         response.writeHead(303, 
-            {'Location': '/profile/view-gamification-system?systemName=' + gamificationSystemModel.name}
+            {'Location': '/profile/view_gamification_system?systemName=' + gamificationSystemModel.name}
         ); // 303 - See Other
         response.end();
     });
@@ -348,7 +348,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip POST/DELETE facut la pagina '/profile/modify-gamification-system'.
+ * Rezolva un request de tip POST/DELETE facut la pagina '/profile/modify_gamification_system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -439,7 +439,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
             return;
         }
 
-        // Sterg datele asociate cheii API din tabela 'gamification-user-data'
+        // Sterg datele asociate cheii API din tabela 'gamification_user_data'
         var dbResult = null;
         await gamificationSystemExternalServices.deleteGamificationUserDataByAPIKey(parsedBody.system_apikey).then(function (result) {
             dbResult = result;

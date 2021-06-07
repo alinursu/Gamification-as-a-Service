@@ -93,7 +93,7 @@ const routing = async (request, response) => {
     // Request-uri de tip DELETE
     if (request.method == 'DELETE') {
         // Rutari dinamice DELETE
-        if (url.startsWith('/profile/delete-gamification-system')) {
+        if (url.startsWith('/profile/delete_gamification_system')) {
             if (cookies.authToken != null) {
                 return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
             }
@@ -106,7 +106,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if (url.startsWith('/external/gamification-system')) {
+        if (url.startsWith('/external/gamification_system')) {
             return gamificationSystemExternalController.handleExternalGamificationSystemDELETERequest(request, response);
         }
     }
@@ -114,7 +114,7 @@ const routing = async (request, response) => {
     // Request-uri de tip PUT
     if (request.method == 'PUT') {
         // Rutari dinamice PUT
-        if (url.startsWith('/profile/change-url')) {
+        if (url.startsWith('/profile/change_url')) {
             if (cookies.authToken != null) {
                 return userController.handleChangeURLRequest(request, response);
             }
@@ -127,7 +127,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if (url.startsWith('/profile/modify-gamification-system')) {
+        if (url.startsWith('/profile/modify_gamification_system')) {
             if (cookies.authToken != null) {
                 return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
             }
@@ -140,7 +140,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        if (url.startsWith('/external/gamification-system')) {
+        if (url.startsWith('/external/gamification_system')) {
             return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
         }
 
@@ -193,7 +193,7 @@ const routing = async (request, response) => {
                 return;
             }
 
-            case '/profile/change-url': {
+            case '/profile/change_url': {
                 if (cookies.authToken != null) {
                     return userController.handleChangeURLRequest(request, response);
                 }
@@ -206,7 +206,7 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            case '/profile/change-password': {
+            case '/profile/change_password': {
                 if (cookies.authToken != null) {
                     return userController.handleChangePasswordRequest(request, response);
                 }
@@ -219,7 +219,7 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            case '/profile/create-gamification-system': {
+            case '/profile/create_gamification_system': {
                 if (cookies.authToken != null) {
                     return gamificationSystemController.handleCreateGamificationSystemRequest(request, response);
                 }
@@ -660,7 +660,7 @@ const routing = async (request, response) => {
 
             default: {
                 // Rutari dinamice POST
-                if (url.startsWith('/profile/modify-gamification-system')) {
+                if (url.startsWith('/profile/modify_gamification_system')) {
                     if (cookies.authToken != null) {
                         return gamificationSystemController.handleModifyGamificationSystemRequest(request, response);
                     }
@@ -673,7 +673,7 @@ const routing = async (request, response) => {
                     return errorRoute(request, response);
                 }
 
-                if (url.startsWith('/profile/delete-gamification-system')) {
+                if (url.startsWith('/profile/delete_gamification_system')) {
                     if (cookies.authToken != null) {
                         return gamificationSystemController.handleDeleteGamificationSystemRequest(request, response);
                     }
@@ -687,7 +687,7 @@ const routing = async (request, response) => {
                 }
 
 
-                if (url.startsWith('/external/gamification-system')) {
+                if (url.startsWith('/external/gamification_system')) {
                     return gamificationSystemExternalController.handleExternalGamificationSystemPOSTPUTRequest(request, response);
                 }
 
@@ -761,7 +761,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/profile/change-url': {
+        case '/profile/change_url': {
             if (cookies.authToken != null) {
                 return profileRoute(request, response);
             }
@@ -774,7 +774,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/profile/change-password': {
+        case '/profile/change_password': {
             if (cookies.authToken != null) {
                 return profileRoute(request, response);
             }
@@ -787,7 +787,7 @@ const routing = async (request, response) => {
             return errorRoute(request, response);
         }
 
-        case '/profile/create-gamification-system': {
+        case '/profile/create_gamification_system': {
             if (cookies.authToken != null) {
                 return formRoute(request, response);
             }
@@ -1745,9 +1745,9 @@ const routing = async (request, response) => {
                 return;
             }
 
-            if (url.startsWith('/profile/view-gamification-system')) {
+            if (url.startsWith('/profile/view_gamification_system')) {
                 if (cookies.authToken != null) {
-                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/view-gamification-system');
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/view_gamification_system');
                 }
 
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
@@ -1758,9 +1758,9 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if (url.startsWith('/profile/modify-gamification-system')) {
+            if (url.startsWith('/profile/modify_gamification_system')) {
                 if (cookies.authToken != null) {
-                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/modify-gamification-system');
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/modify_gamification_system');
                 }
 
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
@@ -1771,9 +1771,9 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if (url.startsWith('/profile/delete-gamification-system')) {
+            if (url.startsWith('/profile/delete_gamification_system')) {
                 if (cookies.authToken != null) {
-                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/delete-gamification-system');
+                    return gamificationSystemController.handleViewGamificationSystemRequest(request, response, '/profile/delete_gamification_system');
                 }
 
                 // Utilizator neautentificat; il redirectionez catre pagina de eroare => 403 Forbidden
@@ -1784,11 +1784,11 @@ const routing = async (request, response) => {
                 return errorRoute(request, response);
             }
 
-            if(url.startsWith('/external/gamification-system/top-users')) {
+            if(url.startsWith('/external/gamification_system/top_users')) {
                 return gamificationSystemExternalController.handleExternalGamificationSystemTopUsersGETRequest(request, response);
             }
 
-            if(url.startsWith('/external/gamification-system')) {
+            if(url.startsWith('/external/gamification_system')) {
                 return gamificationSystemExternalController.handleExternalGamificationSystemGETRequest(request, response);
             }
 
