@@ -1,11 +1,14 @@
 var cookie = require("cookie");
 
 const UserModel = require("../models/User");
+
 const loginRoute = require("../routes/login");
 const errorRoute = require("../routes/error");
 const registerRoute = require("../routes/register");
 const profileRoute = require("../routes/profile");
-const usersRepository = require("../repositories/usersRepository");
+
+const UsersRepository = require("../repositories/UsersRepository");
+
 const utils = require("../internal/utils");
 
 /**
@@ -41,14 +44,14 @@ function verifyPresenceOfLoginCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.email.length == 0) {
+  if (userModel.email.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.errorMessage = "Câmpul adresei de email nu poate fi gol!";
     loginRoute(request, response);
     return 0;
   }
 
-  if (userModel.password.length == 0) {
+  if (userModel.password.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.errorMessage = "Câmpul parolei nu poate fi gol!";
     request.previousEmailValue = userModel.email;
@@ -125,7 +128,7 @@ function verifyPresenceOfRegisterCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.lastname.length == 0) {
+  if (userModel.lastname.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.previousLastnameValue = userModel.lastname;
     request.previousFirstnameValue = userModel.firstname;
@@ -136,7 +139,7 @@ function verifyPresenceOfRegisterCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.firstname.length == 0) {
+  if (userModel.firstname.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.previousLastnameValue = userModel.lastname;
     request.previousFirstnameValue = userModel.firstname;
@@ -147,7 +150,7 @@ function verifyPresenceOfRegisterCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.email.length == 0) {
+  if (userModel.email.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.previousLastnameValue = userModel.lastname;
     request.previousFirstnameValue = userModel.firstname;
@@ -158,7 +161,7 @@ function verifyPresenceOfRegisterCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.password.length == 0) {
+  if (userModel.password.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.previousLastnameValue = userModel.lastname;
     request.previousFirstnameValue = userModel.firstname;
@@ -169,7 +172,7 @@ function verifyPresenceOfRegisterCredentials(userModel, request, response) {
     return 0;
   }
 
-  if (userModel.url.length == 0) {
+  if (userModel.url.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.previousLastnameValue = userModel.lastname;
     request.previousFirstnameValue = userModel.firstname;
@@ -276,7 +279,7 @@ function verifyPresenceOfChangeURLCredentials(
     return 0;
   }
 
-  if (userModel.url.length == 0) {
+  if (userModel.url.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.errorMessage = "Câmpul adresei site-ului web nu poate fi gol!";
     request.previousURLValue = previousURL;
@@ -333,14 +336,14 @@ function verifyPresenceOfChangePasswordCredentials(
     return 0;
   }
 
-  if (oldPassword.length == 0) {
+  if (oldPassword.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.errorMessage = "Câmpul pentru parola veche nu poate fi gol!";
     profileRoute(request, response);
     return 0;
   }
 
-  if (userModel.password.length == 0) {
+  if (userModel.password.length === 0) {
     response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
     request.errorMessage = "Câmpul pentru parola nouă nu poate fi gol!";
     profileRoute(request, response);
@@ -390,7 +393,7 @@ function validateChangePasswordCredentials(
  */
 async function getAllUsers() {
   var dbResult = null;
-  await usersRepository.getAllUsers().then(function (result) {
+  await UsersRepository.getAllUsers().then(function (result) {
     dbResult = result;
   });
 

@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const gamificationSystemRepository = require("../repositories/gamificationSystemsRepository");
+const gamificationSystemRepository = require("../repositories/GamificationSystemsRepository");
 const GamificationSystem = require("../models/GamificationSystem");
 const {parse} = require('querystring');
 

@@ -1,20 +1,26 @@
 const { parse } = require('querystring');
 var cookie = require('cookie');
+
 const GamificationSystem = require("../models/GamificationSystem");
-const gamificationSystemServices = require('../services/gamificationSystemServices');
-const gamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
-const gamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
+
+const UserController = require('./UserController');
+
+const GamificationSystemRepository = require("../repositories/GamificationSystemsRepository");
+const GamificationSystemServices = require('../services/GamificationSystemServices');
+const GamificationSystemsRepository = require('../repositories/GamificationSystemsRepository');
+const GamificationSystemExternalServices = require('../services/GamificationSystemExternalServices');
+
 const utils = require('../internal/utils');
+
 const formRoute = require('../routes/form');
 const errorRoute = require('../routes/error');
 const formViewRoute = require('../routes/formView');
 const formModifyRoute = require('../routes/formModify');
 const formDeleteRoute = require('../routes/formDelete');
-const userController = require('../controllers/userController');
-const gamificationSystemRepository = require("../repositories/gamificationSystemsRepository");
+
 
 /**
- * Rezolva un request de tip POST facut la pagina '/profile/create_gamifcation_system'.
+ * Rezolva un request de tip POST facut la pagina '/profile/create-gamifcation-system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -35,11 +41,11 @@ function handleCreateGamificationSystemRequest(request, response) {
 
         // Creez modelul sistemului
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, formRoute, request, response).then(function (result) {
+        await GamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, formRoute, request, response).then(function (result) {
             gamificationSystemModel = result;
         })
 
-        while(gamificationSystemModel == 0) {
+        while(gamificationSystemModel === 0) {
             await utils.timeout(10);
         }
 
@@ -49,7 +55,7 @@ function handleCreateGamificationSystemRequest(request, response) {
 
         // Adaug modelul in baza de date
         var serviceResponse = null;
-        await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel).then(function (result) {
+        await GamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel).then(function (result) {
             serviceResponse = result;
         });
 
@@ -97,10 +103,10 @@ function handleCreateGamificationSystemRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip GET facut la pagina '/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system'.
+ * Rezolva un request de tip GET facut la pagina '/profile/view-gamification-system', '/profile/modify-gamification-system' sau '/profile/delete-gamification-system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
- * @param {*} urlPrefix Prefixul url-ului ('/profile/view_gamification_system', '/profile/modify_gamification_system' sau '/profile/delete_gamification_system').
+ * @param {*} urlPrefix Prefixul url-ului ('/profile/view-gamification-system', '/profile/modify-gamification-system' sau '/profile/delete-gamification-system').
  */
 async function handleViewGamificationSystemRequest(request, response, urlPrefix) {
     var cookies = cookie.parse(request.headers.cookie || '');
@@ -118,7 +124,7 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     // Citesc si parsez Query String-ul
     var queryString = request.url.split(urlPrefix + '?')[1];
     var queryStringObject = parse(queryString);
-    if(queryStringObject.systemName == null || queryStringObject.systemName.length == 0) {
+    if(queryStringObject.systemName == null || queryStringObject.systemName.length === 0) {
         response.statusCode = 400;
         request.statusCodeMessage = "Bad Request";
         request.errorMessage = "Cererea făcută nu poate fi procesată deoarece nu conține destule date sau datele sunt invalide!";
@@ -128,11 +134,11 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
 
     // Preiau modelul User folosindu-ma de token
     var userModel = -1;
-    await userController.getUserModelByToken(token, request, response).then(function (result) {
+    await UserController.getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 
-    while(userModel == -1) {
+    while(userModel === -1) {
         await utils.timeout(10);
     }
 
@@ -146,7 +152,7 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
 
     // Preiau sistemul de gamificare folosindu-ma de id-ul utilizatorului si de systemName
     var listOfGamificationSystemModel = null;
-    await gamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
+    await GamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
         listOfGamificationSystemModel = result;
     });
 
@@ -154,7 +160,7 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
         await utils.timeout(10);
     }
 
-    if(listOfGamificationSystemModel == -1) { // Database error
+    if(listOfGamificationSystemModel === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -164,7 +170,7 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     }
 
     var gamificationSystemModel = listOfGamificationSystemModel.filter(model => model.name == queryStringObject.systemName);
-    if(gamificationSystemModel.length == 0) {
+    if(gamificationSystemModel.length === 0) {
         response.statusCode = 404;
         request.statusCodeMessage = "Not Found";
         request.errorMessage = "Nu am găsit sistemul de gamificație pe care încerci să îl accesezi!";
@@ -196,22 +202,22 @@ async function handleViewGamificationSystemRequest(request, response, urlPrefix)
     request.rewardModelIds = rewardIds;
     request.eventModelIds = eventIds;
     switch(urlPrefix) {
-        case '/profile/view_gamification_system': {
+        case '/profile/view-gamification-system': {
             return formViewRoute(request, response);
         }
 
-        case '/profile/modify_gamification_system': {
+        case '/profile/modify-gamification-system': {
             return formModifyRoute(request, response);
         }
 
-        case '/profile/delete_gamification_system': {
+        case '/profile/delete-gamification-system': {
             return formDeleteRoute(request, response);
         }
     }
 }
 
 /**
- * Rezolva un request de tip POST/PUT facut la pagina '/profile/modify_gamification_system'.
+ * Rezolva un request de tip POST/PUT facut la pagina '/profile/modify-gamification-system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -232,11 +238,11 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Preiau modelul User folosindu-ma de token
         var userModel = -1;
-        await userController.getUserModelByToken(token, request, response).then(function (result) {
+        await UserController.getUserModelByToken(token, request, response).then(function (result) {
             userModel = result;
         });
 
-        while(userModel == -1) {
+        while(userModel === -1) {
             await utils.timeout(10);
         }
 
@@ -252,7 +258,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Preiau sistemele de gamificatie ale utilizatorului
         var userGamificationSystems = null;
-        await gamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+        await GamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
             userGamificationSystems = result;
         });
 
@@ -260,7 +266,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
             await utils.timeout(10);   
         }
 
-        if(userGamificationSystems == -1) { // Database error
+        if(userGamificationSystems === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -273,7 +279,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
         // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
         var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
 
-        if(result.length == 0) {
+        if(result.length === 0) {
             response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
             request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
@@ -283,13 +289,13 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Creez modelul Gamification System
         var gamificationSystemModel = 0;
-        await gamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, 
+        await GamificationSystemServices.createModelFromRequestBodyData(parsedBody, token, 
             formModifyRoute, request, response, parsedBody.system_apikey
         ).then(function (result) {
             gamificationSystemModel = result;
         });
 
-        while(gamificationSystemModel == 0) {
+        while(gamificationSystemModel === 0) {
             await utils.timeout(10);
         }
 
@@ -299,7 +305,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Sterg modelul deja stocat in baza de date folosind api key-ul
         var dbResult = null;
-        await gamificationSystemServices.deleteGamificationSystemModelByAPIKey(gamificationSystemModel.APIKey)
+        await GamificationSystemServices.deleteGamificationSystemModelByAPIKey(gamificationSystemModel.APIKey)
                 .then(function(result) {
             dbResult = result;
         });
@@ -308,7 +314,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(dbResult == -1) { // Database error
+        if(dbResult === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -320,7 +326,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Inserez modelul nou in baza de date 
         var dbResult = null;
-        await gamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
+        await GamificationSystemServices.addGamificationSystemModelToDatabase(gamificationSystemModel, parsedBody.system_apikey).then(function (result) {
             dbResult = result;
         });
 
@@ -328,7 +334,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(dbResult == -1) { // Database error
+        if(dbResult === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -340,7 +346,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Redirectionez utilizatorul
         response.writeHead(303, 
-            {'Location': '/profile/view_gamification_system?systemName=' + gamificationSystemModel.name}
+            {'Location': '/profile/view-gamification-system?systemName=' + gamificationSystemModel.name}
         ); // 303 - See Other
         response.end();
     });
@@ -349,7 +355,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip POST/DELETE facut la pagina '/profile/modify_gamification_system'.
+ * Rezolva un request de tip POST/DELETE facut la pagina '/profile/modify-gamification-system'.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
@@ -370,11 +376,11 @@ async function handleDeleteGamificationSystemRequest(request, response) {
 
         // Preiau modelul User folosindu-ma de token
         var userModel = -1;
-        await userController.getUserModelByToken(token, request, response).then(function (result) {
+        await UserController.getUserModelByToken(token, request, response).then(function (result) {
             userModel = result;
         });
 
-        while(userModel == -1) {
+        while(userModel === -1) {
             await utils.timeout(10);
         }
 
@@ -390,7 +396,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
 
         // Preiau sistemele de gamificatie ale utilizatorului
         var userGamificationSystems = null;
-        await gamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+        await GamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
             userGamificationSystems = result;
         });
 
@@ -398,7 +404,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
             await utils.timeout(10);   
         }
 
-        if(userGamificationSystems == -1) { // Database error
+        if(userGamificationSystems === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -411,7 +417,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
         // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
         var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
 
-        if(result.length == 0) {
+        if(result.length === 0) {
             response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
             request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
@@ -421,7 +427,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
 
         // Sterg modelul deja stocat in baza de date folosind api key-ul
         var dbResult = null;
-        await gamificationSystemServices.deleteGamificationSystemModelByAPIKey(parsedBody.system_apikey)
+        await GamificationSystemServices.deleteGamificationSystemModelByAPIKey(parsedBody.system_apikey)
                 .then(function(result) {
             dbResult = result;
         });
@@ -430,7 +436,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(dbResult == -1) { // Database error
+        if(dbResult === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -442,7 +448,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
 
         // Sterg datele asociate cheii API din tabela 'gamification_user_data'
         var dbResult = null;
-        await gamificationSystemExternalServices.deleteGamificationUserDataByAPIKey(parsedBody.system_apikey).then(function (result) {
+        await GamificationSystemExternalServices.deleteGamificationUserDataByAPIKey(parsedBody.system_apikey).then(function (result) {
             dbResult = result;
         });
 
@@ -450,7 +456,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
             await utils.timeout(10);
         }
 
-        if(dbResult == -1) { // Database error
+        if(dbResult === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -485,7 +491,7 @@ const adminAddSystemPOSTRequest = (request, response) => {
         const parsedBody = parse(body);
 
         const newSystem = new GamificationSystem(parsedBody['api-key'], parsedBody.name, parsedBody.userId, null, null);
-        await gamificationSystemRepository.addGamificationSystemToDatabase(newSystem);
+        await GamificationSystemRepository.addGamificationSystemToDatabase(newSystem);
 
         response.writeHead(302, {'Location': '/admin/gamification-systems'});
         response.end();

@@ -1,7 +1,7 @@
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
-const contactMessageRepository = require('../repositories/contactMessagesRepository');
+const ContactMessageRepository = require('../repositories/ContactMessagesRepository');
 const utils = require("../internal/utils");
 
 /**
@@ -20,7 +20,7 @@ function verifyPresenceOfContactMessageCredentials(contactMessageModel, request,
         return 0;
     }
 
-    if(contactMessageModel.name.length == 0){
+    if(contactMessageModel.name.length === 0){
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Campul numelui nu poate fi gol!";
         request.previousNameValue = contactMessageModel.name;
@@ -30,7 +30,7 @@ function verifyPresenceOfContactMessageCredentials(contactMessageModel, request,
         return 0;
     }
 
-    if(contactMessageModel.email.length == 0){
+    if(contactMessageModel.email.length === 0){
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Campul adresei de email nu poate fi gol!";
         request.previousNameValue = contactMessageModel.name;
@@ -40,7 +40,7 @@ function verifyPresenceOfContactMessageCredentials(contactMessageModel, request,
         return 0;
     }
 
-    if(contactMessageModel.text.length == 0){
+    if(contactMessageModel.text.length === 0){
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
         request.errorMessage = "Campul mesajului nu poate fi gol!";
         request.previousNameValue = contactMessageModel.name;
@@ -80,7 +80,7 @@ function validateContactMessageCredentials(contactMessageModel, request, respons
  */
 async function getAllMessages() {
     var dbResult = null;
-    await contactMessageRepository.getAllMessages().then(function (result) {
+    await ContactMessageRepository.getAllMessages().then(function (result) {
         dbResult = result;
     });
 
@@ -88,7 +88,7 @@ async function getAllMessages() {
         await utils.timeout(10);
     }
 
-    if(dbResult == -1) return dbResult;
+    if(dbResult === -1) return dbResult;
 
     var outputList = [];
     dbResult.forEach(dbContactMessageModel => {

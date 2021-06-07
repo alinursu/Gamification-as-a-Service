@@ -2,7 +2,7 @@ const renderPage = require("../core/render");
 const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
-const usersRepository = require("../repositories/usersRepository");
+const usersRepository = require("../repositories/UsersRepository");
 
 const adminDeleteUserRoute = async (request, response) => {
     try {

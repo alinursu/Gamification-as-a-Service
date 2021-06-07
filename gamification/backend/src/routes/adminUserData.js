@@ -1,6 +1,6 @@
 const renderPage = require("../core/render");
 const path = require("path");
-const userDataRepository = require("../repositories/gamificationSystemExternalRepository");
+const userDataRepository = require("../repositories/GamificationSystemExternalRepository");
 
 const adminUserDataRoute = async (request, response) => {
     const paths = {

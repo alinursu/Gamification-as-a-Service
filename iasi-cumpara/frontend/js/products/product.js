@@ -43,7 +43,7 @@ function showSlide(n)
 var phoneNumberShown = false;
 function showPhoneNumber(phoneNumber)
 {
-    if(phoneNumberShown == false)
+    if(phoneNumberShown === false)
     {
         document.getElementsByClassName("phone-number-p")[0].innerHTML = phoneNumber;
         phoneNumberShown = true;

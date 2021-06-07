@@ -88,10 +88,11 @@ async function getUserIdByToken(token) {
 
     var queryResult = null;
     connection.query(sql, [token], function (error, results) {
-        if (error) {
-            queryResult = -1;
-            return;
-        }
+        // if (error) {
+        //     queryResult = -1;
+        //     return;
+        // }
+        if(error) throw error;
         queryResult = results;
     })
 
@@ -99,7 +100,7 @@ async function getUserIdByToken(token) {
         await utils.timeout(10);
     }
 
-    if (queryResult == -1) {
+    if (queryResult === -1) {
         return -1;
     }
 

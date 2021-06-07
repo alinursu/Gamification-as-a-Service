@@ -1,16 +1,18 @@
-const contactMessageServices = require("../services/contactMessageServices");
+const ContactMessageServices = require("../services/ContactMessageServices");
+const GamificationSystemServices = require("../services/GamificationSystemServices");
+const UsersService = require("../services/UserServices");
+const TokensServices = require("../services/TokensServices");
+const GamificationSystemExternalServices = require("../services/GamificationSystemExternalServices");
+const DataServices = require("../services/DataServices");
+
+const utils = require("../internal/utils");
+
 const errorRoute = require("../routes/error");
-const gamificationSystemServices = require("../services/gamificationSystemServices");
-const usersService = require("../services/userServices");
-const tokensServices = require("../services/tokensServices");
 
 const {Parser} = require('json2csv');
-const { parse } = require('querystring');
 const formidable = require('formidable');
 const fs = require('fs');
-const dataServices = require("../services/dataServices");
-const utils = require("../internal/utils");
-const gamificationSystemExternalServices = require("../services/gamificationSystemExternalServices");
+
 
 /**
  * Rezolva un request de tip GET facut la ruta '/admin/contact-messages/export'.
@@ -20,7 +22,7 @@ const gamificationSystemExternalServices = require("../services/gamificationSyst
 async function handleContactMessagesExportRequest(request, response) {
     // Preiau din baza de date modelele ContactMessage
     var serviceResult = null;
-    await contactMessageServices.getAllMessages().then(function (result) {
+    await ContactMessageServices.getAllMessages().then(function (result) {
         serviceResult = result;
     });
 
@@ -28,7 +30,7 @@ async function handleContactMessagesExportRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -80,7 +82,7 @@ async function handleImportContactMessagesRequest(request, response) {
             }
 
             let serviceResult = null;
-            await dataServices.addImportedContactMessages(lines).then(function(result) {
+            await DataServices.addImportedContactMessages(lines).then(function(result) {
                 serviceResult = result;
             })
 
@@ -126,7 +128,7 @@ async function handleImportContactMessagesRequest(request, response) {
 async function handleGamificationSystemsExport(request, response) {
     // Preiau din baza de date modelele GamificationSystem
     var serviceResult = null;
-    await gamificationSystemServices.getAllGamificationSystems().then(function (result) {
+    await GamificationSystemServices.getAllGamificationSystems().then(function (result) {
         serviceResult = result;
     });
 
@@ -134,7 +136,7 @@ async function handleGamificationSystemsExport(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -195,7 +197,7 @@ async function handleImportGamificationSystemsRequest(request, response) {
             }
 
             let serviceResult = null;
-            await dataServices.addImportedGamificationSystems(lines).then(function(result) {
+            await DataServices.addImportedGamificationSystems(lines).then(function(result) {
                 serviceResult = result;
             })
 
@@ -241,7 +243,7 @@ async function handleImportGamificationSystemsRequest(request, response) {
 async function handleExportGamificationRewardsRequest(request, response) {
     // Preiau din baza de date modelele GamificationReward
     var serviceResult = null;
-    await gamificationSystemServices.getAllGamificationReward().then(function (result) {
+    await GamificationSystemServices.getAllGamificationReward().then(function (result) {
         serviceResult = result;
     });
 
@@ -249,7 +251,7 @@ async function handleExportGamificationRewardsRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -302,7 +304,7 @@ async function handleImportGamificationRewardsRequest(request, response) {
             }
 
             let serviceResult = null;
-            await dataServices.addImportedGamificationRewards(lines).then(function(result) {
+            await DataServices.addImportedGamificationRewards(lines).then(function(result) {
                 serviceResult = result;
             })
 
@@ -341,7 +343,7 @@ async function handleImportGamificationRewardsRequest(request, response) {
 async function handleExportGamificationEventsRequest(request, response) {
     // Preiau din baza de date modelele GamificationEvent
     var serviceResult = null;
-    await gamificationSystemServices.getAllGamificationEvent().then(function (result) {
+    await GamificationSystemServices.getAllGamificationEvent().then(function (result) {
         serviceResult = result;
     });
 
@@ -349,7 +351,7 @@ async function handleExportGamificationEventsRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -401,7 +403,7 @@ async function handleImportGamificationEventsRequest(request, response) {
             }
 
             let serviceResult = null;
-            await dataServices.addImportedGamificationEvents(lines).then(function(result) {
+            await DataServices.addImportedGamificationEvents(lines).then(function(result) {
                 serviceResult = result;
             })
 
@@ -440,7 +442,7 @@ async function handleImportGamificationEventsRequest(request, response) {
 async function handleExportUsersRequest(request, response) {
     // Preiau din baza de date modelele User
     var serviceResult = null;
-    await usersService.getAllUsers().then(function (result) {
+    await UsersService.getAllUsers().then(function (result) {
         serviceResult = result;
     });
 
@@ -448,7 +450,7 @@ async function handleExportUsersRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -501,7 +503,7 @@ async function handleImportUsersRequest(request, response) {
             }
 
             let serviceResult = null;
-            await dataServices.addImportedUsers(lines).then(function(result) {
+            await DataServices.addImportedUsers(lines).then(function(result) {
                 serviceResult = result;
             })
 
@@ -540,7 +542,7 @@ async function handleImportUsersRequest(request, response) {
 async function handleExportTokensRequest(request, response) {
     // Preiau din baza de date modelele GamificationEvent
     var serviceResult = null;
-    await tokensServices.getAllTokens().then(function (result) {
+    await TokensServices.getAllTokens().then(function (result) {
         serviceResult = result;
     });
 
@@ -548,7 +550,7 @@ async function handleExportTokensRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -575,7 +577,7 @@ async function handleExportTokensRequest(request, response) {
 async function handleExportGamificationUserDataRequest(request, response) {
     // Preiau din baza de date modelele GamificationUserData
     var serviceResult = null;
-    await gamificationSystemExternalServices.getGamificationUserDatas().then(function (result) {
+    await GamificationSystemExternalServices.getGamificationUserDatas().then(function (result) {
         serviceResult = result;
     });
 
@@ -583,7 +585,7 @@ async function handleExportGamificationUserDataRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(serviceResult == -1) { // Database error
+    if(serviceResult === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";

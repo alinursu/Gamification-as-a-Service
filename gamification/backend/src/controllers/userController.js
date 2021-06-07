@@ -1,16 +1,19 @@
 const { parse } = require('querystring');
-var cookie = require('cookie');
+let cookie = require('cookie');
 
 const UserModel = require('../models/User');
+
 const registerRoute = require('../routes/register');
 const profileRoute = require('../routes/profile');
 const loginRoute = require('../routes/login');
 const errorRoute = require('../routes/error');
+
 const utils = require('../internal/utils');
-const usersRepository = require('../repositories/usersRepository');
-const tokensRepository = require('../repositories/tokensRepository');
-const userServices = require('../services/userServices');
-const gamificationSystemServices = require('../services/gamificationSystemServices');
+
+const UsersRepository = require('../repositories/UsersRepository');
+const TokensRepository = require('../repositories/TokensRepository');
+const UserServices = require('../services/UserServices');
+const GamificationSystemServices = require('../services/GamificationSystemServices');
 
 /**
  * Preia din baza de date un model User pe baza unui token de autentificare.
@@ -18,10 +21,14 @@ const gamificationSystemServices = require('../services/gamificationSystemServic
  * @returns Modelul User asociat token-ului de autentificare; null, daca nu exista unul
  */
 async function getUserModelByToken(token, request, response) {
-    var userId;
-    await tokensRepository.getUserIdByToken(token).then(function(result) {
+    let userId = 0;
+    await TokensRepository.getUserIdByToken(token).then(function(result) {
         userId = result;
     });
+
+    while(userId === 0) {
+        await utils.timeout(10);
+    }
 
     if(userId === -1) {
         // Sterg cookie-ul
@@ -36,13 +43,17 @@ async function getUserModelByToken(token, request, response) {
         request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
         "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
         errorRoute(request, response);
-        return;
+        return -1;
     }
 
-    var userModel = null;
-    await usersRepository.getUserModelById(userId).then(function(result) {
+    let userModel = 0;
+    await UsersRepository.getUserModelById(userId).then(function(result) {
         userModel = result;
     })
+
+    while(userModel === 0) {
+        await utils.timeout(10);
+    }
 
     if(userModel === -1) { // Database error
         // Sterg cookie-ul
@@ -57,7 +68,7 @@ async function getUserModelByToken(token, request, response) {
         request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
         "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
         errorRoute(request, response);
-        return;
+        return -1;
     }
 
     return userModel;
@@ -75,7 +86,7 @@ function handleLoginRequest(request, response) {
         body += chunk.toString();
     });
 
-    var parsedBody;
+    let parsedBody = null;
     request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
@@ -84,24 +95,24 @@ function handleLoginRequest(request, response) {
         let user = new UserModel(null, null, null, parsedBody.email, parsedBody.password, null);
 
         // Verific datele
-        var serviceResponse = userServices.verifyPresenceOfLoginCredentials(user, request, response);
-        if(serviceResponse == 0) {
+        let serviceResponse = UserServices.verifyPresenceOfLoginCredentials(user, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = userServices.validateLoginCredentials(user, request, response);
-        if(serviceResponse == 0) {
+        serviceResponse = UserServices.validateLoginCredentials(user, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Verific daca modelul apare in baza de date 
-        var databaseUserModel = null;
-        await usersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
+        let databaseUserModel = null;
+        await UsersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
             databaseUserModel = result;
         });
 
-        if(databaseUserModel == -1) { // Database error
+        if(databaseUserModel === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -111,7 +122,7 @@ function handleLoginRequest(request, response) {
             return;
         }
 
-        if(databaseUserModel == null) {
+        if(databaseUserModel === null) {
             response.statusCode = 401; // 401 - Unauthorized
             request.errorMessage = "Adresa de email sau parola este incorectă!";
             request.previousEmailValue = user.email;
@@ -120,15 +131,15 @@ function handleLoginRequest(request, response) {
         }
 
         // Creez un cookie care sa pastreze utilizatorul autentificat
-        var token = userServices.generateAuthCookie(parsedBody.rememberChckBox, request, response);
+        let token = UserServices.generateAuthCookie(parsedBody.rememberChckBox, request, response);
 
         // Adaug token-ul in baza de date, impreuna cu user.id, user.firstname si user.lastname
-        var dbAnswer = null;
-        await tokensRepository.addTokenToDatabase(token, databaseUserModel).then(function (result) {
+        let dbAnswer = null;
+        await TokensRepository.addTokenToDatabase(token, databaseUserModel).then(function (result) {
             dbAnswer = result;
         });
 
-        if(dbAnswer == -1) { // Database error
+        if(dbAnswer === -1) { // Database error
             // Sterg cookie-ul
             response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
                 httpOnly: true,
@@ -162,7 +173,7 @@ function handleRegisterRequest(request, response) {
         body += chunk.toString();
     });
 
-    var parsedBody;
+    let parsedBody = null;
     request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
@@ -172,24 +183,24 @@ function handleRegisterRequest(request, response) {
             parsedBody.email, parsedBody.password, parsedBody.weburl);
 
         // Verific datele
-        var serviceResponse = userServices.verifyPresenceOfRegisterCredentials(user, request, response);
-        if(serviceResponse == 0) {
+        let serviceResponse = UserServices.verifyPresenceOfRegisterCredentials(user, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = userServices.validateRegisterCredentials(user, request, response);
-        if(serviceResponse == 0) {
+        serviceResponse = UserServices.validateRegisterCredentials(user, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Verific daca exista un model in baza de date cu email-ul introdus de client
-        var databaseResponse;
-        await usersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
+        let databaseResponse = 0;
+        await UsersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
             databaseResponse = result;
         });
 
-        if(databaseResponse == -1) { // Database error
+        if(databaseResponse === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -199,7 +210,7 @@ function handleRegisterRequest(request, response) {
             return;
         }
 
-        if(databaseResponse == 1) {
+        if(databaseResponse === 1) {
             response.statusCode = 401; // 401 - Unauthorized
             request.errorMessage = "Există un cont creat cu această adresă de email!";
             request.previousLastnameValue = user.lastname;
@@ -211,12 +222,12 @@ function handleRegisterRequest(request, response) {
         }
 
         // Adaug modelul in baza de date
-        var dbAnswer = null;
-        await usersRepository.insertUserModel(user).then(function (result) {
+        let dbAnswer = null;
+        await UsersRepository.insertUserModel(user).then(function (result) {
             dbAnswer = result;
         });
 
-        if(dbAnswer == -1) { // Database error
+        if(dbAnswer === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -242,8 +253,8 @@ function handleRegisterRequest(request, response) {
  * @param {*} response Raspunsul dat de server.
  */
 async function handleLogoutRequest(request, response) {
-    var cookies = cookie.parse(request.headers.cookie || '');
-    var token = cookies.authToken;
+    let cookies = cookie.parse(request.headers.cookie || '');
+    let token = cookies.authToken;
 
     response.setHeader('Set-Cookie', cookie.serialize('authToken', token, {
         httpOnly: true,
@@ -251,12 +262,16 @@ async function handleLogoutRequest(request, response) {
     }));
 
     // Sterg token-ul din baza de date
-    var dbAnswer = null;
-    await tokensRepository.deleteToken(token).then(function (result) {
+    let dbAnswer = null;
+    await TokensRepository.deleteToken(token).then(function (result) {
         dbAnswer = result;
     });
 
-    if(dbAnswer == -1) { // Database error
+    while(dbAnswer === null) {
+        await utils.timeout(10);
+    }
+
+    if(dbAnswer === -1) { // Database error
         // Creez un raspuns, instiintand utilizatorul de eroare
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
@@ -272,13 +287,13 @@ async function handleLogoutRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip PUT/POST facut la pagina /profile/change_url.
+ * Rezolva un request de tip PUT/POST facut la pagina /profile/change-url.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
 function handleChangeURLRequest(request, response) {
-    var cookies = cookie.parse(request.headers.cookie || '');
-    var token = cookies.authToken;
+    let cookies = cookie.parse(request.headers.cookie || '');
+    let token = cookies.authToken;
 
     // Citesc request body-ul
     let body = '';
@@ -286,39 +301,43 @@ function handleChangeURLRequest(request, response) {
         body += chunk.toString();
     });
 
-    var parsedBody;
+    let parsedBody = null;
     request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
-        var userModel;
+        let userModel = 0;
         await getUserModelByToken(token, request, response).then(function(result) {
             userModel = result;
         });
 
-        var previousURL = userModel.url;
+        while(userModel === 0) {
+            await utils.timeout(10);
+        }
+
+        let previousURL = userModel.url;
         userModel.url = parsedBody.new_url;
 
         // Verific datele
-        var serviceResponse = userServices.verifyPresenceOfChangeURLCredentials(previousURL, userModel, request, response);
-        if(serviceResponse == 0) {
+        let serviceResponse = UserServices.verifyPresenceOfChangeURLCredentials(previousURL, userModel, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = userServices.validateChangeURLCredentials(userModel, request, response);
-        if(serviceResponse == 0) {
+        serviceResponse = UserServices.validateChangeURLCredentials(userModel, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Fac update in baza de date
-        var dbAnswer = null;
-        await usersRepository.updateUserModelURL(userModel).then(function (result) {
+        let dbAnswer = null;
+        await UsersRepository.updateUserModelURL(userModel).then(function (result) {
             dbAnswer = result;
         });
 
-        if(dbAnswer == -1) { // Database error
+        if(dbAnswer === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -335,13 +354,13 @@ function handleChangeURLRequest(request, response) {
 }
 
 /**
- * Rezolva un request de tip POST facut la pagina /profile/change_password.
+ * Rezolva un request de tip POST facut la pagina /profile/change-password.
  * @param {*} request Request-ul facut.
  * @param {*} response Raspunsul dat de server.
  */
 function handleChangePasswordRequest(request, response) {
-    var cookies = cookie.parse(request.headers.cookie || '');
-    var token = cookies.authToken;
+    let cookies = cookie.parse(request.headers.cookie || '');
+    let token = cookies.authToken;
 
     // Citesc request body-ul
     let body = '';
@@ -349,39 +368,39 @@ function handleChangePasswordRequest(request, response) {
         body += chunk.toString();
     });
 
-    var parsedBody;
+    let parsedBody = null;
     request.on('end', async () => {
         // Parsez request body-ul
         parsedBody = parse(body);
 
         // Preiau modelul User din baza de date cu ajutorul token-ului
-        var userModel;
+        let userModel = null;
         await getUserModelByToken(token, request, response).then(function(result) {
             userModel = result;
         });
 
-        var dbOldPassword = userModel.password;
+        let dbOldPassword = userModel.password;
         userModel.password = parsedBody.new_password;
 
         // Verific datele
-        var serviceResponse = userServices.verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, userModel, request, response);
-        if(serviceResponse == 0) {
+        let serviceResponse = UserServices.verifyPresenceOfChangePasswordCredentials(parsedBody.old_password, userModel, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Validez datele
-        var serviceResponse = userServices.validateChangePasswordCredentials(parsedBody.old_password, dbOldPassword, userModel, request, response);
-        if(serviceResponse == 0) {
+        serviceResponse = UserServices.validateChangePasswordCredentials(parsedBody.old_password, dbOldPassword, userModel, request, response);
+        if(serviceResponse === 0) {
             return;
         }
 
         // Fac update in baza de date
-        var dbAnswer = null;
-        await usersRepository.updateUserModelPassword(userModel).then(function (result) {
+        let dbAnswer = null;
+        await UsersRepository.updateUserModelPassword(userModel).then(function (result) {
             dbAnswer = result;
         });
 
-        if(dbAnswer == -1) { // Database error
+        if(dbAnswer === -1) { // Database error
             // Creez un raspuns, instiintand utilizatorul de eroare
             response.statusCode = 500;
             request.statusCodeMessage = "Internal Server Error";
@@ -402,17 +421,17 @@ function handleChangePasswordRequest(request, response) {
  * @param {*} response Raspunsul dat de server.
  */
 async function handleGETProfileRequest(request, response) {
-    var cookies = cookie.parse(request.headers.cookie || '');
-    var token = cookies.authToken;
+    let cookies = cookie.parse(request.headers.cookie || '');
+    let token = cookies.authToken;
 
     // Iau modelul User folosindu-ma de token
-    var userModel = 0;
+    let userModel = 0;
 
     await getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 
-    while(userModel == 0) {
+    while(userModel === 0) {
         await utils.timeout(10);
     }
 
@@ -425,8 +444,8 @@ async function handleGETProfileRequest(request, response) {
     }
 
     // Preiau sistemele de recompense create de user, folosindu-ma de userId
-    var listOfGamificationSystemModels = null;
-    await gamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
+    let listOfGamificationSystemModels = null;
+    await GamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
         listOfGamificationSystemModels = result;
     })
 
@@ -434,7 +453,7 @@ async function handleGETProfileRequest(request, response) {
         await utils.timeout(10);
     }
 
-    if(listOfGamificationSystemModels == -1) {
+    if(listOfGamificationSystemModels === -1) {
         response.statusCode = 500;
         request.statusCodeMessage = "Internal Server Error";
         request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " + 
@@ -454,12 +473,12 @@ async function handleGETProfileRequest(request, response) {
  */
 async function isUserAdmin(token, request, response) {
     // Preiau modelul User pe baza token-ului
-    var userModel = -1;
+    let userModel = -1;
     await getUserModelByToken(token, request, response).then(function (result) {
         userModel = result;
     });
 
-    while(userModel == -1) {
+    while(userModel === -1) {
         await utils.timeout(10);
     }
 

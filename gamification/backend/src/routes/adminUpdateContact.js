@@ -1,7 +1,7 @@
 const renderPage = require("../core/render");
 const path = require("path");
 const querystringParser = require("querystring");
-const gamificationContactRepository = require("../repositories/contactMessagesRepository");
+const gamificationContactRepository = require("../repositories/ContactMessagesRepository");
 
 const adminUpdateContactRoute = async (request, response) => {
     const paths = {

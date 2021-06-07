@@ -31,7 +31,7 @@ function encrypt(text) {
 
     for(var i=0; i<text.length; i++) {
         var position = alphabet.indexOf(text[i]);
-        if(position == -1) {
+        if(position === -1) {
             encryptedText = encryptedText + text[i];
             continue;
         }
@@ -54,7 +54,7 @@ function decrypt(text) {
     for(var i=0; i<text.length; i++) {
         var position = alphabet.indexOf(text[i]);
 
-        if(position == -1) {
+        if(position === -1) {
             decryptedText = decryptedText + text[i];
             continue;
         }

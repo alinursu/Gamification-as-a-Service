@@ -1,11 +1,11 @@
 const GamificationEventModel = require('../models/GamificationEvent');
 const GamificationRewardModel = require('../models/GamificationReward');
 const GamificationSystemModel = require('../models/GamificationSystem');
-const gamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
-const TokensRepository = require('../repositories/tokensRepository');
-const formRoute = require('../routes/form');
+
+const GamificationSystemsRepository = require('../repositories/GamificationSystemsRepository');
+const TokensRepository = require('../repositories/TokensRepository');
+
 const utils = require('../internal/utils');
-const hash = require("../internal/hash");
 const {getDatabaseConnection} = require('../internal/databaseConnection');
 
 /**
@@ -39,7 +39,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
     var errorMessage = null;
 
     // Creez modelele evenimentelor
-    if (requestBody.system_name.length == 0 && validModel) {
+    if (requestBody.system_name.length === 0 && validModel) {
         validModel = false;
 
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -58,7 +58,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         var index = eventIndexes[i];
         var eventModel = new GamificationEventModel(requestBody['id_eveniment' + index], apikey, requestBody['nume_eveniment' + index], requestBody['tip_eveniment' + index]);
 
-        if (eventModel.name.length == 0 && validModel) {
+        if (eventModel.name.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -76,7 +76,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         index++;
     }
 
-    if (listOfEventModels.length == 0 && validModel) {
+    if (listOfEventModels.length === 0 && validModel) {
         validModel = false;
 
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -109,7 +109,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         var rewardModel = new GamificationRewardModel(requestBody['id_recompensa' + index], apikey, requestBody['nume_recompensa' + index], requestBody['tip_recompensa' + index],
             requestBody['eveniment_recompensa' + index], requestBody['valoare_eveniment' + index], requestBody['punctaj' + index]);
 
-        if (rewardModel.name.length == 0 && validModel) {
+        if (rewardModel.name.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -123,7 +123,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
             errorMessage = "Fiecare recompensă trebuie să aibă selectat un tip!"
         }
 
-        if (rewardModel.eventId.length == 0 && validModel) {
+        if (rewardModel.eventId.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -131,14 +131,14 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         }
 
         var tempArray = listOfEventModels.filter(eventModel => eventModel.name == rewardModel.eventId);
-        if (tempArray.length == 0 && validModel) {
+        if (tempArray.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
             errorMessage = "Nu poți atribui unei recompense un eveniment inexistent!"
         }
 
-        if (rewardModel.eventValue.length == 0 && validModel) {
+        if (rewardModel.eventValue.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -161,7 +161,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
             errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr întreg pozitiv!"
         }
 
-        if (rewardModel.rewardValue.length == 0 && validModel) {
+        if (rewardModel.rewardValue.length === 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -188,7 +188,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
         index++;
     }
 
-    if (listOfRewardModels.length == 0 && validModel) {
+    if (listOfRewardModels.length === 0 && validModel) {
         validModel = false;
 
         response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
@@ -197,7 +197,7 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
 
     // Verific unicitatea datelor din modelele recompenselor
     for (index = 0; index < listOfRewardModels.length; index++) {
-        var tempArray = listOfRewardModels.filter(rewardModel => rewardModel.name == listOfRewardModels[index].name);
+        var tempArray = listOfRewardModels.filter(rewardModel => rewardModel.name === listOfRewardModels[index].name);
 
         if (tempArray.length > 1 && validModel) {
             validModel = false;
@@ -262,7 +262,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
 
     // Verific daca exista un sistem de recomandari creat de acelasi utilizator, care sa aiba acelasi nume
     var dbResult = null;
-    await gamificationSystemsRepository.getGamificationSystemsByUserId(gamificationSystemModel.userId).then(function (result) {
+    await GamificationSystemsRepository.getGamificationSystemsByUserId(gamificationSystemModel.userId).then(function (result) {
         dbResult = result;
     });
 
@@ -270,7 +270,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
         await utils.timeout(10);
     }
 
-    if (dbResult == -1) {
+    if (dbResult === -1) {
         return -1;
     }
 
@@ -287,7 +287,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
         connection.beginTransaction();
 
         while (dbResult == null) {
-            await gamificationSystemsRepository.addGamificationSystemToDatabase(gamificationSystemModel, connection).then(function (result) {
+            await GamificationSystemsRepository.addGamificationSystemToDatabase(gamificationSystemModel, connection).then(function (result) {
                 dbResult = result;
             })
 
@@ -329,7 +329,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
         for (var index = 0; index < gamificationSystemModel.listOfGamificationEvents.length; index++) {
             gamificationSystemModel.listOfGamificationEvents[index].systemAPIKey = gamificationSystemModel.APIKey;
 
-            await gamificationSystemsRepository.addGamificationEventToDatabase(
+            await GamificationSystemsRepository.addGamificationEventToDatabase(
                 gamificationSystemModel.listOfGamificationEvents[index], connection
             ).then(function (result) {
                 dbResult = result;
@@ -339,7 +339,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
                 await utils.timeout(10);
             }
 
-            if (dbResult == -1) {
+            if (dbResult === -1) {
                 connection.rollback();
                 connection.release();
                 returnedValue = -1;
@@ -352,7 +352,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
         for (var index = 0; index < gamificationSystemModel.listOfGamificationRewards.length; index++) {
             // Completez modelul cu id-ul evenimentului si api key-ul generat
             var eventModel = null;
-            await gamificationSystemsRepository.getGamificationEventByAPIKeyAndName(
+            await GamificationSystemsRepository.getGamificationEventByAPIKeyAndName(
                 gamificationSystemModel.APIKey, gamificationSystemModel.listOfGamificationRewards[index].eventId, connection
             ).then(function (result) {
                 eventModel = result;
@@ -366,7 +366,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
             gamificationSystemModel.listOfGamificationRewards[index].eventId = eventModel.id;
 
             // Adaug in baza de date
-            await gamificationSystemsRepository.addGamificationRewardToDatabase(
+            await GamificationSystemsRepository.addGamificationRewardToDatabase(
                 gamificationSystemModel.listOfGamificationRewards[index], connection
             ).then(function (result) {
                 dbResult = result;
@@ -376,7 +376,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
                 await utils.timeout(10);
             }
 
-            if (dbResult == -1) {
+            if (dbResult === -1) {
                 connection.rollback();
                 connection.release();
                 returnedValue = -1;
@@ -395,7 +395,7 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
         await utils.timeout(10);
     }
 
-    if (returnedValue == 0) {
+    if (returnedValue === 0) {
         return gamificationSystemModel.APIKey;
     }
     return returnedValue;
@@ -411,7 +411,7 @@ async function getGamificationSystemModelsByUserId(userId) {
 
     // Preiau modelele GamificationSystem
     var listOfGamificationSystemModels = null;
-    await gamificationSystemsRepository.getGamificationSystemsByUserId(userId).then(function (result) {
+    await GamificationSystemsRepository.getGamificationSystemsByUserId(userId).then(function (result) {
         listOfGamificationSystemModels = result;
     });
 
@@ -419,7 +419,7 @@ async function getGamificationSystemModelsByUserId(userId) {
         await utils.timeout(10);
     }
 
-    if (listOfGamificationSystemModels == -1) {
+    if (listOfGamificationSystemModels === -1) {
         return -1;
     }
 
@@ -433,7 +433,7 @@ async function getGamificationSystemModelsByUserId(userId) {
 
         // Pentru fiecare model GamificationSystem, preiau modelele GamificationEvent
         var queryResult = null;
-        await gamificationSystemsRepository.getGamificationEventModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
+        await GamificationSystemsRepository.getGamificationEventModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
             queryResult = result;
         });
 
@@ -441,7 +441,7 @@ async function getGamificationSystemModelsByUserId(userId) {
             await utils.timeout(10);
         }
 
-        if (queryResult == -1) return -1;
+        if (queryResult === -1) return -1;
 
         queryResult.forEach(queryResultObj => {
             listOfGamificationEventModels.push(new GamificationEventModel(
@@ -452,7 +452,7 @@ async function getGamificationSystemModelsByUserId(userId) {
 
         // Pentru fiecare model GamificationSystem, preiau modelele GamificationReward
         var queryResult2 = null;
-        await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
+        await GamificationSystemsRepository.getGamificationRewardModelsByAPIKey(gamificationSystemModel.APIKey).then(function (result) {
             queryResult2 = result;
         });
 
@@ -460,7 +460,7 @@ async function getGamificationSystemModelsByUserId(userId) {
             await utils.timeout(10);
         }
 
-        if (queryResult2 == -1) return -1;
+        if (queryResult2 === -1) return -1;
 
         queryResult2.forEach(queryResultObj => {
             listOfGamificationRewardModels.push(new GamificationRewardModel(
@@ -485,22 +485,22 @@ async function getGamificationSystemModelsByUserId(userId) {
 async function getGamificationSystemModelByAPIKey(APIKey) {
     // Preiau modelul GamificationSystem
     var gamificationSystemModel = 0;
-    await gamificationSystemsRepository.getGamificationSystemByApiKey(APIKey).then(function (result) {
+    await GamificationSystemsRepository.getGamificationSystemByApiKey(APIKey).then(function (result) {
         gamificationSystemModel = result;
     });
 
-    while (gamificationSystemModel == 0) {
+    while (gamificationSystemModel === 0) {
         await utils.timeout(10);
     }
 
-    if (gamificationSystemModel == null || gamificationSystemModel == -1) {
+    if (gamificationSystemModel == null || gamificationSystemModel === -1) {
         return gamificationSystemModel;
     }
 
     // Preiau modelele GamificationEvent
     var listOfGamificationEventModels = null;
 
-    await gamificationSystemsRepository.getGamificationEventModelsByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemsRepository.getGamificationEventModelsByAPIKey(APIKey).then(function (result) {
         listOfGamificationEventModels = result;
     });
 
@@ -508,7 +508,7 @@ async function getGamificationSystemModelByAPIKey(APIKey) {
         await utils.timeout(10);
     }
 
-    if (listOfGamificationEventModels == -1) return -1;
+    if (listOfGamificationEventModels === -1) return -1;
 
     // Formatez modelele GamificationEvent
     var tempList = [];
@@ -525,7 +525,7 @@ async function getGamificationSystemModelByAPIKey(APIKey) {
     // Preiau modelele GamificationReward
     var listOfGamificationRewardModels = null;
 
-    await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
         listOfGamificationRewardModels = result;
     });
 
@@ -533,7 +533,7 @@ async function getGamificationSystemModelByAPIKey(APIKey) {
         await utils.timeout(10);
     }
 
-    if (listOfGamificationRewardModels == -1) return -1;
+    if (listOfGamificationRewardModels === -1) return -1;
 
     // Formatez modelele GamificationReward
     var tempList = [];
@@ -568,7 +568,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
         connection.beginTransaction();
 
         // Sterg modelele GamificationReward din baza de date
-        await gamificationSystemsRepository.deleteAllGamificationRewardsByAPIKey(APIKey, connection).then(function (result) {
+        await GamificationSystemsRepository.deleteAllGamificationRewardsByAPIKey(APIKey, connection).then(function (result) {
             dbResult = result;
         });
 
@@ -576,7 +576,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
             await utils.timeout(10);
         }
 
-        if (dbResult == -1) {
+        if (dbResult === -1) {
             connection.rollback();
             connection.release();
             returnedValue = -1;
@@ -585,7 +585,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
 
         // Sterg modelele GamificationEvent din baza de date
         dbResult = null;
-        await gamificationSystemsRepository.deleteAllGamificationEventsByAPIKey(APIKey, connection).then(function (result) {
+        await GamificationSystemsRepository.deleteAllGamificationEventsByAPIKey(APIKey, connection).then(function (result) {
             dbResult = result;
         });
 
@@ -593,7 +593,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
             await utils.timeout(10);
         }
 
-        if (dbResult == -1) {
+        if (dbResult === -1) {
             connection.rollback();
             connection.release();
             returnedValue = -1;
@@ -602,7 +602,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
 
         // Sterg modelul GamificationSystem din baza de date
         dbResult = null;
-        await gamificationSystemsRepository.deleteGamificationSystemByAPIKey(APIKey, connection).then(function (result) {
+        await GamificationSystemsRepository.deleteGamificationSystemByAPIKey(APIKey, connection).then(function (result) {
             dbResult = result;
         });
 
@@ -610,7 +610,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
             await utils.timeout(10);
         }
 
-        if (dbResult == -1) {
+        if (dbResult === -1) {
             connection.rollback();
             connection.release();
             returnedValue = -1;
@@ -638,7 +638,7 @@ async function deleteGamificationSystemModelByAPIKey(APIKey) {
  */
 async function getGamificationRewardModelsByAPIKey(APIKey) {
     var dbResult = null;
-    await gamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
+    await GamificationSystemsRepository.getGamificationRewardModelsByAPIKey(APIKey).then(function (result) {
         dbResult = result;
     });
 
@@ -646,8 +646,8 @@ async function getGamificationRewardModelsByAPIKey(APIKey) {
         await utils.timeout(10);
     }
 
-    if (dbResult == -1) return -1;
-    if (dbResult.length == 0) return [];
+    if (dbResult === -1) return -1;
+    if (dbResult.length === 0) return [];
 
     // Creez modelele
     var outputList = [];
@@ -666,7 +666,7 @@ async function getGamificationRewardModelsByAPIKey(APIKey) {
  */
 async function getAllGamificationSystems() {
     var dbResult = null;
-    await gamificationSystemsRepository.getAllSystems().then(function (result) {
+    await GamificationSystemsRepository.getAllSystems().then(function (result) {
         dbResult = result;
     });
 
@@ -683,7 +683,7 @@ async function getAllGamificationSystems() {
  */
 async function getAllGamificationReward() {
     var dbResult = null;
-    await gamificationSystemsRepository.getAllRewards().then(function (result) {
+    await GamificationSystemsRepository.getAllRewards().then(function (result) {
         dbResult = result;
     });
 
@@ -700,7 +700,7 @@ async function getAllGamificationReward() {
  */
 async function getAllGamificationEvent() {
     var dbResult = null;
-    await gamificationSystemsRepository.getAllEvents().then(function (result) {
+    await GamificationSystemsRepository.getAllEvents().then(function (result) {
         dbResult = result;
     });
 
