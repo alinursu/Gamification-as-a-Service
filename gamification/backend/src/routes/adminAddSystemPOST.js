@@ -15,7 +15,6 @@ const adminAddSystemPOSTRoute = (request, response) => {
         // Parsez request body-ul
         const parsedBody = parse(body);
 
-        // console.log(parsedBody);
         const newSystem = new GamificationSystem(parsedBody['api-key'], parsedBody.name, parsedBody.userId, null, null);
         await gamificationSystemRepository.addGamificationSystemToDatabase(newSystem);
 
