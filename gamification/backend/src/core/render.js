@@ -2,13 +2,16 @@ const hbs = require('handlebars');
 const fs = require('fs');
 
 /**
- * Creez un tag numit "ifCompareStrings" ce poate fi folosit in fisierele .hbs.
+ * Creeaza un tag numit "ifCompareStrings" ce poate fi folosit in fisierele .hbs.
  */
 hbs.registerHelper('ifCompareStrings', function(string1, string2, options) {
     if(string1 == string2) { return options.fn(this); }
     return options.inverse(this);
 });
 
+/**
+ * Creeaza un tag numit "eventIdBasedByIndex" ce poate fi folosit in fisierele .hbs.
+ */
 hbs.registerHelper('eventIdBasedByIndex', function(index, options) {
     if(options.data.root.eventModelIds == null) return null;
 
@@ -17,6 +20,9 @@ hbs.registerHelper('eventIdBasedByIndex', function(index, options) {
     return options.data.root.eventModelIds[index];
 })
 
+/**
+ * Creeaza un tag numit "rewardIdBasedByIndex" ce poate fi folosit in fisierele .hbs.
+ */
 hbs.registerHelper('rewardIdBasedByIndex', function(index, options) {
     if(options.data.root.rewardModelIds == null) return null;
 

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/core/render.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/core/render.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +61,8 @@
       <workItem from="1622979295359" duration="7533000" />
       <workItem from="1623067698006" duration="2965000" />
       <workItem from="1623092867823" duration="8120000" />
-      <workItem from="1623146542986" duration="4645000" />
+      <workItem from="1623146542986" duration="4992000" />
+      <workItem from="1623162507450" duration="8588000" />
     </task>
     <servers />
   </component>
@@ -77,5 +79,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
