@@ -5,9 +5,7 @@ const GamificationSystem = require("../models/GamificationSystem");
 
 const UserController = require('./UserController');
 
-const GamificationSystemRepository = require("../repositories/GamificationSystemsRepository");
 const GamificationSystemServices = require('../services/GamificationSystemServices');
-const GamificationSystemsRepository = require('../repositories/GamificationSystemsRepository');
 const GamificationSystemExternalServices = require('../services/GamificationSystemExternalServices');
 
 const utils = require('../internal/utils');
@@ -258,7 +256,7 @@ async function handleModifyGamificationSystemRequest(request, response) {
 
         // Preiau sistemele de gamificatie ale utilizatorului
         var userGamificationSystems = null;
-        await GamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+        await GamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
             userGamificationSystems = result;
         });
 
@@ -396,7 +394,7 @@ async function handleDeleteGamificationSystemRequest(request, response) {
 
         // Preiau sistemele de gamificatie ale utilizatorului
         var userGamificationSystems = null;
-        await GamificationSystemsRepository.getGamificationSystemsByUserId(userModel.id).then(function (result) {
+        await GamificationSystemServices.getGamificationSystemModelsByUserId(userModel.id).then(function (result) {
             userGamificationSystems = result;
         });
 
@@ -491,7 +489,7 @@ const adminAddSystemPOSTRequest = (request, response) => {
         const parsedBody = parse(body);
 
         const newSystem = new GamificationSystem(parsedBody['api-key'], parsedBody.name, parsedBody.userId, null, null);
-        await GamificationSystemRepository.addGamificationSystemToDatabase(newSystem);
+        await GamificationSystemServices.addEmptyGamificationSystemModelToDatabase(newSystem, parsedBody['api-key']);
 
         response.writeHead(302, {'Location': '/admin/gamification-systems'});
         response.end();

@@ -57,9 +57,6 @@ const registerRequestsLimiterFunction = async (request, response, callback) => {
             await utils.timeout(10);
         }
 
-        if(response.statusCode === 201) {
-            loginRequestsLimiter.delete(request.ip);
-        }
         return callbackResponse;
     })
     .catch((exception) => {

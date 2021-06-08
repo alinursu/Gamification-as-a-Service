@@ -1,11 +1,9 @@
 const { parse } = require('querystring');
-const GamificationContact = require("../models/ContactMessage");
+
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
-const ContactMessageRepository = require('../repositories/ContactMessagesRepository');
 const ContactMessageServices = require('../services/ContactMessageServices');
-const GamificationContactRepository = require("../repositories/ContactMessagesRepository");
 
 /**
  * Rezolva un request de tip POST facut in pagina /.
@@ -39,14 +37,14 @@ function handleContactRequest(request, response) {
         }
 
         // Validez datele
-        var serviceResponse = ContactMessageServices.validateContactMessageCredentials(message, request, response);
+        serviceResponse = ContactMessageServices.validateContactMessageCredentials(message, request, response);
         if(serviceResponse === 0) {
             return;
         }
 
         // Adaug modelul in baza de date
-        var dbAnswer = null;
-        await ContactMessageRepository.addContactMessageToDatabase(message).then(function (result) {
+        serviceResponse = null;
+        await ContactMessageServices.addContactMessageToDatabase(message).then(function (result) {
             dbAnswer = result;
         });
 
@@ -77,8 +75,8 @@ const adminAddContactPOSTRequest = (request, response) => {
     request.on('end', async () => {
         // Parsez request body-ul
         const parsedBody = parse(body);
-        const newContact = new GamificationContact(null, parsedBody['sender-name'], parsedBody['sender-email'], parsedBody.message);
-        await GamificationContactRepository.addContactMessageToDatabase(newContact);
+        const newContact = new ContactMessageModel(null, parsedBody['sender-name'], parsedBody['sender-email'], parsedBody.message);
+        await ContactMessageServices.addContactMessageToDatabase(newContact);
 
 
 

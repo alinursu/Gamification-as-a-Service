@@ -369,7 +369,7 @@ function validateChangePasswordCredentials(
   request,
   response
 ) {
-  if (oldPassword != dbOldPassword) {
+  if (oldPassword !== dbOldPassword) {
     response.statusCode = 401; // 401 - Unauthorized
     request.errorMessage = "Parola veche nu este corectă!";
     profileRoute(request, response);
@@ -404,6 +404,115 @@ async function getAllUsers() {
   return dbResult;
 }
 
+/**
+ * Preia din baza de date un model user pe baza unui id.
+ * @param {*} userId Id-ul dupa care se face cautarea
+ * @returns Modelul User gasit; null, altfel; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getUserModelById(userId) {
+  var dbResult = 0;
+  await UsersRepository.getUserModelById(userId).then(function (result) {
+      dbResult = result;
+  });
+
+  while(dbResult === 0) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
+/**
+ * Verifica daca datele de conectare dintr-un model User sunt valide.
+ * @param {*} userModel Modelul a caror date de conectare vor fi verificate.
+ * @returns Modelul User din baza de date, daca datele de conectare sunt valide; null, altfel; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function verifyUserModelLoginCredentials(userModel) {
+  var dbResult = 0;
+  await UsersRepository.verifyUserModelLoginCredentials(userModel).then(function (result) {
+    dbResult = result;
+  });
+
+  while(dbResult === 0) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
+/**
+ * Verifica daca exista in baza de date deja un model cu email-ul userModel.email.
+ * @param {*} userModel Modelul creat cu datele introduse de utilizator
+ * @returns 1, daca exista; 0, altfel; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function verifyUserModelRegisterCredentials(userModel) {
+  var dbResult = null;
+  await UsersRepository.verifyUserModelRegisterCredentials(userModel).then(function (result) {
+    dbResult = result;
+  });
+
+  while(dbResult == null) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
+/**
+ * Adauga un model User in baza de date.
+ * @param {*} userModel Modelul care va fi adaugat.
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
+ * @returns 0, daca a fost adaugat modelul; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function addUserModel(userModel, connection = null) {
+  var dbResult = null;
+  await UsersRepository.insertUserModel(userModel).then(function (result) {
+    dbResult = result;
+  });
+
+  while(dbResult == null) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
+/**
+ * Actualizeaza campul "url" al modelului User din baza de date.
+ * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "url".
+ * @returns 0, daca a fost updatat modelul; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function updateUserModelURL(userModel) {
+  var dbResult = null;
+  await UsersRepository.updateUserModelURL(userModel).then(function (result) {
+    dbResult = result;
+  });
+
+  while(dbResult == null) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
+/**
+ * Actualizeaza campul "password" al modelului User din baza de date.
+ * @param {*} userModel Modelul User, continand noua valoare in campul dedicat pentru "password".
+ * @returns 0, daca modelul a fost actualizat; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function updateUserModelPassword(userModel) {
+  var dbResult = null;
+  await UsersRepository.updateUserModelPassword(userModel).then(function (result) {
+    dbResult = result;
+  });
+
+  while(dbResult == null) {
+    await utils.timeout(10);
+  }
+
+  return dbResult;
+}
+
 module.exports = {
   verifyPresenceOfLoginCredentials,
   validateLoginCredentials,
@@ -415,4 +524,10 @@ module.exports = {
   verifyPresenceOfChangePasswordCredentials,
   validateChangePasswordCredentials,
   getAllUsers,
+  getUserModelById,
+  verifyUserModelLoginCredentials,
+  verifyUserModelRegisterCredentials,
+  addUserModel,
+  updateUserModelURL,
+  updateUserModelPassword
 };

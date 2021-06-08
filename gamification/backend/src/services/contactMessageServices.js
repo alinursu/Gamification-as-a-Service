@@ -100,5 +100,24 @@ async function getAllMessages() {
     return outputList;
 }
 
+/**
+ * Adauga un mesaj in baza de date.
+ * @param {*} contactMessageModel Modelul mesajului care va fi adaugat in baza de date
+ * @param {*} connection Conexiunea prin care se va executa instructiunea SQL (poate fi null).
+ * @returns 1, daca mesajul a fost adaugat; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function addContactMessageToDatabase(contactMessageModel, connection = null) {
+    var dbResult = null;
+    await ContactMessageRepository.addContactMessageToDatabase(contactMessageModel).then(function (result) {
+        dbResult = result;
+    });
+
+    while(dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
 module.exports = {verifyPresenceOfContactMessageCredentials, validateContactMessageCredentials,
-    getAllMessages};
+    getAllMessages, addContactMessageToDatabase};

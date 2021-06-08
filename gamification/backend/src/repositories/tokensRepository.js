@@ -53,7 +53,6 @@ async function deleteToken(token) {
     })
 }
 
-
 async function getAllTokens() {
     const connection = getDatabaseConnection();
     const sql = "SELECT * from tokens";
@@ -74,7 +73,6 @@ async function getAllTokens() {
         })
     })
 }
-
 
 /**
  * Preia din baza de date id-ul utilizatorului asociat cu un token.
