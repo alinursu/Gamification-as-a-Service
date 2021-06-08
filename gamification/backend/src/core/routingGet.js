@@ -5,33 +5,33 @@ const documentationRoute = require('../routes/documentation');
 const profileRoute = require('../routes/profile');
 const errorRoute = require("../routes/error");
 const formRoute = require("../routes/form");
-const adminUsersListRoute = require("../routes/adminUsers");
-const adminAddUserRoute = require("../routes/adminAddUser");
-const adminUpdateUserRoute = require("../routes/adminUpdateUser");
-const adminDeleteUserRoute = require("../routes/adminDeleteUser");
-const adminHomeRoute = require("../routes/adminHome");
-const adminGamificationSystemsRoute = require("../routes/adminGamificationSystems");
-const adminAddGamificationSystemRoute = require("../routes/adminAddGamificationSystem");
-const adminDeleteSystemRoute = require("../routes/adminDeleteGamificationSystem");
-const adminUpdateSystemRoute = require("../routes/adminUpdateSystem");
-const adminGamificationRewardsRoute = require("../routes/adminGamificationRewards");
-const adminDeleteRewardRoute = require("../routes/adminDeleteGamificationReward");
-const adminAddGamificationRewardRoute = require("../routes/adminAddGamificationReward");
-const adminUpdateRewardRoute = require("../routes/adminUpdateReward");
-const adminGamificationEventsRoute = require("../routes/adminGamificationEvents");
-const adminDeleteEventRoute = require("../routes/adminDeleteGamificationEvent");
-const adminAddGamificationEventRoute = require("../routes/adminaddGamificationEvent");
-const adminUpdateEventRoute = require("../routes/adminUpdateEvent");
-const adminTokensRoute = require("../routes/adminTokens");
-const adminDeleteTokenRoute = require("../routes/adminDeleteToken");
-const adminUserDataRoute = require("../routes/adminUserData");
-const adminAddUserDataRoute = require("../routes/adminAddUserData");
-const adminDeleteUserDataRoute = require("../routes/adminDeleteUserData");
-const adminUpdateUserDataRoute = require("../routes/adminUpdateUserData");
-const adminGamificationContactRoute = require("../routes/adminGamificationContact");
-const adminAddGamificationContactRoute = require("../routes/adminAddGamificationContact");
-const adminDeleteContactRoute = require("../routes/adminDeleteGamificationContact");
-const adminUpdateContactRoute = require("../routes/adminUpdateContact");
+const adminUsersListRoute = require("../routes/admin/adminUsers");
+const adminAddUserRoute = require("../routes/admin/adminAddUser");
+const adminUpdateUserRoute = require("../routes/admin/adminUpdateUser");
+const adminDeleteUserRoute = require("../routes/admin/adminDeleteUser");
+const adminHomeRoute = require("../routes/admin/adminHome");
+const adminGamificationSystemsRoute = require("../routes/admin/adminGamificationSystems");
+const adminAddGamificationSystemRoute = require("../routes/admin/adminAddGamificationSystem");
+const adminDeleteSystemRoute = require("../routes/admin/adminDeleteGamificationSystem");
+const adminUpdateSystemRoute = require("../routes/admin/adminUpdateSystem");
+const adminGamificationRewardsRoute = require("../routes/admin/adminGamificationRewards");
+const adminDeleteRewardRoute = require("../routes/admin/adminDeleteGamificationReward");
+const adminAddGamificationRewardRoute = require("../routes/admin/adminAddGamificationReward");
+const adminUpdateRewardRoute = require("../routes/admin/adminUpdateReward");
+const adminGamificationEventsRoute = require("../routes/admin/adminGamificationEvents");
+const adminDeleteEventRoute = require("../routes/admin/adminDeleteGamificationEvent");
+const adminAddGamificationEventRoute = require("../routes/admin/adminaddGamificationEvent");
+const adminUpdateEventRoute = require("../routes/admin/adminUpdateEvent");
+const adminTokensRoute = require("../routes/admin/adminTokens");
+const adminDeleteTokenRoute = require("../routes/admin/adminDeleteToken");
+const adminUserDataRoute = require("../routes/admin/adminUserData");
+const adminAddUserDataRoute = require("../routes/admin/adminAddUserData");
+const adminDeleteUserDataRoute = require("../routes/admin/adminDeleteUserData");
+const adminUpdateUserDataRoute = require("../routes/admin/adminUpdateUserData");
+const adminGamificationContactRoute = require("../routes/admin/adminGamificationContact");
+const adminAddGamificationContactRoute = require("../routes/admin/adminAddGamificationContact");
+const adminDeleteContactRoute = require("../routes/admin/adminDeleteGamificationContact");
+const adminUpdateContactRoute = require("../routes/admin/adminUpdateContact");
 
 const UserController = require('../controllers/UserController');
 const TokenController = require('../controllers/TokenController');
@@ -156,7 +156,6 @@ async function route(request, response) {
         case '/admin/home': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminHomeRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -182,7 +181,6 @@ async function route(request, response) {
         case '/admin/gamification-systems': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationSystemsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -246,7 +244,6 @@ async function route(request, response) {
         case '/admin/gamification-rewards':{
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationRewardsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -348,7 +345,6 @@ async function route(request, response) {
         case '/admin/gamification-events': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationEventsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -1147,16 +1143,19 @@ async function route(request, response) {
 
             // Rutari CSS
             if (url.startsWith('/styles/')) {
+                response.setHeader('Content-Type', 'text/css');
                 return file.serve(request, response)
             }
 
             // Rutari pentru imagini
             if (url.startsWith('/images/')) {
+                response.setHeader('Content-Type', 'image/png');
                 return file.serve(request, response);
             }
 
             // Rutari client-side JS
             if (url.startsWith('/js/')) {
+                response.setHeader('Content-Type', 'text/jscript');
                 return file.serve(request, response);
             }
 

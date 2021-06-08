@@ -402,6 +402,85 @@ async function addGamificationSystemModelToDatabase(gamificationSystemModel, api
 }
 
 /**
+ * Adauga un model GamificationSystem in baza de date, fara evenimente si recompense, generandu-i si o cheie API.
+ * @param {*} gamificationSystemModel Modelul care va fi adaugat in baza de date.
+ * @param {*} apiKey Cheia API care va fi folosita pentru model (poate fi NULL si se va genera una noua).
+ * @returns Cheia API, daca modelul a fost adaugat in baza de date; 1, daca exista deja un sistem asociat utilizatorului acesta, avand acelasi nume; -1 daca a aparut o eroare pe parcursul exeuctiei
+ */
+async function addEmptyGamificationSystemModelToDatabase(gamificationSystemModel, apikey = null) {
+    if (apikey == null) {
+        await generateAPIKey().then(function (apikey) {
+            gamificationSystemModel.APIKey = apikey;
+        });
+
+        while (gamificationSystemModel.APIKey == null) {
+            await utils.timeout(10);
+        }
+    } else {
+        gamificationSystemModel.APIKey = apikey;
+    }
+
+    // Verific daca exista un sistem de recomandari creat de acelasi utilizator, care sa aiba acelasi nume
+    var dbResult = null;
+    await GamificationSystemsRepository.getGamificationSystemsByUserId(gamificationSystemModel.userId).then(function (result) {
+        dbResult = result;
+    });
+
+    while (dbResult == null) {
+        await utils.timeout(10);
+    }
+
+    if (dbResult === -1) {
+        return -1;
+    }
+
+    var tempArray = dbResult.filter(tempGamificationSystemModel => tempGamificationSystemModel.name == gamificationSystemModel.name);
+    if (tempArray.length > 0) {
+        return 1;
+    }
+
+    // Adaug sistemul in baza de date
+    var dbResult = null;
+    while (dbResult == null) {
+        await GamificationSystemsRepository.addGamificationSystemToDatabase(gamificationSystemModel).then(function (result) {
+            dbResult = result;
+        })
+
+        while (dbResult == null) {
+            await utils.timeout(10);
+        }
+
+        switch (dbResult) {
+            case -1: {
+                return -1;
+            }
+
+            case 1: { // Primary key constraint violation handling
+                gamificationSystemModel.APIKey = null;
+                dbResult = null;
+
+                await generateAPIKey().then(function (apikey) {
+                    gamificationSystemModel.APIKey = apikey;
+                });
+
+                while (gamificationSystemModel.APIKey == null) {
+                    await utils.timeout(10);
+                }
+
+                dbResult = null;
+                break;
+            }
+
+            case 0: {
+                break;
+            }
+        }
+    }
+
+    return gamificationSystemModel.APIKey;
+}
+
+/**
  * Construieste o lista de modele GamificationSystem (incluzand modelele de GamificationReward si GamificationEvent din ele) create de un anumit utilizator, folosind datele din baza de date.
  * @param {*} userId Id-ul utilizatorului pentru care se face cautarea.
  * @returns Lista de modele GamificationSystem create de utilizator; -1 daca a aparut o eroare pe parcursul executiei.
@@ -721,5 +800,6 @@ module.exports = {
     getGamificationRewardModelsByAPIKey,
     getAllGamificationSystems,
     getAllGamificationReward,
-    getAllGamificationEvent
+    getAllGamificationEvent,
+    addEmptyGamificationSystemModelToDatabase
 }

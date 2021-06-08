@@ -10,10 +10,9 @@ const errorRoute = require('../routes/error');
 
 const utils = require('../internal/utils');
 
-const UsersRepository = require('../repositories/UsersRepository');
-const TokensRepository = require('../repositories/TokensRepository');
 const UserServices = require('../services/UserServices');
 const GamificationSystemServices = require('../services/GamificationSystemServices');
+const TokensServices = require("../services/TokensServices");
 
 /**
  * Preia din baza de date un model User pe baza unui token de autentificare.
@@ -22,7 +21,7 @@ const GamificationSystemServices = require('../services/GamificationSystemServic
  */
 async function getUserModelByToken(token, request, response) {
     let userId = 0;
-    await TokensRepository.getUserIdByToken(token).then(function(result) {
+    await TokensServices.getUserIdByToken(token).then(function(result) {
         userId = result;
     });
 
@@ -47,7 +46,7 @@ async function getUserModelByToken(token, request, response) {
     }
 
     let userModel = 0;
-    await UsersRepository.getUserModelById(userId).then(function(result) {
+    await UserServices.getUserModelById(userId).then(function(result) {
         userModel = result;
     })
 
@@ -108,7 +107,7 @@ function handleLoginRequest(request, response) {
 
         // Verific daca modelul apare in baza de date 
         let databaseUserModel = null;
-        await UsersRepository.verifyUserModelLoginCredentials(user).then(function(result) {
+        await UserServices.verifyUserModelLoginCredentials(user).then(function(result) {
             databaseUserModel = result;
         });
 
@@ -135,7 +134,7 @@ function handleLoginRequest(request, response) {
 
         // Adaug token-ul in baza de date, impreuna cu user.id, user.firstname si user.lastname
         let dbAnswer = null;
-        await TokensRepository.addTokenToDatabase(token, databaseUserModel).then(function (result) {
+        await TokensServices.addTokenToDatabase(token, databaseUserModel).then(function (result) {
             dbAnswer = result;
         });
 
@@ -196,7 +195,7 @@ function handleRegisterRequest(request, response) {
 
         // Verific daca exista un model in baza de date cu email-ul introdus de client
         let databaseResponse = 0;
-        await UsersRepository.verifyUserModelRegisterCredentials(user).then(function(result) {
+        await UserServices.verifyUserModelRegisterCredentials(user).then(function(result) {
             databaseResponse = result;
         });
 
@@ -223,7 +222,7 @@ function handleRegisterRequest(request, response) {
 
         // Adaug modelul in baza de date
         let dbAnswer = null;
-        await UsersRepository.insertUserModel(user).then(function (result) {
+        await UserServices.addUserModel(user).then(function (result) {
             dbAnswer = result;
         });
 
@@ -263,7 +262,7 @@ async function handleLogoutRequest(request, response) {
 
     // Sterg token-ul din baza de date
     let dbAnswer = null;
-    await TokensRepository.deleteToken(token).then(function (result) {
+    await TokensServices.deleteToken(token).then(function (result) {
         dbAnswer = result;
     });
 
@@ -333,7 +332,7 @@ function handleChangeURLRequest(request, response) {
 
         // Fac update in baza de date
         let dbAnswer = null;
-        await UsersRepository.updateUserModelURL(userModel).then(function (result) {
+        await UserServices.updateUserModelURL(userModel).then(function (result) {
             dbAnswer = result;
         });
 
@@ -396,7 +395,7 @@ function handleChangePasswordRequest(request, response) {
 
         // Fac update in baza de date
         let dbAnswer = null;
-        await UsersRepository.updateUserModelPassword(userModel).then(function (result) {
+        await UserServices.updateUserModelPassword(userModel).then(function (result) {
             dbAnswer = result;
         });
 
