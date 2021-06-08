@@ -11,6 +11,8 @@ const GamificationSystemServices = require('../services/GamificationSystemServic
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemPOSTPUTRequest(request, response) {
+    response.setHeader("Content-Type", "application/json");
+
     // Verific validitatea url-ului
     if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found
@@ -105,7 +107,9 @@ async function handleExternalGamificationSystemPOSTPUTRequest(request, response)
  * @param {*} request Cererea facuta de catre client.
  * @param {*} response Raspunsul dat.
  */
-async function handleExternalGamificationSystemGETRequest(request, response) {    
+async function handleExternalGamificationSystemGETRequest(request, response) {
+    response.setHeader("Content-Type", "application/json");
+
     // Verific validitatea url-ului
     if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found
@@ -233,6 +237,8 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemTopUsersGETRequest(request, response) {
+    response.setHeader("Content-Type", "application/json");
+
     // Verific validitatea url-ului
     if(!request.url.startsWith('/external/gamification-system/top-users?')) {
         response.statusCode = 404; // 404 - Not Found
@@ -359,6 +365,8 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
  * @param {*} response Raspunsul dat.
  */
 async function handleExternalGamificationSystemDELETERequest(request, response) {
+    response.setHeader("Content-Type", "application/json");
+
     // Verific validitatea url-ului
     if(!request.url.startsWith('/external/gamification-system?')) {
         response.statusCode = 404; // 404 - Not Found

@@ -156,7 +156,6 @@ async function route(request, response) {
         case '/admin/home': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminHomeRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -182,7 +181,6 @@ async function route(request, response) {
         case '/admin/gamification-systems': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationSystemsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -246,7 +244,6 @@ async function route(request, response) {
         case '/admin/gamification-rewards':{
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationRewardsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -348,7 +345,6 @@ async function route(request, response) {
         case '/admin/gamification-events': {
             if (cookies.authToken != null) {
                 await UserController.isUserAdmin(cookies.authToken, request, response).then(function (result) {
-                    console.log(result);
                     if (result) return adminGamificationEventsRoute(request, response);
                     else {
                         // Utilizatorul nu are privilegii de administrator - 403 Forbidden
@@ -1147,16 +1143,19 @@ async function route(request, response) {
 
             // Rutari CSS
             if (url.startsWith('/styles/')) {
+                response.setHeader('Content-Type', 'text/css');
                 return file.serve(request, response)
             }
 
             // Rutari pentru imagini
             if (url.startsWith('/images/')) {
+                response.setHeader('Content-Type', 'image/png');
                 return file.serve(request, response);
             }
 
             // Rutari client-side JS
             if (url.startsWith('/js/')) {
+                response.setHeader('Content-Type', 'text/jscript');
                 return file.serve(request, response);
             }
 
