@@ -251,7 +251,7 @@ async function deleteSystemByApi(api_key) {
     const sql = "DELETE FROM gamification_systems WHERE api_key=?";
 
     return new Promise((resolve, reject) => {
-        connection.query(sql, [api_key], (err) => {
+        connection.query(sql, [hash.encrypt(api_key)], (err) => {
             if (err) {
                 reject(err);
             } else {

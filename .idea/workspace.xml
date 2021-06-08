@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="" />
+    <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/core/routingGet.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/core/routingGet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/core/routingPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/core/routingPost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/internal/databaseConnection.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/internal/databaseConnection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddContactPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddContactPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddEventPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddEventPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddGamificationContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddGamificationContact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddGamificationReward.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddGamificationReward.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddGamificationSystem.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddGamificationSystem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddRewardPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddRewardPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddSystemPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddSystemPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddUserDataPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddUserDataPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminAddUserPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminAddUserPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteGamificationContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteGamificationContact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteGamificationEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteGamificationEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteGamificationReward.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteGamificationReward.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteGamificationSystem.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteGamificationSystem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminDeleteUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminDeleteUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminGamificationContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminGamificationContact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminGamificationEvents.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminGamificationEvents.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminGamificationRewards.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminGamificationRewards.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminGamificationSystems.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminGamificationSystems.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminHome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminTokens.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminTokens.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateContact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateContactPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateContactPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateEventPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateEventPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateReward.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateReward.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateRewardPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateRewardPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateSystem.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateSystem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateSystemPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateSystemPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateUserDataPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateUserDataPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUpdateUserPOST.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUpdateUserPOST.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminUsers.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminUsers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/adminaddGamificationEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminaddGamificationEvent.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,10 +80,15 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="14.16.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="14.17.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/gamification/backend/src/routes/admin" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ursua\Documents\GitHub\Proiect-TW\gamification\backend\src\routes\admin" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -53,10 +102,22 @@
       <workItem from="1622979295359" duration="7533000" />
       <workItem from="1623067698006" duration="2965000" />
       <workItem from="1623092867823" duration="8120000" />
+      <workItem from="1623146542986" duration="822000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
