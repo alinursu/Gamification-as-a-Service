@@ -80,17 +80,16 @@ async function getAllTokens() {
  * @returns Id-ul modelului User asociat token-ului dat; null, altfel; -1, daca a aparut o eraore pe parcursul executiei.
  */
 async function getUserIdByToken(token) {
-    // TODO: daca returneaza null => error handling (in userController) (afisare user: nu am putut procesa cererea + logout) 
     var connection = getDatabaseConnection();
     var sql = "SELECT user_id FROM tokens WHERE token=?";
 
     var queryResult = null;
     connection.query(sql, [token], function (error, results) {
-        // if (error) {
-        //     queryResult = -1;
-        //     return;
-        // }
-        if(error) throw error;
+        if (error) {
+            queryResult = -1;
+            return;
+        }
+
         queryResult = results;
     })
 

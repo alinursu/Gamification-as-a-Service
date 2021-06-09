@@ -137,7 +137,7 @@
     margin-right: 0.5em;
 }
 
-#profile-menu-horizontal-line {
+.profile-menu-horizontal-line {
     border: 2px solid #423788;
     width: 80%;
     margin: 0.7em auto;

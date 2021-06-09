@@ -63,8 +63,6 @@ function handleContactRequest(request, response) {
     });    
 }
 
-//////////////////////
-
 const adminAddContactPOSTRequest = (request, response) => {
     // Citesc request body-ul
     let body = '';

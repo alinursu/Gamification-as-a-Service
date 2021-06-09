@@ -3,6 +3,8 @@ const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
 const tokensRepository = require("../../repositories/TokensRepository");
+const utils = require("../../internal/utils");
+const errorRoute = require("../error");
 
 const adminDeleteTokenRoute = async (request, response) => {
     try {
@@ -20,7 +22,23 @@ const adminDeleteTokenRoute = async (request, response) => {
         // decode token
         request.token = decodeURIComponent(request.token);
 
-        await tokensRepository.deleteToken(request.token);
+        let dbResult = null;
+        await tokensRepository.deleteToken(request.token).then(function(result) {
+            dbResult = result;
+        })
+
+        while(dbResult == null) {
+            await utils.timeout(10);
+        }
+
+        if(dbResult === -1) { // Database error
+            // Creez un raspuns, instiintand utilizatorul de eroare
+            response.statusCode = 500;
+            request.statusCodeMessage = "Internal Server Error";
+            request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+            return errorRoute(request, response);
+        }
 
         response.writeHead(302, {'Location': '/admin/tokens'});
         response.end();

@@ -43,7 +43,7 @@ const utils = require('../internal/utils');
 
 const path = require('path');
 const staticServe = require('node-static');
-const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 1}); // TODO (la final): De facut caching-time mai mare (ex: 3600 == 1 ora)
+const file = new staticServe.Server(path.join(__dirname, '../../pages/'), {cache: 3600}); // 3600 == 1 ora
 const cookie = require('cookie');
 
 /**

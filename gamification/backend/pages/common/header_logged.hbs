@@ -17,8 +17,7 @@
             </button>
 
             <div class="vertical-line"></div>
-            
-            {{!-- TODO: Depending on the account the user is logged in, generate the profile page --}}
+
             <div>
                 <a href="/profile"><img alt="" src="/images/profile-white.png"></a>
                 <a href="/profile">{{userFullName}}</a>
@@ -40,11 +39,10 @@
                 <button type="button" class="burgermenu-button" onclick="location.href = '/#contact-anchor'">CONTACTEAZĂ-NE</button>
                 
                 <div id="horizontal-line-burgermenu"></div>
-                
-                {{!-- TODO: Depending on the account the user is logged in, generate the profile page --}}
+
                 <div>
                     <a href="/profile"><img alt="" src="/images/profile-white.png"></a>
-                    <a href="/profile">Ion Ionescu</a>
+                    <a href="/profile">{{userFullName}}</a>
                 </div>
                 <button type="button" class="navbar-button">
                     <a href="/logout" class="navbar-clickable-button">DECONECTARE</a>

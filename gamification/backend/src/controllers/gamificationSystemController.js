@@ -474,9 +474,6 @@ async function handleDeleteGamificationSystemRequest(request, response) {
     return null;
 }
 
-
-///////////////
-
 const adminAddSystemPOSTRequest = (request, response) => {
     // Citesc request body-ul
     let body = '';
