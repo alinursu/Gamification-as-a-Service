@@ -5,6 +5,7 @@ const profile = require('../routes/profile')
 const login = require('../routes/login')
 const category = require('../routes/category')
 const product = require("../routes/product");
+const search = require("../routes/search");
 const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
@@ -27,18 +28,26 @@ const routing = (req, res) => {
                 req.category = 'phones';
                 req.title = 'Telefoane și tablete'
                 return category(req, res);
+            case '/category/laptops':
+                req.category = 'laptops';
+                req.title = 'Laptopuri și calculatoare'
+                return category(req, res);
+            case '/category/rents':
+                req.category = 'rents';
+                req.title = 'Închirieri și vânzări apartamente'
+                return category(req,res);
             case '/login':
                 return login(req, res);
         }
     }
 
     // dynamic route for search
-    if(req.method === 'GET' && url.startsWith('/search')){
+    if (req.method === 'GET' && url.startsWith('/search')) {
         return search(req, res);
     }
 
     // dyanmic route for product
-    if(req.method === 'GET' && url.startsWith('/product/'))
+    if (req.method === 'GET' && url.startsWith('/product/'))
         return product(req, res);
 
     // dynamic routes

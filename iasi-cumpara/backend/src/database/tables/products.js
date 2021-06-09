@@ -46,22 +46,22 @@ const insertProduct = (conn, product) => {
     })
 }
 
-// for seach
-// const findProductsByName = (conn, name) => {
-//     return new Promise((resolve, reject) => {
-//         conn.query('SELECT * FROM products WHERE ?', name, (err) => {
-//             if (err) {
-//                 reject(err)
-//             }
-//             resolve()
-//         })
-//     })
-// }
+//for seach
+const findProductsByName = (conn, name) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM products WHERE name LIKE ?', ['%' + name + '%'], (err) => {
+            if (err) {
+                reject(err)
+            }
+            resolve()
+        })
+    })
+}
 
 module.exports = {
     insertProduct,
     selectAllProducts,
     getProductById,
     findProductsByCategory,
-    // findProductsByName
+    findProductsByName
 }
