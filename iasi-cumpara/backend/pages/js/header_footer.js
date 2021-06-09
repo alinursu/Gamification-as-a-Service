@@ -1,3 +1,14 @@
+const searchBtn = document.getElementById('search-btn');
+const searchInput = document.getElementById('search-input');
+
+if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        const name = searchInput.value;
+        window.location.href = "/search?name=" + name;
+    })
+}
+
 openSideNav = () => {
     document.getElementById("sidenav").style.width = "fit-content"
     document.getElementById("sidenav").style.position = "fixed"
@@ -17,12 +28,12 @@ closeSideNav = () => {
 scrollToTop = () => {
     document.getElementsByClassName('head')[0].scrollIntoView({behavior: 'smooth'});
     document.getElementsByClassName('mobileMenu')[0].scrollIntoView({behavior: 'smooth'});
-    
+
 }
 
 checkProfileRoute = () => {
     const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
-    
+
     location.href = authCookie ? '/profile' : '/login'
 
     console.log(authCookie)

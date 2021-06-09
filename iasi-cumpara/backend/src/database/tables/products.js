@@ -66,11 +66,11 @@ const insertProductComment = (conn, productComment) => {
 //for seach
 const findProductsByName = (conn, name) => {
     return new Promise((resolve, reject) => {
-        conn.query('SELECT * FROM products WHERE name LIKE ?', ['%' + name + '%'], (err) => {
+        conn.query('SELECT * FROM products WHERE name LIKE ?', ['%' + name + '%'], (err, result) => {
             if (err) {
                 reject(err)
             }
-            resolve()
+            resolve(result)
         })
     })
 }
