@@ -13,12 +13,13 @@ const notFound = require('../routes/error/404')
 const internalErr = require('../routes/error/500')
 const ProductController = require('../controllers/productController');
 const conn = require("../database/connectionDb");
-
+var cookie = require('cookie');
 const ProductComment = require('../models/ProductComment')
+const UserController = require("../controllers/userController");
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
-const routing = (req, res) => {
+const routing = async (req, res) => {
     const url = req.url
 
     // GET Requests
@@ -43,15 +44,15 @@ const routing = (req, res) => {
             case '/category/rents':
                 req.category = 'rents';
                 req.title = 'Închirieri și vânzări apartamente'
-                return category(req,res);
+                return category(req, res);
             case '/category/furniture':
                 req.category = 'furniture';
                 req.title = 'Mobilier și electrocasnice';
-                return category(req,res);
+                return category(req, res);
             case '/category/others':
-                req.category ='others';
+                req.category = 'others';
                 req.title = 'Ate tipuri de produse';
-                return category(req,res);
+                return category(req, res);
             case '/login':
                 return login(req, res)
             case '/registerSuccess':
@@ -59,7 +60,7 @@ const routing = (req, res) => {
             case '/404':
                 return notFound(req, res)
             case '/500':
-                return internalErr(req,res)
+                return internalErr(req, res)
         }
 
     }
@@ -97,38 +98,44 @@ const routing = (req, res) => {
             }
 
             default: {
-                if(url.startsWith('/product/') && url.includes('/add-comment')) {
-                    // TODO: Verifica daca utilizatorul este autentificat
-                    let body = ''
-                    req.on('data', (chunk) => {
-                        body += chunk.toString()
-                    })
+                if (url.startsWith('/product/') && url.includes('/add-comment')) {
+                    // TODO: De modificat numele cookie-ului
+                    let cookies = cookie.parse(req.headers.cookie || '');
+                    if (cookies.authToken != null) {
+                        let userController = new UserController(conn);
+                        let userModel = await userController.getUserByToken(cookies.authToken);
 
-                    let parsedBody
-                    req.on('end', async () => {
-                        parsedBody = parse(body)
+                        let body = ''
+                        req.on('data', (chunk) => {
+                            body += chunk.toString()
+                        })
 
-                        if(parsedBody.comment == null || parsedBody.comment.length === 0) {
-                            req.errorMessage = "Câmpul comentariului nu poate să fie gol!"
-                            return product(req, res)
-                        }
+                        let parsedBody
+                        req.on('end', async () => {
+                            parsedBody = parse(body)
 
-                        let productComment = new ProductComment(
-                            null, url.split('/product/')[1].split('/')[0],5,
-                            parsedBody.comment, new Date(Date.now())
-                        );
+                            if (parsedBody.comment == null || parsedBody.comment.length === 0) {
+                                req.errorMessage = "Câmpul comentariului nu poate să fie gol!"
+                                return product(req, res)
+                            }
 
-                        let productController = new ProductController(conn);
-                        await productController.addProductComment(productComment);
-                        return product(req, res)
-                    });
+                            let productComment = new ProductComment(
+                                null, url.split('/product/')[1].split('/')[0], userModel.id,
+                                parsedBody.comment, new Date(Date.now())
+                            );
+
+                            let productController = new ProductController(conn)
+                            await productController.addProductComment(productComment)
+                        });
+                    }
+                    return product(req, res)
                 }
                 return;
             }
         }
     }
 
-    res.writeHead(404, { 'Location' : '/404'}) //write a respoonse
+    res.writeHead(404, {'Location': '/404'}) //write a respoonse
     res.end()
 }
 

@@ -3,6 +3,7 @@ const path = require("path");
 const ProductController = require("../controllers/productController");
 const con = require("../database/connectionDb");
 const Product = require("../models/product");
+const UserController = require("../controllers/userController");
 
 const product = async (req, res) => {
     const styles = ['products/product']
@@ -11,6 +12,7 @@ const product = async (req, res) => {
     const urlArray = req.url.split('/');
     const productId = urlArray[2];
     const productController = new ProductController(con);
+    const userController = new UserController(con);
     let product;
     let comments;
 
@@ -28,15 +30,18 @@ const product = async (req, res) => {
            return 0;
         });
 
-        // Formatez data fiecarui comentariu
-        comments.forEach(comment => {
+        // Formatez datele fiecarui comentariu
+        for (const comment of comments) {
             var temp = new Date(comment.date);
             comment.date = (temp.getHours() < 10 ? "0" + temp.getHours() : temp.getHours()) + ":" +
                 (temp.getMinutes() < 10 ? "0" + temp.getMinutes() : temp.getMinutes()) + " " +
                 (temp.getDate() < 10 ? "0" + temp.getDate() : temp.getDate()) + "." +
                 (temp.getMonth() < 10 ? "0" + temp.getMonth() : temp.getMonth()) + "." +
                 temp.getFullYear();
-        })
+
+            let user = await userController.getUserById(comment.user_id);
+            comment.user_id = user.name;
+        }
     } catch (error) {
         console.log(error);
     }

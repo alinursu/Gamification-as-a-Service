@@ -1,3 +1,5 @@
+const User = require("../../models/user");
+const {decrypt} = require("../../internal/hash");
 const { encrypt } = require("../../internal/hash")
 const { generateAuthCookie } = require('../../services/authService')
 
@@ -47,9 +49,42 @@ const setUserToken = (conn, user, req, res) => {
     })
 }
 
+const getUserById = (conn, id) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM users WHERE id = ?', [id], (err, rows) => {
+            if(err) {
+                reject(err)
+            }
+
+            if(rows.length === 0) resolve(null)
+
+            let user = new User(rows[0].id, decrypt(rows[0].name), decrypt(rows[0].email), decrypt(rows[0].password));
+            resolve(user)
+        })
+    })
+}
+
+const getUserByToken = (conn, token) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM users WHERE token = ?', [token], (err, rows) => {
+            if(err) {
+                reject(err)
+            }
+
+            if(rows.length === 0) resolve(null)
+
+            let user = new User(rows[0].id, decrypt(rows[0].name), decrypt(rows[0].email), decrypt(rows[0].password));
+            resolve(user)
+        })
+    })
+}
+
+
 module.exports = {
     selectAllUsers,
     insertUser,
     checkUser,
-    setUserToken
+    setUserToken,
+    getUserById,
+    getUserByToken
 }

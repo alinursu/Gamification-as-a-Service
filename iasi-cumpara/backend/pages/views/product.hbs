@@ -48,8 +48,7 @@
                 {{#each comments}}
                     <div class="comment-card">
                         <div class="comment-person-div">
-    <!--                        TODO: Nume dupa userId-->
-                            <h3>Popescu Ion</h3>
+                            <h3>{{this.user_id}}</h3>
                             <p>{{this.date}}</p>
                         </div>
                         <p>{{this.comment}}</p>
