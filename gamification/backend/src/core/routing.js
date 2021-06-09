@@ -17,6 +17,7 @@ const cookie = require('cookie');
  */
 const routing = async (request, response) => {
     const url = request.url;
+    let userLoaded = false;
     let cookies = cookie.parse(request.headers.cookie || '');
 
     if (!url.startsWith('/styles/') && !url.startsWith('/images/') && !url.startsWith('/js/')) {
@@ -28,23 +29,28 @@ const routing = async (request, response) => {
             let userModel = null;
             UserController.getUserModelByToken(cookies.authToken, request, response).then(function (result) {
                 userModel = result;
+                userLoaded = true;
             });
 
-            while (userModel === null) {
+            while (userLoaded === false) {
                 await utils.timeout(10);
             }
 
-            if(userModel != null && userModel !== -1) {
+
+            if (userModel != null && userModel !== -1) {
                 request.userFullName = userModel.firstname + " " + userModel.lastname;
                 request.userURL = userModel.url;
-            }
-            else {
-                // Creez un raspuns, instiintand utilizatorul de eroare
-                response.statusCode = 500;
-                request.statusCodeMessage = "Internal Server Error";
-                request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
-                    "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
-                return errorRoute(request, response);
+            } else {
+                if (userModel === null) {
+                    return UserController.handleLogoutRequest(request, response);
+                } else {
+                    // Creez un raspuns, instiintand utilizatorul de eroare
+                    response.statusCode = 500;
+                    request.statusCodeMessage = "Internal Server Error";
+                    request.errorMessage = "A apărut o eroare pe parcursul procesării cererii tale! Încearcă din nou mai târziu, iar dacă problema " +
+                        "persistă, te rog să ne contactezi folosind formularul de pe pagina principală.";
+                    return errorRoute(request, response);
+                }
             }
         }
     }
@@ -64,7 +70,7 @@ const routing = async (request, response) => {
     }
 
     // Rutari (request-uri de tip GET pentru resurse)
-    if(request.method === 'GET') {
+    if (request.method === 'GET') {
         return routingGet.route(request, response);
     }
 
