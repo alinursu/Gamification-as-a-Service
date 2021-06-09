@@ -1,18 +1,12 @@
 <div class="container">
     <div class="header">
-        <div
-                class="imagine_profil"
-                style="background-image: url('src/assets/images/blank.png')"
-        ></div>
+        <div class="imagine_profil" style="background-image: url('/assets/images/blank.png')"></div>
         <div class="informatii_profil">
-            <div class="username">Popescu Ion</div>
-            <div class="location">Brașov</div>
-        </div>
-        <div class="informatii_contact">
-            <a href="tel:0760000000">Apelează</a>
-            <a href="mailto:webmaster@example.com">Trimite Email</a>
+            <div class="username">{{userModel.name}}</div>
         </div>
     </div>
+
+<!--    TODO: Request rewards din gamification external API-->
     <h2>Realizări</h2>
     <div class="profile_achievements">
         <div class="profile_achievement">
@@ -33,6 +27,8 @@
             Cele mai multe anunțuri șterse într-o lună: <span>24</span>
         </div>
     </div>
+
+<!--    TODO: Listare orders-->
     <h2>Anunțuri</h2>
     <div class="announces">
         <a class="announce" href="../announces/products/volvo-v70-2,5-tdi.html">

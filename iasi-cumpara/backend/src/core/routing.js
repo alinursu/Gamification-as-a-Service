@@ -16,6 +16,7 @@ const conn = require("../database/connectionDb");
 var cookie = require('cookie');
 const ProductComment = require('../models/ProductComment')
 const UserController = require("../controllers/userController");
+const forbidden = require("../routes/error/403");
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
@@ -27,8 +28,15 @@ const routing = async (req, res) => {
         switch (url) {
             case '/':
                 return home(req, res)
-            case '/profile':
-                return profile(req, res)
+            case '/profile': {
+                let cookies = cookie.parse(req.headers.cookie || '');
+                if(cookies.authTokenISC != null) return profile(req, res)
+                else {
+                    res.writeHead(303, {'Location': '/403'})
+                    res.end()
+                    return;
+                }
+            }
             case '/category/cars':
                 req.category = 'cars';
                 req.title = 'Automobile și ambarcațiuni';
@@ -57,6 +65,8 @@ const routing = async (req, res) => {
                 return login(req, res)
             case '/registerSuccess':
                 return registerSuccess(req, res)
+            case '/403':
+                return forbidden(req, res)
             case '/404':
                 return notFound(req, res)
             case '/500':
@@ -99,7 +109,6 @@ const routing = async (req, res) => {
 
             default: {
                 if (url.startsWith('/product/') && url.includes('/add-comment')) {
-                    // TODO: De modificat numele cookie-ului
                     let cookies = cookie.parse(req.headers.cookie || '');
                     if (cookies.authTokenISC != null) {
                         let userController = new UserController(conn);
@@ -135,7 +144,7 @@ const routing = async (req, res) => {
         }
     }
 
-    res.writeHead(404, {'Location': '/404'}) //write a respoonse
+    res.writeHead(404, {'Location': '/404'})
     res.end()
 }
 

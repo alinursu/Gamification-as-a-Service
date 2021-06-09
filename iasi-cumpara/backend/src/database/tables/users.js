@@ -56,7 +56,10 @@ const getUserById = (conn, id) => {
                 reject(err)
             }
 
-            if(rows.length === 0) resolve(null)
+            if(rows.length === 0) {
+                resolve(null)
+                return;
+            }
 
             let user = new User(rows[0].id, decrypt(rows[0].name), decrypt(rows[0].email), decrypt(rows[0].password));
             resolve(user)
@@ -71,7 +74,10 @@ const getUserByToken = (conn, token) => {
                 reject(err)
             }
 
-            if(rows.length === 0) resolve(null)
+            if(rows.length === 0) {
+                resolve(null)
+                return;
+            }
 
             let user = new User(rows[0].id, decrypt(rows[0].name), decrypt(rows[0].email), decrypt(rows[0].password));
             resolve(user)

@@ -1,8 +1,16 @@
+var cookie = require('cookie');
 const render = require("../core/render");
 const path = require("path");
+const UserController = require("../controllers/userController");
+const con = require("../database/connectionDb");
 
 const profile = async (req, res) => {
     const styles = ['products/searchresult', 'profile/view-profile', 'profile/view-profile-mobile']
+
+
+    let cookies = cookie.parse(req.headers.cookie || '');
+    const userController = new UserController(con);
+    let userModel = await userController.getUserByToken(cookies.authTokenISC);
 
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
@@ -14,7 +22,9 @@ const profile = async (req, res) => {
     try {
         const head = await render(paths.head, {title: 'IaȘi Cumpără', styles: styles})
         const header = await render(paths.header, null);
-        const profile = await render(paths.profile, null);
+        const profile = await render(paths.profile, {
+            userModel : userModel
+        });
         const footer = await render(paths.footer, null);
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header
         res.write(head + header + profile + footer);
