@@ -5,10 +5,16 @@ const profile = require('../routes/profile')
 const login = require('../routes/login')
 const category = require('../routes/category')
 const product = require("../routes/product");
+const { parse } = require('querystring')
+const search = require("../routes/search");
 const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
 const registerSuccess = require('../routes/success/registerSuccess')
 const notFound = require('../routes/error/404')
 const internalErr = require('../routes/error/500')
+const ProductController = require('../controllers/productController');
+const conn = require("../database/connectionDb");
+
+const ProductComment = require('../models/ProductComment')
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
@@ -30,6 +36,22 @@ const routing = (req, res) => {
                 req.category = 'phones';
                 req.title = 'Telefoane și tablete'
                 return category(req, res);
+            case '/category/laptops':
+                req.category = 'laptops';
+                req.title = 'Laptopuri și calculatoare'
+                return category(req, res);
+            case '/category/rents':
+                req.category = 'rents';
+                req.title = 'Închirieri și vânzări apartamente'
+                return category(req,res);
+            case '/category/furniture':
+                req.category = 'furniture';
+                req.title = 'Mobilier și electrocasnice';
+                return category(req,res);
+            case '/category/others':
+                req.category ='others';
+                req.title = 'Ate tipuri de produse';
+                return category(req,res);
             case '/login':
                 return login(req, res)
             case '/registerSuccess':
@@ -39,15 +61,16 @@ const routing = (req, res) => {
             case '/500':
                 return internalErr(req,res)
         }
+
     }
 
     // dynamic route for search
-    if(req.method === 'GET' && url.startsWith('/search')){
+    if (req.method === 'GET' && url.startsWith('/search')) {
         return search(req, res);
     }
 
     // dyanmic route for product
-    if(req.method === 'GET' && url.startsWith('/product/'))
+    if (req.method === 'GET' && url.startsWith('/product/'))
         return product(req, res);
 
     // dynamic routes
@@ -71,6 +94,36 @@ const routing = (req, res) => {
 
             case '/register': {
                 return handleRegisterReq(req, res)
+            }
+
+            default: {
+                if(url.startsWith('/product/') && url.includes('/add-comment')) {
+                    // TODO: Verifica daca utilizatorul este autentificat
+                    let body = ''
+                    req.on('data', (chunk) => {
+                        body += chunk.toString()
+                    })
+
+                    let parsedBody
+                    req.on('end', async () => {
+                        parsedBody = parse(body)
+
+                        if(parsedBody.comment == null || parsedBody.comment.length === 0) {
+                            req.errorMessage = "Câmpul comentariului nu poate să fie gol!"
+                            return product(req, res)
+                        }
+
+                        let productComment = new ProductComment(
+                            null, url.split('/product/')[1].split('/')[0],5,
+                            parsedBody.comment, new Date(Date.now())
+                        );
+
+                        let productController = new ProductController(conn);
+                        await productController.addProductComment(productComment);
+                        return product(req, res)
+                    });
+                }
+                return;
             }
         }
     }
