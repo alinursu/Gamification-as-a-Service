@@ -3,12 +3,29 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/common/head.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/common/head.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/index/achievements.css" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/index/achievements.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/index.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/index.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/gamification/postDataRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/gamification/postDataRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationContact.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationContact.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationEvent.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationEvent.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationReward.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationReward.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationSystem.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addGamificationSystem.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addUser.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addUser.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/addUserData.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/addUserData.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/adminHome.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/adminHome.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationContact.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationContact.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationEvents.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationEvents.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationRewards.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationRewards.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationSystems.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationSystems.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationUserData.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/gamificationUserData.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/tokens.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/tokens.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateContact.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateContact.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateEvent.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateEvent.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateReward.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateReward.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateSystem.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateSystem.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateUser.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateUser.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/updateUserData.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/updateUserData.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/admin/users.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/admin/users.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/styles/admin-gamification-rewards.css" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/styles/admin-gamification-rewards.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/styles/admin-tokens.css" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/styles/admin-tokens.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/routes/admin/adminHome.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -78,8 +78,7 @@ td {
     border: 3px solid #656180;
 }
 th,td{
-    width: 20%;
-    padding:0 10px 0 10px;
+    width: 15%;
     height: 40px;
     font-family: cursive;
 }

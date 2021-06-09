@@ -6,9 +6,7 @@ const adminHomeRoute = (request, response) => {
         index: path.join(__dirname, '../../../pages/admin/adminHome.hbs')
     }
 
-    return renderPage(paths.index, {
-        styles: ['admin-home']
-    }, (data) => {
+    return renderPage(paths.index, null, (data) => {
         response.write(data);
         response.end();
     });
