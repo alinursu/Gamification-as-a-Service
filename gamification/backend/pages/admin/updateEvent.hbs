@@ -23,7 +23,8 @@
                     <label for="name">Name:</label><br>
                     <input type="text" id="name" name="name" value="{{this.event.name}}" required><br>
                     <label for="api-key">SystemApiKey</label><br>
-                    <input type="text" id="system-api-key" name="system-api-key" value="{{this.event.systemAPIKey}}" required><br>
+                    <input type="text" id="system-api-key" name="system-api-key" value="{{this.event.systemAPIKey}}" style="display: none">
+                    <input type="text" id="system-api-key" name="system-api-key" value="{{this.event.systemAPIKey}}" required disabled><br>
                     <label for="type">eventType</label><br>
                     <input type="text" id="type" name="type" value="{{this.event.eventType}}" required><br>
                     <button class="add-btn">Update</button>

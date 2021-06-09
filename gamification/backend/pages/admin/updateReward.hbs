@@ -21,7 +21,8 @@
                     <br/>
                     <input type="hidden" name="id" value="{{this.reward.id}}">
                     <label for="api-key">SystemAPIKey</label><br>
-                    <input type="text" id="api-key" name="api-key" value="{{this.reward.systemAPIKey}}" required><br>
+                    <input type="text" id="api-key" name="api-key" value="{{this.reward.systemAPIKey}}" style="display: none">
+                    <input type="text" id="api-key" name="api-key" value="{{this.reward.systemAPIKey}}" required disabled><br>
                     <label for="name">Name</label><br>
                     <input type="text" id="name" name="name" value="{{this.reward.name}}" required><br>
                     <label for="type">Type</label><br>

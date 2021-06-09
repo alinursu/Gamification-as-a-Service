@@ -6,6 +6,7 @@ const login = require('../routes/login')
 const category = require('../routes/category')
 const product = require("../routes/product");
 const { parse } = require('querystring')
+const search = require("../routes/search");
 const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
 const ProductController = require('../controllers/productController');
 const conn = require("../database/connectionDb");
@@ -32,6 +33,22 @@ const routing = (req, res) => {
                 req.category = 'phones';
                 req.title = 'Telefoane și tablete'
                 return category(req, res);
+            case '/category/laptops':
+                req.category = 'laptops';
+                req.title = 'Laptopuri și calculatoare'
+                return category(req, res);
+            case '/category/rents':
+                req.category = 'rents';
+                req.title = 'Închirieri și vânzări apartamente'
+                return category(req,res);
+            case '/category/furniture':
+                req.category = 'furniture';
+                req.title = 'Mobilier și electrocasnice';
+                return category(req,res);
+            case '/category/others':
+                req.category ='others';
+                req.title = 'Ate tipuri de produse';
+                return category(req,res);
             case '/login':
                 return login(req, res);
         }
@@ -39,12 +56,12 @@ const routing = (req, res) => {
     }
 
     // dynamic route for search
-    if(req.method === 'GET' && url.startsWith('/search')){
+    if (req.method === 'GET' && url.startsWith('/search')) {
         return search(req, res);
     }
 
     // dyanmic route for product
-    if(req.method === 'GET' && url.startsWith('/product/'))
+    if (req.method === 'GET' && url.startsWith('/product/'))
         return product(req, res);
 
     // dynamic routes

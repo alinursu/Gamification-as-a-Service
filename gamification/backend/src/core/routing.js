@@ -36,7 +36,6 @@ const routing = async (request, response) => {
                 await utils.timeout(10);
             }
 
-
             if (userModel != null && userModel !== -1) {
                 request.userFullName = userModel.firstname + " " + userModel.lastname;
                 request.userURL = userModel.url;

@@ -57,6 +57,17 @@ const insertProductComment = (conn, productComment) => {
                 ], (err) => {
             if (err) {
                 console.log(err);
+            }
+            resolve();
+        });
+    });
+}
+
+//for seach
+const findProductsByName = (conn, name) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM products WHERE name LIKE ?', ['%' + name + '%'], (err) => {
+            if (err) {
                 reject(err)
             }
             resolve()
@@ -94,6 +105,6 @@ module.exports = {
     getProductById,
     findProductsByCategory,
     insertProductComment,
-    getProductCommentsByProductId
-    // findProductsByName
+    getProductCommentsByProductId,
+    findProductsByName
 }
