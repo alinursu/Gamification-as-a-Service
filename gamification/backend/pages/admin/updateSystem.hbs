@@ -19,12 +19,13 @@
             <div class="form">
                 <form method="post" action="/admin/gamification-systems/update">
                     <label for="name">Name:</label><br>
-                    <input type="text" id="name" name="name" value="{{this.system.name}}"required><br>
+                    <input type="text" id="name" name="name" value="{{this.system.name}}" required><br>
                     <label for="userId">UserID</label><br>
                     <input type="text" id="userId" name="userId" value="{{this.system.userId}}" required><br>
-                    <label for="api-key">ApiKey</label><br>
-                    <input type="text" id="api-key" name="api-key" value="{{this.system.APIKey}}"required><br>
 
+                    <label for="api-key">ApiKey</label>
+                    <input type="text" id="api-key" name="api-key" value="{{this.system.APIKey}}" style="display: none">
+                    <input type="text" id="api-key" name="api-key" value="{{this.system.APIKey}}" required disabled>
                     <button class="add-btn">Update</button>
                 </form>
 

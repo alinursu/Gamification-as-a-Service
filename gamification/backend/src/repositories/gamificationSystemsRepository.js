@@ -293,9 +293,9 @@ async function deleteEventById(id) {
 
 async function updateSystemModel(systemModel) {
     const connection = getDatabaseConnection();
-    const sql = "UPDATE gamification_systems SET api_key=?, user_id=?, name=? WHERE api_key=?";
+    const sql = "UPDATE gamification_systems SET  user_id=?, name=? WHERE api_key=?";
     return new Promise((resolve, reject) => {
-        connection.query(sql, [hash.encrypt(systemModel.APIKey), systemModel.userId, hash.encrypt(systemModel.name), hash.encrypt(systemModel.APIKey)], function (error, results) {
+        connection.query(sql, [systemModel.userId, hash.encrypt(systemModel.name), hash.encrypt(systemModel.APIKey)], function (error, results) {
             if (error) {
                 reject(error);
             } else {
@@ -308,9 +308,9 @@ async function updateSystemModel(systemModel) {
 async function updateRewardModel(rewardModel) {
     const connection = getDatabaseConnection();
 
-    const sql = "UPDATE gamification_rewards SET id=?, system_api_key=?, name=?, type=?, occurs_at_event_id=?, event_value=?, reward_value=? WHERE id=?";
+    const sql = "UPDATE gamification_rewards SET id=?, name=?, type=?, occurs_at_event_id=?, event_value=?, reward_value=? WHERE id=?";
     return new Promise((resolve, reject) => {
-        connection.query(sql, [rewardModel.id, hash.encrypt(rewardModel.systemAPIKey), hash.encrypt(rewardModel.name), rewardModel.type, rewardModel.eventId, rewardModel.eventValue, rewardModel.rewardValue, rewardModel.id], function (error, results) {
+        connection.query(sql, [rewardModel.id, hash.encrypt(rewardModel.name), rewardModel.type, rewardModel.eventId, rewardModel.eventValue, rewardModel.rewardValue, rewardModel.id], function (error, results) {
             if (error) {
                 reject(error);
             } else {
@@ -323,9 +323,9 @@ async function updateRewardModel(rewardModel) {
 async function updateEventModel(eventModel) {
     const connection = getDatabaseConnection();
 
-    const sql = "UPDATE gamification_events SET system_api_key=?, name=?, event_type=? WHERE id=?";
+    const sql = "UPDATE gamification_events SET name=?, event_type=? WHERE id=?";
     return new Promise((resolve, reject) => {
-        connection.query(sql, [hash.encrypt(eventModel.systemAPIKey),hash.encrypt(eventModel.name),eventModel.eventType,eventModel.id], function (error, results) {
+        connection.query(sql, [hash.encrypt(eventModel.name),eventModel.eventType,eventModel.id], function (error, results) {
             if (error) {
                 reject(error);
             } else {
