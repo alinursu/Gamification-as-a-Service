@@ -72,68 +72,23 @@
 
 
     <div style="display: flex; flex-direction: column;">
-        <div class="achievements-buttons-container">
-            <button type="button" onclick="changeToSellers()" id="sellersAchievementsBtn"
-                    class="achievements-menu-button">Vânzători
-            </button>
-            <button type="button" onclick="changeToBuyers()" id="buyersAchievementsBtn"
-                    class="achievements-menu-button">Cumpărători
-            </button>
-        </div>
 
         <div class="divAchievements">
-            <div id="sellers-achievements-container">
-                <h3>Realizări ale vânzătorilor</h3>
+            <div id="achievements-container">
+                <h3>Topul utilizatorilor</h3>
 
-                <div class="achievementList">
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe produse vândute în ultima lună</p>
-                        <h3>Ion Ionescu - 100</h3>
+                {{#if topUsers}}
+                    <div class="achievementList">
+                        {{#each topUsers}}
+                            <div class="divAchievement">
+                                <h3>{{this.index}}. {{this.user}} --> Scor: {{this.score}}</h3>
+                            </div>
+                        {{/each}}
                     </div>
-
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe țepe date în ultima lună</p>
-                        <h3>Ion Ionescu - 20</h3>
-                    </div>
-
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe review-uri primite în ultima lună</p>
-                        <h3>Ion Ionescu - 524</h3>
-                    </div>
-
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe mesaje primite pentru un singur produs listat</p>
-                        <h3>Ion Ionescu - 24</h3>
-                    </div>
-                </div>
+                {{else}}
+                    <p style="margin-left: auto; margin-right: auto; color:#474747">Datele nu sunt disponibile momentan.</p>
+                {{/if}}
             </div>
-
-            <div id="buyers-achievements-container">
-                <h3>Realizări ale cumpărătorilor</h3>
-
-                <div class="achievementList">
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe produse cumpărate în ultima lună</p>
-                        <h3>Ion Ionescu - 100</h3>
-                    </div>
-
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe țepe primite în ultima lună</p>
-                        <h3>Ion Ionescu - 20</h3>
-                    </div>
-
-                    <div class="divAchievement">
-                        <p style="margin-left: 4%;">Cele mai multe review-uri date în ultima lună</p>
-                        <h3>Ion Ionescu - 524</h3>
-                    </div>
-
-                    <pre style="grid-row: 3 / 4; grid-column: 1 / 4;"></pre>
-                    <pre style="grid-row: 4 / 5; grid-column: 1 / 4;"></pre>
-                    <pre style="grid-row: 5 / 6; grid-column: 1 / 4;"></pre>
-                </div>
-            </div>
-
-            <script style="display:none;">initAchievements();</script>
         </div>
     </div>
 </div>

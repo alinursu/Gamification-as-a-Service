@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/profile.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/profile.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/common/head.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/common/head.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/index/achievements.css" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/index/achievements.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/index.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/index.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/database/tables/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/database/tables/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/gamification/postDataRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/gamification/postDataRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

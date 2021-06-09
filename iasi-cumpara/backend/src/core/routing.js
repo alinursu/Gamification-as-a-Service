@@ -26,8 +26,10 @@ const routing = async (req, res) => {
     // GET Requests
     if (req.method === 'GET') {
         switch (url) {
-            case '/':
+            case '/': {
                 return home(req, res)
+            }
+
             case '/profile': {
                 let cookies = cookie.parse(req.headers.cookie || '');
                 if(cookies.authTokenISC != null) return profile(req, res)
