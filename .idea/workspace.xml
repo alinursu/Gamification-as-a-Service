@@ -3,9 +3,101 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/common/header_logged.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/common/header_logged.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/src/core/routingGet.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/core/routingGet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/HISTORY.md" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/HISTORY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/cookie/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/handlebars/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/handlebars/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/node-static/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/node-static/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/normalize-url/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/normalize-url/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/normalize-url/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/normalize-url/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/ast.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/ast.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/compress.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/compress.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/output.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/output.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/parse.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/parse.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/scope.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/lib/scope.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/node_modules/uglify-js/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/.bin/json2csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/.bin/json2csv.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/.bin/json2csv.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/commander/typings/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/.eslintrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/bin/json2csv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/bin/utils/TablePrinter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/bin/utils/parseNdjson.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/dist/json2csv.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/dist/json2csv.umd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/JSON2CSVAsyncParser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/JSON2CSVBase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/JSON2CSVParser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/JSON2CSVTransform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/json2csv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/transforms/flatten.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/transforms/unwind.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/lib/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/json2csv/rollup.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/README.markdown" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/bench.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/examples/twitterfeed.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/jsonparse.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/samplejson/basic.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/samplejson/basic2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/big-token.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/boundary.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/offset.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/primitives.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/surrogate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/unvalid.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/jsonparse/test/utf8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/lodash.get/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/lodash.get/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/lodash.get/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/lodash.get/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/BurstyRateLimiter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/ExpressBruteFlexible.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RLWrapperBlackAndWhite.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterAbstract.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterCluster.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterMemcache.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterMemory.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterMongo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterMySQL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterPostgres.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterQueue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterRedis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterRes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterStoreAbstract.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/RateLimiterUnion.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/BlockedKeys/BlockedKeys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/BlockedKeys/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/MemoryStorage/MemoryStorage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/MemoryStorage/Record.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/MemoryStorage/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/component/RateLimiterQueueError.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/constants.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/lib/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/node_modules/rate-limiter-flexible/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
