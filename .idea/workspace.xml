@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/products/product.css" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/styles/products/product.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/login.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/login.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/product.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/pages/views/product.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/controllers/productController.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/controllers/productController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/routing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/database/tables/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/database/tables/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/render.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/core/render.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/iasi-cumpara/backend/src/routes/product.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +66,7 @@
       <workItem from="1623092867823" duration="8120000" />
       <workItem from="1623146542986" duration="4992000" />
       <workItem from="1623162507450" duration="9801000" />
-      <workItem from="1623250187688" duration="8116000" />
+      <workItem from="1623250187688" duration="10274000" />
     </task>
     <servers />
   </component>

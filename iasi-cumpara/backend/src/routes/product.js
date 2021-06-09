@@ -55,7 +55,7 @@ const product = async (req, res) => {
             product: product,
             images: JSON.parse(product.images),
             errorMessage: req.errorMessage,
-            comments: comments
+            comments: (comments.length > 0 ? comments : null)
         });
         const footer = await render(paths.footer, {scripts: scripts});
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header
