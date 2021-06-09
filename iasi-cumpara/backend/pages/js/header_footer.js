@@ -19,3 +19,11 @@ scrollToTop = () => {
     document.getElementsByClassName('mobileMenu')[0].scrollIntoView({behavior: 'smooth'});
     
 }
+
+checkProfileRoute = () => {
+    const authCookie = document.cookie.split('; ').find(row => row.startsWith('authToken'))
+    
+    location.href = authCookie ? '/profile' : '/login'
+
+    console.log(authCookie)
+}

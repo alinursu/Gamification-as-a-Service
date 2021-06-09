@@ -1,4 +1,4 @@
-const { checkUser, insertUser } = require('../database/tables/users')
+const { checkUser, insertUser, setUserToken } = require('../database/tables/users')
 const User = require('../models/user')
 const conn = require('../database/connectionDb')
 const { parse } = require('querystring')
@@ -26,7 +26,13 @@ const handleLoginReq = (req, res) => {
                     res.end()
                 } else {
                     console.log('logged in succesfully')
-                    // return { statusCode: 303, location: '/'}
+                    setUserToken(conn, user, req, res).then(
+                        (result) => {
+                            console.log('setToken result: ', result)
+                        },
+                        (error) => {
+                            console.log('setToken error', error)
+                        })
                     res.writeHead(303, { 'Location' : '/'})
                     res.end()
                 }
