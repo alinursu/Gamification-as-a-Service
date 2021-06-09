@@ -5,7 +5,12 @@ const profile = require('../routes/profile')
 const login = require('../routes/login')
 const category = require('../routes/category')
 const product = require("../routes/product");
+const { parse } = require('querystring')
 const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
+const ProductController = require('../controllers/productController');
+const conn = require("../database/connectionDb");
+
+const ProductComment = require('../models/ProductComment')
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
@@ -30,6 +35,7 @@ const routing = (req, res) => {
             case '/login':
                 return login(req, res);
         }
+
     }
 
     // dynamic route for search
@@ -62,6 +68,36 @@ const routing = (req, res) => {
 
             case '/register': {
                 return handleRegisterReq(req, res)
+            }
+
+            default: {
+                if(url.startsWith('/product/') && url.includes('/add-comment')) {
+                    // TODO: Verifica daca utilizatorul este autentificat
+                    let body = ''
+                    req.on('data', (chunk) => {
+                        body += chunk.toString()
+                    })
+
+                    let parsedBody
+                    req.on('end', async () => {
+                        parsedBody = parse(body)
+
+                        if(parsedBody.comment == null || parsedBody.comment.length === 0) {
+                            req.errorMessage = "Câmpul comentariului nu poate să fie gol!"
+                            return product(req, res)
+                        }
+
+                        let productComment = new ProductComment(
+                            null, url.split('/product/')[1].split('/')[0],5,
+                            parsedBody.comment, new Date(Date.now())
+                        );
+
+                        let productController = new ProductController(conn);
+                        await productController.addProductComment(productComment);
+                        return product(req, res)
+                    });
+                }
+                return;
             }
         }
     }

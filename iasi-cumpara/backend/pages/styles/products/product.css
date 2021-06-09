@@ -223,3 +223,88 @@
     color: #00458B;
     background-color: #ffffff;
 }
+
+#comments-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    background-color: #e8e8e8;
+}
+
+.comment-card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    margin: 1em;
+    border: 2px dotted #00458b;
+    border-radius: 10px;
+    padding: 0.5em 2em;
+
+    background-color: #ffffff;
+}
+
+.comment-person-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comment-person-div > h3 {
+    margin-right: auto;
+}
+
+.comment-card > p {
+    text-indent: 1em;
+}
+
+#comments-div > form {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 0.5em;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0.5em 2em;
+    background-color: #ffffff;
+    border: 2px dotted #00458b;
+    border-radius: 10px;
+}
+
+#comments-div > form > textarea {
+    width: 70%;
+    height: 7em;
+}
+
+#comments-div > form > button {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding: 0.3em;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    color: #ffffff;
+    background-color: #00458b;
+    border-color: #00458b;
+    border-radius: 5px;
+    cursor: pointer;
+
+    box-shadow: 2px 2px 4px #000000;
+}
+
+#comments-div > form > button:hover {
+    background-color: #ffffff;
+    color: #00458b;
+}
+
+@media screen and (max-width: 625px) {
+    #comments-div > form > textarea {
+        width: 90%;
+    }
+}

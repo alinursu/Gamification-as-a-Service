@@ -1,3 +1,5 @@
+const {getProductCommentsByProductId} = require("../database/tables/products");
+const {insertProductComment} = require("../database/tables/products");
 const {findProductsByCategory} = require("../database/tables/products");
 const {getProductById} = require("../database/tables/products");
 const {insertProduct} = require("../database/tables/products");
@@ -21,6 +23,14 @@ const ProductController = class {
 
     getAllByCategory(category) {
         return findProductsByCategory(this.conn, category)
+    }
+
+    addProductComment(comment) {
+        return insertProductComment(this.conn, comment);
+    }
+
+    getAllCommentsByProductId(id) {
+        return getProductCommentsByProductId(this.conn, id);
     }
 }
 

@@ -46,6 +46,36 @@ const insertProduct = (conn, product) => {
     })
 }
 
+const insertProductComment = (conn, productComment) => {
+    return new Promise((resolve, reject) => {
+        conn.query("INSERT INTO product_comments(product_id, user_id, comment, date) VALUES (?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d %H:%i'))", [
+                    productComment.productId,
+                    productComment.userId,
+                    productComment.comment,
+                    productComment.date.getFullYear() + "-" + productComment.date.getMonth() + "-" + productComment.date.getDate() +
+                        " " + productComment.date.getHours() + ":" + productComment.date.getMinutes()
+                ], (err) => {
+            if (err) {
+                console.log(err);
+                reject(err)
+            }
+            resolve()
+        })
+    })
+}
+
+const getProductCommentsByProductId = (conn, productId) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * from product_comments where product_id = ?', productId, (err, res) => {
+            if (err) {
+                reject(err)
+            }
+
+            resolve(res)
+        })
+    })
+}
+
 // for seach
 // const findProductsByName = (conn, name) => {
 //     return new Promise((resolve, reject) => {
@@ -63,5 +93,7 @@ module.exports = {
     selectAllProducts,
     getProductById,
     findProductsByCategory,
+    insertProductComment,
+    getProductCommentsByProductId
     // findProductsByName
 }
