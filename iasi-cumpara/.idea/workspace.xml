@@ -7,12 +7,8 @@
     <list default="true" id="73590a69-6328-4b36-b477-1cf2548caca4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../gamification/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/src/core/routing.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pages/common/header.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pages/common/header.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pages/views/index.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pages/views/index.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/productController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/productController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/core/routing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/database/tables/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/database/tables/products.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/search.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

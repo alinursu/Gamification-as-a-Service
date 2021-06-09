@@ -36,6 +36,14 @@ const routing = (req, res) => {
                 req.category = 'rents';
                 req.title = 'Închirieri și vânzări apartamente'
                 return category(req,res);
+            case '/category/furniture':
+                req.category = 'furniture';
+                req.title = 'Mobilier și electrocasnice';
+                return category(req,res);
+            case '/category/others':
+                req.category ='others';
+                req.title = 'Ate tipuri de produse';
+                return category(req,res);
             case '/login':
                 return login(req, res);
         }
