@@ -101,9 +101,9 @@ const routing = async (req, res) => {
                 if (url.startsWith('/product/') && url.includes('/add-comment')) {
                     // TODO: De modificat numele cookie-ului
                     let cookies = cookie.parse(req.headers.cookie || '');
-                    if (cookies.authToken != null) {
+                    if (cookies.authTokenISC != null) {
                         let userController = new UserController(conn);
-                        let userModel = await userController.getUserByToken(cookies.authToken);
+                        let userModel = await userController.getUserByToken(cookies.authTokenISC);
 
                         let body = ''
                         req.on('data', (chunk) => {

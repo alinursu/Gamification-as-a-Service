@@ -21,7 +21,7 @@ scrollToTop = () => {
 }
 
 checkProfileRoute = () => {
-    const authCookie = document.cookie.split('; ').find(row => row.startsWith('authToken'))
+    const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
     
     location.href = authCookie ? '/profile' : '/login'
 

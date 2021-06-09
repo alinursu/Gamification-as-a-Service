@@ -14,7 +14,7 @@ const generateAuthToken = () => {
 
 const generateAuthCookie = (req, res) => {
     let token = generateAuthToken()
-    res.setHeader('Set-Cookie', cookie.serialize('authToken', token))
+    res.setHeader('Set-Cookie', cookie.serialize('authTokenISC', token))
 
     return token
 }
