@@ -4,15 +4,16 @@ const home = require('../routes/home')
 const profile = require('../routes/profile')
 const login = require('../routes/login')
 const category = require('../routes/category')
-const { handleLoginReq, handleRegisterReq } = require('../controllers/loginController')
+const product = require("../routes/product");
+const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
 
-const file = new (staticServe.Server)(path.join(__dirname,'../../pages/'), { cache: 1})
+const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
-const routing = (req,res) => {
+const routing = (req, res) => {
     const url = req.url
 
     // GET Requests
-    if(req.method === 'GET') {
+    if (req.method === 'GET') {
         switch (url) {
             case '/':
                 return home(req, res);
@@ -20,27 +21,41 @@ const routing = (req,res) => {
                 return profile(req, res);
             case '/category/cars':
                 req.category = 'cars';
+                req.title = 'Automobile și ambarcațiuni';
+                return category(req, res);
+            case '/category/phones':
+                req.category = 'phones';
+                req.title = 'Telefoane și tablete'
                 return category(req, res);
             case '/login':
                 return login(req, res);
         }
     }
 
+    // dynamic route for search
+    if(req.method === 'GET' && url.startsWith('/search')){
+        return search(req, res);
+    }
+
+    // dyanmic route for product
+    if(req.method === 'GET' && url.startsWith('/product/'))
+        return product(req, res);
+
     // dynamic routes
     if (url.toString().substr(0, 8) === '/styles/') {
-        return file.serve(req,res)
+        return file.serve(req, res)
     }
     if (url.toString().substr(0, 4) === '/js/') {
-        return file.serve(req,res)
+        return file.serve(req, res)
     }
-    if(url.toString().substr(0, 8) === '/assets/') {
-        return file.serve(req,res)
+    if (url.toString().substr(0, 8) === '/assets/') {
+        return file.serve(req, res)
     }
 
     //POST Requests
-    if(req.method === 'POST') {
+    if (req.method === 'POST') {
         console.log(url)
-        switch(url) {
+        switch (url) {
             case '/login': {
                 return handleLoginReq(req, res)
             }

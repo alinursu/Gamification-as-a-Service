@@ -1,0 +1,44 @@
+<div style="flex-grow: 1; margin-left: 5px; margin-right: 5px; padding: 20px">
+    <div class="announce">
+        <div class="announce-header">
+            <div style="display: flex; flex-wrap: wrap; margin: 0 5px;">
+                <div style="display: flex; flex-direction: column; margin-top: 15px;">
+                    <div class="slideshow-container">
+                        {{#each images}}
+                            <div class="slide">
+                                <img class="slide-img" alt="" src="{{this}}" style="height: 350px; width: auto;">
+                            </div>
+                        {{/each}}
+                    </div>
+
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <button class="slideshow-prev-btn" onclick="showPreviousSlide()">&lt;</button>
+
+                        <div style="text-align: center; margin: 5px 0 10px 0;">
+                            {{#each images}}
+                                <span class="slideshow-dot" onclick="showSelectedSlide({{@index}})"></span>
+                            {{/each}}
+                        </div>
+
+                        <button class="slideshow-next-btn" onclick="showNextSlide()">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announce-seller-details">
+                <div class="announce-details">
+                    <p style="font-size: 24px; font-weight: bold; margin-left: 10px; margin-top: 10px;">{{product.name}}</p>
+                    <div style="display:inline-flex; flex-wrap: wrap; align-items: center;">
+                        <p style="font-size: 18px; font-weight: bold; margin-left: 10px;">{{product.price}} lei</p>
+                    </div>
+                    <button type="button" id="buyItemBtn" onclick="">Cumpără</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="announce-body">
+            <p>{{product.description}}</p>
+        </div>
+
+    </div>
+</div>

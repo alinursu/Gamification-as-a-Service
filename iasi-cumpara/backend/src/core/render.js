@@ -1,15 +1,16 @@
 const hbs = require('handlebars')
 const fs = require('fs')
 
-const render = (path, vars = null, cb) => {
-    fs.readFile(path, (err,data) => {
-        if(err) {
-            console.log(err)
-            cb(null)
-        } else {
-            const template = hbs.compile(data.toString())
-            cb(template(vars))
-        }
+const render = (path, vars = null) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, (err,data) => {
+            if(err) {
+                reject(err);
+            } else {
+                const template = hbs.compile(data.toString())
+                resolve(template(vars))
+            }
+        })
     })
 }
 
