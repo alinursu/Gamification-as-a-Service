@@ -21,12 +21,6 @@ const startServer = async () => {
         console.log('DB Connect Error: ' + error)
     }
 
-    // try{
-    //     await insertUser(con,"alin", "alin@test.com", "pass_alin");
-    // } catch (error) {
-    //     console.log("DB Insert Error:" + error);
-    // }
-
     try {
         const users = await selectAllUsers(con)
     } catch (error) {
