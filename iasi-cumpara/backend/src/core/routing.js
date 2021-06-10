@@ -62,7 +62,7 @@ const routing = async (req, res) => {
                 return category(req, res);
             case '/category/others':
                 req.category = 'others';
-                req.title = 'Ate tipuri de produse';
+                req.title = 'Alte tipuri de produse';
                 return category(req, res);
             case '/login':
                 return login(req, res)
@@ -98,6 +98,7 @@ const routing = async (req, res) => {
         return file.serve(req, res)
     }
 
+
     //POST Requests
     if (req.method === 'POST') {
         console.log(url)
@@ -109,7 +110,7 @@ const routing = async (req, res) => {
             case '/register': {
                 return handleRegisterReq(req, res)
             }
-            
+
             case '/buy': {
                 return handleNewOrder(req, res)
             }
