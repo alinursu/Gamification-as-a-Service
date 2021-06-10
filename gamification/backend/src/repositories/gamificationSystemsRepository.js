@@ -132,7 +132,7 @@ async function getGamificationRewardModelsByAPIKey(systemAPIKey) {
     var sql = "SELECT * FROM gamification_rewards WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+    connection.query(sql, [hash.encrypt(systemAPIKey).trim()], function (error, results) {
         if (error) {
             queryResult = -1;
             return;
@@ -164,7 +164,7 @@ async function getGamificationEventModelsByAPIKey(systemAPIKey) {
     var sql = "SELECT * FROM gamification_events WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+    connection.query(sql, [hash.encrypt(systemAPIKey).trim()], function (error, results) {
         if (error) {
             queryResult = -1;
             return;

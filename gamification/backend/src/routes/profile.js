@@ -40,7 +40,8 @@ const profileRoute = (request, response) => {
                 previousURLValue: request.previousURLValue,
                 userFullName: request.userFullName,
                 userURL: request.userURL,
-                listOfGamificationSystemModels: request.listOfGamificationSystemModels
+                listOfGamificationSystemModels: request.listOfGamificationSystemModels,
+                isAdmin : request.isAdmin
             }, (data) => {
                 response.write(data);
 

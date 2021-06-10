@@ -292,7 +292,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             await utils.timeout(10);
         }
 
-        if(listOfRewardModels == -1) {
+        if(listOfRewardModels === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
@@ -302,6 +302,8 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
         }
 
         // Construiesc raspunsul
+        console.log(listOfRewardModels)
+        console.log(listOfGamificationUserDataModels)
         const userIdList = Array.from(new Set(listOfGamificationUserDataModels.map(model => model.userId)));
         let topUsers = []
         for(let i=0; i<userIdList.length; i++) {

@@ -21,6 +21,15 @@
                 <button class="left-part-row-button" type="button" onclick="onSettingsMenuButtonClick()">SETĂRI CONT</button>
             </div>
 
+            {{#if isAdmin }}
+                <div class="horizontal-line"></div>
+
+                <div class="left-part-row-div">
+                    <img alt="" src="/images/admin-icon.png" style="width: 35px; margin-right: 0.3em;">
+                    <button class="left-part-row-button" type="button" onclick="location.href = '/admin/home'">ADMIN PANEL</button>
+                </div>
+            {{/if}}
+
             <div class="horizontal-line"></div>
 
             <div class="left-part-row-div">
