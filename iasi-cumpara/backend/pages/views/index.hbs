@@ -75,7 +75,7 @@
 
         <div class="divAchievements">
             <div id="achievements-container">
-                <h3>Topul utilizatorilor</h3>
+                <div class="top">Topul utilizatorilor</div>
 
                 {{#if topUsers}}
                     <div class="achievementList">
@@ -86,7 +86,8 @@
                         {{/each}}
                     </div>
                 {{else}}
-                    <p style="margin-left: auto; margin-right: auto; color:#474747">Datele nu sunt disponibile momentan.</p>
+                    <p style="margin-left: auto; margin-right: auto; color:#474747">Datele nu sunt disponibile
+                        momentan.</p>
                 {{/if}}
             </div>
         </div>
