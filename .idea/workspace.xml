@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="469ecceb-ea07-4aa8-b554-ab21c980d28a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/form.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/form.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/form_modify.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/form_modify.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/pages/js/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/pages/js/form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/src/models/GamificationUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/models/GamificationUserData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamification/backend/src/repositories/gamificationSystemsRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/repositories/gamificationSystemsRepository.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamification/backend/src/controllers/GamificationSystemExternalController.js" beforeDir="false" afterPath="$PROJECT_DIR$/gamification/backend/src/controllers/GamificationSystemExternalController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +64,7 @@
       <workItem from="1623146542986" duration="4992000" />
       <workItem from="1623162507450" duration="9801000" />
       <workItem from="1623250187688" duration="11762000" />
-      <workItem from="1623317409866" duration="14444000" />
+      <workItem from="1623317409866" duration="19152000" />
     </task>
     <servers />
   </component>
