@@ -18,14 +18,19 @@ const profile = async (req, res) => {
     // incarca realizari
     const gamificationController = new GamificationController(userModel.id);
     const rewards = await gamificationController.getRewards();
+    for(let reward of rewards) {
+        reward.reward_type = (reward.reward_type === 'level') ? "Nivel" : "Insignă";
+    }
+
     const orders = await getOrdersForUser(con, userModel.id)
     for(let order of orders) {
+        order.dateAcquired = (order.dateAcquired.getDate() < 10 ? "0" + order.dateAcquired.getDate() : order.dateAcquired.getDate()) + "." +
+            ((order.dateAcquired.getMonth()+1) < 10 ? "0" + (order.dateAcquired.getMonth()+1) : (order.dateAcquired.getMonth()+1)) + "." +
+            order.dateAcquired.getFullYear()
         order.product = await getProductById(con, order.productId)
         order.image = JSON.parse(order.product.images)[0]
         order.total = order.product.price * order.quantity
     }
-
-    console.log(rewards);
 
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),

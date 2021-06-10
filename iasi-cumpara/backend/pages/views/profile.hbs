@@ -6,7 +6,6 @@
         </div>
     </div>
 
-<!--    TODO: Request rewards din gamification external API-->
     <h2>Realizări</h2>
     <div class="profile_achievements">
         {{#each rewards}}
@@ -19,11 +18,10 @@
         {{/each}}
     </div>
 
-<!--    TODO: Listare orders-->
     <h2>Comenzile tale</h2>
     <div class="announces">
         {{#each orders}}
-        <a class="announce" onclick="location.href = '/product/{{this.productId}}'">
+        <a class="announce" onclick="location.href = '/product/{{this.productId}}'" style="cursor: pointer;">
          <img
                     src="{{this.image}}"
                     alt=""
