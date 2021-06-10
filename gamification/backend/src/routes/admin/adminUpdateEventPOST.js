@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const Event = require("../../models/GamificationEvent");
-const GamificationEvent = require("../../repositories/GamificationSystemsRepository");
+const GamificationEvent = require("../../repositories/gamificationSystemsRepository");
 const {parse} = require('querystring');
 
 const adminUpdateEventPUTRoute = (request, response) => {

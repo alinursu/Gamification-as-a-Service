@@ -2,7 +2,7 @@ const renderPage = require("../../core/render");
 const path = require("path");
 const querystringParser = require('querystring');
 const url = require("url");
-const gamificationRewardsRepository = require("../../repositories/GamificationSystemsRepository");
+const gamificationRewardsRepository = require("../../repositories/gamificationSystemsRepository");
 
 const adminDeleteRewardRoute = async (request, response) => {
     try {

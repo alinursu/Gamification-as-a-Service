@@ -1,7 +1,7 @@
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
-const ContactMessageRepository = require('../repositories/ContactMessagesRepository');
+const ContactMessageRepository = require('../repositories/contactMessagesRepository');
 const utils = require("../internal/utils");
 
 /**

@@ -3,7 +3,7 @@ const { parse } = require('querystring');
 const ContactMessageModel = require('../models/ContactMessage');
 const indexRoute = require('../routes/index');
 const errorRoute = require('../routes/error');
-const ContactMessageServices = require('../services/ContactMessageServices');
+const ContactMessageServices = require('../services/contactMessageServices');
 
 /**
  * Rezolva un request de tip POST facut in pagina /.

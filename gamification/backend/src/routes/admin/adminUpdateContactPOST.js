@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const GamificationContact = require('../../models/ContactMessage');
-const ContactMessages = require("../../repositories/ContactMessagesRepository");
+const ContactMessages = require("../../repositories/contactMessagesRepository");
 const {parse} = require('querystring');
 
 const adminUpdateContactPOSTRoute = (request, response) => {

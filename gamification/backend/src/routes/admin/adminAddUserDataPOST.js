@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const UserData = require("../../models/GamificationUserData");
-const userDataRepository = require("../../repositories/GamificationSystemExternalRepository");
+const userDataRepository = require("../../repositories/gamificationSystemExternalRepository");
 const utils = require("../../internal/utils");
 const errorRoute = require("../error");
 const { parse } = require('querystring');

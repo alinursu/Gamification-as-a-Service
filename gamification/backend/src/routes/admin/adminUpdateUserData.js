@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const querystringParser = require("querystring");
-const gamificationUserDataRepository = require("../../repositories/GamificationSystemExternalRepository");
+const gamificationUserDataRepository = require("../../repositories/gamificationSystemExternalRepository");
 
 const adminUpdateUserDataRoute = async (request, response) => {
     const paths = {

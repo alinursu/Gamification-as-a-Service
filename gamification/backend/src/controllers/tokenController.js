@@ -1,4 +1,4 @@
-const TokensServices = require("../services/TokensServices");
+const TokensServices = require("../services/tokensServices");
 
 /**
  * Sterge din baza de date toti tokenii care au expirat.

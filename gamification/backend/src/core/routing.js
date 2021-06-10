@@ -1,5 +1,5 @@
 const errorRoute = require("../routes/error");
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/userController');
 const utils = require('../internal/utils');
 
 const routingDelete = require('./routingDelete');

@@ -1,6 +1,6 @@
 const renderPage = require("../../core/render");
 const path = require("path");
-const gamificationContactRepository = require("../../repositories/ContactMessagesRepository");
+const gamificationContactRepository = require("../../repositories/contactMessagesRepository");
 const GamificationContact = require("../../models/ContactMessage");
 const utils = require("../../internal/utils");
 const errorRoute = require("../error");

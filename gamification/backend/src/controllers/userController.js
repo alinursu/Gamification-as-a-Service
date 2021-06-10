@@ -10,9 +10,9 @@ const errorRoute = require('../routes/error');
 
 const utils = require('../internal/utils');
 
-const UserServices = require('../services/UserServices');
-const GamificationSystemServices = require('../services/GamificationSystemServices');
-const TokensServices = require("../services/TokensServices");
+const UserServices = require('../services/userServices');
+const GamificationSystemServices = require('../services/gamificationSystemServices');
+const TokensServices = require("../services/tokensServices");
 
 /**
  * Preia din baza de date un model User pe baza unui token de autentificare.

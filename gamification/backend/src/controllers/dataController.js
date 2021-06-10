@@ -1,9 +1,9 @@
-const ContactMessageServices = require("../services/ContactMessageServices");
-const GamificationSystemServices = require("../services/GamificationSystemServices");
-const UsersService = require("../services/UserServices");
-const TokensServices = require("../services/TokensServices");
-const GamificationSystemExternalServices = require("../services/GamificationSystemExternalServices");
-const DataServices = require("../services/DataServices");
+const ContactMessageServices = require("../services/contactMessageServices");
+const GamificationSystemServices = require("../services/gamificationSystemServices");
+const UsersService = require("../services/userServices");
+const TokensServices = require("../services/tokensServices");
+const GamificationSystemExternalServices = require("../services/gamificationSystemExternalServices");
+const DataServices = require("../services/dataServices");
 
 const utils = require("../internal/utils");
 

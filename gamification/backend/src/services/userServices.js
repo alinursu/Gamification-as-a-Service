@@ -7,7 +7,7 @@ const errorRoute = require("../routes/error");
 const registerRoute = require("../routes/register");
 const profileRoute = require("../routes/profile");
 
-const UsersRepository = require("../repositories/UsersRepository");
+const UsersRepository = require("../repositories/usersRepository");
 
 const utils = require("../internal/utils");
 

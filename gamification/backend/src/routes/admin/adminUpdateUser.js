@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const querystringParser = require("querystring");
-const usersRepository = require("../../repositories/UsersRepository");
+const usersRepository = require("../../repositories/usersRepository");
 
 const adminUpdateUserRoute = async (request, response) => {
     const paths = {

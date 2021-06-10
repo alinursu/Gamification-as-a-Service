@@ -1,6 +1,6 @@
 const renderPage = require("../../core/render");
 const path = require("path");
-const gamificationSystemRepository = require("../../repositories/GamificationSystemsRepository");
+const gamificationSystemRepository = require("../../repositories/gamificationSystemsRepository");
 const GamificationSystem = require("../../models/GamificationSystem");
 const utils = require("../../internal/utils");
 const errorRoute = require("../error");

@@ -2,8 +2,8 @@ const { parse } = require('querystring');
 
 const utils = require('../internal/utils');
 
-const GamificationSystemExternalServices = require('../services/GamificationSystemExternalServices');
-const GamificationSystemServices = require('../services/GamificationSystemServices');
+const GamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
+const GamificationSystemServices = require('../services/gamificationSystemServices');
 
 /**
  * Rezolva un request de tip POST/PUT facut la pagina '/external/gamification-system' de catre un site extern.

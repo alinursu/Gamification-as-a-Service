@@ -3,10 +3,10 @@ var cookie = require('cookie');
 
 const GamificationSystem = require("../models/GamificationSystem");
 
-const UserController = require('./UserController');
+const UserController = require('./userController');
 
-const GamificationSystemServices = require('../services/GamificationSystemServices');
-const GamificationSystemExternalServices = require('../services/GamificationSystemExternalServices');
+const GamificationSystemServices = require('../services/gamificationSystemServices');
+const GamificationSystemExternalServices = require('../services/gamificationSystemExternalServices');
 
 const utils = require('../internal/utils');
 

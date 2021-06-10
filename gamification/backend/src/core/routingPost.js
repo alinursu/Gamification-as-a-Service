@@ -12,12 +12,12 @@ const adminUpdateUserDataPUTRoute = require("../routes/admin/adminUpdateUserData
 const adminAddContactPOSTRoute = require("../routes/admin/adminAddContactPOST");
 const adminUpdateContactPOSTRoute = require("../routes/admin/adminUpdateContactPOST");
 
-const UserController = require('../controllers/UserController');
-const ContactMessageController = require('../controllers/ContactMessageController');
-const GamificationSystemController = require('../controllers/GamificationSystemController');
-const GamificationSystemExternalController = require('../controllers/GamificationSystemExternalController');
-const RequestsLimiterController = require('../controllers/RequestsLimiterController');
-const DataController = require('../controllers/DataController');
+const UserController = require('../controllers/userController');
+const ContactMessageController = require('../controllers/contactMessageController');
+const GamificationSystemController = require('../controllers/gamificationSystemController');
+const GamificationSystemExternalController = require('../controllers/gamificationSystemExternalController');
+const RequestsLimiterController = require('../controllers/requestsLimiterController');
+const DataController = require('../controllers/dataController');
 
 const cookie = require('cookie');
 

@@ -1,6 +1,6 @@
 const utils = require('../internal/utils');
-const GamificationSystemServices = require('./GamificationSystemServices');
-const GamificationSystemExternalRepository = require('../repositories/GamificationSystemExternalRepository');
+const GamificationSystemServices = require('./gamificationSystemServices');
+const GamificationSystemExternalRepository = require('../repositories/gamificationSystemExternalRepository');
 const GamificationUserData = require('../models/GamificationUserData');
 
 /**

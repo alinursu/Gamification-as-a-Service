@@ -8,9 +8,9 @@ const ContactMessageModel = require('../models/ContactMessage');
 
 const utils = require("../internal/utils");
 
-const UsersRepository = require("../repositories/UsersRepository");
-const GamificationSystemsRepository = require("../repositories/GamificationSystemsRepository");
-const ContactMessagesRepository = require("../repositories/ContactMessagesRepository");
+const UsersRepository = require("../repositories/usersRepository");
+const GamificationSystemsRepository = require("../repositories/gamificationSystemsRepository");
+const ContactMessagesRepository = require("../repositories/contactMessagesRepository");
 
 /**
  * Adauga in baza de date utilizatorii importati dintr-un fisier CSV.

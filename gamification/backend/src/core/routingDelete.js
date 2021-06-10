@@ -1,7 +1,7 @@
 const errorRoute = require("../routes/error");
 
-const GamificationSystemController = require('../controllers/GamificationSystemController');
-const GamificationSystemExternalController = require('../controllers/GamificationSystemExternalController');
+const GamificationSystemController = require('../controllers/gamificationSystemController');
+const GamificationSystemExternalController = require('../controllers/gamificationSystemExternalController');
 
 const cookie = require('cookie');
 

@@ -1,7 +1,7 @@
 const renderPage = require("../../core/render");
 const path = require("path");
 const User = require("../../models/User");
-const usersRepository = require("../../repositories/UsersRepository");
+const usersRepository = require("../../repositories/usersRepository");
 const utils = require("../../internal/utils");
 const errorRoute = require("../error");
 const { parse } = require('querystring');

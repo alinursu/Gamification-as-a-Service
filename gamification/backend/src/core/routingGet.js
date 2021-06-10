@@ -33,11 +33,11 @@ const adminAddGamificationContactRoute = require("../routes/admin/adminAddGamifi
 const adminDeleteContactRoute = require("../routes/admin/adminDeleteGamificationContact");
 const adminUpdateContactRoute = require("../routes/admin/adminUpdateContact");
 
-const UserController = require('../controllers/UserController');
-const TokenController = require('../controllers/TokenController');
-const GamificationSystemController = require('../controllers/GamificationSystemController');
-const GamificationSystemExternalController = require('../controllers/GamificationSystemExternalController');
-const DataController = require('../controllers/DataController');
+const UserController = require('../controllers/userController');
+const TokenController = require('../controllers/tokenController');
+const GamificationSystemController = require('../controllers/gamificationSystemController');
+const GamificationSystemExternalController = require('../controllers/gamificationSystemExternalController');
+const DataController = require('../controllers/dataController');
 
 const utils = require('../internal/utils');
 

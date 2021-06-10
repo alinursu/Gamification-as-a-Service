@@ -1,4 +1,4 @@
-const TokensRepository = require("../repositories/TokensRepository");
+const TokensRepository = require("../repositories/tokensRepository");
 const utils = require("../internal/utils");
 
 /**

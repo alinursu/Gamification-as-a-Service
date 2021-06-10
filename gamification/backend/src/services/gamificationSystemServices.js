@@ -2,8 +2,8 @@ const GamificationEventModel = require('../models/GamificationEvent');
 const GamificationRewardModel = require('../models/GamificationReward');
 const GamificationSystemModel = require('../models/GamificationSystem');
 
-const GamificationSystemsRepository = require('../repositories/GamificationSystemsRepository');
-const TokensRepository = require('../repositories/TokensRepository');
+const GamificationSystemsRepository = require('../repositories/gamificationSystemsRepository');
+const TokensRepository = require('../repositories/tokensRepository');
 
 const utils = require('../internal/utils');
 const {getDatabaseConnection} = require('../internal/databaseConnection');
