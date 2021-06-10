@@ -101,7 +101,6 @@ const routing = async (req, res) => {
 
     //POST Requests
     if (req.method === 'POST') {
-        console.log(url)
         switch (url) {
             case '/login': {
                 return handleLoginReq(req, res)

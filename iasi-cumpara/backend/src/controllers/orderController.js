@@ -16,13 +16,9 @@ handleNewOrder = (req, res) => {
     let parsedBody
     req.on('end', async () => {
         parsedBody = JSON.parse(body)
-        console.log('BODY: ', body)
-        console.log('PARSEDBODY: ', parsedBody)
-        console.log('PARSEDBODYTOKEN: ', parsedBody.token)
         let cookies = cookie.parse(req.headers.cookie || '')
         getUserByToken(conn, cookies.authTokenISC).then(
             async (result) => {
-                console.log(result.id)
 
                 // adauga realizare de cumparare
                 const gamificationController = new GamificationController(result.id);
@@ -34,7 +30,6 @@ handleNewOrder = (req, res) => {
                 let year = date_ob.getFullYear()
                 let currentDate = year + '-' + month + '-' + day
                 let order = new Order(null, result.id, parsedBody.productId, parsedBody.quantity, currentDate)
-                console.log(order)
                 placeOrder(conn, order).then(
                     (result) => {
                         console.log(result)

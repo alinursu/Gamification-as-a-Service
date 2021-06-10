@@ -86,18 +86,10 @@ buyProduct = () => {
             productId: location.pathname.split('/')[2],
             quantity: document.getElementById('quantity').value
         };
-    
-        console.log(data);
 
-        // let xhttp = new XMLHttpRequest();
-
-        // xhttp.open("POST", "localhost:8082/buy", true)
-        // xhttp.send()
-        // console.log(xhttp.response)
-
-        sendPostReq(data).then(
-            (result) => console.log(result),
-            (error) => console.log(error)
-        )
+        // sendPostReq(data).then(
+        //     (result) => console.log(result),
+        //     (error) => console.log(error)
+        // )
     }
 }

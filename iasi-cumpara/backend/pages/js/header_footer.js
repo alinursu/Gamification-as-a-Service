@@ -35,8 +35,6 @@ checkProfileRoute = () => {
     const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
 
     location.href = authCookie ? '/profile' : '/login'
-
-    console.log(authCookie)
 }
 
 

@@ -19,13 +19,10 @@ const handleLoginReq = (req, res) => {
         let user = new User(null, null, parsedBody.emailLog, parsedBody.passLog)
         checkUser(conn, user).then(
             (result) => {
-                console.log('DB Result', result)
                 if(result.length === 0) {
-                    console.log('not registered')
                     req.errorMessage = 'Email-ul sau parola sunt incorecte!'
                     login(req, res)
                 } else {
-                    console.log('logged in succesfully')
                     setUserToken(conn, user, parsedBody.remember, req, res).then(
                         (result) => {
                             console.log('setToken result: ', result)
@@ -71,7 +68,6 @@ const handleRegisterReq = (req, res) => {
         } else {
             insertUser(conn, user).then(
                 async (result) => {
-                    console.log(result)
                     const gamificationController = new GamificationController(result.insertId);
                     await gamificationController.registered();
     
