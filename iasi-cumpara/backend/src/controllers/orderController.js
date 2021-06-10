@@ -1,10 +1,12 @@
 const Order = require('../models/order')
 const conn = require('../database/connectionDb')
-const { parse } = require('querystring')
-const { encrypt } = require('../internal/hash')
-const { getUserByToken } = require('../database/tables/users')
-const { placeOrder } = require('../database/tables/orders')
+const {parse} = require('querystring')
+const {encrypt} = require('../internal/hash')
+const {getUserByToken} = require('../database/tables/users')
+const {placeOrder} = require('../database/tables/orders')
 let cookie = require('cookie')
+const GamificationController = require("./gamificationController");
+
 handleNewOrder = (req, res) => {
     let body = ''
     req.on('data', (chunk) => {
@@ -12,15 +14,20 @@ handleNewOrder = (req, res) => {
     })
 
     let parsedBody
-    req.on('end', async () =>{
+    req.on('end', async () => {
         parsedBody = JSON.parse(body)
         console.log('BODY: ', body)
         console.log('PARSEDBODY: ', parsedBody)
         console.log('PARSEDBODYTOKEN: ', parsedBody.token)
         let cookies = cookie.parse(req.headers.cookie || '')
         getUserByToken(conn, cookies.authTokenISC).then(
-            (result) => {
+            async (result) => {
                 console.log(result.id)
+
+                // adauga realizare de cumparare
+                const gamificationController = new GamificationController(result.id);
+                await gamificationController.buyProduct()
+
                 let date_ob = new Date()
                 let day = ("0" + date_ob.getDate()).slice(-2)
                 let month = ("0" + (date_ob.getMonth() + 1)).slice(-2)

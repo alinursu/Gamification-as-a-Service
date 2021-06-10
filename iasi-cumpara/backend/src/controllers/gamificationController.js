@@ -19,6 +19,10 @@ const GamificationController = class {
     getRewards() {
         return getDataRequest(this.userId);
     }
+
+    buyProduct(){
+        return postDataRequest(this.userId,"event1upd1");
+    }
 }
 
 module.exports = GamificationController;

@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73590a69-6328-4b36-b477-1cf2548caca4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateEvent.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateEvent.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateReward.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateReward.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateSystem.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateSystem.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateUserData.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/pages/admin/updateUserData.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/src/core/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/src/core/routing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gamification/backend/src/repositories/gamificationSystemsRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/../gamification/backend/src/repositories/gamificationSystemsRepository.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/controllers/gamificationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/gamificationController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/controllers/orderController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/orderController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
