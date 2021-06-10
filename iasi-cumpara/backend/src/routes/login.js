@@ -16,7 +16,9 @@ const login = async (req, res) => {
     try {
         const head = await render(paths.head, {title: 'IaȘi Cumpără', styles: styles});
         const header = await render(paths.header, null);
-        const index = await render(paths.index, null);
+        const index = await render(paths.index, {
+            errorMessage: req.errorMessage
+        });
         const footer = await render(paths.footer, {scripts: scripts});
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(head + header + index + footer);
