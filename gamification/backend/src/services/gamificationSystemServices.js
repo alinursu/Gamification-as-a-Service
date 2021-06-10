@@ -15,7 +15,7 @@ const {getDatabaseConnection} = require('../internal/databaseConnection');
 async function generateAPIKey() {
     var keyLength = 64;
     var key = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@%^*_-';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@^*_-';
     var charactersLength = characters.length;
     for (var i = 0; i < keyLength; i++) {
         key.push(characters.charAt(Math.floor(Math.random() * charactersLength)));

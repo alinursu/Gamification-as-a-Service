@@ -363,7 +363,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
                             let progress = (new Date(Date.now()).getTime() - new Date(userDataList[j].firstIssuedAt).getTime()) / (1000 * 3600);
                             userScore += rewardModel.rewardValue * Math.min(progress, rewardModel.eventValue);
                         } else {
-                            userScore += rewardModel.rewardValue * userDataList[j].progress;
+                            userScore += rewardModel.rewardValue * userDataList[j].progress / rewardModel.eventValue;
                         }
                     }
                 }
@@ -484,5 +484,6 @@ async function handleExternalGamificationSystemDELETERequest(request, response) 
         return;
     });
 }
+
 module.exports = {handleExternalGamificationSystemPOSTPUTRequest, handleExternalGamificationSystemGETRequest,
     handleExternalGamificationSystemDELETERequest, handleExternalGamificationSystemTopUsersGETRequest};

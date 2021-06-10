@@ -1,20 +1,22 @@
 const render = require('../core/render')
 const path = require('path')
-const postDataRequest = require("../gamification/postDataRequest");
-const getTopUsersDataRequest = require("../gamification/getTopUsersDataRequest");
 const UserController = require("../controllers/userController");
 const con = require("../database/connectionDb");
+const GamificationController = require("../controllers/gamificationController");
 
 const home = async (req, res) => {
     const styles = ['index/categories', 'index/achievements']
 
-    let topUsersJSON = await getTopUsersDataRequest();
+    const gamificationController = new GamificationController(con);
+    let topUsersJSON = await gamificationController.getTop();
+
     let topUserScoreMap = [];
     if(topUsersJSON != null && topUsersJSON["status"] === "success") {
         const userController = new UserController(con);
 
         let index = 1;
         for(const topInfo of topUsersJSON.top) {
+            if(index > 10) break;
             let userModel = await userController.getUserById(topInfo.userId);
             if(userModel != null) {
                 topUserScoreMap.push(new Object ({

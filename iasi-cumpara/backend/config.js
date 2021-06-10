@@ -7,6 +7,6 @@ module.exports = {
         database: 'sql11417304'
     },
     gamification: {
-        apiKey: 'xL2Pg7q%K1Z480hShSH74w8r@G6DPCg!B4edut%q6%o@Y7FvKAhQol0L@Ngj7@__'
+        apiKey: 'JamAiD^c6j16_!S3TkoavkH!_hv8gxS6rW2hAqWOlE8kLF_sOEJtD3y*I7qwux0l'
     }
 }

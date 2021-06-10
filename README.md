@@ -254,28 +254,20 @@ laptops, houses, cars, etc.</p>
     </section>
     <section id="example__implemented" role="doc-structure">
         <h3>6.2. How the gamification systems are implemented</h3>
-        <h4>The first gamification system ("Cumpărături și comentarii"): </h4>
+        <h4>The gamification system ("Cumpărături și comentarii"): </h4>
         <p>The events created:</p>
         <ul>
             <li>"produs-cumpărat" -> Based on how many times the event appeared.</li>
             <li>"comentariu-adăugat" -> Based on how many times the event appeared.</li>
+            <li>"cont-creat" -> Based on when the event first appeared.</li>
         </ul>
         <p>The rewards created:</p>
         <ul>
             <li>"50 produse cumpărate" (Badge) -> It is controlled by the "produs-cumpărat" event and have a value of 100 points.</li>
             <li>"100 produse cumpărate" (Badge) -> It is controlled by the "produs-cumpărat" event and have a value of 500 points.</li>
             <li>"10 comentarii adăugate" (Badge) -> It is controlled by the "comentariu-adăugat" event and have a value of 10 points.</li>
-        </ul>
-        <h4>The second gamification system ("Vechime"): </h4>
-        <p>The events created:</p>
-        <ul>
-            <li>"10 minute vechime" -> Based on when the event first appeared.</li>
-            <li>"1 an vechime" -> Based on when the event first appeared.</li>
-        </ul>
-        <p>The rewards created:</p>
-        <ul>
-            <li>"Newbie" (Level) -> It is controlled by the "10 minute vechime" event and have a value of 50 points.</li>
-            <li>"Veteran" (Badge) -> It is controlled by the "1 an vechime" event and have a value of 1000 points.</li>
+            <li>"Nou-venit" (Level) -> It is controlled by the "cont-creat" event and have a value of 50 points.</li>
+            <li>"Veteran" (Level) -> It is controlled by the "cont-creat" event and have a value of 1000 points.</li>
         </ul>
         <br>
         <p>Everytime an end-user buys a product, a POST request will be sent to the Gamification External API, containing the
