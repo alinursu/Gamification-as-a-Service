@@ -1,7 +1,3 @@
-const {decrypt} = require("../../internal/hash");
-const { encrypt } = require("../../internal/hash")
-const Order = require('../../models/order')
-
 const placeOrder = (conn, order, req, res) => {
     return new Promise((resolve, reject) => {
         conn.query('INSERT INTO orders SET ?', order, (err) => {
@@ -13,7 +9,18 @@ const placeOrder = (conn, order, req, res) => {
     })
 }
 
+const getOrdersForUser = (conn, id) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM orders WHERE userId = ?', id, (err, rows) => {
+            if(err) {
+                reject(err)
+            }
+            resolve(rows)
+        })
+    })
+}
 
 module.exports = {
-    placeOrder
+    placeOrder,
+    getOrdersForUser
 }

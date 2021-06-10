@@ -4,6 +4,8 @@ const path = require("path");
 const UserController = require("../controllers/userController");
 const con = require("../database/connectionDb");
 const GamificationController = require("../controllers/gamificationController");
+const { getOrdersForUser } = require('../database/tables/orders');
+const { getProductById } = require('../database/tables/products');
 
 const profile = async (req, res) => {
     const styles = ['products/searchresult', 'profile/view-profile', 'profile/view-profile-mobile']
@@ -16,6 +18,12 @@ const profile = async (req, res) => {
     // incarca realizari
     const gamificationController = new GamificationController(userModel.id);
     const rewards = await gamificationController.getRewards();
+    const orders = await getOrdersForUser(con, userModel.id)
+    for(let order of orders) {
+        order.product = await getProductById(con, order.productId)
+        order.image = JSON.parse(order.product.images)[0]
+        order.total = order.product.price * order.quantity
+    }
 
     console.log(rewards);
 
@@ -31,7 +39,8 @@ const profile = async (req, res) => {
         const header = await render(paths.header, null);
         const profile = await render(paths.profile, {
             userModel : userModel,
-            rewards: rewards
+            rewards: rewards,
+            orders: orders
         });
         const footer = await render(paths.footer, null);
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header

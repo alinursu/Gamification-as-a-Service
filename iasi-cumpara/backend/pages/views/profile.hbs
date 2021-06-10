@@ -20,58 +20,28 @@
     </div>
 
 <!--    TODO: Listare orders-->
-    <h2>Anunțuri</h2>
+    <h2>Comenzile tale</h2>
     <div class="announces">
-        <a class="announce" href="../announces/products/volvo-v70-2,5-tdi.html">
-            <img
-                    src="../assets/images_annouces/volvo-v70-2,5-tdi/1.jpg"
+        {{#each orders}}
+        <a class="announce" onclick="location.href = '/product/{{this.productId}}'">
+         <img
+                    src="{{this.image}}"
                     alt=""
                     style="max-width: 200px"
             />
             <div>
-                <div class="product-informations">
-                    <p class="announce-title">Volvo v70 2,5 tdi</p>
-                    <p class="announce-price">5000 €</p>
+                <div class="product-informations" style="justify-content: space-between;">
+                    <p class="announce-title">{{this.product.name}}</p>
+                    <div style="display: flex; flex-direction: column; justify-content: flex-start;">
+                        <p class="announce-price" style="margin-bottom: 10px;">Preț: {{this.product.price}} lei</p>
+                        <p class="announce-price" style="margin-top: 10px;">Total: {{this.total}} lei</p>
+                    </div>
                 </div>
                 <div class="announce-informations">
-                    <p>Ion Ionescu</p>
-                    <p>Iasi - 27.03.2021</p>
+                    <p>Data achiziției: {{this.dateAcquired}}</p>
                 </div>
             </div>
         </a>
-        <a class="announce" href="../announces/products/volvo-v70-2,5-tdi.html">
-            <img
-                    src="../assets/images_annouces/volvo-v70-2,5-tdi/1.jpg"
-                    alt=""
-                    style="max-width: 200px"
-            />
-            <div>
-                <div class="product-informations">
-                    <p class="announce-title">Volvo v70 2,5 tdi</p>
-                    <p class="announce-price">5000 €</p>
-                </div>
-                <div class="announce-informations">
-                    <p>Ion Ionescu</p>
-                    <p>Iasi - 27.03.2021</p>
-                </div>
-            </div>
-        </a>
-        <a class="announce" href="../announces/products/volvo-v70-2,5-tdi.html">
-            <img
-                    src="../assets/images_annouces/volvo-v70-2,5-tdi/1.jpg"
-                    alt=""
-                    style="max-width: 200px"
-            />
-            <div>
-                <div class="product-informations">
-                    <p class="announce-title">Volvo v70 2,5 tdi</p>
-                    <p class="announce-price">5000 €</p>
-                </div>
-                <div class="announce-informations">
-                    <p>Ion Ionescu</p>
-                    <p>Iasi - 27.03.2021</p>
-                </div>
-            </div>
-        </a>
+        {{/each}}
     </div>
 </div>
