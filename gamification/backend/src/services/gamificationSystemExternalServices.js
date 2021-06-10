@@ -47,7 +47,12 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
         }
 
         if (gamificationUserDataModel == null) { // Inserez
-            gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 1, Date.now());
+            if(eventModel.eventType === 'time') { // Bazat pe data primei aparitii a evenimentului
+                gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 0, new Date(Date.now()));
+            }
+            else { // Bazat pe numarul de aparitii a evenimentului
+                gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 1, new Date(Date.now()));
+            }
 
             var dbResult = null;
             await GamificationSystemExternalRepository.insertGamificationUserData(gamificationUserDataModel).then(function (result) {
@@ -60,7 +65,12 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
 
             if (dbResult === -1) return -1;
         } else { // Actualizez
-            gamificationUserDataModel.progress++;
+            if(eventModel.eventType === 'time') { // Bazat pe data primei aparitii a evenimentului
+                gamificationUserDataModel.progress = (new Date(Date.now()).getTime() - new Date(gamificationUserDataModel.firstIssuedAt).getTime()) / (1000 * 3600);
+            }
+            else { // Bazat pe numarul de aparitii a evenimentului
+                gamificationUserDataModel.progress++;
+            }
 
             var dbResult = null;
             await GamificationSystemExternalRepository.updateGamificationUserData(gamificationUserDataModel).then(function (result) {
@@ -191,7 +201,6 @@ async function getGamificationUserDatas() {
 
     return dbResult;
 }
-
 
 module.exports = {
     addGamificationUserDataToDatabase,

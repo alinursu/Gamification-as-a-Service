@@ -740,6 +740,24 @@ async function getGamificationRewardModelsByAPIKey(APIKey) {
 }
 
 /**
+ * Cauta in baza de date modelul GamificationEvent dupa un anumit id.
+ * @param eventId Id-ul dupa care se face cautarea.
+ * @returns Modelul GamificationEvent; null, daca nu exista niciunul asociat acestui id; -1, daca a aparut o eroare pe parcursul executiei.
+ */
+async function getGamificationEventModelById(eventId) {
+    var dbResult = 0;
+    await GamificationSystemsRepository.getGamificationEventById(eventId).then(function (result) {
+        dbResult = result;
+    })
+
+    while(dbResult === 0) {
+        await utils.timeout(10);
+    }
+
+    return dbResult;
+}
+
+/**
  * Preia din baza de date toate modelele GamificationSystem din baza de date.
  * @returns Lista modelelor GamificationSystem; -1, daca a aparut o eroare pe parcursul executiei.
  */
@@ -801,5 +819,6 @@ module.exports = {
     getAllGamificationSystems,
     getAllGamificationReward,
     getAllGamificationEvent,
-    addEmptyGamificationSystemModelToDatabase
+    addEmptyGamificationSystemModelToDatabase,
+    getGamificationEventModelById
 }
