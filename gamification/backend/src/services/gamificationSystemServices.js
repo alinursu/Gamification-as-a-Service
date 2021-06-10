@@ -145,20 +145,20 @@ async function createModelFromRequestBodyData(requestBody, token, routeFunctionC
             errorMessage = "Fiecare recompensă trebuie să aibă atribuită o valoare pentru care se va oferi recompensa!"
         }
 
-        if (parseInt(rewardModel.eventValue, 10) == NaN && validModel) {
+        if (parseFloat(rewardModel.eventValue, 10) == NaN && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr real pozitiv!"
         }
 
-        rewardModel.eventValue = parseInt(rewardModel.eventValue, 10);
+        rewardModel.eventValue = parseFloat(rewardModel.eventValue, 10);
 
         if (rewardModel.eventValue <= 0 && validModel) {
             validModel = false;
 
             response.statusCode = 422; // 422 - Unprocessable Entity (missing data)
-            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr întreg pozitiv!"
+            errorMessage = "Valoarea pentru care se va oferi recompensa trebuie să fie un număr real pozitiv!"
         }
 
         if (rewardModel.rewardValue.length === 0 && validModel) {

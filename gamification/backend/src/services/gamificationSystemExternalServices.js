@@ -47,7 +47,7 @@ async function addGamificationUserDataToDatabase(APIKey, userId, eventName) {
         }
 
         if (gamificationUserDataModel == null) { // Inserez
-            gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 1);
+            gamificationUserDataModel = new GamificationUserData(APIKey, userId, rewardModelList[i].id, 1, Date.now());
 
             var dbResult = null;
             await GamificationSystemExternalRepository.insertGamificationUserData(gamificationUserDataModel).then(function (result) {

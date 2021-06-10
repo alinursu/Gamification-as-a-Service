@@ -302,6 +302,8 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
         }
 
         // Construiesc raspunsul
+        console.log(listOfRewardModels)
+        console.log(listOfGamificationUserDataModels)
         const userIdList = Array.from(new Set(listOfGamificationUserDataModels.map(model => model.userId)));
         let topUsers = []
         for(let i=0; i<userIdList.length; i++) {

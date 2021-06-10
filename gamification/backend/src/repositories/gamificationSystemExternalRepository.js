@@ -33,7 +33,7 @@ async function getGamificationUserData(APIKey, userId, rewardId) {
     if (queryResult.length > 0) {
         var gamificationUserDataModel = new GamificationUserData(
             hash.decrypt(queryResult[0].system_api_key), queryResult[0].user_id,
-            queryResult[0].reward_id, queryResult[0].progress
+            queryResult[0].reward_id, queryResult[0].progress, queryResult[0].first_issued_at
         );
 
         return gamificationUserDataModel;
@@ -81,7 +81,7 @@ async function getGamificationUserDataByAPIKey(APIKey) {
     var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(APIKey)], function (error, results) {
+    connection.query(sql, [hash.encrypt(APIKey).trim()], function (error, results) {
         if (error) {
             queryResult = -1;
             return;
@@ -100,7 +100,7 @@ async function getGamificationUserDataByAPIKey(APIKey) {
     queryResult.forEach(dbModel => {
         outputList.push(new GamificationUserData(
             hash.decrypt(dbModel.system_api_key), dbModel.user_id,
-            dbModel.reward_id, dbModel.progress
+            dbModel.reward_id, dbModel.progress, dbModel.first_issued_at
         ))
     })
 
@@ -112,7 +112,7 @@ async function getUserDataByAPIKey(systemAPIKey) {
     var sql = "SELECT * FROM gamification_user_data WHERE system_api_key = ?";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(systemAPIKey)], function (error, results) {
+    connection.query(sql, [hash.encrypt(systemAPIKey).trim()], function (error, results) {
         if (error) {
             queryResult = -1;
             return;
@@ -139,11 +139,11 @@ async function getUserDataByAPIKey(systemAPIKey) {
  */
 async function insertGamificationUserData(gamificationUserDataModel) {
     var connection = getDatabaseConnection();
-    var sql = "INSERT INTO gamification_user_data VALUES(?, ?, ?, ?)";
+    var sql = "INSERT INTO gamification_user_data VALUES(?, ?, ?, ?, ?)";
 
     var queryResult = null;
-    connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey), gamificationUserDataModel.userId,
-        gamificationUserDataModel.rewardId, gamificationUserDataModel.progress], function (error, results) {
+    connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey).trim(), gamificationUserDataModel.userId,
+        gamificationUserDataModel.rewardId, gamificationUserDataModel.progress, gamificationUserDataModel.firstIssuedAt], function (error, results) {
         if (error) {
             queryResult = -1;
             return;
@@ -262,7 +262,7 @@ async function getGamificationUserDataByUserId(APIKey, userId) {
         for (var i = 0; i < queryResult.length; i++) {
             var gamificationUserDataModel = new GamificationUserData(
                 hash.decrypt(queryResult[i].system_api_key), queryResult[i].user_id,
-                queryResult[i].reward_id, queryResult[i].progress
+                queryResult[i].reward_id, queryResult[i].progress, queryResult[i].first_issued_at
             );
             outputList.push(gamificationUserDataModel);
         }
