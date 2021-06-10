@@ -9,23 +9,14 @@
 <!--    TODO: Request rewards din gamification external API-->
     <h2>Realizări</h2>
     <div class="profile_achievements">
-        <div class="profile_achievement">
-            Cele mai multe vânzari într-o lună: <span>5</span>
-        </div>
-        <div class="profile_achievement">
-            Cele mai multe comentarii adăugate într-o lună: <span>15</span>
-        </div>
-        <div class="profile_achievement">
-            Cele mai multe vizualizări într-o lună: <span>25</span>
-        </div>
-
-        <div class="profile_achievement">
-            Cele mai multe anunțuri adăugate într-o lună: <span>4</span>
-        </div>
-
-        <div class="profile_achievement">
-            Cele mai multe anunțuri șterse într-o lună: <span>24</span>
-        </div>
+        {{#each rewards}}
+            <div class="profile_achievement">
+                Nume: <span>{{this.reward_name}}</span> <br/> <br />
+                Tip: <span>{{this.reward_type}}</span> <br/> <br />
+                Valoare: <span>{{this.reward_value}}</span> <br/> <br/>
+                Progres: <span>{{this.progress}}</span>
+            </div>
+        {{/each}}
     </div>
 
 <!--    TODO: Listare orders-->

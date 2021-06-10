@@ -1,6 +1,7 @@
 const { checkUser, insertUser, setUserToken } = require('../database/tables/users')
 const User = require('../models/user')
 const conn = require('../database/connectionDb')
+const GamificationController = require("./gamificationController");
 const { parse } = require('querystring')
 const { encrypt, decrypt } = require('../internal/hash')
 
@@ -60,8 +61,11 @@ const handleRegisterReq = (req, res) => {
         let user = new User(null, encrypt(parsedBody.nameReg), encrypt(parsedBody.emailReg), encrypt(parsedBody.passReg))
 
         insertUser(conn, user).then(
-            (result) => {
+            async (result) => {
                 console.log(result)
+                const gamificationController = new GamificationController(result.insertId);
+                await gamificationController.registered();
+
                 res.writeHead(303, {'Location': '/registerSuccess'})
                 res.end()
             },

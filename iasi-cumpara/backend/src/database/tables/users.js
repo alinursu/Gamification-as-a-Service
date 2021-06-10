@@ -31,7 +31,7 @@ const insertUser = (conn, user) => {
             if(err) {
                 reject(err)
             }
-            resolve()
+            resolve(results)
         })
     })
 }

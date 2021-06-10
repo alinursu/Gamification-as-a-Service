@@ -1,3 +1,4 @@
+const GamificationController = require("./gamificationController");
 const {getProductCommentsByProductId} = require("../database/tables/products");
 const {insertProductComment} = require("../database/tables/products");
 const {findProductsByName} = require("../database/tables/products");
@@ -26,7 +27,10 @@ const ProductController = class {
         return findProductsByCategory(this.conn, category)
     }
 
-    addProductComment(comment) {
+    async addProductComment(comment) {
+        const gamificationController = new GamificationController(comment.userId);
+        await gamificationController.commentAdded();
+
         return insertProductComment(this.conn, comment);
     }
 

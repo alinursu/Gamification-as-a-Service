@@ -3,6 +3,7 @@ const render = require("../core/render");
 const path = require("path");
 const UserController = require("../controllers/userController");
 const con = require("../database/connectionDb");
+const GamificationController = require("../controllers/gamificationController");
 
 const profile = async (req, res) => {
     const styles = ['products/searchresult', 'profile/view-profile', 'profile/view-profile-mobile']
@@ -11,6 +12,12 @@ const profile = async (req, res) => {
     let cookies = cookie.parse(req.headers.cookie || '');
     const userController = new UserController(con);
     let userModel = await userController.getUserByToken(cookies.authTokenISC);
+
+    // incarca realizari
+    const gamificationController = new GamificationController(userModel.id);
+    const rewards = await gamificationController.getRewards();
+
+    console.log(rewards);
 
     const paths = {
         head: path.join(__dirname, '../../pages/common/head.hbs'),
@@ -23,7 +30,8 @@ const profile = async (req, res) => {
         const head = await render(paths.head, {title: 'IaȘi Cumpără', styles: styles})
         const header = await render(paths.header, null);
         const profile = await render(paths.profile, {
-            userModel : userModel
+            userModel : userModel,
+            rewards: rewards
         });
         const footer = await render(paths.footer, null);
         res.writeHead(200, {'Content-Type': 'text/html'}); // http header
