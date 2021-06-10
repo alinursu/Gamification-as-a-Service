@@ -38,3 +38,28 @@ checkProfileRoute = () => {
 
     console.log(authCookie)
 }
+
+
+const btn = document.getElementsByClassName("auth-btn");
+// check login state
+const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
+if (authCookie) {
+    for (let i =0; i<btn.length;i++) {
+        const button = btn[i];
+        button.innerHTML = "Deconectare";
+        button.addEventListener('click', (event) => {
+            document.cookie = "authTokenISC=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            location.href = '/';
+        })
+    }
+} else {
+    for (let i =0; i<btn.length;i++) {
+        const button = btn[i];
+        button.addEventListener('click', (event) => {
+            location.href = "/login";
+        })
+    }
+}
+
+
+

@@ -25,6 +25,17 @@ const checkUser = (conn, user) => {
     })
 }
 
+const checkUserEmail = (conn, user) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM users WHERE email = ?', [user.email], (err, res) => {
+            if(err) {
+                reject(err)
+            }
+            resolve(res)
+        })
+    })
+}
+
 const insertUser = (conn, user) => {
     return new Promise((resolve, reject) => {
         conn.query('INSERT INTO users SET ?', user, (err, results, fields) => {
@@ -92,5 +103,6 @@ module.exports = {
     checkUser,
     setUserToken,
     getUserById,
-    getUserByToken
+    getUserByToken,
+    checkUserEmail
 }

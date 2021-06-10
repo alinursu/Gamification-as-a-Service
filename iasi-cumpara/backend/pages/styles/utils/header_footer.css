@@ -57,6 +57,7 @@ width: 100%;
   z-index: 2;
   margin: 3vw;
   padding: 10px;
+  cursor: pointer;
 }
 
 .searchBox {
