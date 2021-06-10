@@ -12,9 +12,15 @@ const generateAuthToken = () => {
     return token.join('')
 }
 
-const generateAuthCookie = (req, res) => {
+const generateAuthCookie = (remember, req, res) => {
     let token = generateAuthToken()
-    res.setHeader('Set-Cookie', cookie.serialize('authTokenISC', token))
+    if(remember === 'on') {
+        res.setHeader('Set-Cookie', cookie.serialize('authTokenISC', token, {
+            maxAge: 60*60*24*365
+        }))
+    } else {
+        res.setHeader('Set-Cookie', cookie.serialize('authTokenISC', token))
+    }
 
     return token
 }

@@ -17,7 +17,6 @@ const handleLoginReq = (req, res) => {
     req.on('end', async () =>{
         parsedBody = parse(body)
         let user = new User(null, null, parsedBody.emailLog, parsedBody.passLog)
-        
         checkUser(conn, user).then(
             (result) => {
                 console.log('DB Result', result)
@@ -27,7 +26,7 @@ const handleLoginReq = (req, res) => {
                     login(req, res)
                 } else {
                     console.log('logged in succesfully')
-                    setUserToken(conn, user, req, res).then(
+                    setUserToken(conn, user, parsedBody.remember, req, res).then(
                         (result) => {
                             console.log('setToken result: ', result)
                         },
