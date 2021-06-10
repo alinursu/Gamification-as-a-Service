@@ -375,14 +375,15 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             }));
         }
         topUsers.sort(function compare(obj1, obj2) {
-            if(obj2.score > obj1.score)
-                return -1;
-
-            if(obj1.score > obj2.score)
+            if(Number(obj2.score) > Number(obj1.score))
                 return 1;
+
+            if(Number(obj1.score) > Number(obj2.score))
+                return -1;
 
             return 0;
         })
+
         var json = JSON.stringify({
             status: "success",
             top: topUsers
