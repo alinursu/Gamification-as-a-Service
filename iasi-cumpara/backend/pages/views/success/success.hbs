@@ -7,7 +7,7 @@
     align-items: center; 
     flex-direction: column">
     <p style="font-size: 3vh; text-align:center">
-        Te-ai înregistrat cu succes! Acum te poți autentifica!
+        {{successMessage}}
     </p>
     <button style="background: linear-gradient(to right, #10ffb7, #06b8ff);
         border-radius: 20px;
@@ -18,5 +18,5 @@
         white-space: nowrap;
         position: relative;
         border: 0;
-        outline: none;" onclick="location.href = '/login'"> Autentificare </button>
+        outline: none;" onclick="location.href = '{{successRouteTo}}'"> {{successAction}} </button>
 </div>

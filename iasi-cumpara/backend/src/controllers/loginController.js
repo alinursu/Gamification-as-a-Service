@@ -6,6 +6,7 @@ const { parse } = require('querystring')
 const { encrypt, decrypt } = require('../internal/hash');
 const login = require('../routes/login');
 const internalErr = require('../routes/error/500');
+const success = require('../routes/success/success');
 
 const handleLoginReq = (req, res) => {
     let body = ''
@@ -70,9 +71,10 @@ const handleRegisterReq = (req, res) => {
                 async (result) => {
                     const gamificationController = new GamificationController(result.insertId);
                     await gamificationController.registered();
-    
-                    res.writeHead(303, {'Location': '/registerSuccess'})
-                    res.end()
+                    req.successMessage = 'Te-ai înregistrat cu succes! Acum te poți autentifica!'
+                    req.successAction = 'Autentificare'
+                    req.successRouteTo = '/login'
+                    success(req, res)
                 },
                 (error) => {
                     console.log('DB Error:', error)

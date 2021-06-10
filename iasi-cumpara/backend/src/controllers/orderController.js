@@ -6,6 +6,7 @@ const {getUserByToken} = require('../database/tables/users')
 const {placeOrder} = require('../database/tables/orders')
 let cookie = require('cookie')
 const GamificationController = require("./gamificationController");
+const success = require('../routes/success/success')
 
 handleNewOrder = (req, res) => {
     let body = ''
@@ -15,7 +16,8 @@ handleNewOrder = (req, res) => {
 
     let parsedBody
     req.on('end', async () => {
-        parsedBody = JSON.parse(body)
+        console.log('BODY BOY: ', body)
+        parsedBody = parse(body)
         let cookies = cookie.parse(req.headers.cookie || '')
         getUserByToken(conn, cookies.authTokenISC).then(
             async (result) => {
@@ -33,6 +35,10 @@ handleNewOrder = (req, res) => {
                 placeOrder(conn, order).then(
                     (result) => {
                         console.log(result)
+                        req.successMessage = 'Felicitări! Ai achiziționat cu succes acest produs! Acum poți vedea comanda în lista de pe profilul tău'
+                        req.successAction = 'Contul meu'
+                        req.successRouteTo = '/profile'
+                        success(req, res)
                     },
                     (error) => {
                         console.log(error)

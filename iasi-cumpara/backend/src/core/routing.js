@@ -8,7 +8,7 @@ const product = require("../routes/product");
 const { parse } = require('querystring')
 const search = require("../routes/search");
 const {handleLoginReq, handleRegisterReq} = require('../controllers/loginController')
-const registerSuccess = require('../routes/success/registerSuccess')
+const success = require('../routes/success/success')
 const notFound = require('../routes/error/404')
 const internalErr = require('../routes/error/500')
 const ProductController = require('../controllers/productController');
@@ -66,8 +66,8 @@ const routing = async (req, res) => {
                 return category(req, res);
             case '/login':
                 return login(req, res)
-            case '/registerSuccess':
-                return registerSuccess(req, res)
+            case '/success':
+                return success(req, res)
             case '/403':
                 return forbidden(req, res)
             case '/404':

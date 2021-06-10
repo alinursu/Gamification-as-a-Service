@@ -1,11 +1,11 @@
 const render = require('../../core/render')
 const path = require('path')
 
-const registerSuccess = (req,res) => {
+const success = (req,res) => {
     const paths = {
         head: path.join(__dirname, '../../../pages/common/head.hbs'),
         header: path.join(__dirname, '../../../pages/common/header.hbs'),
-        registerSuccess: path.join(__dirname, '../../../pages/views/success/registerSuccess.hbs'),
+        success: path.join(__dirname, '../../../pages/views/success/success.hbs'),
         footer: path.join(__dirname, '../../../pages/common/footer.hbs')
     }
 
@@ -17,7 +17,11 @@ const registerSuccess = (req,res) => {
 
         return render(paths.header, null, (data) => {
             res.write(data)
-            return render(paths.registerSuccess, null, (data) => {
+            return render(paths.success, {
+                successMessage: req.successMessage,
+                successAction: req.successAction,
+                successRouteTo: req.successRouteTo
+            }, (data) => {
                 res.write(data)
                 return render(paths.footer, null, (data) => {
                     res.write(data)
@@ -28,4 +32,4 @@ const registerSuccess = (req,res) => {
     })
 }
 
-module.exports = registerSuccess
+module.exports = success
