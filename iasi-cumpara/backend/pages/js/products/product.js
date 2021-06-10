@@ -56,3 +56,48 @@ function showPhoneNumber(phoneNumber)
 }
 
 showSlide(actualSlide);
+
+changeQuantity = (ops) => {
+    if(ops === 'add' && document.getElementById('quantity').value < 10) {
+        document.getElementById('quantity').value ++
+    } else if(ops === 'take' && document.getElementById('quantity').value > 1) {
+        document.getElementById('quantity').value --
+    }
+}
+
+sendPostReq = async (data) => {
+    const response = await fetch('http://localhost:8082/buy', {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        body: JSON.stringify(data)
+    });
+
+    return response.json();
+}
+
+buyProduct = () => {
+    const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
+    if(!authCookie) {
+        location.href = '/login';
+    } else {
+        const data = {
+            token: authCookie.split('=')[1],
+            productId: location.pathname.split('/')[2],
+            quantity: document.getElementById('quantity').value
+        };
+    
+        console.log(data);
+
+        // let xhttp = new XMLHttpRequest();
+
+        // xhttp.open("POST", "localhost:8082/buy", true)
+        // xhttp.send()
+        // console.log(xhttp.response)
+
+        sendPostReq(data).then(
+            (result) => console.log(result),
+            (error) => console.log(error)
+        )
+    }
+}

@@ -118,6 +118,39 @@
     min-height: 40px;
 }
 
+.quantityBtn {
+    cursor: pointer;
+    font-size: 16px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00458B;
+    border-color:#00458B;
+    border-radius: 25%;
+    box-shadow: 2px 2px 4px #000000;
+    justify-content: center;
+    align-items: center;
+}
+
+#quantity {
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    width: 30%;
+    border-radius: 5%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 #sendMessageToSellerBtn:hover, #buyItemBtn:hover
 {
     color: #00458B;
