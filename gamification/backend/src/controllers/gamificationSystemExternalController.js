@@ -292,7 +292,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             await utils.timeout(10);
         }
 
-        if(listOfRewardModels == -1) {
+        if(listOfRewardModels === -1) {
             response.statusCode = 500; // 500 - Internal Server Error
             var json = JSON.stringify({
                 status: "failed"
