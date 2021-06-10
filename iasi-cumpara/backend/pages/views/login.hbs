@@ -77,6 +77,9 @@
 
                 <button type="submit" class="submit-btn">Înregistrare</button>
             </form>
+            {{#if errorMessage}}
+                <h3 style="color: red; font-size: 2vh; margin-top: 1vh;">{{errorMessage}}</h3>
+            {{/if}}
         </div>
     </div>
 </div>

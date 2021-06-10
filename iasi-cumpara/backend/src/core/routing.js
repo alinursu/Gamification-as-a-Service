@@ -152,8 +152,8 @@ const routing = async (req, res) => {
         }
     }
 
-    res.writeHead(404, {'Location': '/404'})
-    res.end()
+    res.statusCode = 404;
+    notFound(req, res)
 }
 
 module.exports = routing

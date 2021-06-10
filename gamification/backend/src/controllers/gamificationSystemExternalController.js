@@ -192,13 +192,40 @@ async function handleExternalGamificationSystemGETRequest(request, response) {
                 null;
 
         if(rewardModel != null) {
-            var rewardDataObject = Object();
-            rewardDataObject.reward_name = rewardModel.name;
-            rewardDataObject.reward_type = rewardModel.type;
-            rewardDataObject.reward_value = rewardModel.rewardValue;
-            rewardDataObject.progress = (Math.min((100 * listOfGamificationUserDataModels[i].progress / rewardModel.eventValue), 100)) + "%";
+            // Preiau din baza de date modelul GamificationEvent
+            var eventModel = 0;
+            await GamificationSystemServices.getGamificationEventModelById(rewardModel.eventId).then(function (result) {
+                eventModel = result;
+            })
 
-            rewardData.push(rewardDataObject);
+            while(eventModel === 0) {
+                await utils.timeout(10);
+            }
+
+            if(eventModel === -1) {
+                response.statusCode = 500; // 500 - Internal Server Error
+                var json = JSON.stringify({
+                    status: "failed"
+                });
+                response.end(json);
+                return;
+            }
+
+            if(eventModel != null) {
+                var rewardDataObject = Object();
+                rewardDataObject.reward_name = rewardModel.name;
+                rewardDataObject.reward_type = rewardModel.type;
+                rewardDataObject.reward_value = rewardModel.rewardValue;
+                if(eventModel.eventType === 'time') {
+                    let progress = (new Date(Date.now()).getTime() - new Date(listOfGamificationUserDataModels[i].firstIssuedAt).getTime()) / (1000 * 3600);
+                    rewardDataObject.progress = (Math.min((100 * progress / rewardModel.eventValue).toFixed(2), 100)) + "%";
+                }
+                else {
+                    rewardDataObject.progress = (Math.min((100 * listOfGamificationUserDataModels[i].progress / rewardModel.eventValue), 100)) + "%";
+                }
+
+                rewardData.push(rewardDataObject);
+            }
         }
     }
 
@@ -302,8 +329,6 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
         }
 
         // Construiesc raspunsul
-        console.log(listOfRewardModels)
-        console.log(listOfGamificationUserDataModels)
         const userIdList = Array.from(new Set(listOfGamificationUserDataModels.map(model => model.userId)));
         let topUsers = []
         for(let i=0; i<userIdList.length; i++) {
@@ -312,14 +337,41 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
 
             for(let j=0; j<userDataList.length; j++) {
                 let rewardModel = listOfRewardModels.filter(model => model.id == userDataList[j].rewardId)[0];
+
                 if(rewardModel != null) {
-                    userScore += rewardModel.rewardValue * userDataList[j].progress;
+                    // Preiau din baza de date modelul GamificationEvent
+                    var eventModel = 0;
+                    await GamificationSystemServices.getGamificationEventModelById(rewardModel.eventId).then(function (result) {
+                        eventModel = result;
+                    })
+
+                    while(eventModel === 0) {
+                        await utils.timeout(10);
+                    }
+
+                    if(eventModel === -1) {
+                        response.statusCode = 500; // 500 - Internal Server Error
+                        var json = JSON.stringify({
+                            status: "failed"
+                        });
+                        response.end(json);
+                        return;
+                    }
+
+                    if(eventModel != null) {
+                        if (eventModel.eventType === 'time') {
+                            let progress = (new Date(Date.now()).getTime() - new Date(userDataList[j].firstIssuedAt).getTime()) / (1000 * 3600);
+                            userScore += rewardModel.rewardValue * Math.min(progress, rewardModel.eventValue);
+                        } else {
+                            userScore += rewardModel.rewardValue * userDataList[j].progress;
+                        }
+                    }
                 }
             }
 
             topUsers.push(new Object({
                 userId: userIdList[i],
-                score: userScore
+                score: userScore.toFixed(2)
             }));
         }
         topUsers.sort(function compare(obj1, obj2) {

@@ -139,11 +139,15 @@ async function getUserDataByAPIKey(systemAPIKey) {
  */
 async function insertGamificationUserData(gamificationUserDataModel) {
     var connection = getDatabaseConnection();
-    var sql = "INSERT INTO gamification_user_data VALUES(?, ?, ?, ?, ?)";
+    var sql = "INSERT INTO gamification_user_data VALUES(?, ?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d %H:%i:%S'))";
 
     var queryResult = null;
     connection.query(sql, [hash.encrypt(gamificationUserDataModel.APIKey).trim(), gamificationUserDataModel.userId,
-        gamificationUserDataModel.rewardId, gamificationUserDataModel.progress, gamificationUserDataModel.firstIssuedAt], function (error, results) {
+        gamificationUserDataModel.rewardId, gamificationUserDataModel.progress,
+        gamificationUserDataModel.firstIssuedAt.getFullYear() + "-" + (gamificationUserDataModel.firstIssuedAt.getMonth() + 1) + "-" +
+        gamificationUserDataModel.firstIssuedAt.getDate() + " " + gamificationUserDataModel.firstIssuedAt.getHours() + ":" +
+        gamificationUserDataModel.firstIssuedAt.getMinutes() + ":" + gamificationUserDataModel.firstIssuedAt.getSeconds()
+    ], function (error, results) {
         if (error) {
             queryResult = -1;
             return;
