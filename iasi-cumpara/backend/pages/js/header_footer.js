@@ -44,7 +44,6 @@ const btn = document.getElementsByClassName("auth-btn");
 // check login state
 const authCookie = document.cookie.split('; ').find(row => row.startsWith('authTokenISC'))
 if (authCookie) {
-    // TODO: Sterge cookie authTokenISC
     for (let i =0; i<btn.length;i++) {
         const button = btn[i];
         button.innerHTML = "Deconectare";
