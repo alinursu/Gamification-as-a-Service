@@ -462,6 +462,7 @@ async function handleGETProfileRequest(request, response) {
 
     // Construiesc raspunsul
     request.listOfGamificationSystemModels = listOfGamificationSystemModels;
+    request.isAdmin = (userModel.isAdmin == 1 ? userModel.isAdmin : null);
     return profileRoute(request, response);
 }
 
