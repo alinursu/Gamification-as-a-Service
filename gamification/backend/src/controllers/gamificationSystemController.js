@@ -275,12 +275,12 @@ async function handleModifyGamificationSystemRequest(request, response) {
         }
 
         // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
-        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
+        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.APIKey == parsedBody.system_apikey);
 
         if(result.length === 0) {
             response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
-            request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
+            request.errorMessage = "Nu am găsit niciun sistem de recompense cu aceast nume asociat contului dumneavoastră.";
             errorRoute(request, response);
             return;
         }
@@ -413,12 +413,12 @@ async function handleDeleteGamificationSystemRequest(request, response) {
         }
 
         // Verific validitatea cheii API (daca are un sistem de gamification cu aceasta cheie)
-        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.api_key == parsedBody.system_apikey);
+        var result = userGamificationSystems.filter(gamificationSystem => gamificationSystem.APIKey == parsedBody.system_apikey);
 
         if(result.length === 0) {
             response.statusCode = 400;
             request.statusCodeMessage = "Bad Request";
-            request.errorMessage = "Nu am găsit niciun sistem de recompense cu această cheie API asociată contului dumneavoastră.";
+            request.errorMessage = "Nu am găsit niciun sistem de recompense cu aceast nume asociat contului dumneavoastră.";
             errorRoute(request, response);
             return;
         }
