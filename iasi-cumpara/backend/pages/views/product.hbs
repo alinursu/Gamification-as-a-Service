@@ -34,7 +34,12 @@
                     <div style="display:inline-flex; flex-wrap: wrap; align-items: center;">
                         <p style="font-size: 18px; font-weight: bold; margin-left: 10px;">{{product.price}} lei</p>
                     </div>
-                    <button type="button" id="buyItemBtn" onclick="">Cumpără</button>
+                    <div style="justify-self: center; align-self:center; justify-content: center; align-items: center">
+                        <button type="button" class="quantityBtn" onclick="changeQuantity('take')">&minus;</button>
+                        <input type="number" id="quantity" min="1" max="10" value="1">
+                        <button type="button" class="quantityBtn" onclick="changeQuantity('add')">&plus;</button>
+                    </div>
+                    <button type="button" id="buyItemBtn" onclick="buyProduct()">Cumpără</button>
                 </div>
             </div>
         </div>

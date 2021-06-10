@@ -17,6 +17,7 @@ var cookie = require('cookie');
 const ProductComment = require('../models/ProductComment')
 const UserController = require("../controllers/userController");
 const forbidden = require("../routes/error/403");
+const { handleNewOrder } = require('../controllers/orderController')
 
 const file = new (staticServe.Server)(path.join(__dirname, '../../pages/'), {cache: 1})
 
@@ -107,6 +108,10 @@ const routing = async (req, res) => {
 
             case '/register': {
                 return handleRegisterReq(req, res)
+            }
+            
+            case '/buy': {
+                return handleNewOrder(req, res)
             }
 
             default: {
