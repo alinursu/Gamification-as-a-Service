@@ -63,7 +63,7 @@ const insertProductComment = (conn, productComment) => {
     });
 }
 
-//for seach
+//for search
 const findProductsByName = (conn, name) => {
     return new Promise((resolve, reject) => {
         conn.query('SELECT * FROM products WHERE name LIKE ?', ['%' + name + '%'], (err, result) => {
@@ -86,18 +86,6 @@ const getProductCommentsByProductId = (conn, productId) => {
         })
     })
 }
-
-// for seach
-// const findProductsByName = (conn, name) => {
-//     return new Promise((resolve, reject) => {
-//         conn.query('SELECT * FROM products WHERE ?', name, (err) => {
-//             if (err) {
-//                 reject(err)
-//             }
-//             resolve()
-//         })
-//     })
-// }
 
 module.exports = {
     insertProduct,

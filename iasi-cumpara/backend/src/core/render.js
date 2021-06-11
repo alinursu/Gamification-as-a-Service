@@ -9,6 +9,7 @@ const render = (path, vars = null, callback) => {
                 callback(null);
             } else {
                 const template = hbs.compile(data.toString())
+
                 if(callback != null) callback(template(vars))
                 else resolve(template(vars))
             }
