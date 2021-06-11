@@ -24,7 +24,9 @@ handleNewOrder = (req, res) => {
 
                 // adauga realizare de cumparare
                 const gamificationController = new GamificationController(result.id);
-                await gamificationController.buyProduct()
+                for(let i=0; i<parsedBody.quantity; i++) {
+                    await gamificationController.buyProduct()
+                }
 
                 let date_ob = new Date()
                 let day = ("0" + date_ob.getDate()).slice(-2)

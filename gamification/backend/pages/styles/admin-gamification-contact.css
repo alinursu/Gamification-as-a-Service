@@ -39,7 +39,7 @@ body {
     width: 15%;
     border-right: 3px solid #656180;
     background-color: #423788;
-    height: 100vh;
+    /*height: 100vh;*/
 }
 
 .btn{
