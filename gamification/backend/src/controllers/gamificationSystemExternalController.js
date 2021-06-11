@@ -370,7 +370,7 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             }
 
             topUsers.push(new Object({
-                userId: userIdList[i],
+                userId: Math.abs(userIdList[i]),
                 score: userScore.toFixed(2)
             }));
         }
