@@ -56,7 +56,7 @@ const handleRegisterReq = (req, res) => {
 
         if(parsedBody.passReg !== parsedBody.confirmReg) {
             req.errorMessage = 'Parolele trebuie să coincidă'
-            login(req, res)
+            await login(req, res)
             return;
         }
 
@@ -65,7 +65,7 @@ const handleRegisterReq = (req, res) => {
 
         if(queryResult.length !== 0) {
             req.errorMessage = 'Acest email este deja înregistrat!'
-            login(req, res)
+            await login(req, res)
         } else {
             insertUser(conn, user).then(
                 async (result) => {
