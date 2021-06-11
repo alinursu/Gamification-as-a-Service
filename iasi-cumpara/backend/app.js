@@ -27,7 +27,7 @@ const startServer = async () => {
         console.log(`DB Query Error: ${error}`)
     }
 
-    http.createServer(onRequest).listen(8082, () => {
+    http.createServer(onRequest).listen(process.env.PORT || 8082, () => {
         console.log('Server started at port 8082') //the server object listens on port 8082
     })
 }
