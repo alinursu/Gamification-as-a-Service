@@ -22,7 +22,7 @@ const home = async (req, res) => {
                 topUserScoreMap.push(new Object ({
                     index : index,
                     user : userModel.name,
-                    score : topInfo.score
+                    score : Math.abs(topInfo.score)
                 }))
                 index++;
             }
