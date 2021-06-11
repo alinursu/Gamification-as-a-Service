@@ -370,8 +370,8 @@ async function handleExternalGamificationSystemTopUsersGETRequest(request, respo
             }
 
             topUsers.push(new Object({
-                userId: Math.abs(userIdList[i]),
-                score: userScore.toFixed(2)
+                userId: userIdList[i],
+                score: Math.abs(userScore.toFixed(2))
             }));
         }
         topUsers.sort(function compare(obj1, obj2) {
